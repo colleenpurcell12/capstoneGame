@@ -1,0 +1,22 @@
+/*@import 'react-hexgrid'*/
+
+.App {
+  text-align: center;
+}
+
+.board {
+
+}
+
+svg {
+  background-color: beige
+}
+
+svg polygon {
+  fill: blue
+}
+
+svg text {
+  fill: white;
+  font-size: .3em;
+}

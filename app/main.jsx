@@ -8,11 +8,9 @@ import store from './store'
 import Jokes from './components/Jokes'
 import Login from './components/Login'
 import WhoAmI from './components/WhoAmI'
+import Board from './components/Board'
 import GoogleLogin from './components/GoogleLogin'
 import Chatroom from './components/Chatroom'
-
-
-
 import * as firebase from 'firebase'
 
 var config = {
@@ -22,8 +20,6 @@ var config = {
     storageBucket: "capstonegame-24bce.appspot.com",
     messagingSenderId: "575027063210"
   };
-  
-firebase.initializeApp(config);
 
 // Get a reference to the database service
 const database = firebase.database();
@@ -36,7 +32,7 @@ const ExampleApp = connect(
     <div>
       <nav>
         {user ? <WhoAmI/> : <Login/>}
-      </nav> 
+      </nav>
       {children}
     </div>
 )
@@ -48,13 +44,13 @@ render (
         <IndexRedirect to="chatroom" />
         <Route path="chatroom"
             component={() => <Chatroom database={database} />}/>
+        <Route path="board" component={Board} />
         <Route path="googlelogin" component={GoogleLogin}/>
       </Route>
     </Router>
   </Provider>,
   document.getElementById('main')
 )
-
 
 
 // var propRef = database.ref(propKey)
@@ -68,4 +64,3 @@ render (
 // listeners:
 // var xRef = firebase.database().ref('abc');
 // xRef.on('value', (snapshot)=>{ updateStarCount(postElement, snapshot.val());});
-
