@@ -21,6 +21,7 @@ var config = {
     messagingSenderId: "575027063210"
   };
 
+firebase.initializeApp(config);
 // Get a reference to the database service
 const database = firebase.database();
 
