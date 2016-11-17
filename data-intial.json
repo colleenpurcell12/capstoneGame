@@ -1,0 +1,16 @@
+{
+	"cards": {
+		"development": {
+			"victory": 5,
+			"knight": 14,
+			"progress": 6
+		},
+		"resource":{
+			"wool": 19,
+			"ore": 19,
+			"grain": 19,
+			"lumber": 19,
+			"brick": 19
+		}
+	}
+}

@@ -20,7 +20,7 @@ if (!pkg.isProduction && !pkg.isTesting) {
 }
 
 module.exports = app
-  // We'll store the whole session in a cookie
+ // We'll store the whole session in a cookie
   .use(require('cookie-session') ({
     name: 'session',
     keys: [process.env.SESSION_SECRET || 'an insecure secret key'],
@@ -38,7 +38,7 @@ module.exports = app
   .use(express.static(resolve(__dirname, '..', 'public')))
 
   // Serve our api
-  .use('/api', require('./api'))
+ // .use('/api', require('./api'))
 
   // Send index.html for anything else.
   .get('/*', (_, res) => res.sendFile(resolve(__dirname, '..', 'public', 'index.html')))
