@@ -24,6 +24,7 @@ var config = {
 // Get a reference to the database service
 const database = firebase.database();
 
+
 const ExampleApp = connect(
   ({ auth }) => ({ user: auth })
 ) (
@@ -50,3 +51,16 @@ render (
   </Provider>,
   document.getElementById('main')
 )
+
+
+// var propRef = database.ref(propKey)
+// database.
+
+// firebase.database().ref('users/' + userId).set({ prop1: val1,  prop2: val2 })
+// set() overwrites data
+
+//set v update:
+
+// listeners:
+// var xRef = firebase.database().ref('abc');
+// xRef.on('value', (snapshot)=>{ updateStarCount(postElement, snapshot.val());});
