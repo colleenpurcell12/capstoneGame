@@ -8,7 +8,7 @@ import store from './store'
 import Jokes from './components/Jokes'
 import Login from './components/Login'
 import WhoAmI from './components/WhoAmI'
-// import GoogleLogin from './components/GoogleLogin'
+import GoogleLogin from './components/GoogleLogin'
 import Chatroom from './components/Chatroom'
 
 
@@ -27,18 +27,6 @@ firebase.initializeApp(config);
 
 // Get a reference to the database service
 const database = firebase.database();
-
-// var propRef = database.ref(propKey)
-// database.
-
-// firebase.database().ref('users/' + userId).set({ prop1: val1,  prop2: val2 })
-// set() overwrites data
-
-//set v update:
-
-// listeners:
-// var xRef = firebase.database().ref('abc');
-// xRef.on('value', (snapshot)=>{ updateStarCount(postElement, snapshot.val());});
 
 
 const ExampleApp = connect(
@@ -60,8 +48,24 @@ render (
         <IndexRedirect to="chatroom" />
         <Route path="chatroom"
             component={() => <Chatroom database={database} />}/>
+        <Route path="googlelogin" component={GoogleLogin}/>
       </Route>
     </Router>
   </Provider>,
   document.getElementById('main')
 )
+
+
+
+// var propRef = database.ref(propKey)
+// database.
+
+// firebase.database().ref('users/' + userId).set({ prop1: val1,  prop2: val2 })
+// set() overwrites data
+
+//set v update:
+
+// listeners:
+// var xRef = firebase.database().ref('abc');
+// xRef.on('value', (snapshot)=>{ updateStarCount(postElement, snapshot.val());});
+

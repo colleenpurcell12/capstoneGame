@@ -60,12 +60,10 @@ export class Chatroom extends Component {
 
     return (
       <div>
-        {Object.keys(messages).map(k => messages[k]).map( (message) => 
-            <div>{message.from} {message.to}</div>
+        {Object.keys(messages).map(k => messages[k]).map( (message, idx) => 
+            <div key = {idx}>{message.from} {message.to}</div>
           )}
       </div>
-    
-      
     )
   }
 }
