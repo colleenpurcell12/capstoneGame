@@ -8,6 +8,10 @@ import store from './store'
 import Jokes from './components/Jokes'
 import Login from './components/Login'
 import WhoAmI from './components/WhoAmI'
+// import GoogleLogin from './components/GoogleLogin'
+import Chatroom from './components/Chatroom'
+
+
 
 import * as firebase from 'firebase'
 
@@ -21,9 +25,8 @@ var config = {
   
 firebase.initializeApp(config);
 
-
 // Get a reference to the database service
-var database = firebase.database();
+const database = firebase.database();
 
 // var propRef = database.ref(propKey)
 // database.
@@ -54,8 +57,9 @@ render (
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={ExampleApp}>
-        <IndexRedirect to="/jokes" />
-        <Route path="/jokes" component={Jokes} />
+        <IndexRedirect to="chatroom" />
+        <Route path="chatroom"
+            component={() => <Chatroom database={database} />}/>
       </Route>
     </Router>
   </Provider>,
