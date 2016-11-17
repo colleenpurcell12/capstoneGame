@@ -51,11 +51,9 @@ export class Chatroom extends Component {
       console.log("XXX**** snap.val() ",snap.val() )
       console.log("XXX**** state",this.state) 
     })
-
   }
 
   render() {
-
     const messages = this.state && this.state.messages || []
 
     return (
@@ -67,7 +65,6 @@ export class Chatroom extends Component {
     )
   }
 }
-
 
 import {connect} from 'react-redux'
 
