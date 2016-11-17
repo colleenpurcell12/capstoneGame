@@ -8,6 +8,9 @@ import store from './store'
 import Jokes from './components/Jokes'
 import Login from './components/Login'
 import WhoAmI from './components/WhoAmI'
+import Board from './components/Board'
+
+
 
 import * as firebase from 'firebase'
 
@@ -18,9 +21,8 @@ var config = {
     storageBucket: "capstonegame-24bce.appspot.com",
     messagingSenderId: "575027063210"
   };
-  
-firebase.initializeApp(config);
 
+firebase.initializeApp(config);
 
 // Get a reference to the database service
 var database = firebase.database();
@@ -45,7 +47,7 @@ const ExampleApp = connect(
     <div>
       <nav>
         {user ? <WhoAmI/> : <Login/>}
-      </nav> 
+      </nav>
       {children}
     </div>
 )
@@ -56,6 +58,7 @@ render (
       <Route path="/" component={ExampleApp}>
         <IndexRedirect to="/jokes" />
         <Route path="/jokes" component={Jokes} />
+        <Route path="/board" component={Board} />
       </Route>
     </Router>
   </Provider>,
