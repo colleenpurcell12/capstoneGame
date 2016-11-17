@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "capstonegame-24bce"
+    "default": "capstonegame-24bce",
+    "capstone": "capstonegame-24bce"
   }
 }
