@@ -8,6 +8,7 @@ import store from './store'
 
 import GoogleLogin from './components/GoogleLogin'
 import Chatroom from './components/Chatroom'
+import Board from './components/Board'
 
 import * as firebase from 'firebase'
 
@@ -21,17 +22,19 @@ var config = {
   
 firebase.initializeApp(config);
 const database = firebase.database();
-
+const auth = firebase.auth();
+      // this.storage = firebase.storage();
+      // Initiates Firebase auth and listen to auth state changes.
+      // this.auth.onAuthStateChanged(this.onAuthStateChanged.bind(this));
 
 render (
 
   <Provider store={store}>
     <Router history={browserHistory}>
-      <Route path="/" component={() => <Chatroom database={database}/>} >
-        <IndexRedirect to="chatroom" />
+      <Route path="/" >
         <Route path="chatroom" component={() => <Chatroom database={database}/>} />
         <Route path="board" component={Board} />
-        <Route path="googlelogin" component={GoogleLogin}/>
+        <Route path="googlelogin" component={() => <GoogleLogin auth={auth}/>} />
       </Route>
     </Router>
   </Provider>,
