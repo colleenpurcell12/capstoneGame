@@ -41,7 +41,6 @@ module.exports = app
  // .use('/api', require('./api'))
 
   // Send index.html for anything else.
-  .get('/hextest', (_, res) => res.sendFile(resolve(__dirname, '..', 'public', 'hextest.html')))
   .get('/*', (_, res) => res.sendFile(resolve(__dirname, '..', 'public', 'index.html')))
 
 if (module === require.main) {

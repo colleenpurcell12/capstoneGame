@@ -12,9 +12,6 @@ import Board from './components/Board'
 
 // import GoogleLogin from './components/GoogleLogin'
 import Chatroom from './components/Chatroom'
-
-
-
 import * as firebase from 'firebase'
 
 var config = {
@@ -60,7 +57,7 @@ render (
         <IndexRedirect to="chatroom" />
         <Route path="chatroom"
             component={() => <Chatroom database={database} />}/>
-        <Route path="/board" component={Board} />
+        <Route path="board" component={Board} />
       </Route>
     </Router>
   </Provider>,
