@@ -10,6 +10,9 @@ import Login from './components/Login'
 import WhoAmI from './components/WhoAmI'
 import Board from './components/Board'
 
+// import GoogleLogin from './components/GoogleLogin'
+import Chatroom from './components/Chatroom'
+
 
 
 import * as firebase from 'firebase'
@@ -22,10 +25,8 @@ var config = {
     messagingSenderId: "575027063210"
   };
 
-firebase.initializeApp(config);
-
 // Get a reference to the database service
-var database = firebase.database();
+const database = firebase.database();
 
 // var propRef = database.ref(propKey)
 // database.
@@ -56,8 +57,9 @@ render (
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={ExampleApp}>
-        <IndexRedirect to="/jokes" />
-        <Route path="/jokes" component={Jokes} />
+        <IndexRedirect to="chatroom" />
+        <Route path="chatroom"
+            component={() => <Chatroom database={database} />}/>
         <Route path="/board" component={Board} />
       </Route>
     </Router>
