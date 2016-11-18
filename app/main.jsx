@@ -10,6 +10,7 @@ import GoogleLogin from './components/GoogleLogin'
 import Chatroom from './components/Chatroom'
 import Board from './components/Board'
 import PlayerStat from './components/PlayerStat'
+import Dice from './components/Dice';
 
 import * as firebase from 'firebase'
 
@@ -33,10 +34,14 @@ render (
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" >
-        <Route path="chatroom" component={() => <Chatroom database={database}/>} />
+        <Route path="chatroom" component={() => <Chatroom database={database} auth={auth}/>} />
         <Route path="board" component={Board} />
         <Route path="googlelogin" component={() => <GoogleLogin auth={auth}/>} />
+<<<<<<< HEAD
         <Route path="playerstat" component={() => <PlayerStat database={database}/>}  />
+=======
+        <Route path="dice" component={Dice} />
+>>>>>>> master
       </Route>
     </Router>
   </Provider>,
