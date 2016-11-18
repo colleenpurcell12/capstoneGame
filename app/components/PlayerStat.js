@@ -43,7 +43,7 @@ export default class PlayerStat extends Component {
   render() {
     return (
 			<div>
-				<div> Wool 	 {this.state.woolCount}</div>
+				<div> Wool 	 	{this.state.woolCount}</div> 
 				<div> Brick  {this.state.brickCount}</div>
 				<div> Grain  {this.state.grainCount}</div>
 				<div> Ore 	 {this.state.oreCount}</div>
