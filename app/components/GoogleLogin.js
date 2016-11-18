@@ -47,8 +47,6 @@ export class GoogleLogin extends Component {
 			})
 	}
 	signIn(){
-		console.log("IN THE SIGN IN FUNCTION")
-		console.log(this.props.auth, "AUTH")
 		var provider = new firebase.auth.GoogleAuthProvider();
   	this.props.auth.signInWithPopup(provider);
 	}
