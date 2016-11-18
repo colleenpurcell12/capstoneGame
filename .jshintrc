@@ -1,0 +1,15 @@
+{
+"esversion": 6,
+"globals" : {
+  "require": true,
+  "console": true,
+  "module": true,
+  "__dirname": true,
+  "describe": true,
+  "pending": true,
+  "beforeEach":true,
+  "it": true,
+  "expect": true,
+  "jasmine": true
+}
+}

@@ -1,5 +1,6 @@
 import { HexGrid } from 'react-hexgrid';
 import React, {Component} from 'react';
+import {createCorners, assignTokens} from 'APP/gameutils/setup.js'
 //
 // export default class Board extends React.Component {
 //   constructor(props) {
@@ -36,11 +37,16 @@ export default class Board extends Component {
       map: 'hexagon',
       mapProps: [ 2 ],
       actions: {
-        onMouseEnter: function(){
-          console.log('MOUSE ENTERED')
+        onMouseEnter: function(id){
+          var hex = document.getElementById('h' + id)
+          hex.firstElementChild.setAttribute('class','hexhover')
         },
-        onMouseLeave: function(){
-          console.log('MOUSE LEFT')
+        onMouseLeave: function(id){
+          var hex = document.getElementById('h' + id)
+          hex.firstElementChild.removeAttribute('class','hexhover')
+        },
+        onClick: function(e){
+          console.log('HEX CLICKED')
         }
       }
     }
@@ -52,36 +58,8 @@ export default class Board extends Component {
 
   }
   componentDidMount(){
-    var coords = [], columns = 12
-    var x = -43.75;
-    var ppc = [3,4,4,5,5,6,6,5,5,4,4,3]
-    for (var i = 0; i < columns; i ++){
-      var y = (ppc[i]-1)* 9.41;
-      for(var j = 0; j < ppc[i]; j ++){
-        coords.push({x,y})
-        y -= 18.82;
-      }
-      // increment x
-      if (i%2){  x += 10.9375; }
-      else { x += 5.46875; }
-    }
-    var svg = document.getElementsByTagName('svg')[0]; //Get svg element
-    var clicked = function(){
-      console.log('clicked')
-    }
-      coords.forEach(function(circle, index){
-        var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle'); //Create a path in SVG's namespace
-        newElement.setAttribute("cx", circle.x); //Set path's data
-        newElement.setAttribute("cy", circle.y); //Set path's data
-        newElement.setAttribute("r", "2"); //Set path's data
-        newElement.setAttribute('id', "c" +index)
-        // newElement.setAttribute('onclick', 'clicked');
-        newElement.addEventListener('click', clicked)
-        newElement.style.fill = "#ccbdbd"; //Set stroke colour
-        // newElement.style.strokeWidth = "5px"; //Set stroke width
-        svg.appendChild(newElement);
-      })
-
+    createCorners();
+    assignTokens();
   }
   render() {
     let { grid, config } = this.state;

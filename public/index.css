@@ -8,8 +8,12 @@
 
 }
 
+body {
+  /*background-image: url(http://planetary-science.org/wp-content/uploads/2014/12/Ladon-basin-in-full-color.jpg);
+  background-repeat: no-repeat;*/
+}
 svg {
-  background-color: #c65025
+  background-color: #9e6239
 }
 
 svg polygon {
@@ -22,9 +26,14 @@ svg circle {
 
 svg text {
   fill: black;
-  font-size: .1em;
+  font-size: .2em;
 }
 
 svg circle {
 
+}
+
+.hexhover {
+  stroke: red;
+  stroke-width: 1;
 }
