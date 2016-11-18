@@ -90,7 +90,7 @@ export class GoogleLogin extends Component {
 	 	        </div>
         }
     return (
-    		<div className="mdl-color-text--white mdl-color--light-blue-700">
+    		<div className="mdl-layout__header mdl-color-text--white mdl-color--light-blue-700">
 	        <div className="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
 		      <div className="mdl-layout__header-row mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
 		        <h3>
