@@ -3,6 +3,7 @@ node_modules/*
 
 # ...except the symlink to ourselves.
 !node_modules/APP
+!node_modules/react-hexgrid
 
 # Compiled JS
 public/bundle.js

@@ -16,9 +16,13 @@ svg polygon {
   fill: #06437f
 }
 
+svg circle {
+  fill: #ddd;
+}
+
 svg text {
-  fill: white;
-  font-size: .3em;
+  fill: black;
+  font-size: .1em;
 }
 
 svg circle {

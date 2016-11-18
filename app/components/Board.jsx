@@ -45,27 +45,27 @@ export default class Board extends Component {
       }
     }
     let grid = HexGrid.generate(boardConfig);
-    this.state = { grid, config: boardConfig };
+    this.state = {
+      grid,
+      config: boardConfig,
+     };
 
   }
   componentDidMount(){
-    console.log("this.props", this.props)
     var coords = [], columns = 12
-    var x = -43;
+    var x = -43.75;
     var ppc = [3,4,4,5,5,6,6,5,5,4,4,3]
     for (var i = 0; i < columns; i ++){
-      var y = (ppc[i]-1)* 9.35;
+      var y = (ppc[i]-1)* 9.41;
       for(var j = 0; j < ppc[i]; j ++){
         coords.push({x,y})
         y -= 18.82;
       }
       // increment x
-      if (i%2){  x += 10.75; }
-      else { x += 5.375; }
+      if (i%2){  x += 10.9375; }
+      else { x += 5.46875; }
     }
-    console.log(coords)
     var svg = document.getElementsByTagName('svg')[0]; //Get svg element
-    console.log('SVG', svg)
     var clicked = function(){
       console.log('clicked')
     }
@@ -88,10 +88,29 @@ export default class Board extends Component {
 
     return (
       <div className="board">
+
         <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
 
       </div>
     );
+  }
+
+  drawRoad(){
+    // this is called on 'draw road' button
+    // state is 'set' on 'end turn' button
+    // has validation
+      // do they have resources
+      // decrement resources on placement
+      // confirm decrement resources on end turn // end turn just keeps you from interacting with board (trades only)
+    // DRAW ROAD
+      // get coords from this.state.pointA and this.state.pointB
+      // get svg tag
+      // newRoad = document.createElementNS("http://www.w3.org/2000/svg", line);
+      // newRoad.setAttribute....
+      // get color from user info on cookie/local/state?
+      // <line x1={this.state.pointA.x} y1={this.state.pointA.y} x2={this.state.pointB.x} y2={this.state.pointB.y}/>
+      // svg.appendChild(newRoad)
+    // SEND ROAD INFO TO DB/STORE
   }
 }
 
