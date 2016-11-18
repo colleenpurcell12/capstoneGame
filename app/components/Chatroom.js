@@ -39,18 +39,30 @@ export class Chatroom extends Component {
     this.state = {
       messages: []
     };
+    this.saveMessage = this.saveMessage.bind(this);
   }
   componentDidMount() { // loads the database message
     //console.log("XXX**** HELLO")
     const rootRef = this.props.database.ref()
     const messagesRef = rootRef.child('messages')
     //console.log('Chatroom.componentDidMount messagesRef=', messagesRef)
-    messagesRef.on('value', snap => {
-      console.log('messagesRef.on value, snap=', snap)
+    messagesRef.limitToLast(24).on('value', snap => {
+      //console.log('messagesRef.on value, snap=', snap)
       this.setState ({ messages : snap.val() })
       //console.log("XXX**** snap.val() ",snap.val() )
       //console.log("XXX**** state",this.state) 
     })
+  }
+
+  saveMessage(e) {
+    e.preventDefault();
+    //console.log("in saveMessage");
+    const messagesRef = this.props.database.ref().child('messages')
+    messagesRef.push({
+      name: "anonymous", //this will be current user's displayname
+      text: e.target.text.value
+    })
+    e.target.text.value = null;
   }
 
   render() {
@@ -65,38 +77,26 @@ export class Chatroom extends Component {
         <div className="mdl-card__supporting-text mdl-color-text--grey-600">
                 <div id="messages">
                  <div>
+                    <div>test div</div>
                     {Object.keys(messages).map(k => messages[k]).map( (message, idx) => 
-                        <div key = {idx}>{message.from} {message.to}</div>
+                        <div key = {idx}>{message.name}: {message.text}</div>
                       )}
                   </div>
                   <span id="message-filler"></span>
                 
                 </div>
-          <form id="message-form" action="#">
+          <form id="message-form" action="#" onSubmit={this.saveMessage}>
                   <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input className="mdl-textfield__input" type="text" id="message"/>
+                    <input className="mdl-textfield__input" type="text" id="message" name="text"/>
                     <label className="mdl-textfield__label" htmlFor="message">Message...</label>
                     
                   </div>
-            <button id="submit" disabled type="submit" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+            <button id="submit" type="submit" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
               Send
-            </button>
-          </form>
-          <form id="image-form" action="#">
-            <input id="mediaCapture" type="file" accept="image/*,capture=camera">
-            </input>
-            <button id="submitImage" title="Add an image" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--amber-400 mdl-color-text--white">
-              <i className="material-icons">image</i>
             </button>
           </form>
         </div>
       </div>
-
-      <div id="must-signin-snackbar" className="mdl-js-snackbar mdl-snackbar">
-        <div className="mdl-snackbar__text"></div>
-        <button className="mdl-snackbar__action" type="button"></button>
-      </div>
-
     </div>
 
     )
