@@ -9,6 +9,7 @@ import store from './store'
 import GoogleLogin from './components/GoogleLogin'
 import Chatroom from './components/Chatroom'
 import Board from './components/Board'
+import PlayerStat from './components/PlayerStat'
 
 import * as firebase from 'firebase'
 
@@ -35,6 +36,7 @@ render (
         <Route path="chatroom" component={() => <Chatroom database={database}/>} />
         <Route path="board" component={Board} />
         <Route path="googlelogin" component={() => <GoogleLogin auth={auth}/>} />
+        <Route path="playerstat" component={() => <PlayerStat database={database}/>}  />
       </Route>
     </Router>
   </Provider>,
