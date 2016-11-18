@@ -4,6 +4,7 @@ import {Router, Route, IndexRedirect, browserHistory} from 'react-router'
 import  {render} from 'react-dom'
 import {connect, Provider} from 'react-redux'
 import store from './store'
+
 import GoogleLogin from './components/GoogleLogin';
 import Chatroom from './components/Chatroom';
 import Board from './components/Board';
@@ -11,6 +12,10 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
+
+import PlayerStat from './components/PlayerStat'
+import Dice from './components/Dice';
+
 import * as firebase from 'firebase'
 
 var config = {
@@ -29,13 +34,16 @@ const auth = firebase.auth();
       // this.auth.onAuthStateChanged(this.onAuthStateChanged.bind(this));
 
 render (
+
   <MuiThemeProvider>
     <Provider store={store}>
       <Router history={browserHistory}>
         <Route path="/" >
-          <Route path="chatroom" component={() => <Chatroom database={database}/>} />
+          <Route path="chatroom" component={() => <Chatroom database={database} auth={auth}/>} />
           <Route path="board" component={Board} />
           <Route path="googlelogin" component={() => <GoogleLogin auth={auth}/>} />
+          <Route path="playerstat" component={() => <PlayerStat database={database}/>}  />
+          <Route path="dice" component={Dice} />
         </Route>
       </Router>
     </Provider>
