@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase'
 import {Link} from 'react-router';
-
+import Avatar from 'material-ui/Avatar';
+import IconButton from 'material-ui/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import MenuItem from 'material-ui/MenuItem';
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import IconMenu from 'material-ui/IconMenu';
+import RaisedButton from 'material-ui/RaisedButton';
 
 // const AUTHENTICATED = 'AUTHENTICATED'
 // //Synch  action creator
@@ -38,10 +44,9 @@ export class GoogleLogin extends Component {
 					} else{
 						this.setState({displayName: ''})
 					}
-			})	
+			})
 	}
 	signIn(){
-		//console.log("IN THE SIGN IN FUNCTION")
 		var provider = new firebase.auth.GoogleAuthProvider();
   	this.props.auth.signInWithPopup(provider);
 	}
@@ -49,7 +54,7 @@ export class GoogleLogin extends Component {
 		//console.log("***AABOUT TO SIGN OUT of account user:",user)
 		this.props.auth.signOut();
 	}
-	
+
 
 	onAuthStateChanged(user) {
 		if (user) { // User is signed in!
@@ -66,91 +71,28 @@ export class GoogleLogin extends Component {
 	  }
 	}
 	render() {
-        var loginOrOut;
-        if (this.state.loggedIn) {
-            loginOrOut = 
-            <div>
-	            <div id="user-pic"><img src={this.state.photoURL}></img></div>
-		        	<div id="user-name">{this.state.displayName}</div>
-	            <button  id="sign-out" 
-			        	className="mdl-button mdl-js-button mdl-js-ripple-effect "
-			        	onClick={() => this.signOut() }
-			        	>
-			          Sign-out
-			        </button>
-		        </div>
-        } else {
-            loginOrOut = 
-            <div>
-	            <button  id="sign-in" 
-	            className="mdl-button mdl-js-button mdl-js-ripple-effect "
-	            onClick={()=> this.signIn() }>
-	 	          <i className="material-icons">account_circle</i>Sign-in with Google
-	 	        	</button>
-	 	        </div>
-        }
     return (
-    		<div className="mdl-layout__header mdl-color-text--white mdl-color--light-blue-700">
-	        <div className="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
-		      <div className="mdl-layout__header-row mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
-		        <h3>
-			        <i className="material-icons">chat_bubble_outline</i> 
-			        This is Capstone Game
-		        </h3>
-		      </div>
-		      <div id="user-container">
-		        {loginOrOut}
-		      </div>
-		    </div>
-	    </div>
+          <Toolbar>
+  					{ this.state.loggedIn ?
+  						<ToolbarGroup style={{marginLeft:'50%'}}>
+  							<ToolbarTitle text={`🌎🚀👽 Welcome to Pioneers of Mars, ${this.state.displayName.split(" ")[0]}.`} style={{textAlign:'center'}} />
+  							<Avatar src={this.state.photoURL} />
+  							<IconMenu
+				        	iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+				        	>
+				        		<MenuItem primaryText="Sign out" onClick={() => this.signOut()}/>
+				      	</IconMenu>
+			      	</ToolbarGroup>
+  						:
+  						<ToolbarGroup style={{marginLeft:'50%'}}>
+  							<ToolbarTitle text={`Are you ready to pioneer?`} />
+  							<RaisedButton label='Login with Google' primary={true} onClick={()=> this.signIn() } />
+  						</ToolbarGroup>
+  					}
+      		</Toolbar>
         )
     }
 };
-
- // <span>
- //                <nav className="navbar navbar-default navbar-static-top">
- //                    <div className="container">
- //                        <div className="navbar-header">
- //                            <Link to="/" className="navbar-brand">
- //                                PROJECT NAME
- //                            </Link>
- //                        </div>
- //                        
- //                    </div>
- //                </nav>
- //                <div className="container">
- //                    <div className="row">
- //                        {this.props.children}
- //                    </div>
- //                </div>
- //            </span>
-///****
-//   render() {
-//   	var 
-//   	return (
-// 	  <div className="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
-// 	      <div className="mdl-layout__header-row mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
-// 	        <h3><i className="material-icons">chat_bubble_outline</i> This is Capstone Game</h3>
-// 	      </div>
-// 	      <div id="user-container">
-
-// 	        <div  id="user-pic"></div>
-// 	        <div  id="user-name"></div>
-// 	        <button  id="sign-out" 
-// 	        	className="mdl-button mdl-js-button mdl-js-ripple-effect "
-// 	        	onClick={() => onAuthStateChanged(user)}
-// 	        	>
-// 	          Sign-out
-// 	        </button>
-
-// 	        <button  id="sign-in" className="mdl-button mdl-js-button mdl-js-ripple-effect ">
-// 	          <i className="material-icons">account_circle</i>Sign-in with Google
-// 	        </button>
-
-// 	      </div>
-// 	    </div>
-//     )}
-// }
 
 import {connect} from 'react-redux'
 
@@ -164,4 +106,4 @@ export default connect (
 
 
 
-	
+

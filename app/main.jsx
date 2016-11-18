@@ -3,12 +3,16 @@ import React from 'react'
 import {Router, Route, IndexRedirect, browserHistory} from 'react-router'
 import  {render} from 'react-dom'
 import {connect, Provider} from 'react-redux'
-
 import store from './store'
 
-import GoogleLogin from './components/GoogleLogin'
-import Chatroom from './components/Chatroom'
-import Board from './components/Board'
+import GoogleLogin from './components/GoogleLogin';
+import Chatroom from './components/Chatroom';
+import Board from './components/Board';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import RaisedButton from 'material-ui/RaisedButton';
+
 import PlayerStat from './components/PlayerStat'
 import Dice from './components/Dice';
 
@@ -21,7 +25,7 @@ var config = {
     storageBucket: "capstonegame-24bce.appspot.com",
     messagingSenderId: "575027063210"
   };
-  
+
 firebase.initializeApp(config);
 const database = firebase.database();
 const auth = firebase.auth();
@@ -31,20 +35,19 @@ const auth = firebase.auth();
 
 render (
 
-  <Provider store={store}>
-    <Router history={browserHistory}>
-      <Route path="/" >
-        <Route path="chatroom" component={() => <Chatroom database={database} auth={auth}/>} />
-        <Route path="board" component={Board} />
-        <Route path="googlelogin" component={() => <GoogleLogin auth={auth}/>} />
-<<<<<<< HEAD
-        <Route path="playerstat" component={() => <PlayerStat database={database}/>}  />
-=======
-        <Route path="dice" component={Dice} />
->>>>>>> master
-      </Route>
-    </Router>
-  </Provider>,
+  <MuiThemeProvider>
+    <Provider store={store}>
+      <Router history={browserHistory}>
+        <Route path="/" >
+          <Route path="chatroom" component={() => <Chatroom database={database} auth={auth}/>} />
+          <Route path="board" component={Board} />
+          <Route path="googlelogin" component={() => <GoogleLogin auth={auth}/>} />
+          <Route path="playerstat" component={() => <PlayerStat database={database}/>}  />
+          <Route path="dice" component={Dice} />
+        </Route>
+      </Router>
+    </Provider>
+  </MuiThemeProvider>,
   document.getElementById('main')
 )
 
