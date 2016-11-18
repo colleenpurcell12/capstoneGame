@@ -9,14 +9,18 @@
 }
 
 svg {
-  background-color: beige
+  background-color: #c65025
 }
 
 svg polygon {
-  fill: blue
+  fill: #06437f
 }
 
 svg text {
   fill: white;
   font-size: .3em;
+}
+
+svg circle {
+
 }
