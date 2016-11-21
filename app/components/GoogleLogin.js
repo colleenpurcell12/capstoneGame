@@ -16,9 +16,8 @@ export class GoogleLogin extends Component {
 	  this.signOut = this.signOut.bind(this);
 
   }
-
-  	componentDidMount() { 
-	   this.props.fetchCurrentUser();
+  componentDidMount() {
+	 this.props.fetchCurrentUser();
 	}
 	signIn(){
 		var provider = new firebase.auth.GoogleAuthProvider();
