@@ -89,6 +89,12 @@ export default class PlayerStat extends Component {
 				<input type="button" onClick={ () => this.changeCount('lumber',true) } value="+"/>
         </div>
 
+        <form action="">
+          <input type="radio" name="gender" value="male"/> Male<br>
+          <input type="radio" name="gender" value="female"/> Female<br>
+          <input type="radio" name="gender" value="other"/> Other
+        </form>
+
         <br></br>
 				<div> Building materials-- 	</div>
      		<div> Road        = Brick and Lumber						</div>
