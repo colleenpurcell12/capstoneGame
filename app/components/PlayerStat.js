@@ -5,15 +5,18 @@ import {Link} from 'react-router';
 //needs to know which player's card is showing
  // const messages = this.state && this.state.messages || []
  //    {Object.keys(messages).map(k => messages[k]).map( (message, idx) => )}
+
+  // <a onClick={ () => this.incrementValue(Wool) } className="glyphicon glyphicon-plus">+++
+        // </a>
 export default class PlayerStat extends Component {
 	constructor(props) {
     super(props);
     this.state = {
-      woolCount: 0,
-      brickCount: 5,
-      grainCount: 5,
-      oreCount: 2,
-      lumberCount: 0
+      wool: 0,
+      brick: 5,
+      grain: 5,
+      ore: 2,
+      lumber: 0
     };
   }
   componentDidMount() { 
@@ -32,23 +35,61 @@ export default class PlayerStat extends Component {
 		const lumberRef = cardsRef.child('lumber')
     //console.log('Chatroom.componentDidMount messagesRef=', messagesRef)
 
-    woolRef.on('value', 	snap => { this.setState ({ woolCount:  snap.val()	}) })
-    brickRef.on('value', 	snap => { this.setState ({ brickCount: snap.val() }) })
-    grainRef.on('value', 	snap => { this.setState ({ grainCount: snap.val() }) })
-    oreRef.on( 'value', 	snap => { this.setState ({ oreCount: 		snap.val() }) })
-    lumberRef.on('value', snap => { this.setState ({ lumberCount: snap.val() }) })
+    woolRef.on('value', 	snap => { this.setState ({ wool:  snap.val()	}) })
+    brickRef.on('value', 	snap => { this.setState ({ brick: snap.val() }) })
+    grainRef.on('value', 	snap => { this.setState ({ grain: snap.val() }) })
+    oreRef.on( 'value', 	snap => { this.setState ({ ore: 		snap.val() }) })
+    lumberRef.on('value', snap => { this.setState ({ lumber: snap.val() }) })
       //console.log("XXX**** snap.val() ",snap.val() )
       //console.log("XXX**** state",this.state) 
   }
+  changeCount(resource, isGoingUp){
+    const playersRef  = this.props.database.ref().child('players')
+    const cardsRef       = playersRef.child('player1').child('cards')
+    
+    if(isGoingUp) { this.state[resource]++ }
+    else { this.state[resource]-- } //[resource] works
+    
+    cardsRef.update({ [resource]: this.state[resource]}) //[resource] work
+    cardsRef.child(resource).on('value',   snap => { this.setState ({ [resource]:  snap.val() }) 
+      //[resource] WORKS
+  })
+  }
+
   render() {
     return (
 			<div>
-				<div> Wool 	 	{this.state.woolCount}</div> 
-				<div> Brick  {this.state.brickCount}</div>
-				<div> Grain  {this.state.grainCount}</div>
-				<div> Ore 	 {this.state.oreCount}</div>
-				<div> Lumber {this.state.lumberCount}</div>
-				<br></br>
+				<div>
+          <input type="button" onClick={() => this.changeCount('wool',false) } value="-"/>
+          Wool 	 	{this.state.wool}
+          <input type="button" onClick={ () => this.changeCount('wool',true) } value="+"/>
+        </div> 
+
+        <div>
+        <input type="button" onClick={() => this.changeCount('brick',false) } value="-"/>
+				 Brick  {this.state.brick}
+        <input type="button" onClick={ () => this.changeCount('brick',true) } value="+"/>
+				</div>
+
+        <div>
+        <input type="button" onClick={() => this.changeCount('grain',false) } value="-"/>
+         Grain  {this.state.grain}
+				<input type="button" onClick={ () => this.changeCount('grain',true) } value="+"/>
+        </div>
+
+        <div> 
+        <input type="button" onClick={() => this.changeCount('ore',false) } value="-"/>
+        Ore 	 {this.state.ore}
+				<input type="button" onClick={ () => this.changeCount('ore',true) } value="+"/>
+        </div>
+
+        <div> 
+        <input type="button" onClick={() => this.changeCount('lumber',false) } value="-"/>
+        Lumber {this.state.lumber}
+				<input type="button" onClick={ () => this.changeCount('lumber',true) } value="+"/>
+        </div>
+
+        <br></br>
 				<div> Building materials-- 	</div>
      		<div> Road        = Brick and Lumber						</div>
      		<div> Settlement  = Lumber, Brick, Grain and Wool	</div>
