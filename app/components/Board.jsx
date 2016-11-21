@@ -3,38 +3,12 @@ import React, {Component} from 'react';
 import {createCorners, assignTokens, renderPorts, addRoad} from 'APP/gameutils/setup.js'
 import SubmitForm from './SubmitForm'
 
-//
-// export default class Board extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     let grid = HexGrid.generate(config.board);
-//     this.props.actions.createBoard(grid);
-//   }
-//
-//   render() {
-//     let { grid, actions } = this.props;
-//     let config = {
-//       width: 800, height: 800,
-//       layout: { width: 10, height: 10, flat: true, spacing: 1.1 },
-//       origin: { x: 0, y: 0 },
-//       map: 'hexagon',
-//       mapProps: [ 2 ]
-//     }
-//     return (
-//       <HexGrid actions={actions} width={config.width} height={config.height}
-//         hexagons={grid.hexagons} layout={grid.layout} />
-//     )
-//   }
-// }
-
-
-
 export default class Board extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-
+    this.selectCorner = this.selectCorner.bind(this);
     let boardConfig = {
       width: 700, height: 820,
       layout: { width: 10, height: 10, flat: true, spacing: 1.1 },
@@ -60,12 +34,13 @@ export default class Board extends Component {
       grid,
       config: boardConfig,
       roads: [],
-      value: ''
+      value: '',
+      selected: []
      };
 
   }
   componentDidMount(){
-    createCorners();
+    createCorners(this.selectCorner);
     assignTokens();
     renderPorts();
     //renderRoads(); // this will take the roads ont he state and render them on page load?
@@ -84,6 +59,20 @@ export default class Board extends Component {
   handleChange(event) {
      this.setState({value: event.target.value});
    }
+
+  selectCorner(event) {
+    if(this.state.selected.length === 2) {
+
+    }
+    else if(this.state.selected.length === 0)  {
+      this.setState({selected: [event.target]})
+    } else {
+      var sA = this.state.selected;
+      sA.push(event.target)
+      this.setState({selected: sA})
+    }
+    console.log('this.state', this.state)
+  }
 
   handleSubmit(event){
     event.preventDefault();
@@ -105,9 +94,9 @@ export default class Board extends Component {
 
     //TESTING ONLY
     console.log('handle add clicked')
-    var nodes = document.getElementsByTagName('circle')
-    var a = nodes[19], b = nodes[20]
-
+    // var nodes = document.getElementsByTagName('circle')
+    // var a = nodes[19], b = nodes[20]
+    var a = this.state.selected[0], b = this.state.selected[1]
     // user = color from form
     addRoad(a, b, user) // can you set state from within addroad?
     // pushes new road to state
