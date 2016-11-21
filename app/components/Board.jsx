@@ -1,6 +1,8 @@
 import { HexGrid } from 'react-hexgrid';
 import React, {Component} from 'react';
-import {createCorners, assignTokens} from 'APP/gameutils/setup.js'
+import {createCorners, assignTokens, renderPorts, addRoad} from 'APP/gameutils/setup.js'
+import SubmitForm from './SubmitForm'
+
 //
 // export default class Board extends React.Component {
 //   constructor(props) {
@@ -30,8 +32,11 @@ import {createCorners, assignTokens} from 'APP/gameutils/setup.js'
 export default class Board extends Component {
   constructor(props) {
     super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+
     let boardConfig = {
-      width: 800, height: 800,
+      width: 700, height: 820,
       layout: { width: 10, height: 10, flat: true, spacing: 1.1 },
       origin: { x: 0, y: 0 },
       map: 'hexagon',
@@ -54,41 +59,60 @@ export default class Board extends Component {
     this.state = {
       grid,
       config: boardConfig,
+      roads: [],
+      value: ''
      };
 
   }
   componentDidMount(){
     createCorners();
     assignTokens();
+    renderPorts();
+    //renderRoads(); // this will take the roads ont he state and render them on page load?
   }
   render() {
     let { grid, config } = this.state;
 
     return (
       <div className="board">
-
         <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
-
-      </div>
+        <SubmitForm handleSubmit={this.handleSubmit}/>
+    </div>
     );
   }
 
-  drawRoad(){
-    // this is called on 'draw road' button
+  handleChange(event) {
+     this.setState({value: event.target.value});
+   }
+
+  handleSubmit(event){
+    event.preventDefault();
+
+
     // state is 'set' on 'end turn' button
     // has validation
       // do they have resources
       // decrement resources on placement
-      // confirm decrement resources on end turn // end turn just keeps you from interacting with board (trades only)
-    // DRAW ROAD
-      // get coords from this.state.pointA and this.state.pointB
-      // get svg tag
-      // newRoad = document.createElementNS("http://www.w3.org/2000/svg", line);
-      // newRoad.setAttribute....
-      // get color from user info on cookie/local/state?
-      // <line x1={this.state.pointA.x} y1={this.state.pointA.y} x2={this.state.pointB.x} y2={this.state.pointB.y}/>
-      // svg.appendChild(newRoad)
     // SEND ROAD INFO TO DB/STORE
+
+    // takes in one or two "selected nodes" from state
+    // if one, addSettlement
+    // if two, addRoad
+    // displays which are selected
+    // takes color from form ( later from state?)
+    let color = event.target.color.value
+    var user = { color: color }
+
+    //TESTING ONLY
+    console.log('handle add clicked')
+    var nodes = document.getElementsByTagName('circle')
+    var a = nodes[19], b = nodes[20]
+
+    // user = color from form
+    addRoad(a, b, user) // can you set state from within addroad?
+    // pushes new road to state
+    // var newRoad = {x1, x2, y1, y2}
+    // this.setState(roads: roads.push(newRoad))
   }
 }
 

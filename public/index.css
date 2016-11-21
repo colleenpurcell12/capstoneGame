@@ -35,5 +35,10 @@ svg circle {
 
 .hexhover {
   stroke: red;
-  stroke-width: 1;
+  stroke-width: .3;
+}
+
+.corner-select {
+  stroke: red;
+  stroke-width: .3;
 }
