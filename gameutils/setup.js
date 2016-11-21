@@ -46,6 +46,7 @@ function createCorners(select){
   var svg = document.getElementsByTagName('svg')[0]; //Get svg element
   var clicked = function(e, c){
     console.log('clicked', e.target);
+
     select(e);
     // e.target.setAttribute('class', 'corner-select');
     // add to db
@@ -100,4 +101,4 @@ function addRoad(a, b, c){
 }
 
 
-module.exports = {createCorners, assignTokens, renderPorts, addRoad}
+module.exports = {corners, createCorners, assignTokens, renderPorts, addRoad}
