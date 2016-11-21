@@ -43,11 +43,13 @@ export default class PlayerStat extends Component {
       //console.log("XXX**** snap.val() ",snap.val() )
       //console.log("XXX**** state",this.state) 
   }
-  changeValue(resource, isGoingUp){
+  changeCount(resource, isGoingUp){
     const playersRef  = this.props.database.ref().child('players')
     const cardsRef       = playersRef.child('player1').child('cards')
+    
     if(isGoingUp) { this.state[resource]++ }
     else { this.state[resource]-- } //[resource] works
+    
     cardsRef.update({ [resource]: this.state[resource]}) //[resource] work
     cardsRef.child(resource).on('value',   snap => { this.setState ({ [resource]:  snap.val() }) 
       //[resource] WORKS
@@ -58,33 +60,33 @@ export default class PlayerStat extends Component {
     return (
 			<div>
 				<div>
-          <input type="button" onClick={() => this.changeValue('wool',false) } value="-"/>
+          <input type="button" onClick={() => this.changeCount('wool',false) } value="-"/>
           Wool 	 	{this.state.wool}
-          <input type="button" onClick={ () => this.changeValue('wool',true) } value="+"/>
+          <input type="button" onClick={ () => this.changeCount('wool',true) } value="+"/>
         </div> 
 
         <div>
-        <input type="button" onClick={() => this.changeValue('brick',false) } value="-"/>
+        <input type="button" onClick={() => this.changeCount('brick',false) } value="-"/>
 				 Brick  {this.state.brick}
-        <input type="button" onClick={ () => this.changeValue('brick',true) } value="+"/>
+        <input type="button" onClick={ () => this.changeCount('brick',true) } value="+"/>
 				</div>
 
         <div>
-        <input type="button" onClick={() => this.changeValue('grain',false) } value="-"/>
+        <input type="button" onClick={() => this.changeCount('grain',false) } value="-"/>
          Grain  {this.state.grain}
-				<input type="button" onClick={ () => this.changeValue('grain',true) } value="+"/>
+				<input type="button" onClick={ () => this.changeCount('grain',true) } value="+"/>
         </div>
 
         <div> 
-        <input type="button" onClick={() => this.changeValue('ore',false) } value="-"/>
+        <input type="button" onClick={() => this.changeCount('ore',false) } value="-"/>
         Ore 	 {this.state.ore}
-				<input type="button" onClick={ () => this.changeValue('ore',true) } value="+"/>
+				<input type="button" onClick={ () => this.changeCount('ore',true) } value="+"/>
         </div>
 
         <div> 
-        <input type="button" onClick={() => this.changeValue('lumber',false) } value="-"/>
+        <input type="button" onClick={() => this.changeCount('lumber',false) } value="-"/>
         Lumber {this.state.lumber}
-				<input type="button" onClick={ () => this.changeValue('lumber',true) } value="+"/>
+				<input type="button" onClick={ () => this.changeCount('lumber',true) } value="+"/>
         </div>
 
         <br></br>
