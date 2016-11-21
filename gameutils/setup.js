@@ -41,12 +41,13 @@ function renderPorts(){
   })
 }
 
-function createCorners(node, color, type){
+function createCorners(select){
 
   var svg = document.getElementsByTagName('svg')[0]; //Get svg element
   var clicked = function(e, c){
-    console.log('clicked', e.target)
-    e.target.setAttribute('class', 'corner-select')
+    console.log('clicked', e.target);
+    select(e);
+    e.target.setAttribute('class', 'corner-select');
     // add to db
   }
   corners.forEach(function(circle, index){
