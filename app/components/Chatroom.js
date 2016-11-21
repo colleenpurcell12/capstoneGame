@@ -38,9 +38,8 @@ export class Chatroom extends Component {
     super(props);
     this.saveMessage = this.saveMessage.bind(this);
   }
-  componentDidMount() {  
+  componentDidMount() {
     this.props.fetchMessages();
-    this.props.fetchCurrentUser();
   }
 
   saveMessage(e) {
@@ -57,27 +56,20 @@ export class Chatroom extends Component {
     const messages = this.props.messages;
 
     return (
-     
-
       <div id="messages-card-container" className="mdl-cell mdl-cell--12-col mdl-grid">
 
-      <div id="messages-card" className="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--6-col-tablet mdl-cell--6-col-desktop">
+      <div id="messages-card" className="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col mdl-cell--3-col-tablet mdl-cell--3-col-desktop">
         <div className="mdl-card__supporting-text mdl-color-text--grey-600">
-                <div id="messages">
-                 <div>
-                    <div>test div</div>
-                    {Object.keys(messages).map(k => messages[k]).map( (message, idx) => 
-                        <div key = {idx}>{message.name}: {message.text}</div>
-                      )}
-                  </div>
-                  <span id="message-filler"></span>
-                
-                </div>
+            <div id="messages">
+              {Object.keys(messages).map(k => messages[k]).map( (message, idx) =>
+                  <div key = {idx}>{message.name}: {message.text}</div>
+                )}
+            </div>
           <form id="message-form" action="#" onSubmit={this.saveMessage}>
                   <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                     <input className="mdl-textfield__input" type="text" id="message" name="text"/>
                     <label className="mdl-textfield__label" htmlFor="message">Message...</label>
-                    
+
                   </div>
             <button id="submit" type="submit" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
               Send

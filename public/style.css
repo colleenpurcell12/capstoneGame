@@ -17,17 +17,7 @@
 html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
 }
-main, #messages-card {
-  height: 100%;
-  padding-bottom: 0;
-}
-#messages-card-container {
-  height: calc(100% - 150px);
-  padding-bottom: 0;
-}
-#messages-card {
-  margin-top: 15px;
-}
+
 .mdl-layout__header-row span {
   margin-left: 15px;
   margin-top: 17px;
@@ -54,7 +44,7 @@ main, #messages-card {
 #messages {
   overflow-y: auto;
   margin-bottom: 10px;
-  height: calc(100% - 80px);
+  height: 500px;
 }
 #message-filler {
   flex-grow: 1;
