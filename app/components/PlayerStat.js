@@ -2,13 +2,34 @@ import React, { Component } from 'react';
 import * as firebase from 'firebase'
 import {Link} from 'react-router';
 
+import { Field, reduxForm } from 'redux-form'
+import TextField from 'material-ui/TextField'
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
+import Checkbox from 'material-ui/Checkbox'
+import SelectField from 'material-ui/SelectField'
+import MenuItem from 'material-ui/MenuItem'
+
+//import Awards from '/Awards'
+
 //needs to know which player's card is showing
  // const messages = this.state && this.state.messages || []
  //    {Object.keys(messages).map(k => messages[k]).map( (message, idx) => )}
 
   // <a onClick={ () => this.incrementValue(Wool) } className="glyphicon glyphicon-plus">+++
         // </a>
-export default class PlayerStat extends Component {
+
+const validate = values => {
+  const errors = {}
+  const requiredFields = [  ]
+  requiredFields.forEach(field => {
+    if (!values[ field ]) {
+      errors[ field ] = 'Required'
+    }
+  })
+  return errors
+}
+
+export class PlayerStat extends Component {
 	constructor(props) {
     super(props);
     this.state = {
@@ -55,7 +76,10 @@ export default class PlayerStat extends Component {
       //[resource] WORKS
   })
   }
-
+   handleChange (e) {
+      console.log(e.target.value) //name of input
+      //need to grab the "current user" and give them the award in the database
+    }
   render() {
     return (
 			<div>
@@ -89,6 +113,26 @@ export default class PlayerStat extends Component {
 				<input type="button" onClick={ () => this.changeCount('lumber',true) } value="+"/>
         </div>
 
+
+      <div >
+        <label>
+            <input type="radio" 
+              value="army" 
+              onChange={this.handleChange}
+            />
+          Largest Army Award
+        </label>
+        <br></br>
+        <label>
+            <input type="radio" 
+            value="road" 
+            onChange={this.handleChange}
+            />
+            Longest Road Award
+          </label>
+        </div>
+
+
         <br></br>
 				<div> Building materials-- 	</div>
      		<div> Road        = Brick and Lumber						</div>
@@ -98,6 +142,13 @@ export default class PlayerStat extends Component {
 
 				<button type='submit'> Done with Turn </button>
 			</div>
+
 		)
 	}
 }
+
+export default reduxForm({
+  form: 'PlayerStat',  // a unique identifier for this form
+  validate,
+  null
+})(PlayerStat)
