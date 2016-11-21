@@ -14,7 +14,7 @@ const loginUser  = loggedInUser => ({ type: SET_CURRENT_USER, loggedInUser })
 
 /* ------------       REDUCER     ------------------ */
 
-export default function reducer (loggedInUser = "anonymous", action) {
+export default function reducer (loggedInUser = null, action) {
   switch (action.type) {
 
     case SET_CURRENT_USER:
@@ -29,8 +29,9 @@ export default function reducer (loggedInUser = "anonymous", action) {
 /* ------------       DISPATCHERS     ------------------ */
 
 
-export const fetchCurrentUser = () => dispatch => {
-
+export const fetchCurrentUser = () => dispatch => { 
+	firebase.auth().onAuthStateChanged(firebaseUser => {
+		if(firebaseUser) dispatch(loginUser(firebaseUser))
+		else dispatch(loginUser(null))
+	})
 }
-
-

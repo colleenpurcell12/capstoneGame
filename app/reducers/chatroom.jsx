@@ -29,15 +29,15 @@ export default function reducer (messages = {}, action) {
 /* ------------       DISPATCHERS     ------------------ */
 
 export const fetchMessages = () => dispatch => {
-    const rootRef = firebase.database().ref()
-    const messagesRef = rootRef.child('messages')
-    messagesRef.limitToLast(24).on('value', snap => {
-      dispatch(load(snap.val()))
-  	});
+  const rootRef = firebase.database().ref()
+  const messagesRef = rootRef.child('messages')
+  messagesRef.limitToLast(24).on('value', snap => {
+    dispatch(load(snap.val()))
+	});
 }
 
 export const addMessage = message => dispatch => {
-	const rootRef = firebase.database().ref()
-    const messagesRef = rootRef.child('messages')
-    messagesRef.push(message)
+  const rootRef = firebase.database().ref()
+  const messagesRef = rootRef.child('messages')
+  messagesRef.push(message)
 }
