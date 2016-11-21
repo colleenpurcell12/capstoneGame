@@ -9,74 +9,32 @@ import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui
 import IconMenu from 'material-ui/IconMenu';
 import RaisedButton from 'material-ui/RaisedButton';
 
-// const AUTHENTICATED = 'AUTHENTICATED'
-// //Synch  action creator
-// export const authenticated = user => ({
-//   type: AUTHENTICATED, user
-// })
-//asychronous database call, firebase version?
-
-// let loggedIn = false
-
 export class GoogleLogin extends Component {
 	constructor() {
 	  super()
-	  this.state = {
-	  	loggedIn: false,
-	  	displayName: ''
-	  }
-	  this.signIn = this.signIn.bind(this)
-  }
-  //this.props.auth.onAuthStateChanged(this.onAuthStateChanged.bind(this))
+	  this.signIn = this.signIn.bind(this);
+	  this.signOut = this.signOut.bind(this);
 
-  componentDidMount() { // loads the database message
-	    //console.log("XXX**** WERE IN GoogleLogin componentDidMount")
-			this.props.auth.onAuthStateChanged(firebaseUser => {
-					this.setState({
-						loggedIn: (null !== firebaseUser)
-					})
-					if(this.state.loggedIn){
-						//console.log("XX**USER is loggedin--DID MOUNT user.displayName is", firebaseUser.displayName)
-						this.setState({
-							displayName: firebaseUser.displayName,
-							photoURL: firebaseUser.photoURL
-						})
-					} else{
-						this.setState({displayName: ''})
-					}
-			})
+  }
+
+  	componentDidMount() { 
+	   this.props.fetchCurrentUser();
 	}
 	signIn(){
 		var provider = new firebase.auth.GoogleAuthProvider();
-  	this.props.auth.signInWithPopup(provider);
+		this.props.auth.signInWithPopup(provider);
 	}
 	signOut(){
-		//console.log("***AABOUT TO SIGN OUT of account user:",user)
 		this.props.auth.signOut();
 	}
 
-
-	onAuthStateChanged(user) {
-		if (user) { // User is signed in!
-	    // Get profile pic and user's name from the Firebase user object.
-	    var profilePicUrl = user.photoURL;   // TODO(DEVELOPER): Get profile pic.
-	    var userName = user.displayName;        // TODO(DEVELOPER): Get user's name.
-
-	    // Set the user's profile pic and name.
-	    //this.userPic.style.backgroundImage = 'url(' + profilePicUrl + ')';
-	    this.userName.textContent = userName;
-
-	    // We load currently existing chant messages.
-	    this.loadMessages();
-	  }
-	}
 	render() {
     return (
           <Toolbar>
-  					{ this.state.loggedIn ?
+  					{ this.props.loggedInUser && this.props.loggedInUser.displayName ?
   						<ToolbarGroup style={{marginLeft:'50%'}}>
-  							<ToolbarTitle text={`🌎🚀👽 Welcome to Pioneers of Mars, ${this.state.displayName.split(" ")[0]}.`} style={{textAlign:'center'}} />
-  							<Avatar src={this.state.photoURL} />
+  							<ToolbarTitle text={`🌎🚀👽 Welcome to Pioneers of Mars, ${this.props.loggedInUser.displayName.split(" ")[0]}.`} style={{textAlign:'center'}} />
+  							<Avatar src={this.props.loggedInUser.photoURL} />
   							<IconMenu
 				        	iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
 				        	>
@@ -94,16 +52,17 @@ export class GoogleLogin extends Component {
     }
 };
 
+
+/* -----------------    CONTAINER     ------------------ */
+
 import {connect} from 'react-redux'
+import { fetchCurrentUser } from '../reducers/login'
 
-export default connect (
-  state => ({}),
-  null,
-) (GoogleLogin)
+const mapState = ({ loggedInUser }) => ({ loggedInUser })
 
+const mapDispatch = { fetchCurrentUser }
 
-
-
+export default connect(mapState, mapDispatch)(GoogleLogin);
 
 
 
