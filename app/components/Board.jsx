@@ -1,4 +1,4 @@
-import { HexGrid } from 'react-hexgrid';
+import  HexGrid  from 'APP/gameutils/react-hexgrid/src/HexShape';
 import React, {Component} from 'react';
 import {createCorners, assignTokens, renderPorts, addRoad} from 'APP/gameutils/setup.js'
 import SubmitForm from './SubmitForm'
@@ -60,13 +60,24 @@ export default class Board extends Component {
      this.setState({value: event.target.value});
    }
 
-  selectCorner(event) {
-    if(this.state.selected.length === 2) {
+  selectCorner(event) {    
+    if(this.state.selected.length >= 2) {
+          console.log('ALREADY 2 SELECTED, no class added')
+          //event.target.className = '';
+          event.target.removeAttribute('class', 'corner-select');
+          //event.target.setAttribute('class', 'corner-deselected');
+
+          //console.log( "event.target.getAttributeNS('class');",event.target.getAttributeNS('class') )
 
     }
     else if(this.state.selected.length === 0)  {
+      event.target.setAttribute('class', 'corner-select');
+
       this.setState({selected: [event.target]})
+
     } else {
+      event.target.setAttribute('class', 'corner-select');
+
       var sA = this.state.selected;
       sA.push(event.target)
       this.setState({selected: sA})
@@ -76,7 +87,6 @@ export default class Board extends Component {
 
   handleSubmit(event){
     event.preventDefault();
-
 
     // state is 'set' on 'end turn' button
     // has validation
@@ -97,8 +107,15 @@ export default class Board extends Component {
     // var nodes = document.getElementsByTagName('circle')
     // var a = nodes[19], b = nodes[20]
     var a = this.state.selected[0], b = this.state.selected[1]
+    this.state.selected = []
+
     // user = color from form
-    addRoad(a, b, user) // can you set state from within addroad?
+    addRoad(a, b, user) // can you set state from within add road?
+    a.removeAttribute('class', 'corner-select');
+    b.removeAttribute('class', 'corner-select');
+    // a.removeAttribute('class', 'corner-deselected');
+
+
     // pushes new road to state
     // var newRoad = {x1, x2, y1, y2}
     // this.setState(roads: roads.push(newRoad))

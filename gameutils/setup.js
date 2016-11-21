@@ -47,8 +47,9 @@ function createCorners(select){
   var clicked = function(e, c){
     console.log('clicked', e.target);
     select(e);
-    e.target.setAttribute('class', 'corner-select');
+    // e.target.setAttribute('class', 'corner-select');
     // add to db
+    //IMPORT clicked function and call set it to the add event listener
   }
   corners.forEach(function(circle, index){
     var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle', {}); //Create a path in SVG's namespace

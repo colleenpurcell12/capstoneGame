@@ -37,7 +37,10 @@ svg circle {
   stroke: red;
   stroke-width: .3;
 }
-
+.corner-deselected{
+  stroke: none;
+  fill: #ddd;
+}
 .corner-select {
   stroke: red;
   stroke-width: .3;
