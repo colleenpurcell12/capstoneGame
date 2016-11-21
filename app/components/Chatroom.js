@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import * as firebase from 'firebase'
+//import * as firebase from 'firebase'
 // export default class BonesJokes extends Component {
 // export const Login = ({ login }) => (
 
@@ -36,37 +36,25 @@ import * as firebase from 'firebase'
 export class Chatroom extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      messages: []
-    };
     this.saveMessage = this.saveMessage.bind(this);
   }
-  componentDidMount() { // loads the database message
-    //console.log("XXX**** HELLO")
-    const rootRef = this.props.database.ref()
-    const messagesRef = rootRef.child('messages')
-    //console.log('Chatroom.componentDidMount messagesRef=', messagesRef)
-    messagesRef.limitToLast(24).on('value', snap => {
-      //console.log('messagesRef.on value, snap=', snap)
-      this.setState ({ messages : snap.val() })
-      //console.log("XXX**** snap.val() ",snap.val() )
-      //console.log("XXX**** state",this.state) 
-    })
+  componentDidMount() {  
+    this.props.fetchMessages();
   }
 
   saveMessage(e) {
     e.preventDefault();
-    //console.log("in saveMessage");
-    const messagesRef = this.props.database.ref().child('messages')
-    messagesRef.push({
-      name: "anonymous", //this will be current user's displayname
+    const message = {
+      name: this.props.loggedInUser, //this will be current user's displayname
       text: e.target.text.value
-    })
+    }
+    this.props.addMessage(message);
     e.target.text.value = null;
   }
 
   render() {
-    const messages = this.state && this.state.messages || []
+    const messages = this.props.messages;
+    console.log(messages)
 
     return (
      
@@ -103,12 +91,18 @@ export class Chatroom extends Component {
   }
 }
 
-import {connect} from 'react-redux'
 
-export default connect (
-  state => ({}),
-  null,
-) (Chatroom)
+/* -----------------    CONTAINER     ------------------ */
+
+import {connect} from 'react-redux'
+import { fetchMessages, addMessage } from '../reducers/chatroom'
+
+const mapState = ({ messages, loggedInUser }) => ({ messages, loggedInUser })
+
+const mapDispatch = { fetchMessages, addMessage }
+
+export default connect(mapState, mapDispatch)(Chatroom);
+
 
 
 
