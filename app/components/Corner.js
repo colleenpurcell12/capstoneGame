@@ -2,16 +2,21 @@
 
 
 class CornerShape extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+  }
 
-  //   };
-  // }
+ // this.props = {
+ //   neighborCorner,
+ //   hexes,
+ //   edges,
+ //   owner,
+ //   type,
+ // }
 
-//<circle className={this.props.class}
-
-
+  // ***** can we use this translate function?
   // translate() {
   //   let hex = this.props.hex;
   //   let pixel = HexUtils.hexToPixel(hex, this.props.layout);
@@ -22,10 +27,13 @@ class CornerShape extends React.Component {
   //   return (hex.props == {} || typeof(hex.props.image) === "undefined") ? {} : { fill: 'url(#'+ HexUtils.getID(hex) +')' };
   // }
 
+  // click handler function/actions/dispatchers can be set right here once we get state
+  
   render() {
     let hex = this.props.hex;
     let actions = this.props.actions;
     // let styles = this.getStyles(hex);
+    //this.props.type + this.props.index??
     let id = "c"+this.props.index
 
         //        onClick={e => actions.onClick(id, e)}

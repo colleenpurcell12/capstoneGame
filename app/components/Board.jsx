@@ -45,8 +45,8 @@ export default class Board extends Component {
   }
   componentDidMount(){
     //createCorners(this.selectCorner);
-    assignTokens();
-    renderPorts();
+    //assignTokens();
+    //renderPorts();
     //renderRoads(); // this will take the roads ont he state and render them on page load?
   }
   render() {
@@ -55,9 +55,7 @@ export default class Board extends Component {
     return (
       <div>
         <div className="board">
-          <CornerGrid width={config.width} height={config.height} 
-          selectCorner={this.selectCorner}
-          />
+          <CornerGrid width={config.width} height={config.height} selectCorner={this.selectCorner} />
           <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
         </div>
 
@@ -69,9 +67,9 @@ export default class Board extends Component {
   }
 
 
-  selectCorner(event) { 
+  selectCorner(event) {
   //Cases: first time a corner is touched
-  // either the first or the 2nd is clicked twice, 
+  // either the first or the 2nd is clicked twice,
   // one is clicked when there is a first but not a 2nd, a 3nd but not a 1st
   // a third one is clicked when there is both a first and a second
 

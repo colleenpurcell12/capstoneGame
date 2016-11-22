@@ -13,15 +13,15 @@ for (var i = 0; i < columns; i ++){
 }
 
 var ports = [
-  {type: 'port', x: -45, y: -26, ratio: '1:2', res: 1},
-  {type: 'port', x: -45, y: 7, ratio: '1:2', res: 2},
-  {type: 'port', x: -29, y: 35, ratio: '1:3', res: null},
-  {type: 'port', x: -16, y: -43, ratio: '1:3', res: null},
-  {type: 'port', x: 0, y: 52, ratio: '1:2', res: 3},
-  {type: 'port', x: 16, y: -43, ratio: '1:2', res: 4},
-  {type: 'port', x: 29, y: 35, ratio: '1:3', res: null},
-  {type: 'port', x: 45, y: -26, ratio: '1:2', res: 5},
-  {type: 'port', x: 45, y: 7, ratio: '1:3', res: null},
+  {type: 'port', x: -45, y: -26, r: 3, ratio: '1:2', res: 1},
+  {type: 'port', x: -45, y: 7,r: 3, ratio: '1:2', res: 2},
+  {type: 'port', x: -29, y: 35, r: 3, ratio: '1:3', res: null},
+  {type: 'port', x: -16, y: -43, r: 3, ratio: '1:3', res: null},
+  {type: 'port', x: 0, y: 52, r: 3, ratio: '1:2', res: 3},
+  {type: 'port', x: 16, y: -43, r: 3, ratio: '1:2', res: 4},
+  {type: 'port', x: 29, y: 35, r: 3, ratio: '1:3', res: null},
+  {type: 'port', x: 45, y: -26, r: 3, ratio: '1:2', res: 5},
+  {type: 'port', x: 45, y: 7, r: 3, ratio: '1:3', res: null},
 ]
 
 function renderPorts(){
@@ -101,4 +101,4 @@ function addRoad(a, b, c){
 }
 
 
-module.exports = {corners, createCorners, assignTokens, renderPorts, addRoad}
+module.exports = {ports, corners, createCorners, assignTokens, renderPorts, addRoad}

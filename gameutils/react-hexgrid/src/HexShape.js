@@ -42,7 +42,7 @@ class HexShape extends React.Component {
         <HexPattern hex={hex} />
         <polygon points={points} style={styles} />
         <HexPointers hex={hex} points={points} />
-        <text x="0" y="0.3em" textAnchor="middle">{text}</text>
+        <text x="0" y="0.3em" textAnchor="middle">{hex.q},{hex.r},{hex.s}</text>
       </g>
     );
   }
