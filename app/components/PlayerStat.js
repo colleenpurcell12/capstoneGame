@@ -40,11 +40,11 @@ export class PlayerStat extends Component {
       lumber: 0
     };
   }
-  componentDidMount() { 
+  componentDidMount() {
     //console.log("XXX**** HELLO")
-    const rootRef 		= this.props.database.ref()
+    const rootRef 		= firebase.database().ref()
     const playersRef 	= rootRef.child('players')
-    
+
     // TO DO: GET PLAYER # from the store
     const playerIndivRef = playersRef.child('player1')
 		const cardsRef 			 = playerIndivRef.child('cards')
@@ -62,17 +62,17 @@ export class PlayerStat extends Component {
     oreRef.on( 'value', 	snap => { this.setState ({ ore: 		snap.val() }) })
     lumberRef.on('value', snap => { this.setState ({ lumber: snap.val() }) })
       //console.log("XXX**** snap.val() ",snap.val() )
-      //console.log("XXX**** state",this.state) 
+      //console.log("XXX**** state",this.state)
   }
   changeCount(resource, isGoingUp){
-    const playersRef  = this.props.database.ref().child('players')
+    const playersRef  = firebase.database().ref().child('players')
     const cardsRef       = playersRef.child('player1').child('cards')
-    
+
     if(isGoingUp) { this.state[resource]++ }
     else { this.state[resource]-- } //[resource] works
-    
+
     cardsRef.update({ [resource]: this.state[resource]}) //[resource] work
-    cardsRef.child(resource).on('value',   snap => { this.setState ({ [resource]:  snap.val() }) 
+    cardsRef.child(resource).on('value',   snap => { this.setState ({ [resource]:  snap.val() })
       //[resource] WORKS
   })
   }
@@ -87,7 +87,7 @@ export class PlayerStat extends Component {
           <input type="button" onClick={() => this.changeCount('wool',false) } value="-"/>
           Wool 	 	{this.state.wool}
           <input type="button" onClick={ () => this.changeCount('wool',true) } value="+"/>
-        </div> 
+        </div>
 
         <div>
         <input type="button" onClick={() => this.changeCount('brick',false) } value="-"/>
@@ -101,13 +101,13 @@ export class PlayerStat extends Component {
 				<input type="button" onClick={ () => this.changeCount('grain',true) } value="+"/>
         </div>
 
-        <div> 
+        <div>
         <input type="button" onClick={() => this.changeCount('ore',false) } value="-"/>
         Ore 	 {this.state.ore}
 				<input type="button" onClick={ () => this.changeCount('ore',true) } value="+"/>
         </div>
 
-        <div> 
+        <div>
         <input type="button" onClick={() => this.changeCount('lumber',false) } value="-"/>
         Lumber {this.state.lumber}
 				<input type="button" onClick={ () => this.changeCount('lumber',true) } value="+"/>
@@ -116,16 +116,16 @@ export class PlayerStat extends Component {
 
       <div >
         <label>
-            <input type="radio" 
-              value="army" 
+            <input type="radio"
+              value="army"
               onChange={this.handleChange}
             />
           Largest Army Award
         </label>
         <br></br>
         <label>
-            <input type="radio" 
-            value="road" 
+            <input type="radio"
+            value="road"
             onChange={this.handleChange}
             />
             Longest Road Award

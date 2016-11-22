@@ -17,25 +17,6 @@
 html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
 }
-main, #messages-card {
-  height: 100%;
-  padding-bottom: 0;
-}
-#messages-card-container {
-  height: calc(100% - 150px);
-  padding-bottom: 0;
-}
-#messages-card {
-  margin-top: 15px;
-}
-.mdl-layout__header-row span {
-  margin-left: 15px;
-  margin-top: 17px;
-}
-.mdl-grid {
-  max-width: 1024px;
-  margin: auto;
-}
 .material-icons {
   font-size: 36px;
   top: 8px;
@@ -54,7 +35,7 @@ main, #messages-card {
 #messages {
   overflow-y: auto;
   margin-bottom: 10px;
-  height: calc(100% - 80px);
+  height: 500px;
 }
 #message-filler {
   flex-grow: 1;
@@ -125,46 +106,7 @@ main, #messages-card {
   background: linear-gradient(white, #f9f9f9);
   justify-content: space-between;
 }
-#user-container {
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  top: 22px;
-  width: 100%;
-  right: 0;
-  padding-left: 10px;
-  justify-content: flex-end;
-  padding-right: 10px;
-}
-#user-container #user-pic {
-  top: -3px;
-  position: relative;
-  display: inline-block;
-  background-image: url('/images/profile_placeholder.png');
-  background-repeat: no-repeat;
-  width: 40px;
-  height: 40px;
-  background-size: 40px;
-  border-radius: 20px;
-}
-#user-container #user-name {
-  font-size: 16px;
-  line-height: 36px;
-  padding-right: 10px;
-  padding-left: 20px;
-}
-#image-form #submitImage {
-  width: auto;
-  padding: 0 6px 0 1px;
-  min-width: 0;
-}
-#image-form #submitImage .material-icons {
-  top: -1px;
-}
-.message img {
-  max-width: 300px;
-  max-height: 200px;
-}
+
 #mediaCapture {
   display: none;
 }
