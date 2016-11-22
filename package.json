@@ -47,6 +47,7 @@
     "passport-google-oauth": "^1.0.0",
     "passport-local": "^1.0.0",
     "react": "^15.3.2",
+    "react-bootstrap": "^0.30.6",
     "react-dom": "^15.3.2",
     "react-form": "0.0.2",
     "react-hexgrid": "^0.1.5",

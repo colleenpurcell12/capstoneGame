@@ -30,19 +30,25 @@ class HexShape extends React.Component {
     let actions = this.props.actions;
     let styles = this.getStyles(hex);
     let points = this.getPoints(hex);
+    let id = "h"+this.props.index
+        // onMouseEnter={e => actions.onMouseEnter(id, e)}
+        // onMouseLeave={e => actions.onMouseLeave(id, e)}
+        //        onClick={e => actions.onClick(id, e)}
+
     return (
       <g className="shape-group" transform={this.translate()} draggable="true"
-        onMouseEnter={e => actions.onMouseEnter(this.props.hex, e)}
-        onMouseLeave={e => actions.onMouseLeave(this.props.hex, e)}
+
         onDragStart={e => actions.onDragStart(this.props.hex, e)}
         onDragEnd={e => actions.onDragEnd(this.props.hex, e)}
         onDragOver={e => actions.onDragOver(this.props.hex, e)}
         onDrop={e => actions.onDrop(this.props.hex, e)}
+        id= {id}
         >
         <HexPattern hex={hex} />
         <polygon points={points} style={styles} />
         <HexPointers hex={hex} points={points} />
-        <text x="0" y="0.3em" textAnchor="middle">{hex.q},{hex.r},{hex.s}</text>
+        <circle cx='0' cy='0' r='3' onClick={() => {console.log("In the circle onClick")} }/>
+        <text x="0" y="0.3em" textAnchor="middle" >{text}</text>
       </g>
     );
   }
