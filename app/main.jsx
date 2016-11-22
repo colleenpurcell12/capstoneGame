@@ -5,20 +5,15 @@ import  {render} from 'react-dom'
 import {connect, Provider} from 'react-redux'
 import store from './store'
 
-import GoogleLogin from './components/GoogleLogin';
-import Chatroom from './components/Chatroom';
-import Board from './components/Board';
 //import Awards from './components/Awards';
 //   <Route path="awards" component={() => <Awards database={database}/>} />
-
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
-
-import PlayerStat from './components/PlayerStat'
-import Dice from './components/Dice';
+import Home from './components/Home';
+import {listenToAuth} from './reducers/login';
 
 import * as firebase from 'firebase'
 
@@ -36,20 +31,11 @@ const auth = firebase.auth();
       // this.storage = firebase.storage();
       // Initiates Firebase auth and listen to auth state changes.
       // this.auth.onAuthStateChanged(this.onAuthStateChanged.bind(this));
-
 render (
-
   <MuiThemeProvider>
     <Provider store={store}>
       <Router history={browserHistory}>
-        <Route path="/" >
-          <Route path="chatroom" component={() => <Chatroom database={database} auth={auth}/>} />
-          <Route path="board" component={Board} />
-          <Route path="googlelogin" component={() => <GoogleLogin auth={auth}/>} />
-          <Route path="playerstat" component={() => <PlayerStat database={database}/>} />
-
-          <Route path="dice" component={Dice} />
-        </Route>
+        <Route path="/" component={Home} onEnter={store.dispatch(listenToAuth())} />
       </Router>
     </Provider>
   </MuiThemeProvider>,

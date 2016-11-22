@@ -29,7 +29,7 @@ export default function reducer (loggedInUser = null, action) {
 /* ------------       DISPATCHERS     ------------------ */
 
 
-export const fetchCurrentUser = () => dispatch => { 
+export const listenToAuth = () => dispatch => {
 	firebase.auth().onAuthStateChanged(firebaseUser => {
 		if(firebaseUser) dispatch(loginUser(firebaseUser))
 		else dispatch(loginUser(null))
