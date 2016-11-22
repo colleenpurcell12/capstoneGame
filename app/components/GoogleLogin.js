@@ -37,9 +37,9 @@ export class GoogleLogin extends Component {
       							<ToolbarTitle text={`🌎🚀👽 Welcome to Pioneers of Mars, ${this.props.loggedInUser.displayName.split(" ")[0]}.`} style={{textAlign:'center'}} />
                     <Avatar src={this.props.loggedInUser.photoURL}/>
                     <IconMenu
-                      iconButtonElement={<IconButton ><p>🔽</p></IconButton>}
+                      iconButtonElement={<IconButton ><p>⚛</p></IconButton>}
                     >
-    				        		<MenuItem primaryText="Sign out" onClick={() => this.signOut()}/>
+    				        		<MenuItem primaryText="Sign Out" onClick={() => this.signOut()}/>
     				      	</IconMenu>
     			      	</ToolbarGroup>
                 </Toolbar>

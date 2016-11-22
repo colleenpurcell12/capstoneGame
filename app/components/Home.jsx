@@ -20,9 +20,11 @@ export class Home extends React.Component {
               <div className="mdl-cell mdl-cell--6-col">
                 <Board />
               </div>
-              <div className="mdl-cell mdl-cell--4-col">
+              <div className="mdl-cell mdl-cell--1-col">
+              </div>
+              <div className="mdl-cell mdl-cell--3-col">
                 <div >
-                <Dice />
+                <Dice /><br /><br />
                 <PlayerStat />
                 </div>
               </div>
