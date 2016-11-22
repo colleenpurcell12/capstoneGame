@@ -14,8 +14,16 @@ body {
 }
 .corner-node{
   fill: green;
-
 }
+.corner-deselected{
+  stroke: none;
+  fill: green;
+}
+.corner-select {
+  stroke: red;
+  stroke-width: .3;
+}
+
 #Form{
   z-index: 14;
 }
@@ -53,11 +61,4 @@ svg circle {
   stroke: red;
   stroke-width: .3;
 }
-.corner-deselected{
-  stroke: none;
-  fill: green;
-}
-.corner-select {
-  stroke: red;
-  stroke-width: .3;
-}
+

@@ -53,42 +53,50 @@ export default class Board extends Component {
     let { grid, config } = this.state;
 
     return (
-      <div className="board">
-        <CornerGrid width={config.width} height={config.height} 
-        selectCorner={this.selectCorner}
-        />
-        <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
-        
-        <SubmitForm id = "Form" handleSubmit={this.handleSubmit}/>
+      <div>
+        <div className="board">
+          <CornerGrid width={config.width} height={config.height} 
+          selectCorner={this.selectCorner}
+          />
+          <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
+        </div>
+
+        <div>
+         <SubmitForm id = "Form" handleSubmit={this.handleSubmit}/>
+        </div>
     </div>
     );
   }
 
 
   selectCorner(event) { 
-  //Cases
-    //Brand new corner first time any is clicked
-    //same one is clicked twice
-    //a third one is clicked
+  //Cases: first time a corner is touched
+  // either the first or the 2nd is clicked twice, 
+  // one is clicked when there is a first but not a 2nd, a 3nd but not a 1st
+  // a third one is clicked when there is both a first and a second
+
+
+//idea to seperate teh class css from the this.state.selected
 
     //is this one already selected
     if (event.target==this.state.selected.firstCorner ){//if the corner is one of the first or second
-      console.log("1st corner",event.target)
+      //console.log("1st corner",event.target)
       event.target.removeAttribute('class', 'corner-select');
       event.target.setAttribute('class', 'corner-deselected');
-
       this.state.selected.firstCorner = null
-        
+      console.log("1st corner event.target", event.target)
+       console.log("1st corner should now be null", this.state.selected.firstCorner)
     }
+
     if (event.target==this.state.selected.secondCorner){
       console.log("2nd corner")
-      event.target.removeAttribute('class', 'corner-select');
+      event.target.removeAttribute('class', 'corner-select'); //.corner-node{
+        event.target.setAttribute('class', 'corner-node');
       event.target.setAttribute('class', 'corner-deselected');
       this.state.selected.secondCorner = null
     }
 
     var updatedSelected =this.state.selected
-
     if(this.state.selected.firstCorner){ //at least one
       if(!this.state.selected.secondCorner){ //exactly one
         //time to fill in 2nd

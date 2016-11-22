@@ -2,6 +2,15 @@
 
 
 class CornerShape extends React.Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+
+  //   };
+  // }
+
+//<circle className={this.props.class}
+
 
   // translate() {
   //   let hex = this.props.hex;
@@ -30,7 +39,7 @@ class CornerShape extends React.Component {
         onClick={e => this.props.selectCorner(e) }
         id= {id}
         >
-        <circle className="corner-node" cx={this.props.cx} cy={this.props.cy} r={this.props.r}/>
+        <circle className='corner-node' cx={this.props.cx} cy={this.props.cy} r={this.props.r}/>
       </g>
     );
   }
