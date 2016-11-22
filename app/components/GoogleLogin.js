@@ -32,8 +32,6 @@ export class GoogleLogin extends Component {
     return (
             <div>
   					{ this.props.loggedInUser && this.props.loggedInUser.displayName ?
-              <div>
-
                 <Toolbar>
       						<ToolbarGroup style={{textAlign:'center', display: 'inline-block', margin: '0 auto'}}>
       							<ToolbarTitle text={`🌎🚀👽 Welcome to Pioneers of Mars, ${this.props.loggedInUser.displayName.split(" ")[0]}.`} style={{textAlign:'center'}} />
@@ -45,16 +43,13 @@ export class GoogleLogin extends Component {
     				      	</IconMenu>
     			      	</ToolbarGroup>
                 </Toolbar>
-              </div>
   						:
-              <div>
                 <Toolbar>
       						<ToolbarGroup style={{textAlign:'center', display: 'inline-block', margin: '0 auto'}}>
       							<ToolbarTitle text={`Are you ready to pioneer?`} />
       							<RaisedButton label='Login with Google' primary={true} onClick={()=> this.signIn() } />
       						</ToolbarGroup>
                 </Toolbar>
-              </div>
   					}
       		</div>
         )

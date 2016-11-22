@@ -10,29 +10,34 @@ export class Home extends React.Component {
   render(){
     //eventually we want to move a lot of the non-navbar layout to live here after we're able to pass in auth from the store
     return (
-      <div >
+      <div>
         <GoogleLogin />
         {this.props.loggedInUser ?
-          <div style={{display: 'inline-block'}}>
-            <Chatroom />
-            <Board />
-            <Dice />
+          <div className="mdl-grid">
+              <div className="mdl-cell mdl-cell--2-col">
+                <Chatroom />
+              </div>
+              <div className="mdl-cell mdl-cell--6-col">
+                <Board />
+              </div>
+              <div className="mdl-cell mdl-cell--4-col">
+                <div >
+                <Dice />
+                <PlayerStat />
+                </div>
+              </div>
           </div>
           :
-          <Grid>
-            <Row>
-              <Col md={3}>
-              </Col>
-                <Col md={6} style={{paddingTop:'50px'}}>
-                  <h3>Welcome to Pioneers of Mars</h3>
-                  <p>We could embed an overview/instructional video of our version here:</p>
-                  <iframe width="560" height="315" src="https://www.youtube.com/embed/Kw4tIC_cJiE" frameBorder="0" allowFullScreen>
-                  </iframe>
-                </Col>
-              <Col md={3}>
-              </Col>
-            </Row>
-          </Grid>
+            <div className="mdl-grid">
+              <div className="mdl-cell mdl-cell--3-col"></div>
+              <div className="mdl-cell mdl-cell--6-col" style={{paddingTop:'25px'}}>
+                    <h3>Welcome to Pioneers of Mars</h3>
+                    <p>We could embed an overview/instructional video of our version here:</p>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/Kw4tIC_cJiE" frameBorder="0" allowFullScreen>
+                    </iframe>
+               </div>
+               <div className="mdl-cell mdl-cell--3-col"></div>
+             </div>
         }
       </div>
       )

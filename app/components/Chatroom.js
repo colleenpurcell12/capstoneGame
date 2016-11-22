@@ -56,10 +56,8 @@ export class Chatroom extends Component {
     const messages = this.props.messages;
 
     return (
-      <div id="messages-card-container" className="mdl-cell mdl-cell--12-col mdl-grid">
-
-      <div id="messages-card" className="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col mdl-cell--3-col-tablet mdl-cell--3-col-desktop">
-        <div className="mdl-card__supporting-text mdl-color-text--grey-600">
+      <div className="mdl-shadow--2dp">
+        <div className="mdl-color-text--grey-600">
             <div id="messages">
               {Object.keys(messages).map(k => messages[k]).map( (message, idx) =>
                   <div key = {idx}>{message.name}: {message.text}</div>
@@ -77,8 +75,6 @@ export class Chatroom extends Component {
           </form>
         </div>
       </div>
-    </div>
-
     )
   }
 }
