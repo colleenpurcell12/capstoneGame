@@ -13,3 +13,6 @@ public/bundle.js.map
 npm-debug.log
 
 .jshintrc
+
+**/.DS_Store
+.DS_Store
