@@ -5,17 +5,41 @@
 }
 
 .board {
-
+  position: relative ;
 }
 
 body {
   /*background-image: url(http://planetary-science.org/wp-content/uploads/2014/12/Ladon-basin-in-full-color.jpg);
   background-repeat: no-repeat;*/
 }
-svg {
-  background-color: #9e6239
+.corner-node{
+  fill: green;
+}
+.corner-deselected{
+  stroke: none;
+  fill: green;
+}
+.corner-select {
+  stroke: red;
+  stroke-width: .3;
 }
 
+#Form{
+  z-index: 14;
+}
+
+#HexGrid{
+  position: absolute ;
+  top:0 ;
+  left:0 ;
+}
+
+#CornerGrid{
+  position: absolute ;
+  top:0 ;
+  left:0 ;
+  z-index: 12;
+}
 svg polygon {
   fill: #06437f
 }
@@ -38,7 +62,3 @@ svg circle {
   stroke-width: .3;
 }
 
-.corner-select {
-  stroke: red;
-  stroke-width: .3;
-}
