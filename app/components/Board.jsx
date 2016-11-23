@@ -1,14 +1,13 @@
- import HexGrid from '../../gameutils/react-hexgrid/src/HexGrid.js';
+import HexGrid from '../../gameutils/react-hexgrid/src/HexGrid.js';
 import React, {Component} from 'react';
-import {createCorners, assignTokens, renderPorts, addRoad} from 'APP/gameutils/setup.js'
+import {shuffle, assignHexData, addRoad, tokenArray, resourcesArray} from 'APP/gameutils/setup.js'
 import SubmitForm from './SubmitForm'
 import CornerGrid from './CornerGrid'
 import Layout from '../../gameutils/react-hexgrid/src/Layout'
 import GridGenerator from '../../gameutils/react-hexgrid/src/GridGenerator'
 import HexUtils from '../../gameutils/react-hexgrid/src/HexUtils';
 import Point from '../../gameutils/react-hexgrid/src/Point';
-
-
+import PortGrid from './PortGrid'
 
 export default class Board extends Component {
   constructor(props) {
@@ -16,6 +15,7 @@ export default class Board extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.selectCorner = this.selectCorner.bind(this);
     this.generate = this.generate.bind(this)
+
     let boardConfig = {
       width: 700, height: 820,
       layout: { width: 10, height: 10, flat: true, spacing: 1.1 }, // change to
@@ -30,12 +30,27 @@ export default class Board extends Component {
       config: boardConfig,
       roads: [],
       value: '',
-      selected: {firstCorner: '', secondCorner:''}
+      selected: {firstCorner: '', secondCorner:''},
+      tokens: tokenArray,
+      resources: resourcesArray
      };
+     // tokens and props should come from connect?
+     // on board render, if new game, proceeed with shuffle
+     // send shuffle'd to db under game id?
+     // if not new game/ game in progress, set tokens/res to retrieved from db
    }
 
   componentDidMount(){
-    //createCorners(this.selectCorner);
+      // this should be if new game
+      // this should be actions that dispatch an arry to the db
+      if(!this.state.tokens.length){
+        var shuffledTokens = shuffle(tokenArray)
+        this.setState({tokens: shuffledTokens})
+      };
+      if(!this.state.tokens.length){
+        var shuffledResources = shuffle(resourcesArray)
+        this.setState({resources: shuffledResources})
+      };
     //assignTokens();
     //renderPorts();
     //renderRoads(); // this will take the roads ont he state and render them on page load?
@@ -46,6 +61,7 @@ export default class Board extends Component {
     return (
       <div>
         <div className="board">
+          <PortGrid width={config.width} height={config.height} selectPort={this.selectPort}/>
           <CornerGrid width={config.width} height={config.height} selectCorner={this.selectCorner} corners={grid.corners} />
           <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
         </div>
@@ -144,16 +160,13 @@ export default class Board extends Component {
     // this.setState(roads: roads.push(newRoad))
   }
 
-  //makes hexagons array
-  //makes corners array
-  //map is object with coords as keys to hex objects
+
   generate(config){
     let layout = new Layout(config.layout, config.origin);
     let generator = GridGenerator.getGenerator(config.map);
 
     //make hexagon array
     let hexagons = generator.apply(this, config.mapProps);
-
 
     //make hexagon object with
     let map = hexagons.reduce((all, one) => Object.assign({},
@@ -181,11 +194,14 @@ export default class Board extends Component {
       allCorners[corner].x = coords.x
       allCorners[corner].y = coords.y
     }
-      console.log('hexagons =', hexagons)
+    //this.state is not a thing???
+    hexagons = assignHexData(hexagons, tokenArray, resourcesArray)
+    console.log('hexagons =', hexagons)
     console.log('corners', allCorners)
     console.log(`found ${Object.keys(allCorners).length} corners`)
     return { hexagons, layout, corners: allCorners };
   }
+
 }
 
 const neighborDirections = [
@@ -202,7 +218,6 @@ function coord(hex) {
 }
 
 function setCoords(corner , layout){
-  console.log('set coords', corner)
   var hexCoords = corner.split(':'), x, y
   var a = HexUtils.hexToPixel(hexCoords[0], layout);
   var b = HexUtils.hexToPixel(hexCoords[1], layout);

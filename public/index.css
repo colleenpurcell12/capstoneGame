@@ -50,15 +50,17 @@ svg circle {
 
 svg text {
   fill: black;
-  font-size: .2em;
+  font-size: .1em;
 }
 
 svg circle {
 
 }
 
+.port {
+  fill: brown;
+}
 .hexhover {
   stroke: red;
   stroke-width: .3;
 }
-
