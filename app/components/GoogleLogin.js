@@ -51,24 +51,23 @@ export class GoogleLogin extends Component {
                 <Toolbar>
                   <ToolbarGroup>
                     <FlatButton label="Rules" primary={true} style={{textAlign:'left'}}
-                      onTouchTap={() => this.toggleRules}
+                      onClick={() => this.toggleRules()}
                     />
                     <Drawer
                       docked={false}
-                      width={200}
+                      width={250}
                       open={this.state.rulesOpened}
-                      onRequestChange={(open) => this.setState({rulesOpened: !open})}
+                      onRequestChange={() => this.closeRules()}
                     >
-                      <MenuItem onTouchTap={() => this.closeRules()}>Rule the First</MenuItem>
-                      <MenuItem onTouchTap={() => this.closeRules()}>Rule the Second</MenuItem>
+                      <MenuItem>Overview</MenuItem>
+                      <MenuItem>Rule the Second</MenuItem>
                     </Drawer>
-
                   </ToolbarGroup>
       						<ToolbarGroup style={{textAlign:'center', display: 'inline-block', margin: '0 auto'}}>
-      							<ToolbarTitle text={`🌎🚀👽 Welcome to Pioneers of Mars, ${this.props.loggedInUser.displayName.split(" ")[0]}.`} style={{textAlign:'center'}} />
+      							<ToolbarTitle text={`Welcome to Pioneers of Mars, ${this.props.loggedInUser.displayName.split(" ")[0]}.`} style={{textAlign:'center'}} />
                     <Avatar src={this.props.loggedInUser.photoURL}/>
                     <IconMenu
-                      iconButtonElement={<IconButton ><p>⚛</p></IconButton>}
+                      iconButtonElement={<IconButton ><p>🚀</p></IconButton>}
                     >
     				        		<MenuItem primaryText="Sign Out" onClick={() => this.signOut()}/>
     				      	</IconMenu>
