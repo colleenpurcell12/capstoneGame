@@ -5,6 +5,9 @@ import SubmitForm from './SubmitForm'
 import CornerGrid from './CornerGrid'
 import Layout from '../../gameutils/react-hexgrid/src/Layout'
 import GridGenerator from '../../gameutils/react-hexgrid/src/GridGenerator'
+import HexUtils from '../../gameutils/react-hexgrid/src/HexUtils';
+import Point from '../../gameutils/react-hexgrid/src/Point';
+
 
 
 export default class Board extends Component {
@@ -43,7 +46,7 @@ export default class Board extends Component {
     return (
       <div>
         <div className="board">
-          <CornerGrid width={config.width} height={config.height} selectCorner={this.selectCorner} />
+          <CornerGrid width={config.width} height={config.height} selectCorner={this.selectCorner} corners={grid.corners} />
           <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
         </div>
 
@@ -150,7 +153,7 @@ export default class Board extends Component {
 
     //make hexagon array
     let hexagons = generator.apply(this, config.mapProps);
-    console.log('hexagons =', hexagons)
+
 
     //make hexagon object with
     let map = hexagons.reduce((all, one) => Object.assign({},
@@ -174,7 +177,11 @@ export default class Board extends Component {
     }
     for(var corner in allCorners){
       allCorners[corner].neighbors = findNeighbors(allCorners[corner], allCorners)
+      var coords = setCoords(corner, layout);
+      allCorners[corner].x = coords.x
+      allCorners[corner].y = coords.y
     }
+      console.log('hexagons =', hexagons)
     console.log('corners', allCorners)
     console.log(`found ${Object.keys(allCorners).length} corners`)
     return { hexagons, layout, corners: allCorners };
@@ -194,6 +201,26 @@ function coord(hex) {
   return [hex.q, hex.r, hex.s].join(',')
 }
 
+function setCoords(corner , layout){
+  console.log('set coords', corner)
+  var hexCoords = corner.split(':'), x, y
+  var a = HexUtils.hexToPixel(hexCoords[0], layout);
+  var b = HexUtils.hexToPixel(hexCoords[1], layout);
+  var c = HexUtils.hexToPixel(hexCoords[2], layout);
+
+  if (a.x === b.x){
+    x = (a.x + c.x + b.x)/3
+    y = (c.y)
+  }
+  else if (a.x === c.x){
+    x = (a.x + c.x + b.x)/3
+    y = (b.y)
+  } else {
+    x = (a.x + c.x + b.x)/3
+    y = (a.y)
+  }
+  return new Point(x, y);
+}
 // Return the normalized corner coordinate of
 // the corner between hexes A, B, and C.
 const cornerCoord = (a, b, c) =>

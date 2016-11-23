@@ -59,7 +59,15 @@ class HexUtils {
   }
 
   static hexToPixel(hex, layout) {
-    let s = layout.spacing;
+    if (typeof hex === 'string'){
+      var hexarray = hex.split(',');
+      hex = {
+        q : hexarray[0],
+        r : hexarray[1],
+        s : hexarray[2]
+      }
+    }
+    let s = layout.spacing; // 1.1
     let M = layout.orientation;
     let x = (M.f0 * hex.q + M.f1 * hex.r) * layout.size.x;
     let y = (M.f2 * hex.q + M.f3 * hex.r) * layout.size.y;
