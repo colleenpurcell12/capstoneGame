@@ -2,16 +2,13 @@
 
 
 class CornerShape extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+  }
 
-  //   };
-  // }
-
-//<circle className={this.props.class}
-
-
+  // ***** can we use this translate function?
   // translate() {
   //   let hex = this.props.hex;
   //   let pixel = HexUtils.hexToPixel(hex, this.props.layout);
@@ -22,10 +19,13 @@ class CornerShape extends React.Component {
   //   return (hex.props == {} || typeof(hex.props.image) === "undefined") ? {} : { fill: 'url(#'+ HexUtils.getID(hex) +')' };
   // }
 
+  // click handler function/actions/dispatchers can be set right here once we get state
+
   render() {
     let hex = this.props.hex;
     let actions = this.props.actions;
     // let styles = this.getStyles(hex);
+    //this.props.type + this.props.index??
     let id = "c"+this.props.index
 
         //        onClick={e => actions.onClick(id, e)}
@@ -40,9 +40,22 @@ class CornerShape extends React.Component {
         id= {id}
         >
         <circle className='corner-node' cx={this.props.cx} cy={this.props.cy} r={this.props.r}/>
+          <text x="0" y="0.3em" textAnchor="middle" >{this.props.text || ''}</text>
       </g>
+
     );
   }
 }
 
 export default CornerShape;
+
+// map state to props
+// board.settlements ~ array[{ type, owner}]  // where index = id
+
+ // this.props = {
+ //   owner,
+ //   type/text
+ // }
+
+// map dispatch
+// click logic

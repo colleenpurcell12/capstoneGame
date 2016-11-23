@@ -37,7 +37,7 @@ class HexShape extends React.Component {
 
     return (
       <g className="shape-group" transform={this.translate()} draggable="true"
-        
+
         onDragStart={e => actions.onDragStart(this.props.hex, e)}
         onDragEnd={e => actions.onDragEnd(this.props.hex, e)}
         onDragOver={e => actions.onDragOver(this.props.hex, e)}
