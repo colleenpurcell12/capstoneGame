@@ -25,20 +25,24 @@ body {
 }
 
 #Form{
-  z-index: 14;
+  z-index: 1000;
 }
 
 #HexGrid{
   position: absolute ;
   top:0 ;
   left:0 ;
+  z-index: 0;
+}
+.playerStats{
+  z-index: 30;
 }
 
 #CornerGrid{
   position: absolute ;
   top:0 ;
   left:0 ;
-  z-index: 12;
+  z-index: 1;
 }
 svg polygon {
   fill: #06437f

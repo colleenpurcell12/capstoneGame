@@ -82,7 +82,7 @@ export class PlayerStat extends Component {
     }
   render() {
     return (
-			<div>
+			<div className="playerStats">
 				<div>
           <input type="button" onClick={() => this.changeCount('wool',false) } value="-"/>
           Wool 	 	{this.state.wool}
