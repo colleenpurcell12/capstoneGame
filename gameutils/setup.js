@@ -67,6 +67,7 @@ function createCorners(select){
 function assignTokens(tokens = [ 2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12, null]){
   // this gets the permanent token order from somehwere
   // this is a dummy array, might be passed in
+  //
   for (var i = 0; i < 19; i ++){
     var hexText = document.getElementsByTagName('text')[i];
     hexText.textContent = tokens[i];

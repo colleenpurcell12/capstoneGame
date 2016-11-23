@@ -6,7 +6,6 @@ import Layout from './Layout'
 import GridGenerator from './GridGenerator'
 
 class HexGrid extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -14,6 +13,7 @@ class HexGrid extends React.Component {
     };
   }
 
+  // hexshape text={hext.text}?
   render() {
     return (
       <svg id="HexGrid" className="grid" width={this.props.width} height={this.props.height} viewBox="-50 -50 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -28,15 +28,6 @@ class HexGrid extends React.Component {
       </svg>
     );
   }
-
-}
-
-HexGrid.generate = (config, content) => {
-  let layout = new Layout(config.layout, config.origin);
-  let generator = GridGenerator.getGenerator(config.map);
-  let hexagons = generator.apply(this, config.mapProps);
-
-  return { hexagons, layout };
 }
 
 HexGrid.propTypes = {
