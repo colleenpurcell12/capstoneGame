@@ -48,12 +48,13 @@ export const addPlayer = (player) => dispatch => {
   const gameRef = rootRef.child('game');
   const playersRef = gameRef.child('players')
   playersRef.on('value', snap => {
+    console.log(snap.val())
     for(var key in snap.val()) {
-      if(snap.val()[key] === "empty") {
-        playersRef.update({[key]: player.displayName})
+      if(snap.val()[key].name === "empty") {
+        playersRef.child(key).update({name: player.displayName})
         break;
       }
-      if(snap.val()[key] === player.displayName) break;
+      if(snap.val()[key].name === player.displayName) break;
     } 
   })
 }
