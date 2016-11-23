@@ -17,9 +17,7 @@ export class GoogleLogin extends Component {
 	  this.signOut = this.signOut.bind(this);
 
   }
-  componentDidMount() {
-	 this.props.listenToAuth();
-	}
+
 	signIn(){
 		var provider = new firebase.auth.GoogleAuthProvider();
 		firebase.auth().signInWithPopup(provider);
@@ -60,13 +58,10 @@ export class GoogleLogin extends Component {
 /* -----------------    CONTAINER     ------------------ */
 
 import {connect} from 'react-redux'
-import { listenToAuth } from '../reducers/login'
 
 const mapState = ({ loggedInUser }) => ({ loggedInUser })
 
-const mapDispatch = { listenToAuth }
-
-export default connect(mapState, mapDispatch)(GoogleLogin);
+export default connect(mapState, null)(GoogleLogin);
 
 
 

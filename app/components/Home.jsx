@@ -4,6 +4,7 @@ import PlayerStat from './PlayerStat';
 import Dice from './Dice';
 import Chatroom from './Chatroom';
 import Board from './Board';
+import Players from './Players';
 import {Grid, Row, Col} from 'react-bootstrap';
 //originally had all firebase db info in here
 export class Home extends React.Component {
@@ -24,10 +25,12 @@ export class Home extends React.Component {
               </div>
               <div className="mdl-cell mdl-cell--3-col">
                 <div >
+                <Players />
                 <Dice /><br /><br />
                 <PlayerStat />
                 </div>
               </div>
+
           </div>
           :
             <div className="mdl-grid">
