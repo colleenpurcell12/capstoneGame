@@ -11,10 +11,19 @@ export class Players extends Component {
 	render() {
 		return(
 			<div> 
-				<div>Players:</div>
-				{Object.keys(this.props.players).map((player, idx) => (
-					<div key={idx}>{player}: {this.props.players[player]}</div>
-				))}
+				<table>
+					<tr>
+						<th>Players</th>
+						<th>Card Count</th>
+					</tr>
+						{Object.keys(this.props.players).map((player, idx) => (
+							<tr key={idx}>
+								<td>{idx+1}: {this.props.players[player].name}</td>
+								<td>{this.props.players[player].cards}</td>
+							</tr>
+						))}
+				
+				</table>
 			</div>
 		)
 	}
