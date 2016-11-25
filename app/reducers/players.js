@@ -21,10 +21,8 @@ const add  = player => ({ type: ADD_PLAYER, player })
 
 export default function reducer (players = {}, action) {
   switch (action.type) {
-
     case LOAD_PLAYERS:
       return action.players
-
     default:
       return players;
   }
@@ -40,7 +38,7 @@ export const listenToPlayers = () => dispatch => {
   const playersRef = gameRef.child('players')
   playersRef.on('value', snap => {
     dispatch(load(snap.val()))
-  }); 
+  });
 }
 
 export const addPlayer = (player) => dispatch => {
@@ -55,9 +53,9 @@ export const addPlayer = (player) => dispatch => {
         break;
       }
       if(snap.val()[key].name === player.displayName) break;
-    } 
+    }
   })
 }
 //need to create game instance
 //need to add up to 4 players to game
-//need to start game when 4 players are added 
+//need to start game when 4 players are added
