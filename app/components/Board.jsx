@@ -162,6 +162,7 @@ export default class Board extends Component {
 
 
   generate(config){
+    // create layout object
     let layout = new Layout(config.layout, config.origin);
     let generator = GridGenerator.getGenerator(config.map);
 
@@ -173,7 +174,6 @@ export default class Board extends Component {
       all,
       {[[one.q, one.r, one.s]]: one}
     ), {})
-    console.log('map=', map)
 
     const allCorners = {}
     // need to add id to hex map

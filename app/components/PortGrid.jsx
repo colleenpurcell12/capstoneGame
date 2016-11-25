@@ -16,7 +16,7 @@ class PortGrid extends React.Component {
        {
          ports.map((port, index) => {
            return (
-             <CornerShape type="port" id={index} selectPort={this.props.selectPort} index={index} cx={port.x} cy={port.y} r={3} text={port.ratio}/>
+             <CornerShape type="port" key={index} selectPort={this.props.selectPort} index={index} cx={port.x} cy={port.y} r={3} text={port.ratio}/>
            );
          })
        }
