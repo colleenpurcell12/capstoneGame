@@ -2,18 +2,18 @@
 
 var ports = [
   {type: 'port', x: -45, y: -26, r: 3, ratio: '1:3', res: null},
-  {type: 'port', x: -45, y: 7,r: 3, ratio: '1:2', res: 1},
-  {type: 'port', x: -29, y: 35, r: 3, ratio: '1:2', res: 2},
-  {type: 'port', x: -16, y: -43, r: 3, ratio: '1:2', res: 3},
+  {type: 'port', x: -45, y: 7,r: 3, ratio: '1:2', res: 'hematite'},
+  {type: 'port', x: -29, y: 35, r: 3, ratio: '1:2', res: 'solar'},
+  {type: 'port', x: -16, y: -43, r: 3, ratio: '1:2', res: 'ice'},
   {type: 'port', x: 0, y: 52, r: 3, ratio: '1:3', res: null},
   {type: 'port', x: 16, y: -43, r: 3, ratio: '1:3', res: null},
-  {type: 'port', x: 29, y: 35, r: 3, ratio: '1:2', res: 4},
+  {type: 'port', x: 29, y: 35, r: 3, ratio: '1:2', res: 'seeds'},
   {type: 'port', x: 45, y: -26, r: 3, ratio: '1:3', res: null},
-  {type: 'port', x: 45, y: 7, r: 3, ratio: '1:2', res: 5},
+  {type: 'port', x: 45, y: 7, r: 3, ratio: '1:2', res: 'other'},
 ]
 
-var resources = ['solar', 'ice', 'seeds', 'hematite', 'silica']
-var resourcesArray = [1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,5,5,5,'Desert']
+var resources = ['solar', 'ice', 'seeds', 'hematite', 'other']
+var resourcesArray = [0, 0, 0, 0, 1,1,1,1,2,2,2,2,3,3,3,4,4,4, 'desert']
 var tokenArray = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12]
 
 function shuffle(arr){
@@ -48,6 +48,7 @@ function addRoad(a, b, c){
   newElement.setAttribute("style", "stroke-width:1; stroke:" + c.color)
   svg.insertBefore(newElement, svg.childNodes[0])
   // Add road to db roads object
+  // add road to state
 
 }
 

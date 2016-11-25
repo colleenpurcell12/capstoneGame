@@ -26,9 +26,9 @@ class CornerShape extends React.Component {
     let actions = this.props.actions;
     // let styles = this.getStyles(hex);
     //this.props.type + this.props.index??
-    let cornerId = this.props.type[0]+this.props.id
+    let cornerId = this.props.type[0]+this.props.index
     // onClick={e => actions.onClick(id, e)}
-    let classN = "corner-node" + " " + this.props.type
+    let classN = [this.props.type, this.props.resource].join(' ')
     return (
       <g className="shape-group" draggable="true"
         onDragStart={e => actions.onDragStart(this.props.hex, e)}
@@ -38,6 +38,7 @@ class CornerShape extends React.Component {
         onClick={e => this.props.selectCorner(e) }
         id= {cornerId}
         >
+        <img src=""/>
         <circle className={classN} cx={this.props.cx} cy={this.props.cy} r={this.props.r}/>
         <text x={this.props.cx} y={this.props.cy+.3} textAnchor="middle" >{this.props.text || ''}</text>
       </g>

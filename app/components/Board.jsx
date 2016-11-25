@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {shuffle, assignHexData, addRoad, tokenArray, resourcesArray} from 'APP/gameutils/setup.js'
 import SubmitForm from './SubmitForm'
 import CornerGrid from './CornerGrid'
+import Roads from './Roads'
 import Layout from '../../gameutils/react-hexgrid/src/Layout'
 import GridGenerator from '../../gameutils/react-hexgrid/src/GridGenerator'
 import HexUtils from '../../gameutils/react-hexgrid/src/HexUtils';
@@ -15,7 +16,7 @@ export default class Board extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.selectCorner = this.selectCorner.bind(this);
     this.generate = this.generate.bind(this)
-
+    //config handled off component?
     let boardConfig = {
       width: 700, height: 820,
       layout: { width: 10, height: 10, flat: true, spacing: 1.1 }, // change to
@@ -31,38 +32,24 @@ export default class Board extends Component {
       roads: [],
       value: '',
       selected: {firstCorner: '', secondCorner:''},
-      tokens: tokenArray,
-      resources: resourcesArray
+      tokens: [],
+      resources: [],
+      roads: []
      };
-     // tokens and props should come from connect?
-     // on board render, if new game, proceeed with shuffle
-     // send shuffle'd to db under game id?
-     // if not new game/ game in progress, set tokens/res to retrieved from db
+     // tokens, resources, roads, and props should come from connect?
    }
 
   componentDidMount(){
-      // this should be if new game
-      // this should be actions that dispatch an arry to the db
-      if(!this.state.tokens.length){
-        var shuffledTokens = shuffle(tokenArray)
-        this.setState({tokens: shuffledTokens})
-      };
-      if(!this.state.tokens.length){
-        var shuffledResources = shuffle(resourcesArray)
-        this.setState({resources: shuffledResources})
-      };
-    //assignTokens();
-    //renderPorts();
-    //renderRoads(); // this will take the roads ont he state and render them on page load?
   }
 
   render() {
-    let { grid, config } = this.state;
+    let { grid, config, roads} = this.state;
     return (
       <div>
         <div className="board">
           <PortGrid width={config.width} height={config.height} selectPort={this.selectPort}/>
           <CornerGrid width={config.width} height={config.height} selectCorner={this.selectCorner} corners={grid.corners} />
+          <Roads width={config.width} height={config.height} roads={roads}/>
           <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
         </div>
 
@@ -176,7 +163,7 @@ export default class Board extends Component {
     ), {})
 
     const allCorners = {}
-    // need to add id to hex map
+    // create corners object out of hexes
     hexagons.forEach((hex, i) => {
       hex.id = i
       corners(hex, corner => {
@@ -185,18 +172,27 @@ export default class Board extends Component {
       })
     })
     var n = 0;
+    // assign id to all corners
     for(var corner in allCorners){
       allCorners[corner].id = n++;
     }
+
+    // assign neighbors to all corners
     for(var corner in allCorners){
       allCorners[corner].neighbors = findNeighbors(allCorners[corner], allCorners)
       var coords = setCoords(corner, layout);
       allCorners[corner].x = coords.x
       allCorners[corner].y = coords.y
     }
-    //this.state is not a thing???
+
+    // retrieve shuffled tokenArray & resources array
+    // need gameinit function that shuffles?
+
+    //assign token and resources to hexes
     hexagons = assignHexData(hexagons, tokenArray, resourcesArray)
-    console.log('hexagons =', hexagons)
+
+    //debugging
+    console.log('hexagons', hexagons)
     console.log('corners', allCorners)
     console.log(`found ${Object.keys(allCorners).length} corners`)
     return { hexagons, layout, corners: allCorners };

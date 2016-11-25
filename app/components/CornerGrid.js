@@ -7,6 +7,8 @@ class CornerGrid extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      settlements : ['c', 's', 's']
+       // array [{id: type}] or [type, type...] at index
     };
   }
   componentDidMount(){
@@ -28,7 +30,9 @@ class CornerGrid extends React.Component {
                 cx={corner.x}
                 cy={corner.y}
                 r={2}
-                type="corner"/>
+                type="corner"
+                text={this.state.settlements[corner.id] }
+              />
             );
           })
         }
@@ -36,6 +40,9 @@ class CornerGrid extends React.Component {
     );
   }
 
+  addSettlement(e){
+    
+  }
 }
 
 

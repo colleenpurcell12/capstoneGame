@@ -96,3 +96,14 @@ const db = {
   users,
   chats
 };
+
+
+var roads = []
+var road = {
+  x1, y1, x2, y2, color
+}
+roads.map(function(road){
+  return (
+    <line x1={road.x1} x1={road.y1} x1={road.x2} x1={road.y2} className={this.color}/>
+  )
+})
