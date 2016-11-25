@@ -41,7 +41,6 @@ export class PlayerStat extends Component {
     };
   }
   componentDidMount() {
-    //console.log("XXX**** HELLO")
     const rootRef 		= firebase.database().ref()
     const playersRef 	= rootRef.child('players')
 
@@ -148,17 +147,23 @@ export class PlayerStat extends Component {
 	}
 }
 
+// export default reduxForm({
+//   form: 'PlayerStat',  // a unique identifier for this form
+//   validate,
+//   null
+// })(PlayerStat)
+
+
 /* -----------------    CONTAINER     ------------------ */
 
 import {connect} from 'react-redux';
 import { endTurn } from '../reducers/playerStat'; //bring in our setDiceRoll dispatcher, which will literally just dispatch newDiceRoll
 //bring in other results from reducers as necessary
 
+const mapState = ({ whoseTurn }) => ({whoseTurn});
 const mapDispatch = { endTurn };
-const mapState = ({ whoseTurn }) => whoseTurn
-export default reduxForm({
-  form: 'PlayerStat',  // a unique identifier for this form
-  validate,
+
+export default connect(
   mapState,
   mapDispatch
-})(PlayerStat)
+)(PlayerStat)

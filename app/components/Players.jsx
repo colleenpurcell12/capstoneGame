@@ -22,8 +22,12 @@ export class Players extends Component {
 								<td>{this.props.players[player].cards}</td>
 							</tr>
 						))}
-						<tr>{`${this.props.players[`player1`].name}'s Turn`}
-						</tr>
+						{this.props.players && this.props.players["player1"] ?
+							<tr><th>Current Player: {this.props.players[`player${this.props.whoseTurn}`].name}</th></tr>
+							:
+							<tr><th>Current Player: </th></tr>
+						}
+
 				</table>
 			</div>
 		)
@@ -36,7 +40,7 @@ export class Players extends Component {
 import {connect} from 'react-redux';
 import { listenToPlayers, addPlayer } from '../reducers/players';
 
-const mapState = ({ players, loggedInUser }) => ({ players, loggedInUser}) //added whoseTurn for display purposes
+const mapState = ({ players, loggedInUser, whoseTurn }) => ({ players, loggedInUser, whoseTurn}) //added whoseTurn for display purposes
 
 const mapDispatch = { listenToPlayers, addPlayer }
 
