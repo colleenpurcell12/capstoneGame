@@ -76,10 +76,11 @@ export class PlayerStat extends Component {
       //[resource] WORKS
   })
   }
-   handleChange (e) {
-      console.log(e.target.value) //name of input
-      //need to grab the "current user" and give them the award in the database
-    }
+  handleChange (e) {
+    console.log(e.target.value) //name of input
+    //need to grab the "current user" and give them the award in the database
+  }
+
   render() {
     return (
 			<div>
@@ -140,15 +141,24 @@ export class PlayerStat extends Component {
      		<div> City        = Two Wool and Three Ore							</div>
      		<div> Developer   = One Wool, One Grain, and One Ore 		</div>
 
-				<button type='submit'> Done with Turn </button>
+				<button type='submit' onClick={() => this.props.endTurn(this.props.whoseTurn)}> Done with Turn </button>
 			</div>
 
 		)
 	}
 }
 
+/* -----------------    CONTAINER     ------------------ */
+
+import {connect} from 'react-redux';
+import { endTurn } from '../reducers/playerStat'; //bring in our setDiceRoll dispatcher, which will literally just dispatch newDiceRoll
+//bring in other results from reducers as necessary
+
+const mapDispatch = { endTurn };
+const mapState = ({ whoseTurn }) => whoseTurn
 export default reduxForm({
   form: 'PlayerStat',  // a unique identifier for this form
   validate,
-  null
+  mapState,
+  mapDispatch
 })(PlayerStat)
