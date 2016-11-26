@@ -15,7 +15,7 @@ export class Home extends React.Component {
         <GoogleLogin />
         {this.props.loggedInUser ?
           <div className="mdl-grid">
-              <div className="mdl-cell mdl-cell--2-col">
+              <div className="mdl-cell mdl-cell--3-col">
                 <Chatroom />
               </div>
               <div className="mdl-cell mdl-cell--6-col">
@@ -23,7 +23,7 @@ export class Home extends React.Component {
               </div>
               <div className="mdl-cell mdl-cell--1-col">
               </div>
-              <div className="mdl-cell mdl-cell--3-col">
+              <div className="mdl-cell mdl-cell--2-col">
                 <div >
                 <Players />
                 <Dice /><br /><br />

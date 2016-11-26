@@ -44,8 +44,9 @@ export class Chatroom extends Component {
 
   saveMessage(e) {
     e.preventDefault();
+    let name = this.props.loggedInUser.displayName.split(" ");
     const message = {
-      name: this.props.loggedInUser.displayName, //this will be current user's displayname
+      name: `${name[0]} ${name[1][0]}`, //this will be current user's first name and second initial
       text: e.target.text.value
     }
     this.props.addMessage(message);
@@ -66,12 +67,8 @@ export class Chatroom extends Component {
           <form id="message-form" action="#" onSubmit={this.saveMessage}>
                   <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                     <input className="mdl-textfield__input" type="text" id="message" name="text"/>
-                    <label className="mdl-textfield__label" htmlFor="message">Message...</label>
-
+                    <label className="mdl-textfield__label" htmlFor="message">Type Message Here...</label>
                   </div>
-            <button id="submit" type="submit" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-              Send
-            </button>
           </form>
         </div>
       </div>
