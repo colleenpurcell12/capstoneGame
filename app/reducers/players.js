@@ -23,6 +23,11 @@ export default function reducer (players = {}, action) {
   switch (action.type) {
     case LOAD_PLAYERS:
       return action.players
+    case ADD_PLAYER:
+      const { players } = state
+      return Object.assign( {}, state, 
+        { players: [  ...players , action.player] }
+        )
     default:
       return players;
   }
