@@ -14,7 +14,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import Home from './components/Home';
 import {listenToAuth} from './reducers/login';
-
 import * as firebase from 'firebase'
 
 var config = {
