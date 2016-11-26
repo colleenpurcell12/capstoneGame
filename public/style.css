@@ -93,7 +93,7 @@ html, body {
   float: right;
 }
 #message-form .mdl-textfield {
-  width: calc(100% - 100px);
+  /*width: calc(100% - 100px);*/
 }
 #message-form button, #image-form button {
   width: 100px;
