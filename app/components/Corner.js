@@ -39,7 +39,7 @@ class CornerShape extends React.Component {
         id= {cornerId}
         >
         <img src=""/>
-        <circle className={classN} cx={this.props.cx} cy={this.props.cy} r={this.props.r}/>
+        <circle className={classN} cx={this.props.cx} cy={this.props.cy} r={this.props.r}  id= {cornerId}/>
         <text x={this.props.cx} y={this.props.cy+.3} textAnchor="middle" >{this.props.text || ''}</text>
       </g>
     );

@@ -15,7 +15,6 @@ class HexGrid extends React.Component {
 
   // hexshape text={hext.text}?
   render() {
-    console.log("hexes", this.props.hexagons)
     return (
       <svg id="HexGrid" className="grid" width={this.props.width} height={this.props.height} viewBox="-50 -50 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
         {

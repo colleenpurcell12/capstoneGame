@@ -16,6 +16,7 @@ export default class Board extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.selectCorner = this.selectCorner.bind(this);
     this.generate = this.generate.bind(this)
+    this.addRoad = this.addRoad.bind(this)
     //config handled off component?
     let boardConfig = {
       width: 700, height: 820,
@@ -26,17 +27,21 @@ export default class Board extends Component {
       actions: {}
     }
     let grid = this.generate(boardConfig);
+    let corners = grid.corners
     this.state = {
       grid,
       config: boardConfig,
       roads: [],
       value: '',
-      selected: {firstCorner: '', secondCorner:''},
+      selected: {firstCorner: null, secondCorner: null},
       tokens: [],
       resources: [],
-      roads: []
+      roads: [{x1: -5.5, y1: 9.52, x2: 5.5, y2: 9.52, color: 'green'}],
+      settlements: [],
+      corners
      };
-     // tokens, resources, roads, and props should come from connect?
+     // tokens, resources, settlements, roads, and actions should come from connect?
+     // currently kept on board state
    }
 
   componentDidMount(){
@@ -48,7 +53,7 @@ export default class Board extends Component {
       <div>
         <div className="board">
           <PortGrid width={config.width} height={config.height} selectPort={this.selectPort}/>
-          <CornerGrid width={config.width} height={config.height} selectCorner={this.selectCorner} corners={grid.corners} />
+          <CornerGrid width={config.width} height={config.height} selectCorner={this.selectCorner} corners={this.state.corners} />
           <Roads width={config.width} height={config.height} roads={roads}/>
           <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
         </div>
@@ -66,9 +71,9 @@ export default class Board extends Component {
   // one is clicked when there is a first but not a 2nd, a 3nd but not a 1st
   // a third one is clicked when there is both a first and a second
   //idea to seperate teh class css from the this.state.selected
-
     //is this one already selected
-    if (event.target==this.state.selected.firstCorner ){//if the corner is one of the first or second
+
+    if (event.target == this.state.selected.firstCorner ){//if the corner is one of the first or second
       //console.log("1st corner",event.target)
       event.target.removeAttribute('class', 'corner-select');
       event.target.setAttribute('class', 'corner-deselected');
@@ -77,15 +82,15 @@ export default class Board extends Component {
        console.log("1st corner should now be null", this.state.selected.firstCorner)
     }
 
-    if (event.target==this.state.selected.secondCorner){
+    if (event.target == this.state.selected.secondCorner){
       console.log("2nd corner")
       event.target.removeAttribute('class', 'corner-select'); //.corner-node{
-        event.target.setAttribute('class', 'corner-node');
+      event.target.setAttribute('class', 'corner-node');
       event.target.setAttribute('class', 'corner-deselected');
       this.state.selected.secondCorner = null
     }
 
-    var updatedSelected =this.state.selected
+    var updatedSelected = this.state.selected
     if(this.state.selected.firstCorner){ //at least one
       if(!this.state.selected.secondCorner){ //exactly one
         //time to fill in 2nd
@@ -109,6 +114,7 @@ export default class Board extends Component {
 
         }
     }
+    console.log('this.state.selected', this.state.selected)
     // if(this.state.selected.length >= 2) {
     //       console.log('ALREADY 2 SELECTED, no class added')
     //       event.target.removeAttribute('class', 'corner-select');
@@ -133,20 +139,33 @@ export default class Board extends Component {
     var user = { color: color }
 
     //TESTING ONLY
-    console.log('handle add clicked')
-    var a = this.state.selected[0], b = this.state.selected[1]
+    console.log('handle addroad clicked')
+    console.log('this.state.selected', this.state.selected.firstCorner)
+    var a = this.state.selected.firstCorner, b = this.state.selected.secondCorner
+
     this.state.selected = []
 
-    // user = color from form
-    addRoad(a, b, user) // can you set state from within add road?
+    this.addRoad(a, b, user)
     a.removeAttribute('class', 'corner-select');
     b.removeAttribute('class', 'corner-select');
     // a.removeAttribute('class', 'corner-deselected');
-    // pushes new road to state
-    // var newRoad = {x1, x2, y1, y2}
-    // this.setState(roads: roads.push(newRoad))
+
   }
 
+   addRoad(a, b, c){
+    var roadsArray = this.state.roads
+    var newRoad = {
+      x1: parseInt(a.attributes.cx.value),
+      y1: parseInt(a.attributes.cy.value),
+      x2: parseInt(b.attributes.cx.value),
+      y2: parseInt(b.attributes.cy.value),
+      color: c.color
+    }
+    roadsArray.push(newRoad)
+    this.setState({roads: roadsArray})
+    // add road to state
+    console.log('state after addroad', this.state)
+  }
 
   generate(config){
     // create layout object

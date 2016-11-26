@@ -26,7 +26,7 @@ class CornerGrid extends React.Component {
             return (
               <CornerShape key={corner.id}
                 selectCorner={this.props.selectCorner}
-                id={corner.id}
+                index={corner.id}
                 cx={corner.x}
                 cy={corner.y}
                 r={2}
@@ -41,7 +41,7 @@ class CornerGrid extends React.Component {
   }
 
   addSettlement(e){
-    
+
   }
 }
 

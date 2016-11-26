@@ -38,6 +38,7 @@ body {
   stroke-width: .3;
 }
 
+/*svg 'canvases'*/
 #HexGrid{
   position: absolute ;
   top:0 ;
@@ -49,6 +50,12 @@ body {
   top:0 ;
   left:0 ;
   z-index: 12;
+}
+
+#Roads {
+  position: absolute ;
+  top:0 ;
+  left:0 ;
 }
 
 svg polygon {
@@ -105,4 +112,24 @@ svg circle {
 
 .desert {
   fill: black
+}
+
+/*Roads*/
+
+.green {
+  stroke: green;
+  stroke-weight: .5;
+}
+
+.red {
+  stroke: red;
+  stroke-weight: .5;
+}
+.blue {
+  stroke: blue;
+  stroke-weight: .5;
+}
+.brown {
+  stroke: brown;
+  stroke-weight: .5;
 }
