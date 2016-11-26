@@ -9,14 +9,7 @@ import Checkbox from 'material-ui/Checkbox'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 
-//import Awards from '/Awards'
-
 //needs to know which player's card is showing
- // const messages = this.state && this.state.messages || []
- //    {Object.keys(messages).map(k => messages[k]).map( (message, idx) => )}
-
-  // <a onClick={ () => this.incrementValue(Wool) } className="glyphicon glyphicon-plus">+++
-        // </a>
 
 const validate = values => {
   const errors = {}
@@ -132,13 +125,32 @@ export class PlayerStat extends Component {
           </label>
         </div>
 
-
         <br></br>
-				<div> Building materials-- 	</div>
-     		<div> Road        = Brick and Lumber						</div>
-     		<div> Settlement  = Lumber, Brick, Grain and Wool	</div>
-     		<div> City        = Two Wool and Three Ore							</div>
-     		<div> Developer   = One Wool, One Grain, and One Ore 		</div>
+
+        <div> Building materials: </div>
+        <table>
+          <tr>
+            <th>Item</th>
+            <th>Price</th>
+          </tr>
+              <tr>
+                <td>Road</td>
+                <td>=1B+1L</td>
+              </tr>
+              <tr>
+                <td>Settlement</td>
+                <td>=1L+1B+1G+1W </td>
+              </tr>
+              <tr>
+                <td>City</td>
+                <td>=2W+3O</td>
+              </tr>
+              <tr>
+                <td>Developer</td>
+                <td>=1W+1G+1O </td>
+              </tr>
+        </table>
+      
 
 				<button type='submit' onClick={() => this.props.endTurn(this.props.whoseTurn)}> Done with Turn </button>
 			</div>
@@ -147,18 +159,12 @@ export class PlayerStat extends Component {
 	}
 }
 
-// export default reduxForm({
-//   form: 'PlayerStat',  // a unique identifier for this form
-//   validate,
-//   null
-// })(PlayerStat)
-
 
 /* -----------------    CONTAINER     ------------------ */
 
 import {connect} from 'react-redux';
 import { endTurn } from '../reducers/playerStat'; //bring in our setDiceRoll dispatcher, which will literally just dispatch newDiceRoll
-//bring in other results from reducers as necessary
+//bring in other results from reducers as necessary like isSettingUp, isFirstRound...
 
 const mapState = ({ whoseTurn }) => ({whoseTurn});
 const mapDispatch = { endTurn };
