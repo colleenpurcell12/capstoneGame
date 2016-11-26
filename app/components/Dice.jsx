@@ -14,7 +14,7 @@ export class Dice extends Component {
   	let d1 = Math.floor(Math.random() * 6) + 1;
     let d2 = Math.floor(Math.random() * 6) + 1;
     this.setState({d1: d1, d2: d2});
-    return {sum: d1+d2, isDouble:d1===d2}; //return the object that will be stored on the state since all the calcs are done in this function
+    return {sum: d1+d2, isDouble: d1===d2}; //return the object that will be stored on the state since all the calcs are done in this function
   }
 
   render() {
