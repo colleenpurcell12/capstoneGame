@@ -1,14 +1,14 @@
- import HexGrid from '../../gameutils/react-hexgrid/src/HexGrid.js';
+import HexGrid from '../../gameutils/react-hexgrid/src/HexGrid.js';
 import React, {Component} from 'react';
-import {createCorners, assignTokens, renderPorts, addRoad} from 'APP/gameutils/setup.js'
+import {shuffle, assignHexData, addRoad, tokenArray, resourcesArray} from 'APP/gameutils/setup.js'
 import SubmitForm from './SubmitForm'
 import CornerGrid from './CornerGrid'
+import Roads from './Roads'
 import Layout from '../../gameutils/react-hexgrid/src/Layout'
 import GridGenerator from '../../gameutils/react-hexgrid/src/GridGenerator'
 import HexUtils from '../../gameutils/react-hexgrid/src/HexUtils';
 import Point from '../../gameutils/react-hexgrid/src/Point';
-
-
+import PortGrid from './PortGrid'
 
 export default class Board extends Component {
   constructor(props) {
@@ -16,6 +16,8 @@ export default class Board extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.selectCorner = this.selectCorner.bind(this);
     this.generate = this.generate.bind(this)
+    this.addRoad = this.addRoad.bind(this)
+    //config handled off component?
     let boardConfig = {
       width: 700, height: 820,
       layout: { width: 10, height: 10, flat: true, spacing: 1.1 }, // change to
@@ -25,28 +27,34 @@ export default class Board extends Component {
       actions: {}
     }
     let grid = this.generate(boardConfig);
+    let corners = grid.corners
     this.state = {
       grid,
       config: boardConfig,
       roads: [],
       value: '',
-      selected: {firstCorner: '', secondCorner:''}
+      selected: {firstCorner: null, secondCorner: null},
+      tokens: [],
+      resources: [],
+      roads: [{x1: -5.5, y1: 9.52, x2: 5.5, y2: 9.52, color: 'green'}],
+      settlements: [],
+      corners
      };
+     // tokens, resources, settlements, roads, and actions should come from connect?
+     // currently kept on board state
    }
 
   componentDidMount(){
-    //createCorners(this.selectCorner);
-    //assignTokens();
-    //renderPorts();
-    //renderRoads(); // this will take the roads ont he state and render them on page load?
   }
 
   render() {
-    let { grid, config } = this.state;
+    let { grid, config, roads} = this.state;
     return (
       <div>
         <div className="board">
-          <CornerGrid width={config.width} height={config.height} selectCorner={this.selectCorner} corners={grid.corners} />
+          <PortGrid width={config.width} height={config.height} selectPort={this.selectPort}/>
+          <CornerGrid width={config.width} height={config.height} selectCorner={this.selectCorner} corners={this.state.corners} />
+          <Roads width={config.width} height={config.height} roads={roads}/>
           <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
         </div>
 
@@ -63,9 +71,9 @@ export default class Board extends Component {
   // one is clicked when there is a first but not a 2nd, a 3nd but not a 1st
   // a third one is clicked when there is both a first and a second
   //idea to seperate teh class css from the this.state.selected
-
     //is this one already selected
-    if (event.target==this.state.selected.firstCorner ){//if the corner is one of the first or second
+
+    if (event.target == this.state.selected.firstCorner ){//if the corner is one of the first or second
       //console.log("1st corner",event.target)
       event.target.removeAttribute('class', 'corner-select');
       event.target.setAttribute('class', 'corner-deselected');
@@ -74,15 +82,15 @@ export default class Board extends Component {
        console.log("1st corner should now be null", this.state.selected.firstCorner)
     }
 
-    if (event.target==this.state.selected.secondCorner){
+    if (event.target == this.state.selected.secondCorner){
       console.log("2nd corner")
       event.target.removeAttribute('class', 'corner-select'); //.corner-node{
-        event.target.setAttribute('class', 'corner-node');
+      event.target.setAttribute('class', 'corner-node');
       event.target.setAttribute('class', 'corner-deselected');
       this.state.selected.secondCorner = null
     }
 
-    var updatedSelected =this.state.selected
+    var updatedSelected = this.state.selected
     if(this.state.selected.firstCorner){ //at least one
       if(!this.state.selected.secondCorner){ //exactly one
         //time to fill in 2nd
@@ -106,6 +114,7 @@ export default class Board extends Component {
 
         }
     }
+    console.log('this.state.selected', this.state.selected)
     // if(this.state.selected.length >= 2) {
     //       console.log('ALREADY 2 SELECTED, no class added')
     //       event.target.removeAttribute('class', 'corner-select');
@@ -130,40 +139,50 @@ export default class Board extends Component {
     var user = { color: color }
 
     //TESTING ONLY
-    console.log('handle add clicked')
-    var a = this.state.selected[0], b = this.state.selected[1]
+    console.log('handle addroad clicked')
+    console.log('this.state.selected', this.state.selected.firstCorner)
+    var a = this.state.selected.firstCorner, b = this.state.selected.secondCorner
+
     this.state.selected = []
 
-    // user = color from form
-    addRoad(a, b, user) // can you set state from within add road?
+    this.addRoad(a, b, user)
     a.removeAttribute('class', 'corner-select');
     b.removeAttribute('class', 'corner-select');
     // a.removeAttribute('class', 'corner-deselected');
-    // pushes new road to state
-    // var newRoad = {x1, x2, y1, y2}
-    // this.setState(roads: roads.push(newRoad))
+
   }
 
-  //makes hexagons array
-  //makes corners array
-  //map is object with coords as keys to hex objects
+   addRoad(a, b, c){
+    var roadsArray = this.state.roads
+    var newRoad = {
+      x1: parseInt(a.attributes.cx.value),
+      y1: parseInt(a.attributes.cy.value),
+      x2: parseInt(b.attributes.cx.value),
+      y2: parseInt(b.attributes.cy.value),
+      color: c.color
+    }
+    roadsArray.push(newRoad)
+    this.setState({roads: roadsArray})
+    // add road to state
+    console.log('state after addroad', this.state)
+  }
+
   generate(config){
+    // create layout object
     let layout = new Layout(config.layout, config.origin);
     let generator = GridGenerator.getGenerator(config.map);
 
     //make hexagon array
     let hexagons = generator.apply(this, config.mapProps);
 
-
     //make hexagon object with
     let map = hexagons.reduce((all, one) => Object.assign({},
       all,
       {[[one.q, one.r, one.s]]: one}
     ), {})
-    console.log('map=', map)
 
     const allCorners = {}
-    // need to add id to hex map
+    // create corners object out of hexes
     hexagons.forEach((hex, i) => {
       hex.id = i
       corners(hex, corner => {
@@ -172,20 +191,32 @@ export default class Board extends Component {
       })
     })
     var n = 0;
+    // assign id to all corners
     for(var corner in allCorners){
       allCorners[corner].id = n++;
     }
+
+    // assign neighbors to all corners
     for(var corner in allCorners){
       allCorners[corner].neighbors = findNeighbors(allCorners[corner], allCorners)
       var coords = setCoords(corner, layout);
       allCorners[corner].x = coords.x
       allCorners[corner].y = coords.y
     }
-      console.log('hexagons =', hexagons)
+
+    // retrieve shuffled tokenArray & resources array
+    // need gameinit function that shuffles?
+
+    //assign token and resources to hexes
+    hexagons = assignHexData(hexagons, tokenArray, resourcesArray)
+
+    //debugging
+    console.log('hexagons', hexagons)
     console.log('corners', allCorners)
     console.log(`found ${Object.keys(allCorners).length} corners`)
     return { hexagons, layout, corners: allCorners };
   }
+
 }
 
 const neighborDirections = [
@@ -202,7 +233,6 @@ function coord(hex) {
 }
 
 function setCoords(corner , layout){
-  console.log('set coords', corner)
   var hexCoords = corner.split(':'), x, y
   var a = HexUtils.hexToPixel(hexCoords[0], layout);
   var b = HexUtils.hexToPixel(hexCoords[1], layout);

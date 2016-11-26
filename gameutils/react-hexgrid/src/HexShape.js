@@ -3,6 +3,7 @@ const { object } = React.PropTypes
 import HexPattern from './HexPattern';
 import HexPointers from './HexPointers';
 import HexUtils from './HexUtils';
+import {resources} from 'APP/gameutils/setup.js'
 
 class HexShape extends React.Component {
 
@@ -26,9 +27,10 @@ class HexShape extends React.Component {
 
   render() {
     let hex = this.props.hex;
-    let text = (hex.props.text) ? hex.props.text : HexUtils.getID(hex);
+    let text = (hex.token) ? hex.token : "desert";
     let actions = this.props.actions;
     let styles = this.getStyles(hex);
+    let resource = resources[hex.resource] || 'desert'
     let points = this.getPoints(hex);
     let id = "h"+this.props.index
         // onMouseEnter={e => actions.onMouseEnter(id, e)}
@@ -37,15 +39,13 @@ class HexShape extends React.Component {
 
     return (
       <g className="shape-group" transform={this.translate()} draggable="true"
-
         onDragStart={e => actions.onDragStart(this.props.hex, e)}
         onDragEnd={e => actions.onDragEnd(this.props.hex, e)}
         onDragOver={e => actions.onDragOver(this.props.hex, e)}
         onDrop={e => actions.onDrop(this.props.hex, e)}
-        id= {id}
-        >
+        id= {id} >
         <HexPattern hex={hex} />
-        <polygon points={points} style={styles} />
+        <polygon points={points} style={styles} className={resource} />
         <HexPointers hex={hex} points={points} />
         <circle cx='0' cy='0' r='3' onClick={() => {console.log("In the circle onClick")} }/>
         <text x="0" y="0.3em" textAnchor="middle" >{text}</text>

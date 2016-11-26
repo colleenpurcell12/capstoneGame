@@ -11,12 +11,17 @@ class PortGrid extends React.Component {
  }
 
  render() {
+
    return (
      <svg id='PortGrid' className="grid" width={this.props.width} height={this.props.height} viewBox="-50 -50 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
        {
-         ports.map((corner, index) => {
+         ports.map((port, index) => {
            return (
-             <CornerShape key={index} selectPort={this.props.selectCorner} index={index} cx={corner.x} cy={corner.y} r={corner.r}/>
+             <CornerShape type="port"  key={index}
+               selectPort={this.props.selectPort}
+               index={index} cx={port.x} cy={port.y}
+               r={3} text={port.ratio}
+               resource={port.res}/>
            );
          })
        }
