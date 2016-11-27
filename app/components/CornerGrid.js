@@ -18,7 +18,7 @@ class CornerGrid extends React.Component {
     let corners = this.props.corners
     let keys = Object.keys(corners)
     let cornersArray = keys.map(key => (corners[key]))
-
+    console.log(' cg this.props', this.props)
     return (
       <svg id='CornerGrid' className="grid" width={this.props.width} height={this.props.height} viewBox="-50 -50 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
         {
@@ -26,6 +26,7 @@ class CornerGrid extends React.Component {
             return (
               <CornerShape key={corner.id}
                 selectCorner={this.props.selectCorner}
+                sel={this.props.selected}
                 index={corner.id}
                 cx={corner.x}
                 cy={corner.y}

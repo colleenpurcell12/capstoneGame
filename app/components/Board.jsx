@@ -53,7 +53,7 @@ export default class Board extends Component {
       <div>
         <div className="board">
           <PortGrid width={config.width} height={config.height} selectPort={this.selectPort}/>
-          <CornerGrid width={config.width} height={config.height} selectCorner={this.selectCorner} corners={this.state.corners} />
+          <CornerGrid width={config.width} height={config.height} selectCorner={this.selectCorner} corners={this.state.corners}  selected={this.state.selected}/>
           <Roads width={config.width} height={config.height} roads={roads}/>
           <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
         </div>
@@ -74,20 +74,24 @@ export default class Board extends Component {
     //is this one already selected
 
     if (event.target == this.state.selected.firstCorner ){//if the corner is one of the first or second
-      //console.log("1st corner",event.target)
+      console.log("1st corner",event.target)
       event.target.removeAttribute('class', 'corner-select');
-      event.target.setAttribute('class', 'corner-deselected');
-      this.state.selected.firstCorner = null
+      let theState = this.state.selected
+      console.log('THE STATE', theState)
+      this.setState({selected: theState})
       console.log("1st corner event.target", event.target)
-       console.log("1st corner should now be null", this.state.selected.firstCorner)
+      console.log("1st corner should now be null", this.state.selected)
     }
 
     if (event.target == this.state.selected.secondCorner){
       console.log("2nd corner")
-      event.target.removeAttribute('class', 'corner-select'); //.corner-node{
-      event.target.setAttribute('class', 'corner-node');
-      event.target.setAttribute('class', 'corner-deselected');
-      this.state.selected.secondCorner = null
+      // event.target.removeAttribute('class', 'corner-select'); //.corner-node{
+      // this.state.selected.secondCorner = null
+      let theState = this.state.selected
+      theState.secondCorner = '';
+      this.setState({selected: theState})
+      console.log("2nd corner should now be null", this.state.selected)
+
     }
 
     var updatedSelected = this.state.selected
@@ -140,15 +144,13 @@ export default class Board extends Component {
 
     //TESTING ONLY
     console.log('handle addroad clicked')
-    console.log('this.state.selected', this.state.selected.firstCorner)
     var a = this.state.selected.firstCorner, b = this.state.selected.secondCorner
-
+    console.log('this.state.selected', this.state.selected.firstCorner.attributes)
     this.state.selected = []
 
     this.addRoad(a, b, user)
     a.removeAttribute('class', 'corner-select');
     b.removeAttribute('class', 'corner-select');
-    // a.removeAttribute('class', 'corner-deselected');
 
   }
 
