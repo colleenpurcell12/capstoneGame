@@ -14,7 +14,7 @@ export class Dice extends Component {
   	let d1 = Math.floor(Math.random() * 6) + 1;
     let d2 = Math.floor(Math.random() * 6) + 1;
     this.setState({d1: d1, d2: d2});
-    return {sum: d1+d2, isDouble:d1===d2}; //return the object that will be stored on the state since all the calcs are done in this function
+    return {sum: d1+d2, isDouble: d1===d2}; //return the object that will be stored on the state since all the calcs are done in this function
   }
 
   render() {
@@ -23,6 +23,7 @@ export class Dice extends Component {
 		  <img src={`/die/d${this.state.d1}.gif`}/>
 		  <img src={`/die/d${this.state.d2}.gif`}/>
 		  <button onClick={() => this.props.setDiceRoll(this.rollDice())}>Roll Dice</button>
+      <div>Last roll:{this.props.diceRoll.sum}</div>
 		</div>
 
     );
@@ -35,6 +36,7 @@ import {connect} from 'react-redux';
 import { setDiceRoll } from '../reducers/dice'; //bring in our setDiceRoll dispatcher, which will literally just dispatch newDiceRoll
 //bring in other results from reducers as necessary
 
+const mapStore = ({ diceRoll }) => ({diceRoll})
 const mapDispatch = { setDiceRoll };
 
-export default connect(null, mapDispatch)(Dice);
+export default connect(mapStore, mapDispatch)(Dice);

@@ -8,15 +8,8 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import Checkbox from 'material-ui/Checkbox'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-
-//import Awards from '/Awards'
-
+import store from '../store'
 //needs to know which player's card is showing
- // const messages = this.state && this.state.messages || []
- //    {Object.keys(messages).map(k => messages[k]).map( (message, idx) => )}
-
-  // <a onClick={ () => this.incrementValue(Wool) } className="glyphicon glyphicon-plus">+++
-        // </a>
 
 const validate = values => {
   const errors = {}
@@ -76,11 +69,59 @@ export class PlayerStat extends Component {
   })
   }
   handleChange (e) {
-    console.log(e.target.value) //name of input
+    //console.log(e.target.value) //name of input
     //need to grab the "current user" and give them the award in the database
   }
 
+  nextPlayer(){
+    let { isFirstRound, isSettingUp, turnArray, userArray } = store.getState()
+    
+     //Normal cycle of turns during game play, increment user to x+1 
+    if (isSettingUp === false){
+      this.props.endTurn(this.props.turnInfo) //dispatch(setNextTurn(player));
+    } 
+
+    //isSettingUp === true, tracks 1st and 2nd round, ascending then descending
+    else {
+      //check if end of 1st round
+      if (isFirstRound === true && turnArray.length === 1){ 
+        // console.log("GOING TO 2nd ROUND")
+
+        //reset all the userArray hasBoughtARoad and hasBoughtASettlement to false
+        for (var i = 0; i<4 ; i++){
+            userArray[i].hasBoughtARoad = false;
+            userArray[i].hasBoughtASettlement = false
+        }
+
+        this.props.setNextRound() //dispatch(nextRound()); //which sets whoseTurn to 4, turnArray to [3,2,1]) and isFirstRound = false
+        this.props.endTurn(3) //to 4
+        }
+      }
+      //check if end of 2nd round, therefore end of set up phase
+      else if (isFirstRound === false && turnArray.length === 1) { 
+        // console.log("END OF 2ND ROUND")
+        // initialize normal cycle of turns
+        this.props.endTurn(0)
+        this.props.endSetUp()   //dispatch(startNormGamePlay()); which sets whoseTurn to 1 and isSettingUp ==false
+      }
+      //within either round
+      else {
+        if (turnArray){
+          let player1 = turnArray[0]
+          if (isFirstRound === false){
+            player1-- //endTurn increments the # 
+          }
+          this.props.nextTurn() 
+          this.props.endTurn(player1) //dispatch(setNextTurn(player));
+        } 
+        else { console.log("turnArray is undefined") }
+      }
+    }
+  //console.log("The turnArray is",turnArray,"and isSettingUp? is",isSettingUp,"and isFirstRound? is",isFirstRound)
+  }
+
   render() {
+    //console.log("Player Stat knows the curr players is ", this.props.turnInfo)
     return (
 			<div>
 				<div>
@@ -132,36 +173,55 @@ export class PlayerStat extends Component {
           </label>
         </div>
 
-
         <br></br>
-				<div> Building materials-- 	</div>
-     		<div> Road        = Brick and Lumber						</div>
-     		<div> Settlement  = Lumber, Brick, Grain and Wool	</div>
-     		<div> City        = Two Wool and Three Ore							</div>
-     		<div> Developer   = One Wool, One Grain, and One Ore 		</div>
 
-				<button type='submit' onClick={() => this.props.endTurn(this.props.whoseTurn)}> Done with Turn </button>
+        <div> Building materials: </div>
+        <table>
+        <tbody>
+          <tr>
+            <th>Item</th>
+            <th>Price</th>
+          </tr>
+              <tr>
+                <td>Road</td>
+                <td>=1B+1L</td>
+              </tr>
+              <tr>
+                <td>Settlement</td>
+                <td>=1L+1B+1G+1W </td>
+              </tr>
+              <tr>
+                <td>City</td>
+                <td>=2W+3O</td>
+              </tr>
+              <tr>
+                <td>Developer</td>
+                <td>=1W+1G+1O </td>
+              </tr>
+        </tbody>
+        </table>
+      
+
+				<button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button>
 			</div>
 
 		)
 	}
 }
 
-// export default reduxForm({
-//   form: 'PlayerStat',  // a unique identifier for this form
-//   validate,
-//   null
-// })(PlayerStat)
+
 
 
 /* -----------------    CONTAINER     ------------------ */
 
 import {connect} from 'react-redux';
 import { endTurn } from '../reducers/playerStat'; //bring in our setDiceRoll dispatcher, which will literally just dispatch newDiceRoll
-//bring in other results from reducers as necessary
+import { setNextRound, endSetUp, nextTurn } from '../reducers/turnBooleans';
 
-const mapState = ({ whoseTurn }) => ({whoseTurn});
-const mapDispatch = { endTurn };
+//bring in other results from reducers as necessary like isSettingUp, isFirstRound...
+
+const mapState = ({ turnInfo }) => ({turnInfo});
+const mapDispatch = { endTurn, setNextRound, endSetUp, nextTurn };
 
 export default connect(
   mapState,

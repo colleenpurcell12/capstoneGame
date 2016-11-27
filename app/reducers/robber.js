@@ -2,27 +2,25 @@ import * as firebase from 'firebase'
 
 /* -----------------    ACTIONS     ------------------ */
 
-const SET_NEXT_TURN = 'SET_NEXT_TURN';
+const MOVE_ROBBER = 'MOVE_ROBBER';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-const setNextTurn = (player) => ({ type: SET_NEXT_TURN, player })
+const moveRobber = (hexID) => ({ type: MOVE_ROBBER, hexID })
 
 /* ------------       REDUCER     ------------------ */
                              //whoseTurn is an object that points to a specific player ID, 1 - 4
-export default function reducer (whoseTurn= 1, action){
+export default function reducer (robberHex= 0, action){
     switch (action.type) {
-    case SET_NEXT_TURN:
-      return action.player
+    case MOVE_ROBBER:
+      return action.hexID
     default:
-      return whoseTurn
+      return robberHex
   }
 }
 
 /* ------------      DISPATCHERS     ------------------ */
 
-export const endTurn = (player) => dispatch => {
-    player === 4 ? player = 1 : player++ 
-    //console.log("XXX NEXT player is number",player)
-    dispatch(setNextTurn(player));
+export const endTurn = (hexID) => dispatch => {
+    dispatch(setNextTurn(hexID));
 }

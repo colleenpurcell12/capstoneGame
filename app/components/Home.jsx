@@ -5,6 +5,8 @@ import Dice from './Dice';
 import Chatroom from './Chatroom';
 import Board from './Board';
 import Players from './Players';
+import Structures from './Structures';
+
 import {Grid, Row, Col} from 'react-bootstrap';
 //originally had all firebase db info in here
 export class Home extends React.Component {
@@ -15,7 +17,7 @@ export class Home extends React.Component {
         <GoogleLogin />
         {this.props.loggedInUser ?
           <div className="mdl-grid">
-              <div className="mdl-cell mdl-cell--2-col">
+              <div className="mdl-cell mdl-cell--3-col">
                 <Chatroom />
               </div>
               <div className="mdl-cell mdl-cell--6-col">
@@ -23,10 +25,11 @@ export class Home extends React.Component {
               </div>
               <div className="mdl-cell mdl-cell--1-col">
               </div>
-              <div className="mdl-cell mdl-cell--3-col">
+              <div className="mdl-cell mdl-cell--2-col">
                 <div >
                 <Players />
-                <Dice /><br /><br />
+                <Dice />      <br/>
+                <Structures /><br/>
                 <PlayerStat />
                 </div>
               </div>
