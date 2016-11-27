@@ -7,6 +7,7 @@ const INITIALIZE_GAME = 'INITIALIZE_GAME';
 /* ------------   ACTION CREATORS     ------------------ */
 
 const startGame = bool => ({ type: INITIALIZE_GAME, bool }) //payload is called 'diceRoll'
+//const startGame = bool => ({ type: INITIALIZE_GAME, bool })
 
 /* ------------       REDUCER     ------------------ */
 

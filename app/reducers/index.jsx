@@ -3,9 +3,10 @@ import loggedInUser from './login';
 import messages from './chatroom';
 import players from './players';
 import diceRoll from './dice';
-import whoseTurn from './playerStat';
+import turnInfo from './playerStat';
 import inProgress from './home';
+import {isFirstRound, isSettingUp, turnArray} from './turnBooleans';
 
-const rootReducer = combineReducers({ loggedInUser, messages, players, diceRoll, whoseTurn, inProgress });
+const rootReducer = combineReducers({ loggedInUser, messages, players, diceRoll, turnInfo, inProgress, isFirstRound, isSettingUp, turnArray });
 
 export default rootReducer;
