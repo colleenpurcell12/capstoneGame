@@ -1,4 +1,5 @@
 import * as firebase from 'firebase'
+import {syncActions, unsyncActions} from './action-creators'
 
 /* -----------------    ACTIONS     ------------------ */
 
@@ -23,7 +24,13 @@ export default function reducer (loggedInUser = null, action) {
 
 export const listenToAuth = () => dispatch => {
 	firebase.auth().onAuthStateChanged(firebaseUser => {
-		if(firebaseUser) dispatch(loginUser(firebaseUser))
-		else dispatch(loginUser(null))
+		if(firebaseUser) {
+      dispatch(loginUser(firebaseUser))
+      dispatch(syncActions())
+    }
+		else {
+      dispatch(loginUser(null))
+      dispatch(unsyncActions())
+    }
 	})
 }
