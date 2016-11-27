@@ -20,5 +20,5 @@ export const addAction = action => dispatch => {
 
 //when player leaves game turn off listener
 export const unsyncActions = () => dispatch => {
-  firebase.database().ref().off()
+  firebase.database().ref().child('action-creators').off()
 }
