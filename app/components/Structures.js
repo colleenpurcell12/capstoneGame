@@ -20,14 +20,15 @@ export class Structures extends Component {
     if(type==='road'){
       let everyRoad = everyStructure.filter( (struc) => struc.type==='road')
       let sameRoad = everyStructure.filter( (struc) => struc.coordinates===coord)
-      return sameRoad.length!==1
+      if(!sameRoad){ return true }
+      else { return false }
     }  
     else { //settlement
       let everySettlement = everyStructure.filter( (struc) => struc.type==='settlement')
       let sameSettlement = everyStructure.filter( (struc) => struc.coordinates===coord)
-      return sameSettlement.length!==1
+      if(!sameSettlement){ return true }
+      else { return false }
     }
-
   }
   isConnected(coord){
     //false if there isn't a structure that shares a coordinate
@@ -36,30 +37,29 @@ export class Structures extends Component {
     // ...
   }
   isAfforable(type){
-    if(type==='road' //cost lumber and 1 brick
-     && userArray[turnInfo][cards][lumber]>=1 && userArray[turnInfo][cards][brick]>=1){
-      return true
-    }  
-    else { //settlement cost 1L+1B+1G+1W
-
-      if( userArray[turnInfo][cards][lumber]>=1 
-        && userArray[turnInfo][cards][brick]>=1
-        && userArray[turnInfo][cards][grain]>=1
-        && userArray[turnInfo][cards][wool]>=1
-        ){
-      return sameSettlement.length!==1
+    if(type==='road'){ //cost lumber and 1 brick
+     return userArray[turnInfo][cards][lumber]>=1 && userArray[turnInfo][cards][brick]>=1
+    } else { //settlement cost 1L+1B+1G+1W
+      return (  userArray[turnInfo][cards][lumber]>=1 && userArray[turnInfo][cards][brick]>=1
+              && userArray[turnInfo][cards][grain]>=1 && userArray[turnInfo][cards][wool]>=1  )
     }
+  }
+  isFarEnough(){
+
   }
   addingARoad(){
     // need to know the hexagon state data structure
     // the user array structure to find the color by ID
     // ensure that the 1-2 selected corners are stored somewhere
-
-    if( userArray[turnInfo][selection].length===2 && this.isConnected(coord)
+    let {  userArray } = store.getState()
+    let userColor = userArray[turnInfo][color]
+    let selectedCorners = userArray[turnInfo][selection]
+    let alreadyPurchased = userArray[turnInfo][startRoad]
+    if( selectedCorners.length===2 && this.isConnected(coord)
       && this.isAvailable(type,coordinates) && this.isFarEnough() && (this.isAfforable('road') || 
-      (this.isDuringSetUp() && userArray[turnInfo][startRoad]===null) ) ){ //<--no road has been registered/added so far in this set up round, if in set up phase
+      (this.isDuringSetUp() && alreadyPurchased === null) ) ){ //<--no road has been registered/added so far in this set up round, if in set up phase
 
-      let roadObj = {type: 'Road', points: 0, coordinates: this.userArray[turnInfo][selection], associatedHexs = [h1, h2], color: blue, userID: this.turnInfo}]
+      let roadObj = {type: 'Road', points: 0, coordinates: this.userArray[turnInfo][selection], associatedHexs = [h1, h2], color: userColor, userID: this.turnInfo}]
 
       this.props.addRoad(roadObj)
     }
@@ -68,11 +68,16 @@ export class Structures extends Component {
     }
   }
   addingASettlement(){
-    if( userArray[turnInfo][selection].length===1 && isValidSetUpMove  
+    let {  userArray } = store.getState()
+    let userColor = userArray[turnInfo][color]
+    let selectedCorner = userArray[turnInfo][selection]
+    let alreadyPurchased = userArray[turnInfo][startSettlement]
+    if( selectedCorner.length===1 && isValidSetUpMove  
       && this.isAvailable() && this.isFarEnough() && (this.isAfforable('settlement') || 
-      (this.isDuringSetUp() && userArray[turnInfo][startSettlement]===null) ) ){ //<--no settlement has been registered/added so far in this set up round, if in set up phase
-
-    let settlementObj = {type: 'Settlement', points: 1 , coordinates: this.userArray[turnInfo][selection], associatedHexs = [h1, h2, h3],  color: blue, userID: this.turnInfo}]
+      (this.isDuringSetUp() && alreadyPurchased === null) ) ){ //<--no settlement has been registered/added so far in this set up round, if in set up phase
+    let settlementObj = {type: 'Settlement', points: 1 , 
+          coordinates: selectedCorner, associatedHexs = [h1, h2, h3],  
+          color: userColor, userID: this.turnInfo}]
 
     this.props.addRoad(settlementObj)
   }
