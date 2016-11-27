@@ -36,31 +36,39 @@ export class Structures extends Component {
     // MAP OVER TO CHECK
     // ...
   }
-  isAfforable(type){
+  isAfforable(type, userID){
+    let {  userArray } = store.getState()
+    let userCards = userArray[this.props.turnInfo].cards
+
     if(type==='road'){ //cost lumber and 1 brick
-     return userArray[turnInfo][cards][lumber]>=1 && userArray[turnInfo][cards][brick]>=1
+      //type1 = lumber type2 = brick
+      //type3 = wool type4 = grain
+     return userCards.type1>=1 && userCards.type2>=1
     } else { //settlement cost 1L+1B+1G+1W
-      return (  userArray[turnInfo][cards][lumber]>=1 && userArray[turnInfo][cards][brick]>=1
-              && userArray[turnInfo][cards][grain]>=1 && userArray[turnInfo][cards][wool]>=1  )
+      return (  userCards.type1>=1 && userCards.type2>=1
+              && userCards.type4>=1 && userCards.type3>=1  )
     }
   }
   isFarEnough(){
-
+    return true
   }
   addingARoad(){
     // need to know the hexagon state data structure
     // the user array structure to find the color by ID
     // ensure that the 1-2 selected corners are stored somewhere
     let {  userArray } = store.getState()
-    let userColor = userArray[turnInfo][color]
-    let selectedCorners = userArray[turnInfo][selection]
-    let alreadyPurchased = userArray[turnInfo][startRoad]
-    if( selectedCorners.length===2 && this.isConnected(coord)
-      && this.isAvailable(type,coordinates) && this.isFarEnough() && (this.isAfforable('road') || 
-      (this.isDuringSetUp() && alreadyPurchased === null) ) ){ //<--no road has been registered/added so far in this set up round, if in set up phase
-
-      let roadObj = {type: 'Road', points: 0, coordinates: this.userArray[turnInfo][selection], associatedHexs = [h1, h2], color: userColor, userID: this.turnInfo}]
-
+    let userID = this.props.turnInfo
+    let userColor = userArray[userID].color
+    let selectedCorners = userArray[userID].selection
+    let hasAlreadyPurchased = userArray[userID].startRoad
+    if( selectedCorners.length===2 && this.isConnected(coord) && this.isFarEnough()
+      && this.isAvailable(type,coordinates)  && (this.isAfforable('road', userID) || 
+      (this.isDuringSetUp() && !hasAlreadyPurchased ) ) ){ 
+      let roadObj = { type: 'road', points: 0, coordinates: selectedCorners, 
+                      associatedHexs: [], color: userColor, userID: userID }
+      if( this.isDuringSetUp() ) { 
+        userArray[userID].hasBoughtARoad=true
+      }
       this.props.addRoad(roadObj)
     }
     else{
@@ -69,22 +77,27 @@ export class Structures extends Component {
   }
   addingASettlement(){
     let {  userArray } = store.getState()
-    let userColor = userArray[turnInfo][color]
-    let selectedCorner = userArray[turnInfo][selection]
-    let alreadyPurchased = userArray[turnInfo][startSettlement]
+    let userID = userID
+    let userColor = userArray[userID].color
+    let selectedCorner = [1] //userArray[userID].selection
+    let alreadyPurchased = userArray[userID].startSettlement
     if( selectedCorner.length===1 && isValidSetUpMove  
       && this.isAvailable() && this.isFarEnough() && (this.isAfforable('settlement') || 
-      (this.isDuringSetUp() && alreadyPurchased === null) ) ){ //<--no settlement has been registered/added so far in this set up round, if in set up phase
-    let settlementObj = {type: 'Settlement', points: 1 , 
-          coordinates: selectedCorner, associatedHexs = [h1, h2, h3],  
-          color: userColor, userID: this.turnInfo}]
-
-    this.props.addRoad(settlementObj)
+      (this.isDuringSetUp() && !alreadyPurchased ) ) ){ //<--no settlement has been registered/added so far in this set up round, if in set up phase
+      let settlementObj = { type: 'settlement', points: 1 , color: userColor, userID: userID, 
+                            coordinates: selectedCorner,  associatedHexs: []   }
+      if( this.isDuringSetUp() ) { 
+        userArray[userID].hasBoughtASettlement=true
+      }
+      this.props.addRoad(settlementObj)
+    }
   }
   render() {
     return (
-		<button type='submit' onClick={() => this.registerSettlement()}> Add Settlement </button>
-		<button type='submit' onClick={() => this.registerRoad()}> Add Road </button>
+      <div>
+    		<button type='submit' onClick={() => this.registerSettlement()}> Add Settlement </button>
+    		<button type='submit' onClick={() => this.registerRoad()}> Add Road </button>
+      </div>
     	)
 	}
 }
@@ -96,7 +109,7 @@ import { addRoad, addSettlement } from '../reducers/everyStructure';
 //bring in other results from reducers as necessary**
 
 const mapState = ({ turnInfo }) => ({turnInfo}); 
-// might need userArray[turnInfo][selection] or userArray[turnInfo][startRoad]  startSettlement
+// might need userArray[userID][selection] or userArray[userID][startRoad]  startSettlement
 const mapDispatch = { addRoad, addSettlement };
 
 export default connect(
