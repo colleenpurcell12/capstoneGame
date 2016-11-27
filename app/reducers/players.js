@@ -1,27 +1,6 @@
 import * as firebase from 'firebase'
 import {startTheGame} from './home';
 
-
-// const userArray = [
-//   {id: 1, 
-//     selections: [ ], 
-//     fullName: '', 
-//     color: null, 
-//     startRoad: null, 
-//     startSettlement: null, 
-//     points: 0, 
-//     cardsResource: {type1: 0 , type2: 0, type3: 0, type4: 0, type5: 0},
-//   {id: 2, 
-//     selections: [ ], 
-//     fullName: '', 
-//     color: null, 
-//     startRoad: null, 
-//     startSettlement: null, 
-//     points: 0, 
-//     cardsResource: {type1: 0 , type2: 0, type3: 0, type4: 0, type5: 0} 
-//     ]
-
-
 /* -----------------    ACTIONS     ------------------ */
 
 const LOAD_PLAYERS = 'LOAD_PLAYERS'

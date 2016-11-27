@@ -74,7 +74,7 @@ export class PlayerStat extends Component {
   }
 
   nextPlayer(){
-    let { isFirstRound, isSettingUp, turnArray } = store.getState()
+    let { isFirstRound, isSettingUp, turnArray, userArray } = store.getState()
     
      //Normal cycle of turns during game play, increment user to x+1 
     if (isSettingUp === false){
@@ -85,10 +85,17 @@ export class PlayerStat extends Component {
     else {
       //check if end of 1st round
       if (isFirstRound === true && turnArray.length === 1){ 
-        // console.log("GOING TO 2nd ROUND") 
+        // console.log("GOING TO 2nd ROUND")
+
+        //reset all the userArray hasBoughtARoad and hasBoughtASettlement to false
+        for (var i = 0; i<4 ; i++){
+            userArray[i].hasBoughtARoad = false;
+            userArray[i].hasBoughtASettlement = false
+        }
 
         this.props.setNextRound() //dispatch(nextRound()); //which sets whoseTurn to 4, turnArray to [3,2,1]) and isFirstRound = false
         this.props.endTurn(3) //to 4
+        }
       }
       //check if end of 2nd round, therefore end of set up phase
       else if (isFirstRound === false && turnArray.length === 1) { 
