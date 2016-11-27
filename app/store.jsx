@@ -2,9 +2,10 @@ import { createStore, applyMiddleware } from 'redux'
 import rootReducer from './reducers'
 import createLogger from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
+import multi from 'redux-multi'
 
 
-const store = createStore(rootReducer, applyMiddleware(createLogger(), thunkMiddleware))
+const store = createStore(rootReducer, applyMiddleware(multi, createLogger(), thunkMiddleware))
 
 export default store
 

@@ -40,7 +40,7 @@ export class Players extends Component {
 import {connect} from 'react-redux';
 import { listenToPlayers, addPlayer } from '../reducers/players';
 
-const mapState = ({ players, loggedInUser, whoseTurn }) => ({ players, loggedInUser, whoseTurn}) //added whoseTurn for display purposes
+const mapState = ({ players, loggedInUser, whoseTurn }) => ({ players, loggedInUser, whoseTurn }) //added whoseTurn for display purposes
 
 const mapDispatch = { listenToPlayers, addPlayer }
 
