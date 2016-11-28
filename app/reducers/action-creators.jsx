@@ -3,12 +3,19 @@
 
 import * as firebase from 'firebase'
 
-//when player joins game turn on listeners and fire actions 
+//when player joins game turn on listeners and fire actions
+
+export const loadActions = () => dispatch => {
+  return firebase.database().ref().child('action-creators').once('value')
+    .then(snap => {
+      dispatch(Object.values(snap.val()));
+    });
+}
+
 export const syncActions = () => dispatch => {
-	firebase.database().ref().child('action-creators').on('child_added', snap => {
-    //action-creators = {type: ACTION_TYPE, payload}
-    dispatch(snap.val()); 
-  })
+  firebase.database().ref().child('action-creators').limitToLast(1).on('child_added', (snap) => {
+    dispatch(snap.val());
+  });
 }
 
 //add new moves to database
