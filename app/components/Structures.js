@@ -69,7 +69,6 @@ export class Structures extends Component {
     let {  userArray, turnInfo, selections } = store.getState()
 
     //corners in 2 element selections array:
-
       // [0,0,0:0,1,-1:1,0,-1:]: 
       // { hexes: [resource: '', token: 0, id: 30],
       //   id: ,
@@ -77,43 +76,42 @@ export class Structures extends Component {
       //   x: ,
       //   y: 
       // }
-
-    var coord = [ //[[x1,y1],[x2,y2]]
-          [parseInt(selections[0].cx.value), parseInt(selections[0].cy.value) ], //x1, y2
-          //since coming from the selection state rather than the event.target, might already be #
-          [parseInt(selections[1].cx.value),  parseInt(selections[1].cy.value) ] //x2, y2: 
-        ]
+    var coord = [ [selections[0].x,selections[0].y],
+                  [selections[1].x,selections[1].y] ] //[[11,-19],[5,-9]] //x1,y1,x2,y2 
     let userID = turnInfo
     let userObj = userArray[userID]
     let userColor = userObj.color
-    let hasAlreadyPurchased = userObj.startRoad //true or false
-    let coordinates =  [[11,-19],[5,-9]] //x1,y1,x2,y2 
+    let hasAlreadyPurchased = userObj.hasBoughtARoad //true or false
+    let associatedHexsCorner1 = selections[0].hexes
+    let associatedHexs = associatedHexsCorner1.concat( selections[1].hexes )
 
-    if( selectedCorners.length===2 && this.isConnected(coord) && this.isFarEnough('road')
-      && this.isAvailable('road',coordinates)  && (this.isAfforable('road', userID) || 
-      (this.isDuringSetUp() && !hasAlreadyPurchased ) ) ){ 
+    console.log("this.isConnected(coord) ",this.isConnected(coord)  )
+    console.log("this.isFarEnough('road')", this.isFarEnough('road') ) 
+    console.log("this.isAvailable('road', userID)",this.isAvailable('settlement', coord) )
+    console.log("this.isAfforable('road', userID)",this.isAfforable('settlement', userID) )
+    console.log("this.isDuringSetUp() && !hasAlreadyPurchased", this.isDuringSetUp() && !hasAlreadyPurchased )
 
-
-      let roadObj = { type: 'road', points: 0, coordinates: coord, 
+    if( selections.length===2 
+      && this.isConnected(coord) 
+      && this.isFarEnough('road')
+      && this.isAvailable('road',coord)  
+      && ( this.isAfforable('road', userID) || (this.isDuringSetUp() && !hasAlreadyPurchased) ) 
+      ){ 
+      let roadObj = { type: 'road', points: 0, coordinates: coord, //type & points is static, cords from selections
                       corners:  [selections[0].id, selections[1].id],
-                      associatedHexs: [], color: userColor, userID: userID }
+                      associatedHexs: associatedHexs, color: userColor, userID: userID }
+      //so user can't select/register another road during this round of set up
+      if( this.isDuringSetUp() ) { userObj.hasBoughtARoad = true }
 
-      //type: always 'road', points: always 0, 
-      //coordinates: selectedCornersCoord, 
-      // corners:  [selections[0].id, selections[1].id],
-      //associatedHexs: of both corners? selections[0].hexes
-      //, color: userColor, userID: userID
-      if( this.isDuringSetUp() ) { 
-        userObj.hasBoughtARoad=true
-      }      
-      //to the road state used for rending visuals
+      //send off to the road state used for rending visuals
       this.props.addBoardRoad({
                         color: userColor, 
                         corners: [selections[0].id, selections[1].id],  //ids
                         coordinates: coord, //corner coords [[x1,y1],[x2,y2]]
                         owner: userID
                          })
-      this.props.addRoad(roadObj) //to the everyStructures array used for validation 
+      //send off to the everyStructures array used for validation
+      this.props.addRoad(roadObj)  
     }
     else{
       alert('Please pick two valid end points for your new road and try again')
@@ -132,16 +130,15 @@ export class Structures extends Component {
 
     let userColor = userObj.color
     let selectedCorner = [1] //userObj.selection
-    let alreadyPurchased = userObj.startSettlement
+    let alreadyPurchased = userObj.hasBoughtASettlement
     let coordinates =  [[11,-19],[5,-9]]
     console.log("this.isAfforable('road', userID)",this.isAfforable('settlement', userID))
     console.log("this.isAvailable('road', userID)",this.isAvailable('settlement', coordinates) ) 
 
-
     // coordinates will be x and y of the corner
     // associated hexes will be corner[0,0,0:0,1,-1:1,0,-1:].hexes
 
-    if( selectedCorner.length===1 && isValidSetUpMove  
+    if( selectedCorner.length===1 //&& isValidSetUpMove  
       && this.isAvailable() && this.isFarEnough('settlement') && (this.isAfforable('settlement') || 
       (this.isDuringSetUp() && !alreadyPurchased ) ) ){ //<--no settlement has been registered/added so far in this set up round, if in set up phase
       let settlementObj = { type: 'settlement', points: 1 , color: userColor, userID: userID, 
