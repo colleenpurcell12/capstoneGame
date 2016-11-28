@@ -28,12 +28,9 @@ class Roads extends React.Component {
      </svg>
    );
  }
-
   addRoad(e){
-
   }
 }
-
 
 Roads.defaultProps = {
  width: 800,

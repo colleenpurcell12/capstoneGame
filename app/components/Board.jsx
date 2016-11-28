@@ -162,9 +162,9 @@ export class Board extends Component {
     var a = this.state.selected.firstCorner, b = this.state.selected.secondCorner
     this.state.selected = []
 
-    this.addRoad(a, b, user)
-    a.removeAttribute('class', 'corner-select');
-    b.removeAttribute('class', 'corner-select');
+    // this.addRoad(a, b, user)
+    // a.removeAttribute('class', 'corner-select');
+    // b.removeAttribute('class', 'corner-select');
     // a.removeAttribute('class', 'corner-deselected');
 
   }
