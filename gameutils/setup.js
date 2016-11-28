@@ -13,7 +13,7 @@ var ports = [
 ]
 
 var resources = ['solar', 'ice', 'seeds', 'hematite', 'other']
-var resourcesArray = [0, 0, 0, 0, 1,1,1,1,2,2,2,2,3,3,3,4,4,4, 'desert']
+var resourcesArray = [0, 0, 0, 0, 1,1,1,1,2,2,2,2,3,3,3,4,4,4]
 var tokenArray = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12]
 
 function shuffle(arr){
@@ -26,10 +26,15 @@ function shuffle(arr){
   return shuffled;
 }
 
-function assignHexData (hexes, tokens, resources) {
+function assignHexInfo (hexes, tokens, resources) {
+  var tshuff = shuffle(tokens);
+  var rshuff = shuffle(resources);
+  var d = Math.floor(Math.random()*hexes.length)
+  tshuff.splice(d, 0, '')
+  rshuff.splice(d, 0, 'desert')
   hexes.map(function(hex, index){
-    hex.token = tokens[index];
-    hex.resource = resources[index];
+    hex.token = tshuff[index];
+    hex.resource = rshuff[index];
     return hex;
   })
 return hexes;
@@ -39,4 +44,4 @@ return hexes;
 // state could save the last two clicked on ccorner nodes as well as the current player
 
 
-module.exports = {shuffle, ports, resources, resourcesArray, tokenArray, assignHexData}
+module.exports = {shuffle, ports, resources, resourcesArray, tokenArray, assignHexInfo}

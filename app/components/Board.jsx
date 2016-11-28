@@ -1,6 +1,6 @@
 import HexGrid from '../../gameutils/react-hexgrid/src/HexGrid.js';
 import React, {Component} from 'react';
-import {shuffle, assignHexData, addRoad, tokenArray, resourcesArray} from 'APP/gameutils/setup.js'
+import {shuffle, assignHexInfo, addRoad, tokenArray, resourcesArray} from 'APP/gameutils/setup.js'
 import SubmitForm from './SubmitForm'
 import CornerGrid from './CornerGrid'
 import Roads from './Roads'
@@ -143,8 +143,8 @@ export class Board extends Component {
     // retrieve shuffled tokenArray & resources array
     // need gameinit function that shuffles?
     // assign token and resources to hexes
-    hexagons = assignHexData(hexagons, tokenArray, resourcesArray)
-
+    assignHexInfo(hexagons, tokenArray, resourcesArray)
+    this.props.storeHexData(hexagons)
     //debugging
     console.log('hexagons', hexagons)
     console.log('corners', allCorners)
@@ -237,13 +237,20 @@ import {connect} from 'react-redux';
 import { addStructure } from '../reducers/structure';
 import { addBoardSelection, clearBoardSelection} from '../reducers/selection';
 import { addBoardRoad } from '../reducers/road';
+import { assignHexData } from '../reducers/hex-data'
+
 
 
 //bring in other results from reducers as necessary**
 
 const mapStateToProps = ({ turnInfo }) => ({turnInfo});
 // might need userArray[userID][selection] or userArray[userID][startRoad]  startSettlement
-const mapDispatch = {  addBoardSelection, addBoardRoad, clearBoardSelection }; //addRoad, addSettlement, addStructure
+const mapDispatch = dispatch => ({
+  addBoardSelection,
+  addBoardRoad,
+  clearBoardSelection,
+  storeHexData: (hexes) => dispatch(assignHexData(hexes))
+  }); //addRoad, addSettlement, addStructure
 
 export default connect(
   mapStateToProps,
