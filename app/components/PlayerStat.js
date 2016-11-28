@@ -75,16 +75,16 @@ export class PlayerStat extends Component {
 
   nextPlayer(){
     let { isFirstRound, isSettingUp, turnArray, userArray } = store.getState()
-    
-     //Normal cycle of turns during game play, increment user to x+1 
+
+     //Normal cycle of turns during game play, increment user to x+1
     if (isSettingUp === false){
       this.props.endTurn(this.props.turnInfo) //dispatch(setNextTurn(player));
-    } 
+    }
 
     //isSettingUp === true, tracks 1st and 2nd round, ascending then descending
     else {
       //check if end of 1st round
-      if (isFirstRound === true && turnArray.length === 1){ 
+      if (isFirstRound === true && turnArray.length === 1){
         // console.log("GOING TO 2nd ROUND")
 
         //reset all the userArray hasBoughtARoad and hasBoughtASettlement to false
@@ -96,9 +96,9 @@ export class PlayerStat extends Component {
         this.props.setNextRound() //dispatch(nextRound()); //which sets whoseTurn to 4, turnArray to [3,2,1]) and isFirstRound = false
         this.props.endTurn(3) //to 4
         }
-      }
+
       //check if end of 2nd round, therefore end of set up phase
-      else if (isFirstRound === false && turnArray.length === 1) { 
+      else if (isFirstRound === false && turnArray.length === 1) {
         // console.log("END OF 2ND ROUND")
         // initialize normal cycle of turns
         this.props.endTurn(0)
@@ -109,11 +109,11 @@ export class PlayerStat extends Component {
         if (turnArray){
           let player1 = turnArray[0]
           if (isFirstRound === false){
-            player1-- //endTurn increments the # 
+            player1-- //endTurn increments the #
           }
-          this.props.nextTurn() 
+          this.props.nextTurn()
           this.props.endTurn(player1) //dispatch(setNextTurn(player));
-        } 
+        }
         else { console.log("turnArray is undefined") }
       }
     }
@@ -200,7 +200,7 @@ export class PlayerStat extends Component {
               </tr>
         </tbody>
         </table>
-      
+
 
 				<button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button>
 			</div>
