@@ -23,16 +23,19 @@ const validate = values => {
 }
 
 export class PlayerStat extends Component {
-	constructor(props) {
+  constructor(props) {
     super(props);
     this.state = {
+      wool: 0,
+      brick: 5,
+      grain: 5,
+      ore: 2,
+      lumber: 0
     };
   }
   componentDidMount() {
 
-
   }
-
   changeCount(resource, isGoingUp){
     const playersRef  = firebase.database().ref().child('players')
     const cardsRef       = playersRef.child('player1').child('cards')
@@ -43,7 +46,11 @@ export class PlayerStat extends Component {
     cardsRef.update({ [resource]: this.state[resource]}) //[resource] work
     cardsRef.child(resource).on('value',   snap => { this.setState ({ [resource]:  snap.val() })
       //[resource] WORKS
-    })
+  })
+  }
+  handleChange (e) {
+    //console.log(e.target.value) //name of input
+    //need to grab the "current user" and give them the award in the database
   }
 
   nextPlayer(){
@@ -57,17 +64,15 @@ export class PlayerStat extends Component {
       //check if end of 1st round
       if (isFirstRound === true && turnArray.length === 1){
         //reset all the userArray hasBoughtARoad and hasBoughtASettlement to false
-        for (var i = 0; i < 4 ; i++){
+        for (var i = 0; i<4 ; i++){
             userArray[i].hasBoughtARoad = false;
-            userArray[i].hasBoughtASettlement = false;
+            userArray[i].hasBoughtASettlement = false
         }
         this.props.setNextRound() //dispatch(nextRound()); //which sets whoseTurn to 4, turnArray to [3,2,1]) and isFirstRound = false
         this.props.endTurn(3) //to 4
-
         }
-
       //check if end of 2nd round, therefore end of set up phase
-      else if (isFirstRound === false && turnArray.length === 1) {  // initialize normal cycle of turns
+      else if (isFirstRound === false && turnArray.length === 1) {  // initialize normal cycle of turns       
         this.props.endTurn(0)
         this.props.endSetUp()  //dispatch(startNormGamePlay()); sets turnInfo to 1, isSettingUp ==false
       }
@@ -81,18 +86,42 @@ export class PlayerStat extends Component {
         else { console.log("turnArray is undefined") }
       }
     }
-
   }
 
   render() {
+    //console.log("Player Stat knows the curr players is ", this.props.turnInfo)
     return (
-			<div>
-				<div>
-          {userArray.cards[type1]}
-        </div>
+      <div>
         <div>
-        {userArray.cards[type2]}
+          <input type="button" onClick={() => this.changeCount('wool',false) } value="-"/>
+          Wool    {this.state.wool}
+          <input type="button" onClick={ () => this.changeCount('wool',true) } value="+"/>
         </div>
+
+        <div>
+        <input type="button" onClick={() => this.changeCount('brick',false) } value="-"/>
+         Brick  {this.state.brick}
+        <input type="button" onClick={ () => this.changeCount('brick',true) } value="+"/>
+        </div>
+
+        <div>
+        <input type="button" onClick={() => this.changeCount('grain',false) } value="-"/>
+         Grain  {this.state.grain}
+        <input type="button" onClick={ () => this.changeCount('grain',true) } value="+"/>
+        </div>
+
+        <div>
+        <input type="button" onClick={() => this.changeCount('ore',false) } value="-"/>
+        Ore    {this.state.ore}
+        <input type="button" onClick={ () => this.changeCount('ore',true) } value="+"/>
+        </div>
+
+        <div>
+        <input type="button" onClick={() => this.changeCount('lumber',false) } value="-"/>
+        Lumber {this.state.lumber}
+        <input type="button" onClick={ () => this.changeCount('lumber',true) } value="+"/>
+        </div>
+
 
       <div >
         <label>
@@ -141,18 +170,23 @@ export class PlayerStat extends Component {
         </table>
 
 
-				<button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button>
-			</div>
+        <button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button>
+      </div>
 
-		)
-	}
+    )
+  }
 }
+
+
+
 
 /* -----------------    CONTAINER     ------------------ */
 
 import {connect} from 'react-redux';
-import { endTurn } from '../reducers/playerStat';
+import { endTurn } from '../reducers/playerStat'; //bring in our setDiceRoll dispatcher, which will literally just dispatch newDiceRoll
 import { setNextRound, endSetUp, nextTurn } from '../reducers/turnBooleans';
+
+//bring in other results from reducers as necessary like isSettingUp, isFirstRound...
 
 const mapState = ({ turnInfo }) => ({turnInfo});
 const mapDispatch = { endTurn, setNextRound, endSetUp, nextTurn };
