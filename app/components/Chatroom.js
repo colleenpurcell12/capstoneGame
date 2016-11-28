@@ -1,37 +1,4 @@
 import React, { Component } from 'react';
-//import * as firebase from 'firebase'
-// export default class BonesJokes extends Component {
-// export const Login = ({ login }) => (
-
-
-//players moves as action
-//redux firebase
-//listen for action that's push firebase then dispatch, synced and passed to each store
-//redux middleware an function
-
-// const syncTo = Symbol()
-
-// const syncer = ({store, ref}) => {
-//   ref.on('child_added', snap => {
-//     store.dispatch(snap.val())
-//   })
-
-//   return action => Object.assign({}, {[syncTo]: ref}, action)
-// }
-
-// const synced = syncer({
-//   store,
-//   ref: root.child('game').child('actions')
-// })
-
-
-// dispatch(synced(someAction()))
-
-// const middlefire = store => next => action => {
-//   if (action[syncTo]) {
-//     action[syncTo].push(action)
-//   }
-// }
 
 export class Chatroom extends Component {
   constructor(props) {
@@ -60,7 +27,7 @@ export class Chatroom extends Component {
       <div className="mdl-shadow--2dp">
         <div className="mdl-color-text--grey-600">
             <div id="messages">
-              {Object.keys(messages).map(k => messages[k]).map( (message, idx) =>
+              {messages && Object.keys(messages).map(k => messages[k]).map( (message, idx) =>
                   <div key = {idx}>{message.name}: {message.text}</div>
                 )}
             </div>

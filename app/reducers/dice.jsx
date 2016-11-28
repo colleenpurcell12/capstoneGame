@@ -1,5 +1,3 @@
-//import * as firebase from 'firebase'
-import { addAction } from './action-creators'
 
 /* -----------------    ACTIONS     ------------------ */
 
@@ -7,7 +5,7 @@ const DICE_ROLL = 'DICE_ROLL';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-const newDiceRoll = diceRoll => ({ type: DICE_ROLL, diceRoll }) //payload is called 'diceRoll'
+export const newDiceRoll = diceRoll => ({ type: DICE_ROLL, diceRoll }) //payload is called 'diceRoll'
 
 /* ------------       REDUCER     ------------------ */
                                 //diceRoll is defined one-level deep, but the default could also point to {}
@@ -23,6 +21,8 @@ export default function reducer (diceRoll = {sum: 2, isDouble: false}, action) {
 
 /* ------------       DISPATCHERS     ------------------ */
 
-export const setDiceRoll = diceRoll => dispatch => {
-  dispatch(addAction(newDiceRoll(diceRoll)))
-}
+// export const setDiceRoll = diceRoll => dispatch => {
+//   dispatch(addAction(newDiceRoll(diceRoll)))
+// }
+
+
