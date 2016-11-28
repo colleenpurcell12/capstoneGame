@@ -5,7 +5,7 @@ import Dice from './Dice';
 import Chatroom from './Chatroom';
 import Board from './Board';
 import Players from './Players';
-import Structures from './Structures';
+//import Structures from './Structures';
 
 import {Grid, Row, Col} from 'react-bootstrap';
 //originally had all firebase db info in here
@@ -29,7 +29,6 @@ export class Home extends React.Component {
                 <div >
                 <Players />
                 <Dice />      <br/>
-                <Structures /><br/>
                 <PlayerStat />
                 </div>
               </div>
@@ -57,7 +56,7 @@ export class Home extends React.Component {
 
 import {connect} from 'react-redux'
 
-const mapState = ({ loggedInUser }) => ({ loggedInUser })
+const mapStateToProps = ({ loggedInUser }) => ({ loggedInUser })
 
-export default connect(mapState, null)(Home);
+export default connect(mapStateToProps, null)(Home);
 
