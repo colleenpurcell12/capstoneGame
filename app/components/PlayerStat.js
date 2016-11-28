@@ -97,8 +97,9 @@ export class PlayerStat extends Component {
 
         this.props.setNextRound() //dispatch(nextRound()); //which sets whoseTurn to 4, turnArray to [3,2,1]) and isFirstRound = false
         this.props.endTurn(3) //to 4
-        // }// deleted to make work
-      }
+
+        }
+        
       //check if end of 2nd round, therefore end of set up phase
       else if (isFirstRound === false && turnArray.length === 1) {
         // console.log("END OF 2ND ROUND")
