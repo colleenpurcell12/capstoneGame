@@ -23,7 +23,7 @@ export class Structures extends Component {
       let sameRoad = everyStructure.filter( (struc) => struc.coordinates===coord)
       if(!sameRoad){ return true }
       else { return false }
-    }  
+    }
     else { //settlement
       let everySettlement = everyStructure.filter( (struc) => struc.type==='settlement')
       let sameSettlement = everyStructure.filter( (struc) => struc.coordinates===coord)
@@ -70,50 +70,50 @@ export class Structures extends Component {
 
     //corners in 2 element selections array:
 
-      // [0,0,0:0,1,-1:1,0,-1:]: 
+      // [0,0,0:0,1,-1:1,0,-1:]:
       // { hexes: [resource: '', token: 0, id: 30],
       //   id: ,
       //   neighbors: [], //cID1, cID2
       //   x: ,
-      //   y: 
+      //   y:
       // }
 
     var coord = [ //[[x1,y1],[x2,y2]]
-          [parseInt(selections[0].cx.value), parseInt(selections[0].cy.value) ], //x1, y2
+          [selections[0].x, selections[0].y ], //x1, y2
           //since coming from the selection state rather than the event.target, might already be #
-          [parseInt(selections[1].cx.value),  parseInt(selections[1].cy.value) ] //x2, y2: 
+          [selections[1].x, selections[1].y ] //x2, y2:
         ]
     let userID = turnInfo
     let userObj = userArray[userID]
     let userColor = userObj.color
     let hasAlreadyPurchased = userObj.startRoad //true or false
-    let coordinates =  [[11,-19],[5,-9]] //x1,y1,x2,y2 
+    let coordinates =  [[11,-19],[5,-9]] //x1,y1,x2,y2
 
     if( selectedCorners.length===2 && this.isConnected(coord) && this.isFarEnough('road')
-      && this.isAvailable('road',coordinates)  && (this.isAfforable('road', userID) || 
-      (this.isDuringSetUp() && !hasAlreadyPurchased ) ) ){ 
+      && this.isAvailable('road',coordinates)  && (this.isAfforable('road', userID) ||
+      (this.isDuringSetUp() && !hasAlreadyPurchased ) ) ){
 
 
-      let roadObj = { type: 'road', points: 0, coordinates: coord, 
+      let roadObj = { type: 'road', points: 0, coordinates: coord,
                       corners:  [selections[0].id, selections[1].id],
                       associatedHexs: [], color: userColor, userID: userID }
 
-      //type: always 'road', points: always 0, 
-      //coordinates: selectedCornersCoord, 
+      //type: always 'road', points: always 0,
+      //coordinates: selectedCornersCoord,
       // corners:  [selections[0].id, selections[1].id],
       //associatedHexs: of both corners? selections[0].hexes
       //, color: userColor, userID: userID
-      if( this.isDuringSetUp() ) { 
+      if( this.isDuringSetUp() ) {
         userObj.hasBoughtARoad=true
-      }      
+      }
       //to the road state used for rending visuals
       this.props.addBoardRoad({
-                        color: userColor, 
+                        color: userColor,
                         corners: [selections[0].id, selections[1].id],  //ids
                         coordinates: coord, //corner coords [[x1,y1],[x2,y2]]
                         owner: userID
                          })
-      this.props.addRoad(roadObj) //to the everyStructures array used for validation 
+      this.props.addRoad(roadObj) //to the everyStructures array used for validation
     }
     else{
       alert('Please pick two valid end points for your new road and try again')
@@ -135,18 +135,18 @@ export class Structures extends Component {
     let alreadyPurchased = userObj.startSettlement
     let coordinates =  [[11,-19],[5,-9]]
     console.log("this.isAfforable('road', userID)",this.isAfforable('settlement', userID))
-    console.log("this.isAvailable('road', userID)",this.isAvailable('settlement', coordinates) ) 
+    console.log("this.isAvailable('road', userID)",this.isAvailable('settlement', coordinates) )
 
 
     // coordinates will be x and y of the corner
     // associated hexes will be corner[0,0,0:0,1,-1:1,0,-1:].hexes
 
-    if( selectedCorner.length===1 && isValidSetUpMove  
-      && this.isAvailable() && this.isFarEnough('settlement') && (this.isAfforable('settlement') || 
+    if( selectedCorner.length===1 && isValidSetUpMove
+      && this.isAvailable() && this.isFarEnough('settlement') && (this.isAfforable('settlement') ||
       (this.isDuringSetUp() && !alreadyPurchased ) ) ){ //<--no settlement has been registered/added so far in this set up round, if in set up phase
-      let settlementObj = { type: 'settlement', points: 1 , color: userColor, userID: userID, 
+      let settlementObj = { type: 'settlement', points: 1 , color: userColor, userID: userID,
                             coordinates: selectedCorner,  associatedHexs: []   }
-      if( this.isDuringSetUp() ) { 
+      if( this.isDuringSetUp() ) {
         userObj.hasBoughtASettlement=true
       }
 
@@ -156,6 +156,9 @@ export class Structures extends Component {
       //everyStructure used for validateion
       this.props.addSettlement(settlementObj)
     }
+		upgradeSettlement(){
+			//add logic for upgrading to city here
+		}
   }
   render() {
     console.log("Passed from Board, selected corners are :",this.props.selected)
@@ -171,13 +174,13 @@ export class Structures extends Component {
 /* -----------------    CONTAINER     ------------------ */
 
 import {connect} from 'react-redux';
-import { addRoad, addSettlement } from '../reducers/everyStructure'; 
-import { addBoardStructure } from '../reducers/structure'; 
-import { addBoardRoad } from '../reducers/road'; 
+import { addRoad, addSettlement } from '../reducers/everyStructure';
+import { addBoardStructure } from '../reducers/structure';
+import { addBoardRoad } from '../reducers/road';
 
 //bring in other results from reducers as necessary**
 
-const mapState = ({ turnInfo }) => ({turnInfo}); 
+const mapState = ({ turnInfo }) => ({turnInfo});
 // might need userArray[userID][selection] or userArray[userID][startRoad]  startSettlement
 const mapDispatch = { addRoad, addSettlement, addBoardStructure, addBoardRoad};
 
