@@ -37,5 +37,4 @@ export default function structures (structures = [], action){
 
 export const addBoardStructure = () => dispatch => {
     dispatch(addStructure(structure));
-
 }

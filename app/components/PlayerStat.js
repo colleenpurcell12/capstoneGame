@@ -32,6 +32,7 @@ export class PlayerStat extends Component {
 
 
   }
+
   changeCount(resource, isGoingUp){
     const playersRef  = firebase.database().ref().child('players')
     const cardsRef       = playersRef.child('player1').child('cards')
@@ -42,8 +43,9 @@ export class PlayerStat extends Component {
     cardsRef.update({ [resource]: this.state[resource]}) //[resource] work
     cardsRef.child(resource).on('value',   snap => { this.setState ({ [resource]:  snap.val() })
       //[resource] WORKS
-  })
+    })
   }
+
   nextPlayer(){
     let { isFirstRound, isSettingUp, turnArray, userArray } = store.getState()
      //Normal cycle of turns during game play, increment user to x+1
@@ -55,15 +57,17 @@ export class PlayerStat extends Component {
       //check if end of 1st round
       if (isFirstRound === true && turnArray.length === 1){
         //reset all the userArray hasBoughtARoad and hasBoughtASettlement to false
-        for (var i = 0; i<4 ; i++){
+        for (var i = 0; i < 4 ; i++){
             userArray[i].hasBoughtARoad = false;
-            userArray[i].hasBoughtASettlement = false
+            userArray[i].hasBoughtASettlement = false;
         }
         this.props.setNextRound() //dispatch(nextRound()); //which sets whoseTurn to 4, turnArray to [3,2,1]) and isFirstRound = false
         this.props.endTurn(3) //to 4
+
         }
+
       //check if end of 2nd round, therefore end of set up phase
-      else if (isFirstRound === false && turnArray.length === 1) {  // initialize normal cycle of turns       
+      else if (isFirstRound === false && turnArray.length === 1) {  // initialize normal cycle of turns
         this.props.endTurn(0)
         this.props.endSetUp()  //dispatch(startNormGamePlay()); sets turnInfo to 1, isSettingUp ==false
       }
@@ -77,6 +81,7 @@ export class PlayerStat extends Component {
         else { console.log("turnArray is undefined") }
       }
     }
+
   }
 
   render() {
@@ -146,7 +151,7 @@ export class PlayerStat extends Component {
 /* -----------------    CONTAINER     ------------------ */
 
 import {connect} from 'react-redux';
-import { endTurn } from '../reducers/playerStat'; 
+import { endTurn } from '../reducers/playerStat';
 import { setNextRound, endSetUp, nextTurn } from '../reducers/turnBooleans';
 
 const mapState = ({ turnInfo }) => ({turnInfo});
