@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {addAction} from '../reducers/action-creators'
+import { newDiceRoll } from '../reducers/dice'; 
 
 
 export class Dice extends Component {
@@ -8,12 +10,13 @@ export class Dice extends Component {
     	d1: 1,
     	d2: 1
     }
+    this.rollDice = this.rollDice.bind(this)
   }
 
   rollDice() {
   	let d1 = Math.floor(Math.random() * 6) + 1;
     let d2 = Math.floor(Math.random() * 6) + 1;
-    this.setState({d1: d1, d2: d2});
+    this.setState({d1: d1, d2: d2}); //TODO: disable rollDice after roll unless double (remove isDouble)
     return {sum: d1+d2, isDouble: d1===d2}; //return the object that will be stored on the state since all the calcs are done in this function
   }
 
@@ -22,7 +25,7 @@ export class Dice extends Component {
     	<div>
 		  <img src={`/die/d${this.state.d1}.gif`}/>
 		  <img src={`/die/d${this.state.d2}.gif`}/>
-		  <button onClick={() => this.props.setDiceRoll(this.rollDice())}>Roll Dice</button>
+		  <button onClick={() => addAction(newDiceRoll(this.rollDice()))}>Roll Dice</button>
       <div>Last roll:{this.props.diceRoll.sum}</div>
 		</div>
 
@@ -33,10 +36,7 @@ export class Dice extends Component {
 /* -----------------    CONTAINER     ------------------ */
 
 import {connect} from 'react-redux';
-import { setDiceRoll } from '../reducers/dice'; //bring in our setDiceRoll dispatcher, which will literally just dispatch newDiceRoll
-//bring in other results from reducers as necessary
 
 const mapStore = ({ diceRoll }) => ({diceRoll})
-const mapDispatch = { setDiceRoll };
 
-export default connect(mapStore, mapDispatch)(Dice);
+export default connect(mapStore, null)(Dice);

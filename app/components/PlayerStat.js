@@ -29,6 +29,20 @@ export class PlayerStat extends Component {
     };
   }
   componentDidMount() {
+
+
+  }
+  changeCount(resource, isGoingUp){
+    const playersRef  = firebase.database().ref().child('players')
+    const cardsRef       = playersRef.child('player1').child('cards')
+
+    if(isGoingUp) { this.state[resource]++ }
+    else { this.state[resource]-- } //[resource] works
+
+    cardsRef.update({ [resource]: this.state[resource]}) //[resource] work
+    cardsRef.child(resource).on('value',   snap => { this.setState ({ [resource]:  snap.val() })
+      //[resource] WORKS
+  })
   }
   nextPlayer(){
     let { isFirstRound, isSettingUp, turnArray, userArray } = store.getState()
