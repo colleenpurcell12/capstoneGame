@@ -156,10 +156,11 @@ export class Structures extends Component {
       //everyStructure used for validateion
       this.props.addSettlement(settlementObj)
     }
-		upgradeSettlement(){
-			//add logic for upgrading to city here
-		}
+
   }
+	upgradeSettlement(){
+		//add logic for upgrading to city here
+	}
   render() {
     console.log("Passed from Board, selected corners are :",this.props.selected)
     return (
@@ -175,7 +176,7 @@ export class Structures extends Component {
 
 import {connect} from 'react-redux';
 import { addRoad, addSettlement } from '../reducers/everyStructure';
-import { addBoardStructure } from '../reducers/structure';
+import { addBoardStructure, upgrade } from '../reducers/structure';
 import { addBoardRoad } from '../reducers/road';
 
 //bring in other results from reducers as necessary**
