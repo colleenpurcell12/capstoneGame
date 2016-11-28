@@ -16,7 +16,6 @@ export class Board extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.selectCorner = this.selectCorner.bind(this);
     this.generate = this.generate.bind(this)
     //this.addRoad = this.addRoad.bind(this)
     //config handled off component?
@@ -54,7 +53,7 @@ export class Board extends Component {
       <div>
         <div className="board">
           <PortGrid width={config.width} height={config.height} selectPort={this.selectPort}/>
-          <CornerGrid width={config.width} height={config.height} selectCorner={this.selectCorner} corners={this.state.corners}  selected={this.state.selected}/>
+          <CornerGrid width={config.width} height={config.height} corners={this.state.corners}  selected={this.state.selected}/>
           <Roads width={config.width} height={config.height} roads={roads}/>
           <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
         </div>
@@ -62,118 +61,28 @@ export class Board extends Component {
         <div>
          <SubmitForm id = "Form" handleSubmit={this.handleSubmit}/>
          <Structures select={this.state.selected} />
-
         </div>
     </div>
     );
   }
 
-  selectCorner(event) {
-  //Cases: first time a corner is touched
-  // either the first or the 2nd is clicked twice,
-  // one is clicked when there is a first but not a 2nd, a 3nd but not a 1st
-  // a third one is clicked when there is both a first and a second
-  //idea to seperate teh class css from the this.state.selected
-  //is this one already selected
-
-    if (event.target == this.state.selected.firstCorner ){//if the corner is one of the first or second
-      console.log("1st corner",event.target)
-      event.target.removeAttribute('class', 'corner-select');
-      let theState = this.state.selected
-      console.log('THE STATE', theState)
-      this.setState({selected: theState})
-      console.log("1st corner event.target", event.target)
-      console.log("1st corner should now be null", this.state.selected)
-    }
-
-    if (event.target == this.state.selected.secondCorner){
-      console.log("2nd corner")
-      // event.target.removeAttribute('class', 'corner-select'); //.corner-node{
-      // this.state.selected.secondCorner = null
-      let theState = this.state.selected
-      theState.secondCorner = '';
-      this.setState({selected: theState})
-      console.log("2nd corner should now be null", this.state.selected)
-
-    }
-
-    var updatedSelected = this.state.selected
-    if(this.state.selected.firstCorner){ //at least one
-      if(!this.state.selected.secondCorner){ //exactly one
-        //time to fill in 2nd
-        event.target.setAttribute('class', 'corner-select');
-        updatedSelected.secondCorner = event.target
-
-        //DISPATCH this.props COLLEEN
-        var id = event.target.attributes.id
-        console.log("Selected corner is being put into the selection state event.target.attributes.id ",id)
-        var cornerObj = corners.find( (cornerObj) =>
-           cornerObj.id === id.substring(1)
-        )
-        this.props.addBoardSelection(cornerObj)
-
-        this.setState({ selected: updatedSelected })
-      } //first is filled
-    }
-    //first empty, unsure about the 2nd
-    else { //
-        if(!this.state.selected.secondCorner){ //completely empty
-          event.target.setAttribute('class', 'corner-select');
-          updatedSelected.firstCorner = event.target
-          this.setState({selected: updatedSelected})
-        } //first is filled
-        //if there is a 2nd but not a first, fill back in first
-        else{
-          event.target.setAttribute('class', 'corner-select');
-          updatedSelected.firstCorner = event.target
-          this.setState({ selected: updatedSelected })
-
-        }
-    }
-    console.log('Board component, this.state.selected', this.state.selected)
-    // if(this.state.selected.length >= 2) {
-    //       console.log('ALREADY 2 SELECTED, no class added')
-    //       event.target.removeAttribute('class', 'corner-select');
-    //      // event.target.setAttribute('class', 'corner-deselected');
-    // }
-    // else if(this.state.selected.length === 0)  {
-    //   event.target.setAttribute('class', 'corner-select');
-    //   this.setState({selected: [event.target]})
-    // } else {
-    //   event.target.setAttribute('class', 'corner-select');
-    //   var sA = this.state.selected;
-    //   sA.push(event.target)
-    //   this.setState({selected: sA})
-    // }
-    // console.log('this.state', this.state)
-  }
 
   handleSubmit(event){
     event.preventDefault();
 
-    //Testing only
     //current user's color
     let color = event.target.color.value
     var user = { color: color }
     // this.props.currentuser.color
 
     //TESTING ONLY
-
     console.log('handle add road clicked')
     console.log('this.state.selected', this.state.selected.firstCorner)
 
-    //add to the curr user's selection
-    // let { turnInfo, userArray, everyStructure } = store.getState()
-    // userArray[turnInfo].selection = [a,b]
-
-    var a = this.state.selected.firstCorner, b = this.state.selected.secondCorner
-
-    this.state.selected = []
+    var a = this.props.selected[0], b = this.props.selected[0]
 
     this.addRoad(a, b, user)
-    a.removeAttribute('class', 'corner-select');
-    b.removeAttribute('class', 'corner-select');
-
+    this.props.clearBoardSelection();
   }
   // move me!
   //  addRoad(a, b, c){
@@ -326,7 +235,7 @@ import {connect} from 'react-redux';
 //import { addRoad, addSettlement } from '../reducers/everyStructure';
 
 import { addStructure } from '../reducers/structure';
-import { addBoardSelection } from '../reducers/selection';
+import { addBoardSelection, clearBoardSelection} from '../reducers/selection';
 import { addBoardRoad } from '../reducers/road';
 
 
@@ -334,7 +243,7 @@ import { addBoardRoad } from '../reducers/road';
 
 const mapStateToProps = ({ turnInfo }) => ({turnInfo});
 // might need userArray[userID][selection] or userArray[userID][startRoad]  startSettlement
-const mapDispatch = {  addBoardSelection, addBoardRoad }; //addRoad, addSettlement, addStructure
+const mapDispatch = {  addBoardSelection, addBoardRoad, clearBoardSelection }; //addRoad, addSettlement, addStructure
 
 export default connect(
   mapStateToProps,

@@ -7,26 +7,19 @@ class CornerGrid extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      //dummy data for Testing w/b this.props...
-      everyStructure: [{ type: 'road', owner: 'green'}, {type: 'settlement', owner: 'green', corner: 12 }]
     }
   }
   componentDidMount(){
 
   }
   render() {
-    // get corners object from board generate
-    // should be on state or nah?
+    // should be on state or imported config file rather than kept on board
     let corners = this.props.corners
 
-    //turn corners object into an array
+    // turn corners object into an array
     let keys = Object.keys(corners)
     let cornersArray = keys.map(key => (corners[key]))
 
-    // pull settlements from allStructures array on state
-    let settlements = this.state.everyStructure.filter(function(struc){
-      return struc.type === 'settlement' || struc.type === 'city';
-    })
     console.log(' cg this.props', this.props)
     return (
       <svg id='CornerGrid' className="grid" width={this.props.width} height={this.props.height} viewBox="-50 -50 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -34,15 +27,13 @@ class CornerGrid extends React.Component {
           cornersArray.map( corner => {
             return (
               <CornerShape key={corner.id}
-                selectCorner={this.props.selectCorner}
                 sel={this.props.selected}
                 index={corner.id}
                 cx={corner.x}
                 cy={corner.y}
                 r={2}
                 type="corner"
-                owner={owner}
-                structure={structure}
+                corners={cornersArray}
               />
             );
           })

@@ -2,11 +2,15 @@ import * as firebase from 'firebase'
 
 /* -----------------    ACTIONS     ------------------ */
 
- const ADD_SELECTION = 'ADD_SELECTION';
+const ADD_SELECTION = 'ADD_SELECTION';
+const REMOVE_SELECTION = 'REMOVE_SELECTION';
+const CLEAR_SELECTION = 'CLEAR_SELECTION';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-const addSelection = () => ({ type: ADD_SELECTION, selection })
+const addSelection = (selection) => ({ type: ADD_SELECTION, selection })
+const removeSelection = (id) => ({type: REMOVE_SELECTION, id})
+const clearSelection = () => ({type: CLEAR_SELECTION})
 
 /* ------------       REDUCER     ------------------ */
 
@@ -14,10 +18,13 @@ const addSelection = () => ({ type: ADD_SELECTION, selection })
 //secondCorner
 
 export default function selections (selections = [], action){
-
   switch (action.type) {
     case ADD_SELECTION:
-      return [...selections, action.selection]
+      return [...selections, action.selection];
+    case REMOVE_SELECTION:
+      return selections.filter(s => (s.id !== action.id));
+    case CLEAR_SELECTION:
+      return [];
     default:
       return selections;
   }
@@ -25,7 +32,13 @@ export default function selections (selections = [], action){
 
 /* ------------      DISPATCHERS     ------------------ */
 
-export const addBoardSelection = () => dispatch => {
-    dispatch(addSelection(selection));
+export const addBoardSelection = (selection) => dispatch => {
+  dispatch(addSelection(selection));
+}
+export const removeBoardSelection = (id) => dispatch => {
+  dispatch(removeSelection(id));
+}
 
+export const clearBoardSelection = ()=> dispatch => {
+  dispatch(clearSelection());
 }
