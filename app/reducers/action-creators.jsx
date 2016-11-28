@@ -3,8 +3,6 @@
 
 import * as firebase from 'firebase'
 
-/* ------------       DISPATCHERS     ------------------ */
-
 //when player joins game turn on listeners and fire actions 
 export const syncActions = () => dispatch => {
 	firebase.database().ref().child('action-creators').on('child_added', snap => {
@@ -14,11 +12,11 @@ export const syncActions = () => dispatch => {
 }
 
 //add new moves to database
-export const addAction = action => dispatch => {
+export const addAction = action => {
   firebase.database().ref().child('action-creators').push(action) //{type: ACTION_TYPE, payload}
 }
 
 //when player leaves game turn off listener
-export const unsyncActions = () => dispatch => {
+export const unsyncActions = () => {
   firebase.database().ref().child('action-creators').off()
 }
