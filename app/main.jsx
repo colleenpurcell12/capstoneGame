@@ -34,7 +34,7 @@ render (
   <MuiThemeProvider>
     <Provider store={store}>
       <Router history={browserHistory}>
-        <Route path="/" component={Home} onEnter={store.dispatch(listenToAuth())} />
+        <Route path="/" component={Home} onEnter={store.dispatch(listenToAuth(store.getState().inProgress, store.getState().players))} />
       </Router>
     </Provider>
   </MuiThemeProvider>,

@@ -22,7 +22,6 @@ export default function reducer (whoseTurn= 1, action){
 /* ------------      DISPATCHERS     ------------------ */
 
 export const endTurn = (player) => dispatch => {
-    player === 4 ? player = 1 : player++ 
-    //console.log("XXX NEXT player is number",player)
+    player === 4 ? player = 1 : player++
     dispatch(setNextTurn(player));
 }

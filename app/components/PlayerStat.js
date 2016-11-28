@@ -34,27 +34,7 @@ export class PlayerStat extends Component {
     };
   }
   componentDidMount() {
-    const rootRef 		= firebase.database().ref()
-    const playersRef 	= rootRef.child('players')
 
-    // TO DO: GET PLAYER # from the store
-    const playerIndivRef = playersRef.child('player1')
-		const cardsRef 			 = playerIndivRef.child('cards')
-
-		const woolRef 	= cardsRef.child('wool')
-		const brickRef  = cardsRef.child('brick')
-		const grainRef  = cardsRef.child('grain')
-		const oreRef 		= cardsRef.child('ore')
-		const lumberRef = cardsRef.child('lumber')
-    //console.log('Chatroom.componentDidMount messagesRef=', messagesRef)
-
-    woolRef.on('value', 	snap => { this.setState ({ wool:  snap.val()	}) })
-    brickRef.on('value', 	snap => { this.setState ({ brick: snap.val() }) })
-    grainRef.on('value', 	snap => { this.setState ({ grain: snap.val() }) })
-    oreRef.on( 'value', 	snap => { this.setState ({ ore: 		snap.val() }) })
-    lumberRef.on('value', snap => { this.setState ({ lumber: snap.val() }) })
-      //console.log("XXX**** snap.val() ",snap.val() )
-      //console.log("XXX**** state",this.state)
   }
   changeCount(resource, isGoingUp){
     const playersRef  = firebase.database().ref().child('players')

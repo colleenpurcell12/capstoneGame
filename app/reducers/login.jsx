@@ -1,6 +1,9 @@
 import * as firebase from 'firebase'
-import {syncActions, unsyncActions} from './action-creators'
-
+import {loadActions, syncActions, unsyncActions, addAction} from './action-creators';
+import {addPlayer} from './players';
+import {startGame} from './home';
+import Promise from 'bluebird';
+import store from '../store';
 /* -----------------    ACTIONS     ------------------ */
 
 const SET_CURRENT_USER = 'SET_CURRENT_USER'
@@ -22,12 +25,14 @@ export default function reducer (loggedInUser = null, action) {
 
 /* ------------       DISPATCHERS     ------------------ */
 
-export const listenToAuth = () => dispatch => {
+export const listenToAuth = (inProgress, players) => dispatch => {
 	firebase.auth().onAuthStateChanged(firebaseUser => {
 		if(firebaseUser) {
       dispatch(loginUser(firebaseUser))
-      dispatch(syncActions())
-    }
+      dispatch(loadActions());
+      // if (players.length >= 4 && inProgress) alert("Game is in Progress")
+      // else addAction(addPlayer(firebaseUser.displayName))
+      }
 		else {
       dispatch(loginUser(null))
       dispatch(unsyncActions())
