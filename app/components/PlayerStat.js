@@ -9,6 +9,8 @@ import Checkbox from 'material-ui/Checkbox'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import store from '../store'
+import {addPlayer} from '../reducers/players';
+import {addAction} from '../reducers/action-creators';
 //needs to know which player's card is showing
 
 const validate = values => {
@@ -51,6 +53,11 @@ export class PlayerStat extends Component {
   handleChange (e) {
     //console.log(e.target.value) //name of input
     //need to grab the "current user" and give them the award in the database
+  }
+
+  addNewPlayer(){
+    if (this.props.players.length >=4) alert("Game is in progress");
+    else addAction(addPlayer(this.props.loggedInUser.displayName));
   }
 
   nextPlayer(){
@@ -183,6 +190,7 @@ export class PlayerStat extends Component {
 
 
 				<button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button>
+        <button type='submit' onClick={() => this.addNewPlayer()}> JOIN GAME </button>
 			</div>
 
 		)
@@ -200,7 +208,7 @@ import { setNextRound, endSetUp, nextTurn } from '../reducers/turnBooleans';
 
 //bring in other results from reducers as necessary like isSettingUp, isFirstRound...
 
-const mapState = ({ turnInfo }) => ({turnInfo});
+const mapState = ({ turnInfo, loggedInUser, players }) => ({turnInfo, loggedInUser, players});
 const mapDispatch = { endTurn, setNextRound, endSetUp, nextTurn };
 
 export default connect(
