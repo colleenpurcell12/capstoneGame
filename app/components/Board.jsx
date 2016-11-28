@@ -36,7 +36,6 @@ export default class Board extends Component {
       selected: {firstCorner: null, secondCorner: null},
       tokens: [],
       resources: [],
-      roads: [{x1: -5.5, y1: 9.52, x2: 5.5, y2: 9.52, color: 'green'}], // dummy data
       allStructures: [],
       corners
      };
@@ -156,22 +155,23 @@ export default class Board extends Component {
     b.removeAttribute('class', 'corner-select');
 
   }
-
-   addRoad(a, b, c){
-    var roadsArray = this.state.roads
-    var newRoad = {
-      x1: parseInt(a.attributes.cx.value),
-      y1: parseInt(a.attributes.cy.value),
-      x2: parseInt(b.attributes.cx.value),
-      y2: parseInt(b.attributes.cy.value),
-      color: c.color
-    }
-    //dispatch addRoad
-    roadsArray.push(newRoad)
-    this.setState({roads: roadsArray})
-    // add road to state
-    console.log('state after addroad', this.state)
-  }
+  // move me!
+  //  addRoad(a, b, c){
+  //    // refactor
+  //   var roadsArray = this.state.roads
+  //   var newRoad = {
+  //     x1: parseInt(a.attributes.cx.value),
+  //     y1: parseInt(a.attributes.cy.value),
+  //     x2: parseInt(b.attributes.cx.value),
+  //     y2: parseInt(b.attributes.cy.value),
+  //     color: c.color
+  //   }
+  //   //dispatch addRoad
+  //   roadsArray.push(newRoad)
+  //   this.setState({roads: roadsArray})
+  //   // add road to state
+  //   console.log('state after addroad', this.state)
+  // }
 
   generate(config){
     // create layout object
@@ -212,7 +212,7 @@ export default class Board extends Component {
 
     // retrieve shuffled tokenArray & resources array
     // need gameinit function that shuffles?
-    //assign token and resources to hexes
+    // assign token and resources to hexes
     hexagons = assignHexData(hexagons, tokenArray, resourcesArray)
 
     //debugging

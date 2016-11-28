@@ -16,6 +16,7 @@ class CornerGrid extends React.Component {
   }
   render() {
     // get corners object from board generate
+    // should be on state or nah?
     let corners = this.props.corners
 
     //turn corners object into an array
@@ -24,23 +25,13 @@ class CornerGrid extends React.Component {
 
     // pull settlements from allStructures array on state
     let settlements = this.state.everyStructure.filter(function(struc){
-      return struc.type === 'settlement' // || struc.type === 'city';
+      return struc.type === 'settlement' || struc.type === 'city';
     })
     console.log(' cg this.props', this.props)
     return (
       <svg id='CornerGrid' className="grid" width={this.props.width} height={this.props.height} viewBox="-50 -50 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
         {
           cornersArray.map( corner => {
-            // check settlements Array by corner (id) for match
-            let owner = null, structure = null;
-            let isOwned = settlements.find(function(settlement){
-              return settlement.corner === corner.id
-            })
-            if(isOwned){
-              owner = isOwned.owner;
-              structure = isOwned.type[0];
-            }
-
             return (
               <CornerShape key={corner.id}
                 selectCorner={this.props.selectCorner}
@@ -58,10 +49,6 @@ class CornerGrid extends React.Component {
         }
       </svg>
     );
-  }
-
-  addSettlement(e){
-    //Structures.js?
   }
 }
 
