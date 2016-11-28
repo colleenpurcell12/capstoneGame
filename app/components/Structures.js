@@ -66,30 +66,54 @@ export class Structures extends Component {
     // need to know the hexagon state data structure
     // the user array structure to find the color by ID
     // ensure that the 1-2 selected corners are stored somewhere
-    let {  userArray, turnInfo } = store.getState()
+    let {  userArray, turnInfo, selections } = store.getState()
+
+    //corners in 2 element selections array:
+
+      // [0,0,0:0,1,-1:1,0,-1:]: 
+      // { hexes: [resource: '', token: 0, id: 30],
+      //   id: ,
+      //   neighbors: [], //cID1, cID2
+      //   x: ,
+      //   y: 
+      // }
+
+    var coord = [ //[[x1,y1],[x2,y2]]
+          [parseInt(selections[0].cx.value), parseInt(selections[0].cy.value) ], //x1, y2
+          //since coming from the selection state rather than the event.target, might already be #
+          [parseInt(selections[1].cx.value),  parseInt(selections[1].cy.value) ] //x2, y2: 
+        ]
     let userID = turnInfo
     let userObj = userArray[userID]
-    //console.log("userObj in the structure component from the props", userObj)
     let userColor = userObj.color
-    let selectedCorners = userObj.selection    
     let hasAlreadyPurchased = userObj.startRoad //true or false
     let coordinates =  [[11,-19],[5,-9]] //x1,y1,x2,y2 
-    //[[boardObject.roads[1].x1, boardObject.roads[1].y1],[.roads[1].x2, boardObject.roads[1].y2]
-    console.log("this.isAfforable('road', userID)",this.isAfforable('road', userID))
-    console.log("this.isAvailable('road', userID)",this.isAvailable('road',coordinates) ) //x1,y1,x2,y2 from board state object
 
     if( selectedCorners.length===2 && this.isConnected(coord) && this.isFarEnough('road')
       && this.isAvailable('road',coordinates)  && (this.isAfforable('road', userID) || 
       (this.isDuringSetUp() && !hasAlreadyPurchased ) ) ){ 
-      let roadObj = { type: 'road', points: 0, coordinates: selectedCornersCoord, 
-                      corners:  [],
+
+
+      let roadObj = { type: 'road', points: 0, coordinates: coord, 
+                      corners:  [selections[0].id, selections[1].id],
                       associatedHexs: [], color: userColor, userID: userID }
+
+      //type: always 'road', points: always 0, 
+      //coordinates: selectedCornersCoord, 
+      // corners:  [selections[0].id, selections[1].id],
+      //associatedHexs: of both corners? selections[0].hexes
+      //, color: userColor, userID: userID
       if( this.isDuringSetUp() ) { 
         userObj.hasBoughtARoad=true
-      }
-      //might have to add the coordinates instead of the corner IDs
-      this.props.addBoardRoad({color: userObj.color, cornerArr: [32,31], coordinates: [] })
-      this.props.addRoad(roadObj)
+      }      
+      //to the road state used for rending visuals
+      this.props.addBoardRoad({
+                        color: userColor, 
+                        corners: [selections[0].id, selections[1].id],  //ids
+                        coordinates: coord, //corner coords [[x1,y1],[x2,y2]]
+                        owner: userID
+                         })
+      this.props.addRoad(roadObj) //to the everyStructures array used for validation 
     }
     else{
       alert('Please pick two valid end points for your new road and try again')
