@@ -118,18 +118,22 @@ svg circle {
 
 .green {
   stroke: green;
+  fill: green;
   stroke-weight: .5;
 }
 
 .red {
   stroke: red;
+  fill: red;
   stroke-weight: .5;
 }
 .blue {
   stroke: blue;
+  fill: blue;
   stroke-weight: .5;
 }
 .brown {
   stroke: brown;
+  fill: brown;
   stroke-weight: .5;
 }

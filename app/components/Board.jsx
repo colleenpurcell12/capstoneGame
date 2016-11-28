@@ -36,8 +36,8 @@ export default class Board extends Component {
       selected: {firstCorner: null, secondCorner: null},
       tokens: [],
       resources: [],
-      roads: [{x1: -5.5, y1: 9.52, x2: 5.5, y2: 9.52, color: 'green'}],
-      settlements: [],
+      roads: [{x1: -5.5, y1: 9.52, x2: 5.5, y2: 9.52, color: 'green'}], // dummy data
+      allStructures: [],
       corners
      };
      // tokens, resources, settlements, roads, and actions should come from connect?
@@ -71,7 +71,7 @@ export default class Board extends Component {
   // one is clicked when there is a first but not a 2nd, a 3nd but not a 1st
   // a third one is clicked when there is both a first and a second
   //idea to seperate teh class css from the this.state.selected
-    //is this one already selected
+  //is this one already selected
 
     if (event.target == this.state.selected.firstCorner ){//if the corner is one of the first or second
       console.log("1st corner",event.target)
@@ -139,8 +139,11 @@ export default class Board extends Component {
   handleSubmit(event){
     event.preventDefault();
 
+    //Testing only
+    //current user's color
     let color = event.target.color.value
     var user = { color: color }
+    // this.props.currentuser.color
 
     //TESTING ONLY
     console.log('handle addroad clicked')
@@ -163,6 +166,7 @@ export default class Board extends Component {
       y2: parseInt(b.attributes.cy.value),
       color: c.color
     }
+    //dispatch addRoad
     roadsArray.push(newRoad)
     this.setState({roads: roadsArray})
     // add road to state
@@ -208,7 +212,6 @@ export default class Board extends Component {
 
     // retrieve shuffled tokenArray & resources array
     // need gameinit function that shuffles?
-
     //assign token and resources to hexes
     hexagons = assignHexData(hexagons, tokenArray, resourcesArray)
 
@@ -218,8 +221,11 @@ export default class Board extends Component {
     console.log(`found ${Object.keys(allCorners).length} corners`)
     return { hexagons, layout, corners: allCorners };
   }
-
 }
+
+
+
+/* -----------------    UTILITIES     ------------------ */
 
 const neighborDirections = [
     {q: 0, r: -1,s: +1},

@@ -8,33 +8,19 @@ class CornerShape extends React.Component {
     };
   }
 
-  // ***** can we use this translate function?
-  // translate() {
-  //   let hex = this.props.hex;
-  //   let pixel = HexUtils.hexToPixel(hex, this.props.layout);
-  //   return `translate(${pixel.x}, ${pixel.y})`;
-  // }
-
-  // getStyles(hex) {
-  //   return (hex.props == {} || typeof(hex.props.image) === "undefined") ? {} : { fill: 'url(#'+ HexUtils.getID(hex) +')' };
-  // }
-
   // click handler function/actions/dispatchers can be set right here once we get state
 
   render() {
     let hex = this.props.hex;
     let actions = this.props.actions;
-    // let styles = this.getStyles(hex);
-    //this.props.type + this.props.index??
     let cornerId = this.props.type[0]+this.props.index
-    let selected = '';
-    // if (this.props.selected.firstCorner.attributes.id === cornerId
-    //   || this.props.selected.secondCorner.attributes.id === cornerId){
-    //   selected = 'selected-corner';
-    // }
-    console.log('cs props', this.props.sel)
-    // onClick= {e => actions.onClick(id, e)}
-    let classN = [this.props.type, this.props.resource, selected].join(' ')
+    // type -> port or corner
+    // resource -> port resource
+    // selected -> ring
+    // owner -> color
+    // strucure -> city or settlement
+    let struc = '' || this.props.structure
+    let classN = [this.props.type, this.props.resource, this.props.owner].join(' ')
     return (
       <g className="shape-group" draggable="true"
         onDragStart={e => actions.onDragStart(this.props.hex, e)}
@@ -45,22 +31,31 @@ class CornerShape extends React.Component {
         id= {cornerId}
         >
         <img src=""/>
-        <circle className={classN} cx={this.props.cx} cy={this.props.cy} r={this.props.r}  id= {cornerId}/>
-        <text x={this.props.cx} y={this.props.cy+.3} textAnchor="middle" >{this.props.text || ''}</text>
+        <circle className={classN} cx={this.props.cx} cy={this.props.cy}
+          r={this.props.r}  id= {cornerId}/>
+        <text x={this.props.cx} y={this.props.cy+.3} textAnchor="middle" >
+          {struc|| ''}
+        </text>
       </g>
     );
   }
 }
 
-export default CornerShape;
 
-// map state to props
-// board.settlements ~ array[{ type, owner}]  // where index = id
+/* -----------------    CONTAINER     ------------------ */
 
- // this.props = {
- //   owner,
- //   type/text
- // }
+import { connect } from 'react-redux';
 
-// map dispatch
-// click logic
+//also selected
+const mapStateToProps = ({ everyStructure }) => ({
+  everyStructure
+});
+
+const mapDispatchToProps = dispatch => ({
+ // click logic for select node
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CornerShape);
