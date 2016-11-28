@@ -9,14 +9,16 @@ import GridGenerator from '../../gameutils/react-hexgrid/src/GridGenerator'
 import HexUtils from '../../gameutils/react-hexgrid/src/HexUtils';
 import Point from '../../gameutils/react-hexgrid/src/Point';
 import PortGrid from './PortGrid'
+import store from '../store'
+import Structures from './Structures';
 
-export default class Board extends Component {
+export class Board extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.selectCorner = this.selectCorner.bind(this);
     this.generate = this.generate.bind(this)
-    this.addRoad = this.addRoad.bind(this)
+    //this.addRoad = this.addRoad.bind(this)
     //config handled off component?
     let boardConfig = {
       width: 700, height: 820,
@@ -60,6 +62,8 @@ export default class Board extends Component {
 
         <div>
          <SubmitForm id = "Form" handleSubmit={this.handleSubmit}/>
+         <Structures select={this.state.selected} />
+
         </div>
     </div>
     );
@@ -96,6 +100,15 @@ export default class Board extends Component {
         //time to fill in 2nd
         event.target.setAttribute('class', 'corner-select');
         updatedSelected.secondCorner = event.target
+
+        //DISPATCH this.props COLLEEN
+        var id = event.target.attributes.id
+        console.log("Selected corner is being put into the selection state event.target.attributes.id ",id)
+        var cornerObj = corners.find( (cornerObj) =>
+           cornerObj.id === id.substring(1)
+        )
+        this.props.addBoardSelection(cornerObj)
+
         this.setState({ selected: updatedSelected })
       } //first is filled
     }
@@ -114,7 +127,7 @@ export default class Board extends Component {
 
         }
     }
-    console.log('this.state.selected', this.state.selected)
+    console.log('Board component, this.state.selected', this.state.selected)
     // if(this.state.selected.length >= 2) {
     //       console.log('ALREADY 2 SELECTED, no class added')
     //       event.target.removeAttribute('class', 'corner-select');
@@ -139,10 +152,14 @@ export default class Board extends Component {
     var user = { color: color }
 
     //TESTING ONLY
-    console.log('handle addroad clicked')
+    console.log('handle add road clicked')
     console.log('this.state.selected', this.state.selected.firstCorner)
-    var a = this.state.selected.firstCorner, b = this.state.selected.secondCorner
 
+    //add to the curr user's selection
+    // let { turnInfo, userArray, everyStructure } = store.getState()
+    // userArray[turnInfo].selection = [a,b]
+
+    var a = this.state.selected.firstCorner, b = this.state.selected.secondCorner
     this.state.selected = []
 
     this.addRoad(a, b, user)
@@ -152,20 +169,21 @@ export default class Board extends Component {
 
   }
 
-   addRoad(a, b, c){
-    var roadsArray = this.state.roads
-    var newRoad = {
-      x1: parseInt(a.attributes.cx.value),
-      y1: parseInt(a.attributes.cy.value),
-      x2: parseInt(b.attributes.cx.value),
-      y2: parseInt(b.attributes.cy.value),
-      color: c.color
-    }
-    roadsArray.push(newRoad)
-    this.setState({roads: roadsArray})
-    // add road to state
-    console.log('state after addroad', this.state)
-  }
+  //  addRoad(a, b, c){
+  //   var roadsArray = this.state.roads
+  //   var newRoad = {
+  //     x1: parseInt(a.attributes.cx.value),
+  //     y1: parseInt(a.attributes.cy.value),
+  //     x2: parseInt(b.attributes.cx.value),
+  //     y2: parseInt(b.attributes.cy.value),
+  //     color: c.color
+  //   }
+  //   roadsArray.push(newRoad)
+  //   this.props.addBoardRoad({color: c.color, corners:[31,35], coordinates: [[newRoad.x1,newRoad.y1],[newRoad.x2,newRoad.y2]]})
+  //   this.setState({roads: roadsArray})
+  //   // add road to state
+  //   console.log('state after addroad', this.state)
+  // }
 
   generate(config){
     // create layout object
@@ -291,3 +309,24 @@ function findNeighbors(a, cObj){
   }
   return neighbors;
 }
+/* -----------------    CONTAINER     ------------------ */
+
+import {connect} from 'react-redux';
+//import { addRoad, addSettlement } from '../reducers/everyStructure'; 
+
+import { addStructure } from '../reducers/structure'; 
+import { addBoardSelection } from '../reducers/selection'; 
+import { addBoardRoad } from '../reducers/road'; 
+
+
+//bring in other results from reducers as necessary**
+
+const mapStateToProps = ({ turnInfo }) => ({turnInfo}); 
+// might need userArray[userID][selection] or userArray[userID][startRoad]  startSettlement
+const mapDispatch = {  addBoardSelection, addBoardRoad }; //addRoad, addSettlement, addStructure
+
+export default connect(
+  mapStateToProps,
+  mapDispatch
+)(Board)
+
