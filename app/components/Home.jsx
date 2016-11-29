@@ -27,7 +27,7 @@ export class Home extends React.Component {
               </div>
               <div className="mdl-cell mdl-cell--2-col">
                 <div >
-                <Players />
+                <Players /> <br/>
                 <Dice />      <br/>
                 <PlayerStat />
                 </div>

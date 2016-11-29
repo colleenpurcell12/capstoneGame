@@ -18,9 +18,10 @@ html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
 }
 
+/*https://www.wired.com/wp-content/uploads/images_blogs/wiredscience/2014/03/mars-crater-ft.jpg*/
 body {
-  background: url('https://www.wired.com/wp-content/uploads/images_blogs/wiredscience/2014/03/mars-crater-ft.jpg') center fixed;
-  background-size: 100% 100%;
+  background: url("images/mars_outflow_mud_vectorized.png") ;
+  background-size: 100% ;
 }
 
 .material-icons {
