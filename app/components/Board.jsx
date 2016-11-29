@@ -1,7 +1,6 @@
 import HexGrid from '../../gameutils/react-hexgrid/src/HexGrid.js';
 import React, {Component} from 'react';
-import {shuffle, addRoad, tokenArray, resourcesArray} from 'APP/gameutils/setup.js'
-import SubmitForm from './SubmitForm'
+import {shuffle, addRoad, tokenArray, assignHexInfo, resourcesArray} from 'APP/gameutils/setup.js'
 import CornerGrid from './CornerGrid'
 import Roads from './Roads'
 import Layout from '../../gameutils/react-hexgrid/src/Layout'
@@ -12,6 +11,7 @@ import PortGrid from './PortGrid'
 import store from '../store'
 import Structures from './Structures';
 import {addAction} from '../reducers/action-creators'
+import {assignHexData} from '../reducers/hex-data'
 
 class Board extends Component {
   constructor(props) {
@@ -32,6 +32,8 @@ class Board extends Component {
     let grid = this.generate(boardConfig);
 
     let corners = grid.corners
+
+    // this.props.putCorners(corners)
     this.state = {
       grid,
       config: boardConfig,
@@ -63,8 +65,7 @@ class Board extends Component {
         </div>
 
         <div>
-         <SubmitForm id = "Form" handleSubmit={this.handleSubmit}/>
-         <Structures select={this.state.selected} />
+         <Structures select={this.state.selected} corners={this.state.corners} />
         </div>
     </div>
     );
@@ -213,6 +214,10 @@ class Board extends Component {
     console.log('hexagons', hexagons)
     console.log('corners', allCorners)
     console.log(`found ${Object.keys(allCorners).length} corners`)
+
+    //puts all the corners on the state
+    this.props.putCorners(allCorners)
+
     return { hexagons, layout, corners: allCorners };
   }
 
@@ -295,12 +300,13 @@ function findNeighbors(a, cObj){
 
 import {connect} from 'react-redux';
 //import { addRoad, addSettlement } from '../reducers/everyStructure';
+import { putCorners } from '../reducers/corner';
 
 const mapStateToProps = ({ turnInfo, hexData }) => ({turnInfo, hexData});
 // might need userArray[userID][selection] or userArray[userID][startRoad]  startSettlement
-const mapDispatch = dispatch => ({
 
-});
+const mapDispatch = { putCorners };
+
 
 export default connect(
   mapStateToProps,

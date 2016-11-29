@@ -8,11 +8,6 @@
   position: relative;
 }
 
-body {
-  /*background-image: url(http://planetary-science.org/wp-content/uploads/2014/12/Ladon-basin-in-full-color.jpg);
-  background-repeat: no-repeat;*/
-}
-
 #Form{
   z-index: 14;
 }
@@ -31,7 +26,7 @@ body {
 
 .port {
   fill: brown;
-<<<<<<< Updated upstream
+
 }
 
 .hexhover {
