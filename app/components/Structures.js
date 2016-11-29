@@ -3,7 +3,7 @@ import * as firebase from 'firebase'
 import { Link } from 'react-router';
 import store from '../store'
 import { addAction } from '../reducers/action-creators'
-import { addRoadToEveryStructure, addSettlementToEveryStructure } from '../reducers/everyStructure';
+
 
 export class Structures extends Component {
 	constructor(props) {
@@ -55,14 +55,17 @@ export class Structures extends Component {
     let {  userArray } = this.props
     let userCards = userArray[userID].cardsResource
     //console.log("userCards defined?", userCards)
-    if(type==='road'){ //cost lumber and 1 brick in catan world, not mars world
+    if(type==='road'){ //cost lumber and 1 brick in catan world
       //type1 = lumber, type2 = brick
-      //type3 = wool, type4 = grain
+      //type3 = wool, type4 = grain, type5 = ore
      return userCards.type1>=1 && userCards.type2>=1
     } 
-    else { //settlement cost 1L+1B+1G+1W
+    else if (type==='settlement') { //settlement cost 1L+1B+1G+1W
       return ( userCards.type1>=1 && userCards.type2>=1
               && userCards.type4>=1 && userCards.type3>=1 )
+    }
+    else{//if type city
+      return ( userCards.type3>=2 && userCards.type5>=3)
     }
   }
   // isFarEnough for roads...? the corner at which it's connected with another road, can't have someone else's corner on it
@@ -134,7 +137,7 @@ export class Structures extends Component {
       // }
     var coord = [ [selections[0].x, selections[0].y],
                   [selections[1].x, selections[1].y] ] //[[11,-19],[5,-9]] //x1,y1,x2,y2              
-    let userID = turnInfo
+    let userID = turnInfo-1
     let userObj = userArray[userID]
     let userColor = userObj.color
     let hasAlreadyPurchased = userObj.hasBoughtARoad //true or false
@@ -161,7 +164,7 @@ export class Structures extends Component {
       if( this.isDuringSetUp() ) { userObj.hasBoughtARoad = true }
 
       //to the road state used for rending visuals
-      addAction(addRoadToRoads({
+      addAction(this.props.addRoadToRoads({
                           color: userColor,
                           corners: [selections[0].id, selections[1].id],  //ids
                           coordinates: coord, //corner coords [[x1,y1],[x2,y2]]
@@ -171,7 +174,7 @@ export class Structures extends Component {
 
       //send off to the everyStructures array used for validation
       //firebase
-      addAction(addRoadToEveryStructure(roadObj))
+      addAction(this.props.addRoadToEveryStructure(roadObj))
       //Formerly with dispatcher: this.props.add Road(roadObj)
 
     }
@@ -189,7 +192,7 @@ export class Structures extends Component {
 
     if( selections.length===1 //&& isValidSetUpMove  
       && this.isAvailable('settlement') && this.isFarEnough('settlement', coord) 
-      && ( this.isAfforable('settlement') 
+      && ( this.isAfforable('settlement', turnInfo-1) 
         || (this.isDuringSetUp() && !userObj.hasBoughtASettlement) ) 
       ){ //<--no settlement has been registered/added so far in this set up round, if in set up phase
       let settlementObj = { type: 'settlement', points: 1 , 
@@ -202,17 +205,33 @@ export class Structures extends Component {
         userObj.hasBoughtASettlement=true
       }
       //structure used for rending visual
-      this.props.addBoardStructure({color: userObj.color, corner_id: 32, type: 'settlement'})
+      addAction( 
+        this.props.addBoardStructure({color: userObj.color, corner_id: 32, type: 'settlement'}) )
 
       //everyStructure used for validateion using firebase
-      addAction(addSettlementToEveryStructure(settlementObj))
+      addAction(this.props.addSettlementToEveryStructure(settlementObj))
     }
     else{
       console.log('Please make sure you have selected a single valid corner for your new structure and try again')
     }
   }
+  isSettlementPlayerAlreadyOwns(){
+
+  }
 	upgradeSettlement(){
 		//add logic for upgrading to city here
+    let corner_id = this.props.selection[0].id
+
+    if( selections.length===1 && this.isSettlementPlayerAlreadyOwns()
+      &&  this.isAfforable('city') && !this.isDuringSetUp() 
+       ) {
+      addAction( this.props.upgradeBoardStructure(corner_id) )
+      addAction( this.props.addCityToEveryStructure(corner_id)) 
+    }    
+    else{
+      console.log('Please make sure you have selected a single corner on which you already own a settlment and try again')
+    }
+    //addAction(addSettlementToEveryStructure(settlementObj))
 	}
   render() {
     //console.log("Passed from Board, selected corners are :",this.props.selected)
@@ -220,6 +239,7 @@ export class Structures extends Component {
       <div>
     		<button type='submit' onClick={() => this.registerSettlement()}> Add Structure </button>
     		<button type='submit' onClick={() => this.registerRoad()}> Add Road </button>
+        <button type='submit' onClick={() => this.upgradeSettlement()}> Upgrade Settlement to a City</button>
       </div>
     	)
 	}
@@ -228,11 +248,13 @@ export class Structures extends Component {
 
 import {connect} from 'react-redux';
 //Dont need dispatchers: import { addRoad, addSettlement } from '../reducers/everyStructure';
-import { addBoardStructure, upgrade } from '../reducers/structure';
+import { addBoardStructure, upgradeBoardStructure } from '../reducers/structure';
 import { addRoadToRoads } from '../reducers/road';
+import { addRoadToEveryStructure, addSettlementToEveryStructure, addCityToEveryStructure } from '../reducers/everyStructure';
+
 
 const mapState = ({ isSettingUp, turnInfo, userArray, selections, everyStructure }) => ({isSettingUp, turnInfo, userArray, selections, everyStructure });
-const mapDispatch = { addBoardStructure, addRoadToRoads};
+const mapDispatch = { addBoardStructure, addRoadToRoads, addRoadToEveryStructure, addSettlementToEveryStructure, addCityToEveryStructure};
 
 export default connect(
   mapState,
