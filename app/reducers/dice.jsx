@@ -19,10 +19,3 @@ export default function reducer (diceRoll = {sum: 2, isDouble: false}, action) {
 }
 
 
-/* ------------       DISPATCHERS     ------------------ */
-
-// export const setDiceRoll = diceRoll => dispatch => {
-//   dispatch(addAction(newDiceRoll(diceRoll)))
-// }
-
-
