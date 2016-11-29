@@ -12,6 +12,8 @@ import doneLoading from './action-creators';
 import structure from './structure';
 import selections  from './selection';
 import roads  from './road';
+import hexData from './hex-data'
+
 
 const rootReducer = combineReducers({
   loggedInUser,
@@ -28,7 +30,8 @@ const rootReducer = combineReducers({
   structure,
   selections,
   roads,
-  doneLoading
+  doneLoading,
+	hexData
 });
 
 export default rootReducer;
