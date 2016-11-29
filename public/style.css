@@ -17,6 +17,12 @@
 html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
 }
+
+body {
+  background: url('https://www.wired.com/wp-content/uploads/images_blogs/wiredscience/2014/03/mars-crater-ft.jpg') center fixed;
+  background-size: 100% 100%;
+}
+
 .material-icons {
   font-size: 36px;
   top: 8px;
