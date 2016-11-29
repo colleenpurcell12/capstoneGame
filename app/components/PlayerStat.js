@@ -11,7 +11,8 @@ import MenuItem from 'material-ui/MenuItem'
 import store from '../store'
 import {addPlayer, incrementResource, decrementResource} from '../reducers/players';
 import {addAction} from '../reducers/action-creators';
-import {startGame} from '../reducers/home'
+import {startGame} from '../reducers/home';
+import {newDiceRoll} from '../reducers/dice';
 //needs to know which player's card is showing
 
 const validate = values => {
@@ -33,7 +34,7 @@ export class PlayerStat extends Component {
   }
 
   changeCount(resource, isGoingUp){
-    isGoingUp? addAction(incrementResource(this.props.loggedInUser.displayName, resource)) : 
+    isGoingUp? addAction(incrementResource(this.props.loggedInUser.displayName, resource)) :
       addAction(decrementResource(this.props.loggedInUser.displayName, resource))
   }
 
@@ -96,7 +97,7 @@ export class PlayerStat extends Component {
     });
     return (
       <div>
-        {resource ? 
+        {resource ?
         <div>
           <div>
             <input type="button" onClick={() => this.changeCount('wool',false) } value="-"/>
