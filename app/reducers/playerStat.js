@@ -21,7 +21,7 @@ export default function reducer (turnInfo= 1, action){
 
 /* ------------      DISPATCHERS     ------------------ */
 
-export const endTurn = (player) => {
-    player === 4 ? player = 1 : player++
-    addAction(setNextTurn(player));
-}
+// export const endTurn = (player) => {
+//     player === 4 ? player = 1 : player++
+//     addAction(setNextTurn(player));
+// }
