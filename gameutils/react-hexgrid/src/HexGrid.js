@@ -20,7 +20,11 @@ class HexGrid extends React.Component {
         {
           this.props.hexagons.map((hex, index) => {
             return (
+<<<<<<< Updated upstream
               <HexShape key={index} hex={hex} layout={this.props.layout} actions={this.props.actions} index={index} text={this.props.hexData.token} resource={this.props.hexData.resource}/>
+=======
+              <HexShape key={index} hex={hex} layout={this.props.layout} actions={this.props.actions} index={index} text={hex.token} resource={hex.resource}/>
+>>>>>>> Stashed changes
             );
           })
         }
