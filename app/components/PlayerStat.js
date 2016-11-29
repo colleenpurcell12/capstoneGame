@@ -11,6 +11,7 @@ import MenuItem from 'material-ui/MenuItem'
 import store from '../store'
 import {addPlayer, incrementResource, decrementResource} from '../reducers/players';
 import {addAction} from '../reducers/action-creators';
+import {startGame} from '../reducers/home'
 //needs to know which player's card is showing
 
 const validate = values => {
@@ -28,6 +29,7 @@ export class PlayerStat extends Component {
   constructor(props) {
     super(props);
     this.changeCount = this.changeCount.bind(this)
+    this.addNewPlayer = this.addNewPlayer.bind(this)
   }
 
   changeCount(resource, isGoingUp){
@@ -41,8 +43,13 @@ export class PlayerStat extends Component {
   }
 
   addNewPlayer(){
-    if (this.props.players.length >=4) alert("Game is in progress");
-    else addAction(addPlayer(this.props.loggedInUser.displayName));
+    if(this.props.players.length === 4 && !this.props.inProgress) {
+      return addAction(startGame(true))
+    }
+    else {
+      addAction(addPlayer(this.props.loggedInUser.displayName));
+      if(this.props.players.length === 4) addAction(startGame(true))
+    }
   }
 
   nextPlayer(){
@@ -172,7 +179,15 @@ export class PlayerStat extends Component {
         </div>
         :
         <div>
-          <button type='submit' onClick={() => this.addNewPlayer()}> JOIN GAME </button>
+        {this.props.inProgress?
+          <div>
+            <div>Game in Progress</div>
+          </div>
+          :
+          <div>
+            <button type='submit' onClick={() => this.addNewPlayer()}> JOIN GAME </button>
+          </div>
+        }
         </div>
         }
 			</div>
@@ -191,7 +206,7 @@ import { setNextRound, endSetUp, nextTurn } from '../reducers/turnBooleans';
 
 //bring in other results from reducers as necessary like isSettingUp, isFirstRound...
 
-const mapState = ({ turnInfo, loggedInUser, players }) => ({turnInfo, loggedInUser, players});
+const mapState = ({ turnInfo, loggedInUser, players, inProgress }) => ({turnInfo, loggedInUser, players, inProgress});
 const mapDispatch = { endTurn, setNextRound, endSetUp, nextTurn };
 
 export default connect(
