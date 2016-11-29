@@ -40,7 +40,7 @@ export class PlayerStat extends Component {
       addAction(decrementResource(this.props.loggedInUser.displayName, resource))
   }
 
-  handleChange (e) { //TODO fill in this onClick handler for awards selection 
+  handleChange (e) { //TODO fill in this onClick handler for awards selection
 
     //console.log(e.target.value) //name of input
     //need to grab the "current user" and give them the award in the database
@@ -158,8 +158,7 @@ export class PlayerStat extends Component {
             </label>
           </div>
           <br></br>
-          <div><Structures /></div>
-          <br></br>
+          <div><Structures /><br></br></div>
 
           <div> Expansion Materials: </div>
           <table>
@@ -184,12 +183,11 @@ export class PlayerStat extends Component {
                   <td>Pioneer</td>
                   <td>= 🚀  + 🌽 + 🌑 </td>
                 </tr>
-                <br />
           </tbody>
           </table>
-
+          <br></br>
   				<button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button>
-          
+
         </div>
 
         :
@@ -214,7 +212,7 @@ export class PlayerStat extends Component {
 /* -----------------    CONTAINER     ------------------ */
 
 import {connect} from 'react-redux';
-import { endTurn } from '../reducers/playerStat'; 
+import { endTurn } from '../reducers/playerStat';
 //import { setNextRound, endSetUp, nextTurn } from '../reducers/turnBooleans';
 import { nextRound, nextRoundStep2, shiftTurns, startNormGamePlay } from '../reducers/turnBooleans';
 
