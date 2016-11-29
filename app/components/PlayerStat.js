@@ -44,13 +44,10 @@ export class PlayerStat extends Component {
   }
 
   addNewPlayer(){
-    if(this.props.players.length === 4 && !this.props.inProgress) {
-      return addAction(startGame(true))
+     if (this.props.players.length === 3){ //if we're on the third player, and now we're calling addNew Player
+      addAction(startGame(true)); //set game progress to be true
     }
-    else {
-      addAction(addPlayer(this.props.loggedInUser.displayName));
-      if(this.props.players.length === 4) addAction(startGame(true))
-    }
+      addAction(addPlayer(this.props.loggedInUser.displayName)); //add the player to the game
   }
 
   nextPlayer(){
