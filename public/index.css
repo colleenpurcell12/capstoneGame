@@ -9,8 +9,8 @@
 }
 
 body {
-  /*background-image: url(http://planetary-science.org/wp-content/uploads/2014/12/Ladon-basin-in-full-color.jpg);
-  background-repeat: no-repeat;*/
+  background: src("images/mars_outflow_mud_vectorize.png");
+  background-repeat: no-repeat;
 }
 
 #Form{
@@ -31,7 +31,7 @@ body {
 
 .port {
   fill: brown;
-<<<<<<< Updated upstream
+
 }
 
 .hexhover {
