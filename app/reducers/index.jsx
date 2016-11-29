@@ -3,7 +3,7 @@ import loggedInUser from './login';
 import messages from './chatroom';
 import players from './players';
 import diceRoll from './dice';
-<<<<<<< Updated upstream
+
 import turnInfo from './playerStat';
 import inProgress from './home';
 import {isFirstRound, isSettingUp, turnArray} from './turnBooleans';
@@ -34,11 +34,6 @@ const rootReducer = combineReducers({
   doneLoading,
 	hexData
 });
-=======
-import whoseTurn from './playerStat';
-import inProgress from './home';
 
-const rootReducer = combineReducers({ loggedInUser, messages, players, diceRoll, whoseTurn, inProgress });
->>>>>>> Stashed changes
 
 export default rootReducer;
