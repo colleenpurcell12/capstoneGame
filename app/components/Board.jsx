@@ -1,6 +1,6 @@
 import HexGrid from '../../gameutils/react-hexgrid/src/HexGrid.js';
 import React, {Component} from 'react';
-import {shuffle, assignHexInfo, tokenArray, resourcesArray} from 'APP/gameutils/setup.js'
+import {shuffle, assignHexData, addRoad, tokenArray, resourcesArray} from 'APP/gameutils/setup.js'
 import SubmitForm from './SubmitForm'
 import CornerGrid from './CornerGrid'
 import Roads from './Roads'
@@ -13,15 +13,13 @@ import PortGrid from './PortGrid'
 import store from '../store'
 import Structures from './Structures';
 
-
 export default class Board extends Component {
-
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.selectCorner = this.selectCorner.bind(this);
     this.generate = this.generate.bind(this)
     //this.addRoad = this.addRoad.bind(this)
-
     //config handled off component?
     let boardConfig = {
       width: 700, height: 820,
@@ -65,7 +63,6 @@ export default class Board extends Component {
 
         <div>
          <SubmitForm id = "Form" handleSubmit={this.handleSubmit}/>
-         <Structures select={this.state.selected} />
         </div>
     </div>
     );
@@ -137,24 +134,18 @@ export default class Board extends Component {
     // }
     // console.log('this.state', this.state)
   }
->>>>>>> Stashed changes
 
   handleSubmit(event){
     event.preventDefault();
 
-    //current user's color
     let color = event.target.color.value
     var user = { color: color }
-    // this.props.currentuser.color
 
     //TESTING ONLY
-    console.log('handle add road clicked')
+    console.log('handle addroad clicked')
     console.log('this.state.selected', this.state.selected.firstCorner)
+    var a = this.state.selected.firstCorner, b = this.state.selected.secondCorner
 
-    var a = this.props.selected[0], b = this.props.selected[0]
-
-    //this.add Road(a, b, user)
-    this.props.clearBoardSelection();
     this.state.selected = []
 
     //this.addRoad(a, b, user)
@@ -174,24 +165,6 @@ export default class Board extends Component {
   //     color: c.color
   //   }
   //   roadsArray.push(newRoad)
-  //   this.setState({roads: roadsArray})
-  //   // add road to state
-  //   console.log('state after addroad', this.state)
-  // }
-  // move me!
-  //  add Road(a, b, c){
-  //    // refactor
-  //   var roadsArray = this.state.roads
-  //   var newRoad = {
-  //     x1: parseInt(a.attributes.cx.value),
-  //     y1: parseInt(a.attributes.cy.value),
-  //     x2: parseInt(b.attributes.cx.value),
-  //     y2: parseInt(b.attributes.cy.value),
-  //     color: c.color
-  //   }
-  //   //dispatch addRoad
-  //   roadsArray.push(newRoad)
-  //   this.props.addBoardRoad({color: c.color, corners:[31,35], coordinates: [[newRoad.x1,newRoad.y1],[newRoad.x2,newRoad.y2]]})
   //   this.setState({roads: roadsArray})
   //   // add road to state
   //   console.log('state after addroad', this.state)
@@ -248,10 +221,6 @@ export default class Board extends Component {
   }
 
 }
-
-
-
-/* -----------------    UTILITIES     ------------------ */
 
 const neighborDirections = [
     {q: 0, r: -1,s: +1},
@@ -325,31 +294,3 @@ function findNeighbors(a, cObj){
   }
   return neighbors;
 }
-/* -----------------    CONTAINER     ------------------ */
-
-import {connect} from 'react-redux';
-//import { addRoad, addSettlement } from '../reducers/everyStructure';
-
-import { addStructure } from '../reducers/structure';
-import { addBoardSelection, clearBoardSelection} from '../reducers/selection';
-//Fomerly import { addBoardRoad } from '../reducers/road';
-import { addRoadToRoads } from '../reducers/road';
-import { assignHexData } from '../reducers/hex-data'
-
-
-
-//bring in other results from reducers as necessary**
-
-const mapStateToProps = ({ turnInfo }) => ({turnInfo});
-// might need userArray[userID][selection] or userArray[userID][startRoad]  startSettlement
-const mapDispatch = dispatch => ({
-  addBoardSelection,
-  addRoadToRoads,
-  clearBoardSelection,
-  storeHexData: (hexes) => dispatch(assignHexData(hexes))
-  }); //addRoad, addSettlement, addStructure
-
-export default connect(
-  mapStateToProps,
-  mapDispatch
-)(Board)

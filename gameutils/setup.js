@@ -13,11 +13,7 @@ var ports = [
 ]
 
 var resources = ['solar', 'ice', 'seeds', 'hematite', 'other']
-<<<<<<< Updated upstream
-var resourcesArray = [0, 0, 0, 0, 1,1,1,1,2,2,2,2,3,3,3,4,4,4]
-=======
 var resourcesArray = [0, 0, 0, 0, 1,1,1,1,2,2,2,2,3,3,3,4,4,4, 'desert']
->>>>>>> Stashed changes
 var tokenArray = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12]
 
 function shuffle(arr){
@@ -30,22 +26,10 @@ function shuffle(arr){
   return shuffled;
 }
 
-<<<<<<< Updated upstream
-function assignHexInfo (hexes, tokens, resources) {
-  var tshuff = shuffle(tokens);
-  var rshuff = shuffle(resources);
-  var d = Math.floor(Math.random()*hexes.length)
-  tshuff.splice(d, 0, '')
-  rshuff.splice(d, 0, 'desert')
-  hexes.map(function(hex, index){
-    hex.token = tshuff[index];
-    hex.resource = rshuff[index];
-=======
 function assignHexData (hexes, tokens, resources) {
   hexes.map(function(hex, index){
     hex.token = tokens[index];
     hex.resource = resources[index];
->>>>>>> Stashed changes
     return hex;
   })
 return hexes;
@@ -55,8 +39,4 @@ return hexes;
 // state could save the last two clicked on ccorner nodes as well as the current player
 
 
-<<<<<<< Updated upstream
-module.exports = {shuffle, ports, resources, resourcesArray, tokenArray, assignHexInfo}
-=======
 module.exports = {shuffle, ports, resources, resourcesArray, tokenArray, assignHexData}
->>>>>>> Stashed changes
