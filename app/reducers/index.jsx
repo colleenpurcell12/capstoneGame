@@ -8,30 +8,16 @@ import inProgress from './home';
 import {isFirstRound, isSettingUp, turnArray} from './turnBooleans';
 import userArray from './usersArray';
 import everyStructure from './everyStructure';
-import doneLoading from './action-creators';
 import structure from './structure';
 import selections  from './selection';
 import roads  from './road';
+
+import doneLoading from './action-creators';
 import hexData from './hex-data'
 
 
-const rootReducer = combineReducers({
-  loggedInUser,
-  messages,
-  players,
-  diceRoll,
-  turnInfo,
-  inProgress,
-	isFirstRound,
-  isSettingUp,
-  turnArray,
-  userArray,
-  everyStructure,
-  structure,
-  selections,
-  roads,
-  doneLoading,
-	hexData
-});
+const rootReducer = combineReducers({ loggedInUser, messages, players, diceRoll, turnInfo, inProgress,
+  isFirstRound, isSettingUp, turnArray,  userArray, everyStructure, structure, selections, roads, doneLoading,
+  hexData });
 
 export default rootReducer;

@@ -18,9 +18,3 @@ export default function reducer (robberHex= 0, action){
       return robberHex
   }
 }
-
-/* -------------     DISPATCHERS     ------------------ */
-
-export const endTurn = (hexID) => dispatch => {
-    dispatch(setNextTurn(hexID));
-}

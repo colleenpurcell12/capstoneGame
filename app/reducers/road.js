@@ -1,12 +1,12 @@
-import * as firebase from 'firebase'
+//import * as firebase from 'firebase'
 
 /* -----------------    ACTIONS     ------------------ */
 
- const ADD_ROAD = 'ADD_ROAD';
+const ADD_ROAD = 'ADD_ROAD';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-const addRoad = () => ({ type: ADD_ROAD, road })
+export const addRoadToRoads = (road) => ({ type: 'ADD_ROAD', road })
 
 /* ------------       REDUCER     ------------------ */
 
@@ -24,7 +24,7 @@ export default function roads (roads = [], action){
 
 /* ------------      DISPATCHERS     ------------------ */
 
-export const addBoardRoad = () => dispatch => {
-    dispatch(addRoad(road));
+// export const addBoardRoad = () => dispatch => {
+//     dispatch(addRoadToRoads(road)); //changed from addRoad
 
-}
+// }

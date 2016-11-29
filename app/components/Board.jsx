@@ -1,6 +1,6 @@
 import HexGrid from '../../gameutils/react-hexgrid/src/HexGrid.js';
 import React, {Component} from 'react';
-import {shuffle, assignHexInfo, addRoad, tokenArray, resourcesArray} from 'APP/gameutils/setup.js'
+import {shuffle, assignHexData, addRoad, tokenArray, resourcesArray} from 'APP/gameutils/setup.js'
 import SubmitForm from './SubmitForm'
 import CornerGrid from './CornerGrid'
 import Roads from './Roads'
@@ -9,6 +9,7 @@ import GridGenerator from '../../gameutils/react-hexgrid/src/GridGenerator'
 import HexUtils from '../../gameutils/react-hexgrid/src/HexUtils';
 import Point from '../../gameutils/react-hexgrid/src/Point';
 import PortGrid from './PortGrid'
+
 import store from '../store'
 import Structures from './Structures';
 import {addAction} from '../reducers/action-creators'
@@ -16,10 +17,11 @@ import { assignHexData } from '../reducers/hex-data'
 
 
 
-export class Board extends Component {
+export default class Board extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.selectCorner = this.selectCorner.bind(this);
     this.generate = this.generate.bind(this)
     //this.addRoad = this.addRoad.bind(this)
     //config handled off component?
@@ -42,7 +44,8 @@ export class Board extends Component {
       selected: {firstCorner: null, secondCorner: null},
       tokens: [],
       resources: [],
-      allStructures: [],
+      roads: [{x1: -5.5, y1: 9.52, x2: 5.5, y2: 9.52, color: 'green'}],
+      settlements: [],
       corners
      };
      // tokens, resources, settlements, roads, and actions should come from connect?
@@ -58,7 +61,7 @@ export class Board extends Component {
       <div>
         <div className="board">
           <PortGrid width={config.width} height={config.height} selectPort={this.selectPort}/>
-          <CornerGrid width={config.width} height={config.height} corners={this.state.corners}  selected={this.state.selected}/>
+          <CornerGrid width={config.width} height={config.height} selectCorner={this.selectCorner} corners={this.state.corners} />
           <Roads width={config.width} height={config.height} roads={roads}/>
           <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
         </div>
@@ -71,27 +74,94 @@ export class Board extends Component {
     );
   }
 
+  selectCorner(event) {
+  //Cases: first time a corner is touched
+  // either the first or the 2nd is clicked twice,
+  // one is clicked when there is a first but not a 2nd, a 3nd but not a 1st
+  // a third one is clicked when there is both a first and a second
+  //idea to seperate teh class css from the this.state.selected
+    //is this one already selected
+
+    if (event.target == this.state.selected.firstCorner ){//if the corner is one of the first or second
+      //console.log("1st corner",event.target)
+      event.target.removeAttribute('class', 'corner-select');
+      event.target.setAttribute('class', 'corner-deselected');
+      this.state.selected.firstCorner = null
+      console.log("1st corner event.target", event.target)
+       console.log("1st corner should now be null", this.state.selected.firstCorner)
+    }
+
+    if (event.target == this.state.selected.secondCorner){
+      console.log("2nd corner")
+      event.target.removeAttribute('class', 'corner-select'); //.corner-node{
+      event.target.setAttribute('class', 'corner-node');
+      event.target.setAttribute('class', 'corner-deselected');
+      this.state.selected.secondCorner = null
+    }
+
+    var updatedSelected = this.state.selected
+    if(this.state.selected.firstCorner){ //at least one
+      if(!this.state.selected.secondCorner){ //exactly one
+        //time to fill in 2nd
+        event.target.setAttribute('class', 'corner-select');
+        updatedSelected.secondCorner = event.target
+        this.setState({ selected: updatedSelected })
+      } //first is filled
+    }
+    //first empty, unsure about the 2nd
+    else { //
+        if(!this.state.selected.secondCorner){ //completely empty
+          event.target.setAttribute('class', 'corner-select');
+          updatedSelected.firstCorner = event.target
+          this.setState({selected: updatedSelected})
+        } //first is filled
+        //if there is a 2nd but not a first, fill back in first
+        else{
+          event.target.setAttribute('class', 'corner-select');
+          updatedSelected.firstCorner = event.target
+          this.setState({ selected: updatedSelected })
+
+        }
+    }
+    console.log('this.state.selected', this.state.selected)
+    // if(this.state.selected.length >= 2) {
+    //       console.log('ALREADY 2 SELECTED, no class added')
+    //       event.target.removeAttribute('class', 'corner-select');
+    //      // event.target.setAttribute('class', 'corner-deselected');
+    // }
+    // else if(this.state.selected.length === 0)  {
+    //   event.target.setAttribute('class', 'corner-select');
+    //   this.setState({selected: [event.target]})
+    // } else {
+    //   event.target.setAttribute('class', 'corner-select');
+    //   var sA = this.state.selected;
+    //   sA.push(event.target)
+    //   this.setState({selected: sA})
+    // }
+    // console.log('this.state', this.state)
+  }
 
   handleSubmit(event){
     event.preventDefault();
 
-    //current user's color
     let color = event.target.color.value
     var user = { color: color }
-    // this.props.currentuser.color
 
     //TESTING ONLY
-    console.log('handle add road clicked')
+    console.log('handle addroad clicked')
     console.log('this.state.selected', this.state.selected.firstCorner)
+    var a = this.state.selected.firstCorner, b = this.state.selected.secondCorner
 
-    var a = this.props.selected[0], b = this.props.selected[0]
+    this.state.selected = []
 
-    this.addRoad(a, b, user)
-    this.props.clearBoardSelection();
+    //this.addRoad(a, b, user)
+    a.removeAttribute('class', 'corner-select');
+    b.removeAttribute('class', 'corner-select');
+    // a.removeAttribute('class', 'corner-deselected');
+
   }
-  // move me!
+
   //  addRoad(a, b, c){
-  //    // refactor
   //   var roadsArray = this.state.roads
   //   var newRoad = {
   //     x1: parseInt(a.attributes.cx.value),
@@ -100,9 +170,7 @@ export class Board extends Component {
   //     y2: parseInt(b.attributes.cy.value),
   //     color: c.color
   //   }
-  //   //dispatch addRoad
   //   roadsArray.push(newRoad)
-  //   this.props.addBoardRoad({color: c.color, corners:[31,35], coordinates: [[newRoad.x1,newRoad.y1],[newRoad.x2,newRoad.y2]]})
   //   this.setState({roads: roadsArray})
   //   // add road to state
   //   console.log('state after addroad', this.state)
@@ -145,21 +213,14 @@ export class Board extends Component {
       allCorners[corner].y = coords.y
     }
 
-    // retrieve shuffled tokenArray & resources array
-    // need gameinit function that shuffles?
-    // assign token and resources to hexes
-
     //debugging
     console.log('hexagons', hexagons)
     console.log('corners', allCorners)
     console.log(`found ${Object.keys(allCorners).length} corners`)
     return { hexagons, layout, corners: allCorners };
   }
+
 }
-
-
-
-/* -----------------    UTILITIES     ------------------ */
 
 const neighborDirections = [
     {q: 0, r: -1,s: +1},
@@ -232,6 +293,7 @@ function findNeighbors(a, cObj){
     }
   }
   return neighbors;
+<<<<<<< HEAD
 }
 /* -----------------    CONTAINER     ------------------ */
 
@@ -258,3 +320,6 @@ export default connect(
   mapStateToProps,
   mapDispatch
 )(Board)
+=======
+}
+>>>>>>> master

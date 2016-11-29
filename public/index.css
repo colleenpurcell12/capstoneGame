@@ -31,6 +31,13 @@ body {
 
 .port {
   fill: brown;
+<<<<<<< Updated upstream
+}
+
+.hexhover {
+  stroke: red;
+  stroke-width: .3;
+
 }
 
 .hexhover {

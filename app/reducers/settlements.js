@@ -1,35 +1,36 @@
-import * as firebase from 'firebase'
+// import * as firebase from 'firebase'
 
-/* -----------------    ACTIONS     ------------------ */
+// /* -----------------    ACTIONS     ------------------ */
 
-const ADD_SETTLEMENT = 'ADD_SETTLEMENT'
-const UPGRADE_SETTLEMENT = 'UPGRADE_SETTLEMENT'
-
-
-/* ------------   ACTION CREATORS     ------------------ */
-
-const addSettlement = (settlementObj) => ({ type: ADD_SETTLEMENT, settlementObj })
-const upgradeSettlement = (corner)   => ({ type: UPGRADE_SETTLEMENT, corner })
+// const ADD_SETTLEMENT = 'ADD_SETTLEMENT'
+// const UPGRADE_SETTLEMENT = 'UPGRADE_SETTLEMENT'
 
 
-/* ------------       REDUCER     ------------------ */
+// /* ------------   ACTION CREATORS     ------------------ */
+// //DONT USE
 
-export default function reducer (settlements = [], action) {
-  switch (action.type) {
-    case ADD_SETTLEMENT:
-      return [...settlements, action.settlementObj]
-    case UPGRADE_SETTLEMENT:
-      settlements.map(s => {
-        if( s.corner_id === corner.corner_id){
-          s.type = 'city';
-        }
-        return s;
-      })
-      return settlements
-    default:
-      return messages;
-  }
-}
+// export const addSettlementToSettlements = (settlementObj) => ({ type: ADD_SETTLEMENT, settlementObj })
+// export const upgradeSettlement = (corner)   => ({ type: UPGRADE_SETTLEMENT, corner })
 
 
-/* ------------       DISPATCHERS     ------------------ */
+//  ------------       REDUCER     ------------------ 
+
+// export default function reducer (settlements = [], action) {
+//   switch (action.type) {
+//     case ADD_SETTLEMENT:
+//       return [...settlements, action.settlementObj]
+//     case UPGRADE_SETTLEMENT:
+//       settlements.map(s => {
+//         if( s.corner_id === corner.corner_id){
+//           s.type = 'city';
+//         }
+//         return s;
+//       })
+//       return settlements
+//     default:
+//       return messages;
+//   }
+// }
+
+
+// /* ------------       DISPATCHERS     ------------------ */
