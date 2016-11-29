@@ -43,15 +43,16 @@ class HexShape extends React.Component {
         // onMouseEnter={e => actions.onMouseEnter(id, e)}
         // onMouseLeave={e => actions.onMouseLeave(id, e)}
         //        onClick={e => actions.onClick(id, e)}
-
+    let image = 'mars'
+    let imagelink = 'images/'+image+'.svg'
     return (
 
       <g className="shape-group" transform={this.translate()} draggable="true"
         id= {id} >
         <HexPattern hex={hex} />
         <polygon points={points} style={styles} className={resource} />
+        <image x='-8' y='-8' height="16" width="16" xlinkHref={`images/${image}.svg`}/>
         <HexPointers hex={hex} points={points} />
-        <svg path = "images/ice.svg"></svg>
         <circle cx='0' cy='0' r='3' onClick={() => {console.log("In the circle onClick")} }/>
         <text x="0" y="0.3em" textAnchor="middle" >{text}</text>
       </g>
