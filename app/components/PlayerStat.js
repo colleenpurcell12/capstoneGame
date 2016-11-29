@@ -32,7 +32,7 @@ export class PlayerStat extends Component {
 
   changeCount(resource, isGoingUp){
     isGoingUp? addAction(incrementResource(this.props.loggedInUser.displayName, resource)) : 
-      addAction(decrementResource(this.props.loggedInUser.displayName))
+      addAction(decrementResource(this.props.loggedInUser.displayName, resource))
   }
 
   handleChange (e) {
