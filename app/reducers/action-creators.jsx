@@ -9,16 +9,17 @@ import {addPlayer} from './players';
 export const loadActions = () => dispatch => {
   return firebase.database().ref().child('action-creators').once('value')
     .then(snap => {
-      return dispatch(Object.values(snap.val()));
+      return dispatch(Object.keys(snap.val()).map(key => snap.val()[key]));
     })
     .then(() => {
-      dispatch(syncActions());
+      var first = true;
+      dispatch(syncActions(first));
     });
 }
 
-export const syncActions = () => dispatch => {
+export const syncActions = (first) => dispatch => {
   firebase.database().ref().child('action-creators').limitToLast(1).on('child_added', (snap) => {
-    dispatch(snap.val());
+    first? first = false : dispatch(snap.val());
   });
 }
 //add new moves to database

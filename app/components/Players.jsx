@@ -20,7 +20,7 @@ export class Players extends Component {
 						{this.props.players.map((player, idx) => (
 							<tr key={idx}>
 								<td>{idx+1}: {player.name}</td>
-								<td>{player.cardsTotal}</td>
+								<td>{player.cardsTotal()}</td>
 							</tr>
 						))}
 						{this.props.inProgress ?
@@ -42,6 +42,4 @@ import {connect} from 'react-redux';
 
 const mapState = ({ players, loggedInUser, turnInfo, inProgress, doneLoading }) => ({ players, loggedInUser, turnInfo, inProgress, doneLoading }) //added turnInfo for display purposes
 
-const mapDispatch = { addAction }
-
-export default connect(mapState, mapDispatch)(Players);
+export default connect(mapState)(Players);
