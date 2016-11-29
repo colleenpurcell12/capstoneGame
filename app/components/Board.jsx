@@ -1,7 +1,6 @@
 import HexGrid from '../../gameutils/react-hexgrid/src/HexGrid.js';
 import React, {Component} from 'react';
-import {shuffle, addRoad, tokenArray, resourcesArray} from 'APP/gameutils/setup.js'
-import SubmitForm from './SubmitForm'
+import {shuffle, addRoad, tokenArray, assignHexInfo, resourcesArray} from 'APP/gameutils/setup.js'
 import CornerGrid from './CornerGrid'
 import Roads from './Roads'
 import Layout from '../../gameutils/react-hexgrid/src/Layout'
@@ -12,6 +11,7 @@ import PortGrid from './PortGrid'
 import store from '../store'
 import Structures from './Structures';
 import {addAction} from '../reducers/action-creators'
+import {assignHexData} from '../reducers/hex-data'
 
 class Board extends Component {
   constructor(props) {
@@ -32,6 +32,7 @@ class Board extends Component {
     let grid = this.generate(boardConfig);
 
     let corners = grid.corners
+
     // this.props.putCorners(corners)
     this.state = {
       grid,
@@ -64,7 +65,6 @@ class Board extends Component {
         </div>
 
         <div>
-         <SubmitForm id = "Form" handleSubmit={this.handleSubmit}/>
          <Structures select={this.state.selected} corners={this.state.corners} />
         </div>
     </div>
@@ -217,7 +217,7 @@ class Board extends Component {
 
     //puts all the corners on the state
     this.props.putCorners(allCorners)
-    
+
     return { hexagons, layout, corners: allCorners };
   }
 
