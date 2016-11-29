@@ -45,11 +45,13 @@ class HexShape extends React.Component {
         //        onClick={e => actions.onClick(id, e)}
 
     return (
+
       <g className="shape-group" transform={this.translate()} draggable="true"
         id= {id} >
         <HexPattern hex={hex} />
         <polygon points={points} style={styles} className={resource} />
         <HexPointers hex={hex} points={points} />
+        <svg path = "images/ice.svg"></svg>
         <circle cx='0' cy='0' r='3' onClick={() => {console.log("In the circle onClick")} }/>
         <text x="0" y="0.3em" textAnchor="middle" >{text}</text>
       </g>
@@ -62,6 +64,7 @@ HexShape.propTypes = {
   actions: object.isRequired
 };
 
+/* -----------------    CONTAINER     ------------------ */
 
 import { connect } from 'react-redux';
 
