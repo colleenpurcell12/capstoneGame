@@ -1,60 +1,84 @@
- import React from 'react';
-
+import React from 'react';
 
 class CornerShape extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.selectCorner = this.selectCorner.bind(this)
   }
 
-  // ***** can we use this translate function?
-  // translate() {
-  //   let hex = this.props.hex;
-  //   let pixel = HexUtils.hexToPixel(hex, this.props.layout);
-  //   return `translate(${pixel.x}, ${pixel.y})`;
-  // }
+  selectCorner(event) {
+    event.preventDefault();
+    var id = this.props.index
+    var dupe = false;
+    //if the corner is one of the first or second
 
-  // getStyles(hex) {
-  //   return (hex.props == {} || typeof(hex.props.image) === "undefined") ? {} : { fill: 'url(#'+ HexUtils.getID(hex) +')' };
-  // }
-
-  // click handler function/actions/dispatchers can be set right here once we get state
+    if (this.props.selections.length){
+      this.props.selections.forEach(function(sel){
+        if(sel.id === id){
+          this.props.removeBoardSelection(id)
+          dupe = true;
+        }
+      }, this)
+    }
+   //selections is not full & not just removed
+   if(this.props.selections.length < 2 && !dupe){
+      var cornerObj = this.props.corners[id]
+      this.props.addBoardSelection(cornerObj)
+    }
+  }
 
   render() {
-    let hex = this.props.hex;
-    let actions = this.props.actions;
-    // let styles = this.getStyles(hex);
-    //this.props.type + this.props.index??
-    let cornerId = this.props.type[0]+this.props.index
-    // onClick={e => actions.onClick(id, e)}
-    let classN = [this.props.type, this.props.resource].join(' ')
+    let index = this.props.index
+    let cornerId = this.props.type[0]+index
+    let owner = null, structure = null, selected = null;
+    let isOwned = this.props.structure.find(function(structure){
+      return structure.corner_id === index
+    })
+    if(isOwned){
+      owner = isOwned.owner;
+      structure = isOwned.type[0];
+    }
+    let isSelected = this.props.selections.find(function(select){
+      return select.id === index
+    })
+    if(isSelected){ selected = 'corner-select';}
+
+    // this.props.type -> port or corner
+    // this.props.resource -> port only resource
+    // selected -> ring (glow?)
+    // owner -> color
+    // structure -> 'city' or 'settlement'
+    let classN = [this.props.type, this.props.resource, owner, selected].join(' ')
     return (
-      <g className="shape-group" draggable="true"
-        onDragStart={e => actions.onDragStart(this.props.hex, e)}
-        onDragEnd={e => actions.onDragEnd(this.props.hex, e)}
-        onDragOver={e => actions.onDragOver(this.props.hex, e)}
-        onDrop={e => actions.onDrop(this.props.hex, e)}
-        onClick={e => this.props.selectCorner(e) }
-        id= {cornerId}
-        >
+      <g className="shape-group"  onClick={ e => this.selectCorner(e) }
+        id= {cornerId} >
         <img src=""/>
-        <circle className={classN} cx={this.props.cx} cy={this.props.cy} r={this.props.r}  id= {cornerId}/>
-        <text x={this.props.cx} y={this.props.cy+.3} textAnchor="middle" >{this.props.text || ''}</text>
+        <circle className={classN} cx={this.props.cx} cy={this.props.cy}
+          r={this.props.r}  id= {cornerId}/>
+        <text x={this.props.cx} y={this.props.cy+.3} textAnchor="middle" >
+          {structure}
+        </text>
       </g>
     );
   }
 }
 
-export default CornerShape;
 
-// map state to props
-// board.settlements ~ array[{ type, owner}]  // where index = id
+/* -----------------    CONTAINER     ------------------ */
 
- // this.props = {
- //   owner,
- //   type/text
- // }
+import { connect } from 'react-redux';
+import {addBoardSelection, removeBoardSelection} from '../reducers/selection.js'
 
-// map dispatch
-// click logic
+const mapStateToProps = ({ structure, selections }) => ({
+  structure, selections
+});
+
+const mapDispatchToProps = dispatch => ({
+  addBoardSelection: selection => dispatch(addBoardSelection(selection)),
+  removeBoardSelection: id => dispatch(removeBoardSelection(id)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CornerShape);

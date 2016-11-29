@@ -13,7 +13,6 @@ import structure from './structure';
 import selections  from './selection';
 import roads  from './road';
 
-
 const rootReducer = combineReducers({
   loggedInUser,
   messages,

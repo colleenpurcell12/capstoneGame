@@ -25,7 +25,7 @@ const validate = values => {
 }
 
 export class PlayerStat extends Component {
-	constructor(props) {
+  constructor(props) {
     super(props);
     this.state = {
       wool: 0,
@@ -62,83 +62,71 @@ export class PlayerStat extends Component {
 
   nextPlayer(){
     let { isFirstRound, isSettingUp, turnArray, userArray } = store.getState()
-
      //Normal cycle of turns during game play, increment user to x+1
     if (isSettingUp === false){
       this.props.endTurn(this.props.turnInfo) //dispatch(setNextTurn(player));
     }
-
     //isSettingUp === true, tracks 1st and 2nd round, ascending then descending
     else {
       //check if end of 1st round
       if (isFirstRound === true && turnArray.length === 1){
-        // console.log("GOING TO 2nd ROUND")
-
         //reset all the userArray hasBoughtARoad and hasBoughtASettlement to false
         for (var i = 0; i<4 ; i++){
             userArray[i].hasBoughtARoad = false;
             userArray[i].hasBoughtASettlement = false
         }
-
         this.props.setNextRound() //dispatch(nextRound()); //which sets whoseTurn to 4, turnArray to [3,2,1]) and isFirstRound = false
         this.props.endTurn(3) //to 4
         }
-
       //check if end of 2nd round, therefore end of set up phase
-      else if (isFirstRound === false && turnArray.length === 1) {
-        // console.log("END OF 2ND ROUND")
-        // initialize normal cycle of turns
+      else if (isFirstRound === false && turnArray.length === 1) {  // initialize normal cycle of turns
         this.props.endTurn(0)
-        this.props.endSetUp()   //dispatch(startNormGamePlay()); which sets whoseTurn to 1 and isSettingUp ==false
+        this.props.endSetUp()  //dispatch(startNormGamePlay()); sets turnInfo to 1, isSettingUp ==false
       }
-      //within either round
-      else {
+      else { //within either round
         if (turnArray){
           let player1 = turnArray[0]
-          if (isFirstRound === false){
-            player1-- //endTurn increments the #
-          }
+          if (isFirstRound === false){ player1--;} //endTurn increments the #
           this.props.nextTurn()
           this.props.endTurn(player1) //dispatch(setNextTurn(player));
         }
         else { console.log("turnArray is undefined") }
       }
     }
-  //console.log("The turnArray is",turnArray,"and isSettingUp? is",isSettingUp,"and isFirstRound? is",isFirstRound)
   }
 
   render() {
     //console.log("Player Stat knows the curr players is ", this.props.turnInfo)
     return (
-			<div>
-				<div>
+      <div>
+        <div>
           <input type="button" onClick={() => this.changeCount('wool',false) } value="-"/>
-          Wool 	 	{this.state.wool}
+          Wool    {this.state.wool}
           <input type="button" onClick={ () => this.changeCount('wool',true) } value="+"/>
         </div>
 
         <div>
         <input type="button" onClick={() => this.changeCount('brick',false) } value="-"/>
-				 Brick  {this.state.brick}
+         Brick  {this.state.brick}
         <input type="button" onClick={ () => this.changeCount('brick',true) } value="+"/>
-				</div>
+        </div>
 
         <div>
         <input type="button" onClick={() => this.changeCount('grain',false) } value="-"/>
          Grain  {this.state.grain}
-				<input type="button" onClick={ () => this.changeCount('grain',true) } value="+"/>
+        <input type="button" onClick={ () => this.changeCount('grain',true) } value="+"/>
         </div>
 
         <div>
         <input type="button" onClick={() => this.changeCount('ore',false) } value="-"/>
-        Ore 	 {this.state.ore}
-				<input type="button" onClick={ () => this.changeCount('ore',true) } value="+"/>
+        Ore    {this.state.ore}
+        <input type="button" onClick={ () => this.changeCount('ore',true) } value="+"/>
         </div>
 
         <div>
         <input type="button" onClick={() => this.changeCount('lumber',false) } value="-"/>
         Lumber {this.state.lumber}
-				<input type="button" onClick={ () => this.changeCount('lumber',true) } value="+"/>
+        <input type="button" onClick={ () => this.changeCount('lumber',true) } value="+"/>
         </div>
 
 
@@ -188,13 +176,11 @@ export class PlayerStat extends Component {
         </tbody>
         </table>
 
-
 				<button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button>
         <button type='submit' onClick={() => this.addNewPlayer()}> JOIN GAME </button>
 			</div>
-
-		)
-	}
+    )
+  }
 }
 
 

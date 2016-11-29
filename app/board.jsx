@@ -1,4 +1,5 @@
 //Create coordinate array
+// these aren't used anymore
 const DEFAULT_CORNERS = (() => {
   var corners = [], columns = 12, x = -43.75;
   var ppc = [3,4,4,5,5,6,6,5,5,4,4,3]
@@ -28,7 +29,7 @@ const DEFAULT_PORTS = [
 ]
 
 export default function makeBoard(corners=DEFAULT_CORNERS, ports=DEFAULT_PORTS) {
-  
+
 }
 
 export  function __makeBoard(levels=3, origin=[0, 0, 0], nextHexId=0, nextCornerId=0) {

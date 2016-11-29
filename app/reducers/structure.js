@@ -21,13 +21,13 @@ export default function structures (structures = [], action){
       return [...structures, action.structure]
       //upgrade structure
     case UPGRADE_SETTLEMENT:
-     settlements.map(s => {
+     structures.map(s => {
        if( s.corner_id === corner.corner_id){
          s.type = 'city';
        }
        return s;
      })
-     return settlements
+     return structures
     default:
       return structures;
   }
@@ -35,7 +35,9 @@ export default function structures (structures = [], action){
 
 /* ------------      DISPATCHERS     ------------------ */
 
-export const addBoardStructure = () => dispatch => {
+export const addBoardStructure = (structure) => dispatch => {
     dispatch(addStructure(structure));
-
+}
+export const upgradeBoardStructure = (corner) => dispatch => {
+    dispatch(upgradeSettlement(corner));
 }
