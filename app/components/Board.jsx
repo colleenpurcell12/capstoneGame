@@ -17,7 +17,7 @@ import { assignHexData } from '../reducers/hex-data'
 
 
 
-export default class Board extends Component {
+class Board extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
