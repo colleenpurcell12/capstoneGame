@@ -4,6 +4,9 @@
 import * as firebase from 'firebase';
 import store from '../store';
 import {addPlayer} from './players';
+import { assignHexData } from './hex-data'
+import { assignHexInfo, tokenArray, resourcesArray } from 'APP/gameutils/setup.js'
+
 //when player joins game turn on listeners and fire actions
 
 export const loadActions = () => dispatch => {
@@ -12,6 +15,10 @@ export const loadActions = () => dispatch => {
       return dispatch(Object.keys(snap.val()).map(key => snap.val()[key]));
     })
     .then(() => {
+      if(store.getState().hexData.length !== 19){
+        var hd = assignHexInfo(tokenArray, resourcesArray)
+        addAction(assignHexData(hd))
+      }
       var first = true;
       dispatch(syncActions(first));
     });

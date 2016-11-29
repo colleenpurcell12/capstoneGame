@@ -26,11 +26,18 @@ class HexShape extends React.Component {
   }
 
   render() {
+    let text = '', resource = ''
+    let i = this.props.index
+    if(this.props.hexData.length === 19){
+      text = this.props.hexData[i].token || "desert"
+      let resourceNumber = this.props.hexData[i].resource
+      resource = resources[resourceNumber] || 'desert'
+    }
     let hex = this.props.hex;
-    let text = (hex.token) ? hex.token : "desert";
+
+    // console.log('hexData at i', this.props.hexData[i])
     let actions = this.props.actions;
     let styles = this.getStyles(hex);
-    let resource = resources[hex.resource] || 'desert'
     let points = this.getPoints(hex);
     let id = "h"+this.props.index
         // onMouseEnter={e => actions.onMouseEnter(id, e)}
@@ -39,10 +46,6 @@ class HexShape extends React.Component {
 
     return (
       <g className="shape-group" transform={this.translate()} draggable="true"
-        onDragStart={e => actions.onDragStart(this.props.hex, e)}
-        onDragEnd={e => actions.onDragEnd(this.props.hex, e)}
-        onDragOver={e => actions.onDragOver(this.props.hex, e)}
-        onDrop={e => actions.onDrop(this.props.hex, e)}
         id= {id} >
         <HexPattern hex={hex} />
         <polygon points={points} style={styles} className={resource} />
@@ -59,4 +62,18 @@ HexShape.propTypes = {
   actions: object.isRequired
 };
 
-export default HexShape;
+
+import { connect } from 'react-redux';
+
+const mapStateToProps = ({ hexData }) => ({
+  hexData
+});
+
+const mapDispatchToProps = dispatch => ({
+  // selectToken to move robber
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HexShape);

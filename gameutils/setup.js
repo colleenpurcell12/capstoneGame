@@ -26,18 +26,23 @@ function shuffle(arr){
   return shuffled;
 }
 
-function assignHexInfo (hexes, tokens, resources) {
+function assignHexInfo (tokens, resources) {
   var tshuff = shuffle(tokens);
   var rshuff = shuffle(resources);
-  var d = Math.floor(Math.random()*hexes.length)
+  var d = Math.floor(Math.random()*19)
   tshuff.splice(d, 0, '')
   rshuff.splice(d, 0, 'desert')
-  hexes.map(function(hex, index){
-    hex.token = tshuff[index];
-    hex.resource = rshuff[index];
-    return hex;
-  })
-return hexes;
+  console.log('TSHUFF', tshuff)
+  console.log('RSHUFF', rshuff)
+  var hexData = [];
+  console.log('HEX DATA', hexData);
+  for(var i = 0; i < 19; i ++){
+    hexData.push({
+      token : tshuff[i],
+      resource : rshuff[i]
+    })
+  }
+ return hexData;
 }
 
 // takes two svg circle elements a, and b and the current user, c

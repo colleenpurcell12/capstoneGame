@@ -8,9 +8,9 @@ const CLEAR_SELECTION = 'CLEAR_SELECTION';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-const addSelection = (selection) => ({ type: ADD_SELECTION, selection })
-const removeSelection = (id) => ({type: REMOVE_SELECTION, id})
-const clearSelection = () => ({type: CLEAR_SELECTION})
+export const addSelection = (selection) => ({ type: ADD_SELECTION, selection })
+export const removeSelection = (id) => ({type: REMOVE_SELECTION, id})
+export const clearSelection = () => ({type: CLEAR_SELECTION})
 
 /* ------------       REDUCER     ------------------ */
 
@@ -32,13 +32,13 @@ export default function selections (selections = [], action){
 
 /* ------------      DISPATCHERS     ------------------ */
 
-export const addBoardSelection = (selection) => dispatch => {
-  dispatch(addSelection(selection));
-}
-export const removeBoardSelection = (id) => dispatch => {
-  dispatch(removeSelection(id));
-}
-
-export const clearBoardSelection = ()=> dispatch => {
-  dispatch(clearSelection());
-}
+// export const addBoardSelection = (selection) => dispatch => {
+//   dispatch(addSelection(selection));
+// }
+// export const removeBoardSelection = (id) => dispatch => {
+//   dispatch(removeSelection(id));
+// }
+//
+// export const clearBoardSelection = ()=> dispatch => {
+//   dispatch(clearSelection());
+// }

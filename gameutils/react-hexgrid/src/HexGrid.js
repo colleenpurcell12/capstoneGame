@@ -20,7 +20,7 @@ class HexGrid extends React.Component {
         {
           this.props.hexagons.map((hex, index) => {
             return (
-              <HexShape key={index} hex={hex} layout={this.props.layout} actions={this.props.actions} index={index} text={this.props.hexData.token} resource={this.props.hexData.resource}/>
+              <HexShape key={index} hex={hex} layout={this.props.layout} actions={this.props.actions} index={index} />
             );
           })
         }
@@ -48,7 +48,7 @@ HexGrid.defaultProps = {
 
 import { connect } from 'react-redux';
 
-const mapStateToProps = ({ hexData  }) => ({
+const mapStateToProps = ({ hexData }) => ({
   hexData
 });
 
