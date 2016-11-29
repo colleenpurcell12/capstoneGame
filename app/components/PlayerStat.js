@@ -9,7 +9,7 @@ import Checkbox from 'material-ui/Checkbox'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import store from '../store'
-import {addPlayer} from '../reducers/players';
+import {addPlayer, incrementResource, decrementResource} from '../reducers/players';
 import {addAction} from '../reducers/action-creators';
 //needs to know which player's card is showing
 
@@ -27,29 +27,14 @@ const validate = values => {
 export class PlayerStat extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      wool: 0,
-      brick: 5,
-      grain: 5,
-      ore: 2,
-      lumber: 0
-    };
+    this.changeCount = this.changeCount.bind(this)
   }
-  componentDidMount() {
 
-  }
   changeCount(resource, isGoingUp){
-    const playersRef  = firebase.database().ref().child('players')
-    const cardsRef       = playersRef.child('player1').child('cards')
-
-    if(isGoingUp) { this.state[resource]++ }
-    else { this.state[resource]-- } //[resource] works
-
-    cardsRef.update({ [resource]: this.state[resource]}) //[resource] work
-    cardsRef.child(resource).on('value',   snap => { this.setState ({ [resource]:  snap.val() })
-      //[resource] WORKS
-  })
+    isGoingUp? addAction(incrementResource(this.props.loggedInUser.displayName, resource)) : 
+      addAction(decrementResource(this.props.loggedInUser.displayName))
   }
+
   handleChange (e) {
     //console.log(e.target.value) //name of input
     //need to grab the "current user" and give them the award in the database
@@ -96,88 +81,100 @@ export class PlayerStat extends Component {
   }
 
   render() {
-    //console.log("Player Stat knows the curr players is ", this.props.turnInfo)
+    var resource;
+    this.props.players.forEach((player, idx) => {
+      if(player.name === this.props.loggedInUser.displayName) {
+        resource = this.props.players[idx].cardsResource
+      }
+    });
     return (
       <div>
+        {resource ? 
         <div>
-          <input type="button" onClick={() => this.changeCount('wool',false) } value="-"/>
-          Wool    {this.state.wool}
-          <input type="button" onClick={ () => this.changeCount('wool',true) } value="+"/>
-        </div>
+          <div>
+            <input type="button" onClick={() => this.changeCount('wool',false) } value="-"/>
+            Wool    {resource.wool}
+            <input type="button" onClick={ () => this.changeCount('wool',true) } value="+"/>
+          </div>
 
-        <div>
-        <input type="button" onClick={() => this.changeCount('brick',false) } value="-"/>
-         Brick  {this.state.brick}
-        <input type="button" onClick={ () => this.changeCount('brick',true) } value="+"/>
-        </div>
+          <div>
+          <input type="button" onClick={() => this.changeCount('brick',false) } value="-"/>
+           Brick  {resource.brick}
+          <input type="button" onClick={ () => this.changeCount('brick',true) } value="+"/>
+          </div>
 
-        <div>
-        <input type="button" onClick={() => this.changeCount('grain',false) } value="-"/>
-         Grain  {this.state.grain}
-        <input type="button" onClick={ () => this.changeCount('grain',true) } value="+"/>
-        </div>
+          <div>
+          <input type="button" onClick={() => this.changeCount('grain',false) } value="-"/>
+           Grain  {resource.grain}
+          <input type="button" onClick={ () => this.changeCount('grain',true) } value="+"/>
+          </div>
 
-        <div>
-        <input type="button" onClick={() => this.changeCount('ore',false) } value="-"/>
-        Ore    {this.state.ore}
-        <input type="button" onClick={ () => this.changeCount('ore',true) } value="+"/>
-        </div>
+          <div>
+          <input type="button" onClick={() => this.changeCount('ore',false) } value="-"/>
+          Ore    {resource.ore}
+          <input type="button" onClick={ () => this.changeCount('ore',true) } value="+"/>
+          </div>
 
-        <div>
-        <input type="button" onClick={() => this.changeCount('lumber',false) } value="-"/>
-        Lumber {this.state.lumber}
-        <input type="button" onClick={ () => this.changeCount('lumber',true) } value="+"/>
-        </div>
+          <div>
+          <input type="button" onClick={() => this.changeCount('lumber',false) } value="-"/>
+          Lumber {resource.lumber}
+          <input type="button" onClick={ () => this.changeCount('lumber',true) } value="+"/>
+          </div>
 
 
-      <div >
-        <label>
-            <input type="radio"
-              value="army"
-              onChange={this.handleChange}
-            />
-          Largest Army Award
-        </label>
-        <br></br>
-        <label>
-            <input type="radio"
-            value="road"
-            onChange={this.handleChange}
-            />
-            Longest Road Award
+        <div >
+          <label>
+              <input type="radio"
+                value="army"
+                onChange={this.handleChange}
+              />
+            Largest Army Award
           </label>
+          <br></br>
+          <label>
+              <input type="radio"
+              value="road"
+              onChange={this.handleChange}
+              />
+              Longest Road Award
+            </label>
+          </div>
+
+          <br></br>
+
+          <div> Building materials: </div>
+          <table>
+          <tbody>
+            <tr>
+              <th>Item</th>
+              <th>Price</th>
+            </tr>
+                <tr>
+                  <td>Road</td>
+                  <td>=1B+1L</td>
+                </tr>
+                <tr>
+                  <td>Settlement</td>
+                  <td>=1L+1B+1G+1W </td>
+                </tr>
+                <tr>
+                  <td>City</td>
+                  <td>=2W+3O</td>
+                </tr>
+                <tr>
+                  <td>Developer</td>
+                  <td>=1W+1G+1O </td>
+                </tr>
+          </tbody>
+          </table>
+
+  				<button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button>
         </div>
-
-        <br></br>
-
-        <div> Building materials: </div>
-        <table>
-        <tbody>
-          <tr>
-            <th>Item</th>
-            <th>Price</th>
-          </tr>
-              <tr>
-                <td>Road</td>
-                <td>=1B+1L</td>
-              </tr>
-              <tr>
-                <td>Settlement</td>
-                <td>=1L+1B+1G+1W </td>
-              </tr>
-              <tr>
-                <td>City</td>
-                <td>=2W+3O</td>
-              </tr>
-              <tr>
-                <td>Developer</td>
-                <td>=1W+1G+1O </td>
-              </tr>
-        </tbody>
-        </table>
-
-				<button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button>
-        <button type='submit' onClick={() => this.addNewPlayer()}> JOIN GAME </button>
+        :
+        <div>
+          <button type='submit' onClick={() => this.addNewPlayer()}> JOIN GAME </button>
+        </div>
+        }
 			</div>
     )
   }
