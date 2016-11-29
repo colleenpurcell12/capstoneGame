@@ -99,35 +99,36 @@ export class PlayerStat extends Component {
 
           <div>
           <input type="button" onClick={() => this.changeCount('crops',false) } value="-"/>
-           Crops  {resource.crops}
+             Crops  {resource.crops}
           <input type="button" onClick={ () => this.changeCount('crops',true) } value="+"/>
           </div>
 
           <div>
             <input type="button" onClick={() => this.changeCount('fuel',false) } value="-"/>
-            Fuel    {resource.fuel}
+              Fuel    {resource.fuel}
             <input type="button" onClick={ () => this.changeCount('fuel',true) } value="+"/>
           </div>
 
           <div>
           <input type="button" onClick={() => this.changeCount('hematite',false) } value="-"/>
-          Hematite    {resource.hematite}
+            Hematite    {resource.hematite}
           <input type="button" onClick={ () => this.changeCount('hematite',true) } value="+"/>
           </div>
 
           <div>
           <input type="button" onClick={() => this.changeCount('ice',false) } value="-"/>
-           Ice  {resource.ice}
+            Ice             {resource.ice}
           <input type="button" onClick={ () => this.changeCount('ice',true) } value="+"/>
           </div>
 
           <div>
           <input type="button" onClick={() => this.changeCount('solar',false) } value="-"/>
-          Solar {resource.solar}
+            Solar {resource.solar}
           <input type="button" onClick={ () => this.changeCount('solar',true) } value="+"/>
           </div>
 
         <div >
+        <br></br>
           <label>
               <input type="radio"
                 value="army"
@@ -147,29 +148,30 @@ export class PlayerStat extends Component {
 
           <br></br>
 
-          <div> Building materials: </div>
+          <div> Expansion Materials: </div>
           <table>
           <tbody>
             <tr>
-              <th>Item</th>
-              <th>Price</th>
+              <th>Structure</th>
+              <th>Cost</th>
             </tr>
                 <tr>
                   <td>Road</td>
-                  <td>=1B+1L</td>
+                  <td>= ❄️  + 🔆 </td>
                 </tr>
                 <tr>
                   <td>Settlement</td>
-                  <td>=1L+1B+1G+1W </td>
+                  <td>= ❄️  + 🔆 + 🌽 + 🚀</td>
                 </tr>
                 <tr>
                   <td>City</td>
-                  <td>=2W+3O</td>
+                  <td>= 🚀 🚀  + 🌑 🌑 🌑</td>
                 </tr>
                 <tr>
-                  <td>Developer</td>
-                  <td>=1W+1G+1O </td>
+                  <td>Pioneer</td>
+                  <td>= 🚀  + 🌽 + 🌑 </td>
                 </tr>
+                <br />
           </tbody>
           </table>
 
@@ -183,7 +185,7 @@ export class PlayerStat extends Component {
           </div>
           :
           <div>
-            <button type='submit' onClick={() => this.addNewPlayer()}> JOIN GAME </button>
+            <button type='submit' onClick={() => this.addNewPlayer()}> Join Expansion </button>
           </div>
         }
         </div>
