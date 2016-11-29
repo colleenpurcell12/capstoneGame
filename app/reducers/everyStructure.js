@@ -10,11 +10,13 @@
 
  const REGISTER_ROAD = 'REGISTER_ROAD';
  const REGISTER_SETTLEMENT = 'REGISTER_SETTLEMENT';
+ const REGISTER_CITY = 'UPGRADE_SETTLEMENT';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
 export const addRoadToEveryStructure = (newRoad) => ({ type: 'REGISTER_ROAD', newRoad }) 
 export const addSettlementToEveryStructure = (newSettlement) => ({ type: 'REGISTER_SETTLEMENT', newSettlement }) 
+export const addCityToEveryStructure = (corner_id) => ({ type: 'REGISTER_CITY', corner_id }) 
 
 /* ------------       REDUCER     ------------------ */
                                 //diceRoll is defined one-level deep, but the default could also point to {}
@@ -24,6 +26,13 @@ export default function reducer (everyStructure = [], action) {
       return [...everyStructure, action.newRoad]
     case REGISTER_SETTLEMENT:
       return [...everyStructure, action.newSettlement]
+    case REGISTER_CITY:
+     structures.map(s => {
+       if( s.corner_id === corner.corner_id){
+         s.type = 'city';
+       }
+       return s;
+     })
   default:
     return everyStructure;
   }

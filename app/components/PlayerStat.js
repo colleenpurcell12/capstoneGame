@@ -14,8 +14,7 @@ import {addAction} from '../reducers/action-creators';
 import {startGame} from '../reducers/home';
 import {newDiceRoll} from '../reducers/dice';
 //needs to know which player's card is showing
-
-import { nextRound, nextRoundStep2, shiftTurns, startNormGamePlay } from '../reducers/turnBooleans';
+import Structures from './Structures';
 
 
 const validate = values => {
@@ -55,10 +54,13 @@ export class PlayerStat extends Component {
   }
 
   nextPlayer(){
-    let { isFirstRound, isSettingUp, turnArray, userArray } = this.props
+    let { isFirstRound, isSettingUp, turnArray, userArray, turnInfo } = this.props
      //Normal cycle of turns during game play, increment user to x+1
     if (isSettingUp === false){
-      this.props.endTurn(this.props.turnInfo) //dispatch(setNextTurn(player));
+      var player = this.props.turnInfo
+      player === 4 ? player = 1 : player++
+      addAction(setNextTurn(player));
+      //Formerly this.props.endTurn(this.props.turnInfo) //dispatch(setNextTurn(player));
     }
     //isSettingUp === true, tracks 1st and 2nd round, ascending then descending
     else {
@@ -154,7 +156,8 @@ export class PlayerStat extends Component {
               Longest Road Award
             </label>
           </div>
-
+          <br></br>
+          <div><Structures /></div>
           <br></br>
 
           <div> Building materials: </div>
@@ -184,7 +187,9 @@ export class PlayerStat extends Component {
           </table>
 
   				<button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button>
+          
         </div>
+
         :
         <div>
         {this.props.inProgress?
@@ -208,11 +213,15 @@ export class PlayerStat extends Component {
 
 import {connect} from 'react-redux';
 import { endTurn } from '../reducers/playerStat'; 
-import { setNextRound, endSetUp, nextTurn } from '../reducers/turnBooleans';
+//import { setNextRound, endSetUp, nextTurn } from '../reducers/turnBooleans';
+import { nextRound, nextRoundStep2, shiftTurns, startNormGamePlay } from '../reducers/turnBooleans';
+
 
 const mapState = ({ turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray, userArray }) => ({turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray, userArray});
 
-const mapDispatch = { endTurn, setNextRound, endSetUp, nextTurn };
+const mapDispatch = {  nextRound, nextRoundStep2, shiftTurns, startNormGamePlay };
+//endTurnv -> startNormGamePlay
+//setNextRound -> nextRound & nextRoundStep
 
 export default connect(
   mapState,
