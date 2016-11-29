@@ -293,7 +293,7 @@ function findNeighbors(a, cObj){
     }
   }
   return neighbors;
-<<<<<<< HEAD
+
 }
 /* -----------------    CONTAINER     ------------------ */
 
@@ -320,6 +320,6 @@ export default connect(
   mapStateToProps,
   mapDispatch
 )(Board)
-=======
+
 }
->>>>>>> master
+
