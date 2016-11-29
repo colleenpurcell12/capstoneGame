@@ -8,11 +8,6 @@
   position: relative ;
 }
 
-body {
-  background: src("images/mars_outflow_mud_vectorize.png");
-  background-repeat: no-repeat;
-}
-
 #Form{
   z-index: 14;
 }
