@@ -32,6 +32,7 @@ class Board extends Component {
     let grid = this.generate(boardConfig);
 
     let corners = grid.corners
+    // this.props.putCorners(corners)
     this.state = {
       grid,
       config: boardConfig,
@@ -64,7 +65,7 @@ class Board extends Component {
 
         <div>
          <SubmitForm id = "Form" handleSubmit={this.handleSubmit}/>
-         <Structures select={this.state.selected} />
+         <Structures select={this.state.selected} corners={this.state.corners} />
         </div>
     </div>
     );
@@ -213,6 +214,8 @@ class Board extends Component {
     console.log('hexagons', hexagons)
     console.log('corners', allCorners)
     console.log(`found ${Object.keys(allCorners).length} corners`)
+    //console.log('hexagons', hexagons)
+    this.props.putCorners(allCorners)
     return { hexagons, layout, corners: allCorners };
   }
 
@@ -295,12 +298,13 @@ function findNeighbors(a, cObj){
 
 import {connect} from 'react-redux';
 //import { addRoad, addSettlement } from '../reducers/everyStructure';
+import { putCorners } from '../reducers/corner';
 
 const mapStateToProps = ({ turnInfo, hexData }) => ({turnInfo, hexData});
 // might need userArray[userID][selection] or userArray[userID][startRoad]  startSettlement
-const mapDispatch = dispatch => ({
 
-});
+const mapDispatch = { putCorners };
+
 
 export default connect(
   mapStateToProps,
