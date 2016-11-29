@@ -96,36 +96,36 @@ export class PlayerStat extends Component {
       <div style={{background:'white', opacity:'.95', borderRadius: '5px'}}>
         {resource ?
         <div>
+
           <div>
-            <input type="button" onClick={() => this.changeCount('wool',false) } value="-"/>
-            Wool    {resource.wool}
-            <input type="button" onClick={ () => this.changeCount('wool',true) } value="+"/>
+          <input type="button" onClick={() => this.changeCount('crops',false) } value="-"/>
+           Crops  {resource.crops}
+          <input type="button" onClick={ () => this.changeCount('crops',true) } value="+"/>
           </div>
 
           <div>
-          <input type="button" onClick={() => this.changeCount('brick',false) } value="-"/>
-           Brick  {resource.brick}
-          <input type="button" onClick={ () => this.changeCount('brick',true) } value="+"/>
+            <input type="button" onClick={() => this.changeCount('fuel',false) } value="-"/>
+            Fuel    {resource.fuel}
+            <input type="button" onClick={ () => this.changeCount('fuel',true) } value="+"/>
           </div>
 
           <div>
-          <input type="button" onClick={() => this.changeCount('grain',false) } value="-"/>
-           Grain  {resource.grain}
-          <input type="button" onClick={ () => this.changeCount('grain',true) } value="+"/>
+          <input type="button" onClick={() => this.changeCount('hematite',false) } value="-"/>
+          Hematite    {resource.hematite}
+          <input type="button" onClick={ () => this.changeCount('hematite',true) } value="+"/>
           </div>
 
           <div>
-          <input type="button" onClick={() => this.changeCount('ore',false) } value="-"/>
-          Ore    {resource.ore}
-          <input type="button" onClick={ () => this.changeCount('ore',true) } value="+"/>
+          <input type="button" onClick={() => this.changeCount('ice',false) } value="-"/>
+           Ice  {resource.ice}
+          <input type="button" onClick={ () => this.changeCount('ice',true) } value="+"/>
           </div>
 
           <div>
-          <input type="button" onClick={() => this.changeCount('lumber',false) } value="-"/>
-          Lumber {resource.lumber}
-          <input type="button" onClick={ () => this.changeCount('lumber',true) } value="+"/>
+          <input type="button" onClick={() => this.changeCount('solar',false) } value="-"/>
+          Solar {resource.solar}
+          <input type="button" onClick={ () => this.changeCount('solar',true) } value="+"/>
           </div>
-
 
         <div >
           <label>

@@ -27,8 +27,8 @@ export default function reducer (players = [], action) {
   switch (action.type) {
     case ADD_PLAYER:
       return players.concat([{name: action.player, cardsTotal: function(){
-        return Object.keys(this.cardsResource).map(resource => this.cardsResource[resource]).reduce((a,b) => a+b)    
-        }, cardsResource: {lumber: 0, ore: 0, grain:0, wool: 0, brick: 0}, points: 0, startRoad: null, startSettlement: null}]);
+        return Object.keys(this.cardsResource).map(resource => this.cardsResource[resource]).reduce((a,b) => a+b)
+        }, cardsResource: {crops: 0, fuel: 0, hematite: 0, ice: 0, solar: 0}, points: 0, startRoad: null, startSettlement: null}]);
     case INCREMENT_RESOURCE:
       return players.map(player => {
         if (player.name === action.player) {
