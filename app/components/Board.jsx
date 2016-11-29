@@ -296,19 +296,11 @@ function findNeighbors(a, cObj){
 import {connect} from 'react-redux';
 //import { addRoad, addSettlement } from '../reducers/everyStructure';
 
-import { addStructure } from '../reducers/structure';
-import { addBoardSelection, clearBoardSelection} from '../reducers/selection';
-import { addBoardRoad } from '../reducers/road';
-
-//bring in other results from reducers as necessary**
-
 const mapStateToProps = ({ turnInfo, hexData }) => ({turnInfo, hexData});
 // might need userArray[userID][selection] or userArray[userID][startRoad]  startSettlement
 const mapDispatch = dispatch => ({
-  addBoardSelection,
-  addBoardRoad,
-  clearBoardSelection,
-  }); //addRoad, addSettlement, addStructure
+
+});
 
 export default connect(
   mapStateToProps,
