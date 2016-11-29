@@ -3,7 +3,7 @@ import * as firebase from 'firebase'
 import { Link } from 'react-router';
 import store from '../store'
 import { addAction } from '../reducers/action-creators'
-import { addRoadToEveryStructure, addSettlementToEveryStructure } from '../reducers/everyStructure'; 
+import { addRoadToEveryStructure, addSettlementToEveryStructure } from '../reducers/everyStructure';
 
 export class Structures extends Component {
 	constructor(props) {
@@ -119,6 +119,7 @@ export class Structures extends Component {
     let associatedHexs = associatedHexsCorner1.concat( selections[1].hexes )
 
     console.log("this.isConnected(coord) ",this.isConnected(coord)  )
+    console.log("this.isFarEnough('road')", this.isFarEnough('road') )
     console.log("this.isAvailable('road', userID)",this.isAvailable('settlement', coord) )
     console.log("this.isAfforable('road', userID)",this.isAfforable('settlement', userID) )
     console.log("this.isDuringSetUp() && !hasAlreadyPurchased", this.isDuringSetUp() && !hasAlreadyPurchased )
@@ -135,7 +136,7 @@ export class Structures extends Component {
       //so user can't select/register another road during this round of set up
       if( this.isDuringSetUp() ) { userObj.hasBoughtARoad = true }
 
-      //to the road state used for rending visuals      
+      //to the road state used for rending visuals
       addAction(addRoadToRoads({
                           color: userColor,
                           corners: [selections[0].id, selections[1].id],  //ids
@@ -147,7 +148,7 @@ export class Structures extends Component {
       //send off to the everyStructures array used for validation
       //firebase
       addAction(addRoadToEveryStructure(roadObj))
-      //Formerly with dispatcher: this.props.add Road(roadObj)  
+      //Formerly with dispatcher: this.props.add Road(roadObj)
 
     }
     else{
@@ -177,7 +178,6 @@ export class Structures extends Component {
 
     if( selectedCorner.length===1 //&& isValidSetUpMove  
       && this.isAvailable() && this.isFarEnough('settlement', coord) && (this.isAfforable('settlement') || 
-
       (this.isDuringSetUp() && !alreadyPurchased ) ) ){ //<--no settlement has been registered/added so far in this set up round, if in set up phase
       let settlementObj = { type: 'settlement', points: 1 , color: userColor, userID: userID,
                             coordinates: selectedCorner,  associatedHexs: []   }
@@ -189,7 +189,7 @@ export class Structures extends Component {
       this.props.addBoardStructure({color: userObj.color, corner_id: 32, type: 'settlement'})
 
       //everyStructure used for validateion
-      //firebase 
+      //firebase
       addAction(addSettlementToEveryStructure(settlementObj))
       //Formerly with dispatcher: this.props.addSettlement(settlementObj)
     }

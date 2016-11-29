@@ -45,7 +45,6 @@ HexGrid.defaultProps = {
   height: 600
 }
 
-<<<<<<< HEAD
 
 /* -----------------    CONTAINER     ------------------ */
 
@@ -63,6 +62,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(HexGrid);
-=======
-export default HexGrid;
->>>>>>> master

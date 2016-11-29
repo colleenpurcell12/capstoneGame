@@ -1,6 +1,6 @@
 import HexGrid from '../../gameutils/react-hexgrid/src/HexGrid.js';
 import React, {Component} from 'react';
-import {shuffle, assignHexData, addRoad, tokenArray, resourcesArray} from 'APP/gameutils/setup.js'
+import {shuffle, addRoad, tokenArray, resourcesArray} from 'APP/gameutils/setup.js'
 import SubmitForm from './SubmitForm'
 import CornerGrid from './CornerGrid'
 import Roads from './Roads'
@@ -9,13 +9,9 @@ import GridGenerator from '../../gameutils/react-hexgrid/src/GridGenerator'
 import HexUtils from '../../gameutils/react-hexgrid/src/HexUtils';
 import Point from '../../gameutils/react-hexgrid/src/Point';
 import PortGrid from './PortGrid'
-
 import store from '../store'
 import Structures from './Structures';
 import {addAction} from '../reducers/action-creators'
-import { assignHexData } from '../reducers/hex-data'
-
-
 
 class Board extends Component {
   constructor(props) {
@@ -300,26 +296,13 @@ function findNeighbors(a, cObj){
 import {connect} from 'react-redux';
 //import { addRoad, addSettlement } from '../reducers/everyStructure';
 
-import { addStructure } from '../reducers/structure';
-import { addBoardSelection, clearBoardSelection} from '../reducers/selection';
-import { addBoardRoad } from '../reducers/road';
-
-
-
-//bring in other results from reducers as necessary**
-
 const mapStateToProps = ({ turnInfo, hexData }) => ({turnInfo, hexData});
 // might need userArray[userID][selection] or userArray[userID][startRoad]  startSettlement
 const mapDispatch = dispatch => ({
-  addBoardSelection,
-  addBoardRoad,
-  clearBoardSelection,
-  }); //addRoad, addSettlement, addStructure
+
+});
 
 export default connect(
   mapStateToProps,
   mapDispatch
 )(Board)
-
-}
-

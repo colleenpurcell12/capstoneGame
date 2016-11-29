@@ -16,7 +16,7 @@ export default function roads (roads = [], action){
 
   switch (action.type) {
     case ADD_ROAD:
-      return [...roads, action.structure]
+      return [...roads, action.road]
     default:
       return roads;
   }
