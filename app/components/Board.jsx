@@ -55,7 +55,7 @@ class Board extends Component {
     let { grid, config, roads} = this.state;
     return (
       <div>
-        <div className="board">
+        <div className="board" style={{marginTop: '-60px'}}>
           <PortGrid width={config.width} height={config.height} selectPort={this.selectPort}/>
           <CornerGrid width={config.width} height={config.height} selectCorner={this.selectCorner} corners={this.state.corners} />
           <Roads width={config.width} height={config.height} roads={roads}/>
