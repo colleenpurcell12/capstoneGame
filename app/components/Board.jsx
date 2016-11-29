@@ -9,15 +9,19 @@ import GridGenerator from '../../gameutils/react-hexgrid/src/GridGenerator'
 import HexUtils from '../../gameutils/react-hexgrid/src/HexUtils';
 import Point from '../../gameutils/react-hexgrid/src/Point';
 import PortGrid from './PortGrid'
+
 import store from '../store'
 import Structures from './Structures';
 
-export class Board extends Component {
+
+export default class Board extends Component {
+
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.generate = this.generate.bind(this)
     //this.addRoad = this.addRoad.bind(this)
+
     //config handled off component?
     let boardConfig = {
       width: 700, height: 820,
@@ -37,7 +41,8 @@ export class Board extends Component {
       selected: {firstCorner: null, secondCorner: null},
       tokens: [],
       resources: [],
-      allStructures: [],
+      roads: [{x1: -5.5, y1: 9.52, x2: 5.5, y2: 9.52, color: 'green'}],
+      settlements: [],
       corners
      };
      // tokens, resources, settlements, roads, and actions should come from connect?
@@ -53,7 +58,7 @@ export class Board extends Component {
       <div>
         <div className="board">
           <PortGrid width={config.width} height={config.height} selectPort={this.selectPort}/>
-          <CornerGrid width={config.width} height={config.height} corners={this.state.corners}  selected={this.state.selected}/>
+          <CornerGrid width={config.width} height={config.height} selectCorner={this.selectCorner} corners={this.state.corners} />
           <Roads width={config.width} height={config.height} roads={roads}/>
           <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
         </div>
@@ -66,6 +71,73 @@ export class Board extends Component {
     );
   }
 
+  selectCorner(event) {
+  //Cases: first time a corner is touched
+  // either the first or the 2nd is clicked twice,
+  // one is clicked when there is a first but not a 2nd, a 3nd but not a 1st
+  // a third one is clicked when there is both a first and a second
+  //idea to seperate teh class css from the this.state.selected
+    //is this one already selected
+
+    if (event.target == this.state.selected.firstCorner ){//if the corner is one of the first or second
+      //console.log("1st corner",event.target)
+      event.target.removeAttribute('class', 'corner-select');
+      event.target.setAttribute('class', 'corner-deselected');
+      this.state.selected.firstCorner = null
+      console.log("1st corner event.target", event.target)
+       console.log("1st corner should now be null", this.state.selected.firstCorner)
+    }
+
+    if (event.target == this.state.selected.secondCorner){
+      console.log("2nd corner")
+      event.target.removeAttribute('class', 'corner-select'); //.corner-node{
+      event.target.setAttribute('class', 'corner-node');
+      event.target.setAttribute('class', 'corner-deselected');
+      this.state.selected.secondCorner = null
+    }
+
+    var updatedSelected = this.state.selected
+    if(this.state.selected.firstCorner){ //at least one
+      if(!this.state.selected.secondCorner){ //exactly one
+        //time to fill in 2nd
+        event.target.setAttribute('class', 'corner-select');
+        updatedSelected.secondCorner = event.target
+        this.setState({ selected: updatedSelected })
+      } //first is filled
+    }
+    //first empty, unsure about the 2nd
+    else { //
+        if(!this.state.selected.secondCorner){ //completely empty
+          event.target.setAttribute('class', 'corner-select');
+          updatedSelected.firstCorner = event.target
+          this.setState({selected: updatedSelected})
+        } //first is filled
+        //if there is a 2nd but not a first, fill back in first
+        else{
+          event.target.setAttribute('class', 'corner-select');
+          updatedSelected.firstCorner = event.target
+          this.setState({ selected: updatedSelected })
+
+        }
+    }
+    console.log('this.state.selected', this.state.selected)
+    // if(this.state.selected.length >= 2) {
+    //       console.log('ALREADY 2 SELECTED, no class added')
+    //       event.target.removeAttribute('class', 'corner-select');
+    //      // event.target.setAttribute('class', 'corner-deselected');
+    // }
+    // else if(this.state.selected.length === 0)  {
+    //   event.target.setAttribute('class', 'corner-select');
+    //   this.setState({selected: [event.target]})
+    // } else {
+    //   event.target.setAttribute('class', 'corner-select');
+    //   var sA = this.state.selected;
+    //   sA.push(event.target)
+    //   this.setState({selected: sA})
+    // }
+    // console.log('this.state', this.state)
+  }
+>>>>>>> Stashed changes
 
   handleSubmit(event){
     event.preventDefault();
@@ -83,7 +155,29 @@ export class Board extends Component {
 
     //this.add Road(a, b, user)
     this.props.clearBoardSelection();
+    this.state.selected = []
+
+    //this.addRoad(a, b, user)
+    a.removeAttribute('class', 'corner-select');
+    b.removeAttribute('class', 'corner-select');
+    // a.removeAttribute('class', 'corner-deselected');
+
   }
+
+  //  addRoad(a, b, c){
+  //   var roadsArray = this.state.roads
+  //   var newRoad = {
+  //     x1: parseInt(a.attributes.cx.value),
+  //     y1: parseInt(a.attributes.cy.value),
+  //     x2: parseInt(b.attributes.cx.value),
+  //     y2: parseInt(b.attributes.cy.value),
+  //     color: c.color
+  //   }
+  //   roadsArray.push(newRoad)
+  //   this.setState({roads: roadsArray})
+  //   // add road to state
+  //   console.log('state after addroad', this.state)
+  // }
   // move me!
   //  add Road(a, b, c){
   //    // refactor
@@ -142,15 +236,17 @@ export class Board extends Component {
 
     // retrieve shuffled tokenArray & resources array
     // need gameinit function that shuffles?
-    // assign token and resources to hexes
-    assignHexInfo(hexagons, tokenArray, resourcesArray)
-    this.props.storeHexData(hexagons)
+
+    //assign token and resources to hexes
+    hexagons = assignHexData(hexagons, tokenArray, resourcesArray)
+
     //debugging
     console.log('hexagons', hexagons)
     console.log('corners', allCorners)
     console.log(`found ${Object.keys(allCorners).length} corners`)
     return { hexagons, layout, corners: allCorners };
   }
+
 }
 
 
