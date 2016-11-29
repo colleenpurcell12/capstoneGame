@@ -15,6 +15,9 @@ import {startGame} from '../reducers/home';
 import {newDiceRoll} from '../reducers/dice';
 //needs to know which player's card is showing
 
+import { nextRound, nextRoundStep2, shiftTurns, startNormGamePlay } from '../reducers/turnBooleans';
+
+
 const validate = values => {
   const errors = {}
   const requiredFields = [  ]
@@ -38,7 +41,8 @@ export class PlayerStat extends Component {
       addAction(decrementResource(this.props.loggedInUser.displayName, resource))
   }
 
-  handleChange (e) {
+  handleChange (e) { //TODO fill in this onClick handler for awards selection 
+
     //console.log(e.target.value) //name of input
     //need to grab the "current user" and give them the award in the database
   }
@@ -54,7 +58,7 @@ export class PlayerStat extends Component {
   }
 
   nextPlayer(){
-    let { isFirstRound, isSettingUp, turnArray, userArray } = store.getState()
+    let { isFirstRound, isSettingUp, turnArray, userArray } = this.props
      //Normal cycle of turns during game play, increment user to x+1
     if (isSettingUp === false){
       this.props.endTurn(this.props.turnInfo) //dispatch(setNextTurn(player));
@@ -68,19 +72,25 @@ export class PlayerStat extends Component {
             userArray[i].hasBoughtARoad = false;
             userArray[i].hasBoughtASettlement = false
         }
-        this.props.setNextRound() //dispatch(nextRound()); //which sets whoseTurn to 4, turnArray to [3,2,1]) and isFirstRound = false
+
+        addAction(nextRound())
+        addAction(nextRoundStep2())
+        //Formerly dispatcher: this.props.setNextRound() //dispatch(nextRound()); //which sets whoseTurn to 4, turnArray to [3,2,1]) and isFirstRound = false
         this.props.endTurn(3) //to 4
         }
       //check if end of 2nd round, therefore end of set up phase
       else if (isFirstRound === false && turnArray.length === 1) {  // initialize normal cycle of turns
         this.props.endTurn(0)
-        this.props.endSetUp()  //dispatch(startNormGamePlay()); sets turnInfo to 1, isSettingUp ==false
+        addAction(startNormGamePlay())
+        //Formerly dispatcher: this.props.endSetUp()  //dispatch(startNormGamePlay()); sets turnInfo to 1, isSettingUp ==false
       }
       else { //within either round
         if (turnArray){
           let player1 = turnArray[0]
           if (isFirstRound === false){ player1--;} //endTurn increments the #
-          this.props.nextTurn()
+          //firebase
+          addAction(shiftTurns())
+          //Formerly dispatcher: this.props.nextTurn()
           this.props.endTurn(player1) //dispatch(setNextTurn(player));
         }
         else { console.log("turnArray is undefined") }
@@ -197,17 +207,14 @@ export class PlayerStat extends Component {
 }
 
 
-
-
 /* -----------------    CONTAINER     ------------------ */
 
 import {connect} from 'react-redux';
-import { endTurn } from '../reducers/playerStat'; //bring in our setDiceRoll dispatcher, which will literally just dispatch newDiceRoll
+import { endTurn } from '../reducers/playerStat'; 
 import { setNextRound, endSetUp, nextTurn } from '../reducers/turnBooleans';
 
-//bring in other results from reducers as necessary like isSettingUp, isFirstRound...
+const mapState = ({ turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray, userArray }) => ({turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray, userArray});
 
-const mapState = ({ turnInfo, loggedInUser, players, inProgress }) => ({turnInfo, loggedInUser, players, inProgress});
 const mapDispatch = { endTurn, setNextRound, endSetUp, nextTurn };
 
 export default connect(

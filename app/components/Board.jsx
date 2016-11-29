@@ -214,8 +214,10 @@ class Board extends Component {
     console.log('hexagons', hexagons)
     console.log('corners', allCorners)
     console.log(`found ${Object.keys(allCorners).length} corners`)
-    //console.log('hexagons', hexagons)
+
+    //puts all the corners on the state
     this.props.putCorners(allCorners)
+    
     return { hexagons, layout, corners: allCorners };
   }
 
