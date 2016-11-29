@@ -93,7 +93,7 @@ export class PlayerStat extends Component {
       }
     });
     return (
-      <div>
+      <div style={{background:'white', opacity:'.95', borderRadius: '5px'}}>
         {resource ?
         <div>
           <div>

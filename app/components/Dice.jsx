@@ -26,7 +26,7 @@ export class Dice extends Component {
 
   render() {
     return (
-    	<div>
+    	<div style={{background:'white', opacity:'.95', borderRadius: '5px'}}>
       { this.state.d1 && this.state.d2 ?
         <div>
            <img src={`/die/d${this.state.d1}.gif`}/>
@@ -42,7 +42,7 @@ export class Dice extends Component {
           :
           <button disabled>Can't Roll Dice</button>
       }
-      <div>Last roll:{this.props.diceRoll.sum}</div>
+      <div style={{background:'white', opacity:'.95', borderRadius: '5px'}}>Last roll:{this.props.diceRoll.sum}</div>
 		</div>
 
     );

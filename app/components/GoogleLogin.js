@@ -46,9 +46,9 @@ export class GoogleLogin extends Component {
     return (
             <div>
   					{ this.props.loggedInUser && this.props.loggedInUser.displayName ?
-                <Toolbar>
+                <Toolbar style={{backgroundColor:'#DD2C00', opacity:'0.93'}}>
                   <ToolbarGroup>
-                    <FlatButton label="Rules" primary={true} style={{textAlign:'left'}}
+                    <FlatButton label="Rules" primary={true} style={{textAlign:'left', color:'#FFF3E0'}}
                       onClick={() => this.toggleRules()}
                     />
                     <Drawer
@@ -62,7 +62,7 @@ export class GoogleLogin extends Component {
                     </Drawer>
                   </ToolbarGroup>
       						<ToolbarGroup style={{textAlign:'center', display: 'inline-block', margin: '0 auto'}}>
-      							<ToolbarTitle text={`Welcome to Pioneers of Mars, ${this.props.loggedInUser.displayName.split(" ")[0]}.`} style={{textAlign:'center'}} />
+      							<ToolbarTitle text={`Welcome to Pioneers of Mars, ${this.props.loggedInUser.displayName.split(" ")[0]}.`} style={{textAlign:'center', color:'#FFF3E0'}} />
                     <Avatar src={this.props.loggedInUser.photoURL}/>
                     <IconMenu
                       iconButtonElement={<IconButton ><p>🚀</p></IconButton>}
