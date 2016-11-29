@@ -114,7 +114,7 @@ export class Structures extends Component {
       addAction(addRoadToRoads({
                           color: userColor,
                           corners: [selections[0].id, selections[1].id],  //ids
-                          coord: coord, //corner coords [[x1,y1],[x2,y2]]
+                          coordinates: coord, //corner coords [[x1,y1],[x2,y2]]
                           owner: userID
                            }))
       //formerly: this.props.addBoardRoad(
