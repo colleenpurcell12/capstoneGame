@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase'
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 import store from '../store'
+import { addAction } from '../reducers/action-creators'
+import { addRoadToEveryStructure, addSettlementToEveryStructure } from '../reducers/everyStructure'; 
 
 export class Structures extends Component {
 	constructor(props) {
@@ -78,8 +80,8 @@ export class Structures extends Component {
       //   x: ,
       //   y:
       // }
-    var coord = [ [selections[0].x,selections[0].y],
-                  [selections[1].x,selections[1].y] ] //[[11,-19],[5,-9]] //x1,y1,x2,y2 
+    var coord = [ [selections[0].x, selections[0].y],
+                  [selections[1].x, selections[1].y] ] //[[11,-19],[5,-9]] //x1,y1,x2,y2 
     let userID = turnInfo
     let userObj = userArray[userID]
     let userColor = userObj.color
@@ -107,6 +109,7 @@ export class Structures extends Component {
       if( this.isDuringSetUp() ) { userObj.hasBoughtARoad = true }
 
       //to the road state used for rending visuals
+export const addRoadToRoads = () => ({ type: ADD_ROAD, road })
       this.props.addBoardRoad({
                         color: userColor,
                         corners: [selections[0].id, selections[1].id],  //ids
@@ -115,7 +118,9 @@ export class Structures extends Component {
                          })
 
       //send off to the everyStructures array used for validation
-      this.props.addRoad(roadObj)  
+      //firebase
+      addAction(addRoadToEveryStructure(roadObj))
+      //Formerly with dispatcher: this.props.addRoad(roadObj)  
 
     }
     else{
@@ -157,7 +162,9 @@ export class Structures extends Component {
       this.props.addBoardStructure({color: userObj.color, corner_id: 32, type: 'settlement'})
 
       //everyStructure used for validateion
-      this.props.addSettlement(settlementObj)
+      //firebase 
+      addAction(addSettlementToEveryStructure(settlementObj))
+      //Formerly with dispatcher: this.props.addSettlement(settlementObj)
     }
 
   }
@@ -178,9 +185,9 @@ export class Structures extends Component {
 /* -----------------    CONTAINER     ------------------ */
 
 import {connect} from 'react-redux';
-import { addRoad, addSettlement } from '../reducers/everyStructure';
+//Dont need dispatchers: import { addRoad, addSettlement } from '../reducers/everyStructure';
 import { addBoardStructure, upgrade } from '../reducers/structure';
-import { addBoardRoad } from '../reducers/road';
+import { addRoadToRoads } from '../reducers/road';
 
 //bring in other results from reducers as necessary**
 

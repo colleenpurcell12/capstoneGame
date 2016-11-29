@@ -6,9 +6,10 @@ import * as firebase from 'firebase'
  const UPGRADE_SETTLEMENT = 'UPGRADE_SETTLEMENT';
 
 /* ------------   ACTION CREATORS     ------------------ */
-
-const addStructure = () => ({ type: ADD_STRUCTURE, structure })
-const upgradeSettlement = (corner)   => ({ type: UPGRADE_SETTLEMENT, corner })
+//from addStructure to addBoardStructure
+//from upgradeSettlement to upgradeBoardStructure
+export const addBoardStructure = () => ({ type: ADD_STRUCTURE, structure })
+export const upgradeBoardStructure = (corner)   => ({ type: UPGRADE_SETTLEMENT, corner })
 
 /* ------------       REDUCER     ------------------ */
 
@@ -35,9 +36,9 @@ export default function structures (structures = [], action){
 
 /* ------------      DISPATCHERS     ------------------ */
 
-export const addBoardStructure = (structure) => dispatch => {
-    dispatch(addStructure(structure));
-}
-export const upgradeBoardStructure = (corner) => dispatch => {
-    dispatch(upgradeSettlement(corner));
-}
+// export const addBoardStructure = (structure) => dispatch => {
+//     dispatch(addStructure(structure));
+// }
+// export const upgradeBoardStructure = (corner) => dispatch => {
+//     dispatch(upgradeSettlement(corner));
+// }
