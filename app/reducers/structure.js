@@ -1,4 +1,4 @@
-import * as firebase from 'firebase'
+// import * as firebase from 'firebase'
 
 /* -----------------    ACTIONS     ------------------ */
 
@@ -8,11 +8,11 @@ import * as firebase from 'firebase'
 /* ------------   ACTION CREATORS     ------------------ */
 //from addStructure to addBoardStructure
 //from upgradeSettlement to upgradeBoardStructure
-export const addBoardStructure = () => ({ type: ADD_STRUCTURE, structure })
-export const upgradeBoardStructure = (corner)   => ({ type: UPGRADE_SETTLEMENT, corner })
+export const addBoardStructure = (structure) => ({ type: 'ADD_STRUCTURE', structure })
+export const upgradeBoardStructure = (corner)   => ({ type: 'UPGRADE_SETTLEMENT', corner })
 
 /* ------------       REDUCER     ------------------ */
-
+ 
 //settlements
 
 export default function structures (structures = [], action){

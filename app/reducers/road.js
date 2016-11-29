@@ -1,12 +1,12 @@
-import * as firebase from 'firebase'
+//import * as firebase from 'firebase'
 
 /* -----------------    ACTIONS     ------------------ */
 
- const ADD_ROAD = 'ADD_ROAD';
+const ADD_ROAD = 'ADD_ROAD';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-export const addRoadToRoads = () => ({ type: ADD_ROAD, road })
+export const addRoadToRoads = (road) => ({ type: 'ADD_ROAD', road })
 
 /* ------------       REDUCER     ------------------ */
 

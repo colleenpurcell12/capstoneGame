@@ -8,9 +8,9 @@ const CLEAR_SELECTION = 'CLEAR_SELECTION';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-const addSelection = (selection) => ({ type: ADD_SELECTION, selection })
-const removeSelection = (id) => ({type: REMOVE_SELECTION, id})
-const clearSelection = () => ({type: CLEAR_SELECTION})
+export const addSelection = (selection) => ({ type: ADD_SELECTION, selection })
+export const removeSelection = (id) => ({type: REMOVE_SELECTION, id})
+export const clearSelection = () => ({type: CLEAR_SELECTION})
 
 /* ------------       REDUCER     ------------------ */
 

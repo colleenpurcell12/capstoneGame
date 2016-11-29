@@ -1,6 +1,6 @@
 import HexGrid from '../../gameutils/react-hexgrid/src/HexGrid.js';
 import React, {Component} from 'react';
-import {shuffle, assignHexInfo, addRoad, tokenArray, resourcesArray} from 'APP/gameutils/setup.js'
+import {shuffle, assignHexInfo, tokenArray, resourcesArray} from 'APP/gameutils/setup.js'
 import SubmitForm from './SubmitForm'
 import CornerGrid from './CornerGrid'
 import Roads from './Roads'
@@ -81,11 +81,11 @@ export class Board extends Component {
 
     var a = this.props.selected[0], b = this.props.selected[0]
 
-    this.addRoad(a, b, user)
+    //this.add Road(a, b, user)
     this.props.clearBoardSelection();
   }
   // move me!
-  //  addRoad(a, b, c){
+  //  add Road(a, b, c){
   //    // refactor
   //   var roadsArray = this.state.roads
   //   var newRoad = {
@@ -236,7 +236,8 @@ import {connect} from 'react-redux';
 
 import { addStructure } from '../reducers/structure';
 import { addBoardSelection, clearBoardSelection} from '../reducers/selection';
-import { addBoardRoad } from '../reducers/road';
+//Fomerly import { addBoardRoad } from '../reducers/road';
+import { addRoadToRoads } from '../reducers/road';
 import { assignHexData } from '../reducers/hex-data'
 
 
@@ -247,7 +248,7 @@ const mapStateToProps = ({ turnInfo }) => ({turnInfo});
 // might need userArray[userID][selection] or userArray[userID][startRoad]  startSettlement
 const mapDispatch = dispatch => ({
   addBoardSelection,
-  addBoardRoad,
+  addRoadToRoads,
   clearBoardSelection,
   storeHexData: (hexes) => dispatch(assignHexData(hexes))
   }); //addRoad, addSettlement, addStructure

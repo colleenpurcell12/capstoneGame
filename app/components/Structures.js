@@ -18,26 +18,28 @@ export class Structures extends Component {
     let {  isSettingUp } = store.getState()
     return isSettingUp
   }
-  isAvailable(type,coord){
-    let {  everyStructure } = store.getState()
-    if(type==='road'){
-      let everyRoad = everyStructure.filter( (struc) => struc.type==='road')
-      let sameRoad = everyStructure.filter( (struc) => struc.coordinates===coord)
-      if(!sameRoad){ return true }
-      else { return false }
-    }
-    else { //settlement
-      let everySettlement = everyStructure.filter( (struc) => struc.type==='settlement')
-      let sameSettlement = everyStructure.filter( (struc) => struc.coordinates===coord)
-      if(!sameSettlement){ return true }
-      else { return false }
-    }
+  isAvailable(type, coord){
+    return true
+    // let {  everyStructure } = store.getState()
+    // if(type==='road'){
+    //   let everyRoad = everyStructure.filter( (struc) => struc.type==='road')
+    //   let sameRoad = everyStructure.filter( (struc) => struc.coordinates===coord)
+    //   if(!sameRoad){ return true }
+    //   else { return false }
+    // }
+    // else { //settlement
+    //   let everySettlement = everyStructure.filter( (struc) => struc.type==='settlement')
+    //   let sameSettlement = everyStructure.filter( (struc) => struc.coordinates===coord)
+    //   if(!sameSettlement){ return true }
+    //   else { return false }
+    // }
   }
   isConnected(coord){
     //false if there isn't a structure that shares a coordinate
     let {  everyStructure } = store.getState()
     // MAP OVER TO CHECK
     // ...
+    return true
   }
   isAfforable(type, userID){
     let {  userArray } = store.getState()
@@ -108,19 +110,19 @@ export class Structures extends Component {
       //so user can't select/register another road during this round of set up
       if( this.isDuringSetUp() ) { userObj.hasBoughtARoad = true }
 
-      //to the road state used for rending visuals
-export const addRoadToRoads = () => ({ type: ADD_ROAD, road })
-      this.props.addBoardRoad({
-                        color: userColor,
-                        corners: [selections[0].id, selections[1].id],  //ids
-                        coordinates: coord, //corner coords [[x1,y1],[x2,y2]]
-                        owner: userID
-                         })
+      //to the road state used for rending visuals      
+      addAction(addRoadToRoads({
+                          color: userColor,
+                          corners: [selections[0].id, selections[1].id],  //ids
+                          coordinates: coord, //corner coords [[x1,y1],[x2,y2]]
+                          owner: userID
+                           }))
+      //formerly: this.props.addBoardRoad(
 
       //send off to the everyStructures array used for validation
       //firebase
       addAction(addRoadToEveryStructure(roadObj))
-      //Formerly with dispatcher: this.props.addRoad(roadObj)  
+      //Formerly with dispatcher: this.props.add Road(roadObj)  
 
     }
     else{
@@ -193,7 +195,7 @@ import { addRoadToRoads } from '../reducers/road';
 
 const mapState = ({ turnInfo }) => ({turnInfo});
 // might need userArray[userID][selection] or userArray[userID][startRoad]  startSettlement
-const mapDispatch = { addRoad, addSettlement, addBoardStructure, addBoardRoad};
+const mapDispatch = { addBoardStructure, addRoadToRoads};
 
 export default connect(
   null,
