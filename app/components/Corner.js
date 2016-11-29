@@ -28,6 +28,7 @@ class CornerShape extends React.Component {
   }
 
   render() {
+<<<<<<< Updated upstream
     let index = this.props.index
     let cornerId = this.props.type[0]+index
     let owner = null, structure = null, selected = null;
@@ -58,6 +59,27 @@ class CornerShape extends React.Component {
         <text x={this.props.cx} y={this.props.cy+.3} textAnchor="middle" >
           {structure}
         </text>
+=======
+    let hex = this.props.hex;
+    let actions = this.props.actions;
+    // let styles = this.getStyles(hex);
+    //this.props.type + this.props.index??
+    let cornerId = this.props.type[0]+this.props.index
+    // onClick={e => actions.onClick(id, e)}
+    let classN = [this.props.type, this.props.resource].join(' ')
+    return (
+      <g className="shape-group" draggable="true"
+        onDragStart={e => actions.onDragStart(this.props.hex, e)}
+        onDragEnd={e => actions.onDragEnd(this.props.hex, e)}
+        onDragOver={e => actions.onDragOver(this.props.hex, e)}
+        onDrop={e => actions.onDrop(this.props.hex, e)}
+        onClick={e => this.props.selectCorner(e) }
+        id= {cornerId}
+        >
+        <img src=""/>
+        <circle className={classN} cx={this.props.cx} cy={this.props.cy} r={this.props.r}  id= {cornerId}/>
+        <text x={this.props.cx} y={this.props.cy+.3} textAnchor="middle" >{this.props.text || ''}</text>
+>>>>>>> Stashed changes
       </g>
     );
   }

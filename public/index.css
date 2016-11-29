@@ -31,6 +31,7 @@ body {
 
 .port {
   fill: brown;
+<<<<<<< Updated upstream
 }
 
 .hexhover {
@@ -38,6 +39,15 @@ body {
   stroke-width: .3;
 }
 
+=======
+}
+
+.hexhover {
+  stroke: red;
+  stroke-width: .3;
+}
+
+>>>>>>> Stashed changes
 /*svg 'canvases'*/
 #HexGrid{
   position: absolute ;
@@ -118,22 +128,34 @@ svg circle {
 
 .green {
   stroke: green;
+<<<<<<< Updated upstream
   fill: green;
+=======
+>>>>>>> Stashed changes
   stroke-weight: .5;
 }
 
 .red {
   stroke: red;
+<<<<<<< Updated upstream
   fill: red;
+=======
+>>>>>>> Stashed changes
   stroke-weight: .5;
 }
 .blue {
   stroke: blue;
+<<<<<<< Updated upstream
   fill: blue;
+=======
+>>>>>>> Stashed changes
   stroke-weight: .5;
 }
 .brown {
   stroke: brown;
+<<<<<<< Updated upstream
   fill: brown;
+=======
+>>>>>>> Stashed changes
   stroke-weight: .5;
 }
