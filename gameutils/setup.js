@@ -51,4 +51,4 @@ function assignHexInfo (tokens, resources) {
 // state could save the last two clicked on ccorner nodes as well as the current player
 
 
-module.exports = {shuffle, ports, resources, resourcesArray, tokenArray, assignHexData}
+module.exports = {shuffle, ports, resources, resourcesArray, tokenArray, assignHexInfo}

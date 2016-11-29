@@ -1,6 +1,6 @@
 import HexGrid from '../../gameutils/react-hexgrid/src/HexGrid.js';
 import React, {Component} from 'react';
-import {shuffle, assignHexData, addRoad, tokenArray, resourcesArray} from 'APP/gameutils/setup.js'
+import {shuffle, addRoad, tokenArray, resourcesArray} from 'APP/gameutils/setup.js'
 import SubmitForm from './SubmitForm'
 import CornerGrid from './CornerGrid'
 import Roads from './Roads'
@@ -9,15 +9,12 @@ import GridGenerator from '../../gameutils/react-hexgrid/src/GridGenerator'
 import HexUtils from '../../gameutils/react-hexgrid/src/HexUtils';
 import Point from '../../gameutils/react-hexgrid/src/Point';
 import PortGrid from './PortGrid'
-
 import store from '../store'
 import Structures from './Structures';
 import {addAction} from '../reducers/action-creators'
-import { assignHexData } from '../reducers/hex-data'
 
 
-
-export default class Board extends Component {
+class Board extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -293,7 +290,7 @@ function findNeighbors(a, cObj){
     }
   }
   return neighbors;
-<<<<<<< HEAD
+
 }
 /* -----------------    CONTAINER     ------------------ */
 
@@ -320,6 +317,3 @@ export default connect(
   mapStateToProps,
   mapDispatch
 )(Board)
-=======
-}
->>>>>>> master
