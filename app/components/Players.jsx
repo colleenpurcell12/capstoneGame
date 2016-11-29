@@ -7,11 +7,6 @@ export class Players extends Component {
 	constructor() {
 		super()
 	}
-	componentWillMount() {
-		console.log("in componentDidMount", this.props.players)
-		this.props.players.length >= 4 && this.props.inProgress === false ? addAction(startGame(true)) : null;
-
-	}
 
 	render() {
 		return(
@@ -45,8 +40,8 @@ export class Players extends Component {
 
 import {connect} from 'react-redux';
 
-const mapState = ({ players, loggedInUser, turnInfo, inProgress }) => ({ players, loggedInUser, turnInfo, inProgress }) //added turnInfo for display purposes
+const mapState = ({ players, loggedInUser, turnInfo, inProgress, doneLoading }) => ({ players, loggedInUser, turnInfo, inProgress, doneLoading }) //added turnInfo for display purposes
 
-// const mapDispatch = { listenToPlayers, addPlayer }
+const mapDispatch = { addAction }
 
-export default connect(mapState, null)(Players);
+export default connect(mapState, mapDispatch)(Players);

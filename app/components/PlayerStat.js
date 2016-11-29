@@ -9,6 +9,8 @@ import Checkbox from 'material-ui/Checkbox'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import store from '../store'
+import {addPlayer} from '../reducers/players';
+import {addAction} from '../reducers/action-creators';
 //needs to know which player's card is showing
 
 const validate = values => {
@@ -53,6 +55,11 @@ export class PlayerStat extends Component {
     //need to grab the "current user" and give them the award in the database
   }
 
+  addNewPlayer(){
+    if (this.props.players.length >=4) alert("Game is in progress");
+    else addAction(addPlayer(this.props.loggedInUser.displayName));
+  }
+
   nextPlayer(){
     let { isFirstRound, isSettingUp, turnArray, userArray } = store.getState()
      //Normal cycle of turns during game play, increment user to x+1
@@ -72,7 +79,7 @@ export class PlayerStat extends Component {
         this.props.endTurn(3) //to 4
         }
       //check if end of 2nd round, therefore end of set up phase
-      else if (isFirstRound === false && turnArray.length === 1) {  // initialize normal cycle of turns       
+      else if (isFirstRound === false && turnArray.length === 1) {  // initialize normal cycle of turns
         this.props.endTurn(0)
         this.props.endSetUp()  //dispatch(startNormGamePlay()); sets turnInfo to 1, isSettingUp ==false
       }
@@ -169,10 +176,9 @@ export class PlayerStat extends Component {
         </tbody>
         </table>
 
-
-        <button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button>
-      </div>
-
+				<button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button>
+        <button type='submit' onClick={() => this.addNewPlayer()}> JOIN GAME </button>
+			</div>
     )
   }
 }
@@ -188,7 +194,7 @@ import { setNextRound, endSetUp, nextTurn } from '../reducers/turnBooleans';
 
 //bring in other results from reducers as necessary like isSettingUp, isFirstRound...
 
-const mapState = ({ turnInfo }) => ({turnInfo});
+const mapState = ({ turnInfo, loggedInUser, players }) => ({turnInfo, loggedInUser, players});
 const mapDispatch = { endTurn, setNextRound, endSetUp, nextTurn };
 
 export default connect(
