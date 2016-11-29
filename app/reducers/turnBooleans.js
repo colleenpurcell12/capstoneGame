@@ -9,10 +9,10 @@ import * as firebase from 'firebase'
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-const nextRound = () => ({ type: NEXT_ROUND })
-const nextRoundStep2 = () => ({ type: NEXT_ROUND_STEP2 })
-const shiftTurns = () => ({ type: SHIFT_TURNS }) //
-const startNormGamePlay = () => ({ type: START_GAME_PLAY })
+export const nextRound = () => ({ type: NEXT_ROUND })
+export const nextRoundStep2 = () => ({ type: NEXT_ROUND_STEP2 })
+export const shiftTurns = () => ({ type: SHIFT_TURNS }) //
+export const startNormGamePlay = () => ({ type: START_GAME_PLAY })
 
 /* ------------       REDUCER     ------------------ */
 
@@ -47,13 +47,13 @@ export function turnArray (turnArray= [1,2,3,4], action){
 
 /* ------------      DISPATCHERS     ------------------ */
 
-export const setNextRound = () => dispatch => {
-    dispatch(nextRound());
-    dispatch(nextRoundStep2());
-}
-export const endSetUp = () => dispatch => {
-    dispatch(startNormGamePlay());
-}
-export const nextTurn = () => dispatch => { 
-    dispatch(shiftTurns()); 
-}
+// export const setNextRound = () => dispatch => {
+//     dispatch(nextRound());
+//     dispatch(nextRoundStep2());
+// }
+// export const endSetUp = () => dispatch => {
+//     dispatch(startNormGamePlay());
+// }
+// export const nextTurn = () => dispatch => { 
+//     dispatch(shiftTurns()); 
+// }

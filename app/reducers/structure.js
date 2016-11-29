@@ -15,7 +15,15 @@ export const upgradeBoardStructure = (corner)   => ({ type: 'UPGRADE_SETTLEMENT'
  
 //settlements
 
-export default function structures (structures = [], action){
+let initialState = [ { type: 'settlement', points: 1 , 
+                            color: 'blue', userID: 2,
+                            cornerId: 20,
+                            coordinates: [-5.5, 9.526279441628825],  
+                            associatedHexs: [10,5,9]   
+                          }
+                      ] 
+
+export default function structures (structures = initialState, action){
 
   switch (action.type) {
     case ADD_STRUCTURE:
