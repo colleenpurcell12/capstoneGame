@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
-import {addAction} from '../reducers/action-creators'
+import { addAction } from '../reducers/action-creators'
 import { addPlayer } from '../reducers/players';
-import {startGame} from '../reducers/home';
+import { startGame } from '../reducers/home';
+
 
 export class Players extends Component {
 	constructor() {
 		super()
 	}
-
+	// componentWillMount() {
+	// 	this.props.players.length >= 4 && this.props.inProgress === false ?
+	// 	addAction(startGame(true)) : null;
+	// }
 	render() {
 		return(
 			<div>
@@ -42,4 +46,4 @@ import {connect} from 'react-redux';
 
 const mapState = ({ players, loggedInUser, turnInfo, inProgress, doneLoading }) => ({ players, loggedInUser, turnInfo, inProgress, doneLoading }) //added turnInfo for display purposes
 
-export default connect(mapState)(Players);
+export default connect(mapState, null)(Players);

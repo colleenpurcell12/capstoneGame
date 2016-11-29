@@ -63,6 +63,7 @@ export default class Board extends Component {
 
         <div>
          <SubmitForm id = "Form" handleSubmit={this.handleSubmit}/>
+         <Structures select={this.state.selected} />
         </div>
     </div>
     );
