@@ -12,6 +12,10 @@ import PortGrid from './PortGrid'
 
 import store from '../store'
 import Structures from './Structures';
+import {addAction} from '../reducers/action-creators'
+import { assignHexData } from '../reducers/hex-data'
+
+
 
 export default class Board extends Component {
   constructor(props) {
@@ -30,6 +34,7 @@ export default class Board extends Component {
       actions: {}
     }
     let grid = this.generate(boardConfig);
+
     let corners = grid.corners
     this.state = {
       grid,
@@ -208,12 +213,6 @@ export default class Board extends Component {
       allCorners[corner].y = coords.y
     }
 
-    // retrieve shuffled tokenArray & resources array
-    // need gameinit function that shuffles?
-
-    //assign token and resources to hexes
-    hexagons = assignHexData(hexagons, tokenArray, resourcesArray)
-
     //debugging
     console.log('hexagons', hexagons)
     console.log('corners', allCorners)
@@ -294,4 +293,33 @@ function findNeighbors(a, cObj){
     }
   }
   return neighbors;
+<<<<<<< HEAD
 }
+/* -----------------    CONTAINER     ------------------ */
+
+import {connect} from 'react-redux';
+//import { addRoad, addSettlement } from '../reducers/everyStructure';
+
+import { addStructure } from '../reducers/structure';
+import { addBoardSelection, clearBoardSelection} from '../reducers/selection';
+import { addBoardRoad } from '../reducers/road';
+
+
+
+//bring in other results from reducers as necessary**
+
+const mapStateToProps = ({ turnInfo, hexData }) => ({turnInfo, hexData});
+// might need userArray[userID][selection] or userArray[userID][startRoad]  startSettlement
+const mapDispatch = dispatch => ({
+  addBoardSelection,
+  addBoardRoad,
+  clearBoardSelection,
+  }); //addRoad, addSettlement, addStructure
+
+export default connect(
+  mapStateToProps,
+  mapDispatch
+)(Board)
+=======
+}
+>>>>>>> master

@@ -1,4 +1,7 @@
 import React from 'react';
+import {addSelection, removeSelection} from '../reducers/selection.js'
+import {addAction} from '../reducers/action-creators'
+
 
 class CornerShape extends React.Component {
   constructor(props) {
@@ -15,7 +18,7 @@ class CornerShape extends React.Component {
     if (this.props.selections.length){
       this.props.selections.forEach(function(sel){
         if(sel.id === id){
-          this.props.removeBoardSelection(id)
+          addAction(removeSelection(id))
           dupe = true;
         }
       }, this)
@@ -23,7 +26,7 @@ class CornerShape extends React.Component {
    //selections is not full & not just removed
    if(this.props.selections.length < 2 && !dupe){
       var cornerObj = this.props.corners[id]
-      this.props.addBoardSelection(cornerObj)
+      addAction(addSelection(cornerObj))
     }
   }
 
@@ -67,15 +70,13 @@ class CornerShape extends React.Component {
 /* -----------------    CONTAINER     ------------------ */
 
 import { connect } from 'react-redux';
-import {addBoardSelection, removeBoardSelection} from '../reducers/selection.js'
 
 const mapStateToProps = ({ structure, selections }) => ({
   structure, selections
 });
 
 const mapDispatchToProps = dispatch => ({
-  addBoardSelection: selection => dispatch(addBoardSelection(selection)),
-  removeBoardSelection: id => dispatch(removeBoardSelection(id)),
+
 });
 
 export default connect(
