@@ -1,5 +1,5 @@
 import * as firebase from 'firebase'
-
+import {addAction} from './action-creators';
 /* -----------------    ACTIONS     ------------------ */
 
 const SET_NEXT_TURN = 'SET_NEXT_TURN';
@@ -9,19 +9,19 @@ const SET_NEXT_TURN = 'SET_NEXT_TURN';
 const setNextTurn = (player) => ({ type: SET_NEXT_TURN, player })
 
 /* ------------       REDUCER     ------------------ */
-                             //whoseTurn is an object that points to a specific player ID, 1 - 4
-export default function reducer (whoseTurn= 1, action){
+                             //turnInfo is an object that points to a specific player ID, 1 - 4
+export default function reducer (turnInfo= 1, action){
     switch (action.type) {
     case SET_NEXT_TURN:
       return action.player
     default:
-      return whoseTurn
+      return turnInfo
   }
 }
 
 /* ------------      DISPATCHERS     ------------------ */
 
-export const endTurn = (player) => dispatch => {
+export const endTurn = (player) => {
     player === 4 ? player = 1 : player++
-    dispatch(setNextTurn(player));
+    addAction(setNextTurn(player));
 }
