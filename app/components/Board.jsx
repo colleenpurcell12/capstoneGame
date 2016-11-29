@@ -13,7 +13,6 @@ import store from '../store'
 import Structures from './Structures';
 import {addAction} from '../reducers/action-creators'
 
-
 class Board extends Component {
   constructor(props) {
     super(props);
@@ -300,8 +299,6 @@ import {connect} from 'react-redux';
 import { addStructure } from '../reducers/structure';
 import { addBoardSelection, clearBoardSelection} from '../reducers/selection';
 import { addBoardRoad } from '../reducers/road';
-
-
 
 //bring in other results from reducers as necessary**
 
