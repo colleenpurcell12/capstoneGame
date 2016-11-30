@@ -1,52 +1,31 @@
-# capstoneGame
-capstone project for Grace Hopper Fall Cohort
+Pioneers of Mars! 
+=============
+- - - -
+by Sharon, Sami, Deborah, and Colleen
 
-This game is based off of Settlers of Catan
-using react, javascript, firebase
-by SHaron, Sami, Deborah, and Colleen
+Technologies used: React, Redux, Firebase, JavaScript, Material UI
 
-need to run in CLI: 
-npm install -g firebase-tools
-then use these commands
-firebase login
-firebase use –add
-then instead of npm start, run it with 
-firebase serve
+Multi-player web game that simulates the popular board game, Settlers of Catan. 
+It includes a board where players place game pieces to claim territory, 
+earning them points. Players can negotiate trades in the chatroom beside the 
+board. The application integrates complex game logic to deliver an experience 
+similar to playing on a table top.
 
+###Check out this link to test out game play!###
 
+[Deployment Link](https://capstonegame-24bce.firebaseapp.com/) 
 
-<div id="messages-card-container" className="mdl-cell mdl-cell--12-col mdl-grid">
+### Learn more about the developers who created this repo ###
+[Colleen Purcell](https://www.linkedin.com/in/colleenpurcell) 
+[Sharon Choe](https://www.linkedin.com/in/sharonchoe) 
+[Deborah Kwon](https://www.linkedin.com/in/deborah-kwon) 
+[Samantha Lugar](https://www.linkedin.com/in/samanthalugar)
 
-      <div id="messages-card" className="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--6-col-tablet mdl-cell--6-col-desktop">
-        <div className="mdl-card__supporting-text mdl-color-text--grey-600">
-                <div id="messages">
-                
-                  <span id="message-filler"></span>
-                }
-                </div>
-          <form id="message-form" action="#">
-                  <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input className="mdl-textfield__input" type="text" id="message"/>
-                    <label className="mdl-textfield__label" htmlFor="message">Message...</label>
-                    
-                  </div>
-            <button id="submit" disabled type="submit" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-              Send
-            </button>
-          </form>
-          <form id="image-form" action="#">
-            <input id="mediaCapture" type="file" accept="image/*,capture=camera">
-            </input>
-            <button id="submitImage" title="Add an image" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--amber-400 mdl-color-text--white">
-              <i className="material-icons">image</i>
-            </button>
-          </form>
-        </div>
-      </div>
+### Steps for running the app locally : ###
 
-      <div id="must-signin-snackbar" className="mdl-js-snackbar mdl-snackbar">
-        <div className="mdl-snackbar__text"></div>
-        <button className="mdl-snackbar__action" type="button"></button>
-      </div>
-
-    </div>
+#  | Command
+---| -------------
+1  | npm install -g firebase-tools
+2  | firebase login firebase use –add
+3  | firebase use –add
+4  | firebase serve

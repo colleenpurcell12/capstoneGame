@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {addAction} from '../reducers/action-creators'
 import { newDiceRoll } from '../reducers/dice';
-import store from '../store';
+import RaisedButton from 'material-ui/RaisedButton';
 
 export class Dice extends Component {
   constructor(props) {
@@ -26,11 +26,13 @@ export class Dice extends Component {
 
   render() {
     return (
-    	<div style={{background:'white', opacity:'.95', borderRadius: '5px'}}>
+    	<div className='playerInfo'>
       { this.state.d1 && this.state.d2 ?
         <div>
            <img src={`/die/d${this.state.d1}.gif`}/>
            <img src={`/die/d${this.state.d2}.gif`}/>
+           <br />
+           <br />
          </div>
        :
        <div></div>
@@ -42,7 +44,7 @@ export class Dice extends Component {
           :
           <button disabled>Can't Roll Dice</button>
       }
-      <div style={{background:'white', opacity:'.95', borderRadius: '5px'}}>Last roll:{this.props.diceRoll.sum}</div>
+      <div>Last roll:{this.props.diceRoll.sum}</div>
 		</div>
 
     );

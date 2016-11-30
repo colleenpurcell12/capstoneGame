@@ -53,6 +53,7 @@ class HexShape extends React.Component {
         <image x='-8' y='-8' height="16" width="16" xlinkHref={`images/${resource}.svg`}/>
         <HexPointers hex={hex} points={points} />
         <circle cx='0' cy='0' r='3' onClick={() => {console.log("In the circle onClick")} }/>
+        <image x="-3" y="-3" width="6" height="6" xlinkHref="/alien.svg" />
         <text x="0" y="0.3em" textAnchor="middle" >{text}</text>
       </g>
     );

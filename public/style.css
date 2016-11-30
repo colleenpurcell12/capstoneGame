@@ -24,6 +24,21 @@ body {
   background-size: 100% ;
 }
 
+.playerInfo {
+  background: white;
+  opacity: .95;
+  border-radius: 5px;
+  padding-left: 15%;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  color: #4c4747;
+}
+
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
 .material-icons {
   font-size: 36px;
   top: 8px;
