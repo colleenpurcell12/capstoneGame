@@ -29,7 +29,6 @@ function shuffle(arr){
   return shuffled;
 }
 
-
 function assignHexInfo (tokens, resources) {
   var tshuff = shuffle(tokens);
   var rshuff = shuffle(resources);
@@ -48,11 +47,7 @@ function assignHexInfo (tokens, resources) {
     })
   }
  return hexData;
-
 }
-
-// takes two svg circle elements a, and b and the current user, c
-// state could save the last two clicked on ccorner nodes as well as the current player
 
 
 module.exports = {shuffle, ports, resources, resourcesArray, tokenArray, assignHexInfo}

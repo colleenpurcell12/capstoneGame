@@ -8,7 +8,7 @@ class CornerShape extends React.Component {
     super(props);
     this.selectCorner = this.selectCorner.bind(this)
   }
- 
+
   selectCorner(event) {
     event.preventDefault();
     var id = this.props.index
@@ -33,23 +33,25 @@ class CornerShape extends React.Component {
   render() {
     let index = this.props.index
     let cornerId = this.props.type[0]+index
-    let owner = null, structure = null, selected = null;
+    let owner = null, selected = null;
+    let text = this.props.text
     let isOwned = this.props.structure.find(function(structure){
       return structure.corner_id === index
     })
     if(isOwned){
       owner = isOwned.owner + '-player'
-      structure = isOwned.type[0];
+      text = isOwned.type[0];
     }
     let isSelected = this.props.selections.find(function(select){
-
-        return select.id === index
-
+      return select.id === index
     })
     if(isSelected  && this.props.type === 'corner'){
       selected = 'corner-select';
     }
-
+    let offset = 0
+    if (this.props.type === 'port'){
+      
+    }
     // this.props.type -> port or corner
     // this.props.resource -> port only resource
     // selected -> ring (glow?)
@@ -62,8 +64,8 @@ class CornerShape extends React.Component {
         <img src=""/>
         <circle className={classN} cx={this.props.cx} cy={this.props.cy}
           r={this.props.r}  id= {cornerId}/>
-        <text x={this.props.cx} y={this.props.cy+.3} textAnchor="middle" >
-          {structure}
+        <text x={this.props.cx + offset} y={this.props.cy+.5} className="port-text" textAnchor="middle" >
+          {text}
         </text>
       </g>
     );
