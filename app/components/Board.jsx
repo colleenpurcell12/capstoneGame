@@ -1,4 +1,4 @@
-import HexGrid from '../../gameutils/react-hexgrid/src/HexGrid.js';
+ import HexGrid from '../../gameutils/react-hexgrid/src/HexGrid.js';
 import React, {Component} from 'react';
 //import SubmitForm from './SubmitForm'
 import {shuffle, addRoad, tokenArray, resourcesArray} from 'APP/gameutils/setup.js'
@@ -16,10 +16,9 @@ import {assignHexData} from '../reducers/hex-data'
 class Board extends Component {
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.selectCorner = this.selectCorner.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
+    // this.selectCorner = this.selectCorner.bind(this);
     this.generate = this.generate.bind(this)
-    //this.addRoad = this.addRoad.bind(this)
     //config handled off component?
     let boardConfig = {
       width: 700, height: 820,
@@ -46,8 +45,6 @@ class Board extends Component {
       settlements: [],
       corners
      };
-     // tokens, resources, settlements, roads, and actions should come from connect?
-     // currently kept on board state
    }
 
   componentDidMount(){
@@ -65,7 +62,7 @@ class Board extends Component {
           <Roads width={config.width} height={config.height} roads={roads}/>
           <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
         </div>
-    </div>
+    </div> 
     );
   }
 

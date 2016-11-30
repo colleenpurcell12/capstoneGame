@@ -15,6 +15,7 @@ export const loadActions = () => dispatch => {
       return dispatch(Object.keys(snap.val()).map(key => snap.val()[key]));
     })
     .then(() => {
+      dispatch(setLoadingState(true))
       if(store.getState().hexData.length !== 19){
         var hd = assignHexInfo(tokenArray, resourcesArray)
         addAction(assignHexData(hd))
