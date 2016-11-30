@@ -20,8 +20,9 @@ class Board extends Component {
     // this.selectCorner = this.selectCorner.bind(this);
     this.generate = this.generate.bind(this)
     //config handled off component?
+
     let boardConfig = {
-      width: 700, height: 820,
+      width: '100%', height: '100%',
       layout: { width: 10, height: 10, flat: true, spacing: 1.1 }, // change to
       origin: { x: 0, y: 0 },
       map: 'hexagon',
@@ -62,111 +63,9 @@ class Board extends Component {
           <Roads width={config.width} height={config.height} roads={roads}/>
           <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
         </div>
-    </div> 
+    </div>
     );
   }
-
-  selectCorner(event) {
-  //Cases: first time a corner is touched
-  // either the first or the 2nd is clicked twice,
-  // one is clicked when there is a first but not a 2nd, a 3nd but not a 1st
-  // a third one is clicked when there is both a first and a second
-  //idea to seperate teh class css from the this.state.selected
-    //is this one already selected
-
-    if (event.target == this.state.selected.firstCorner ){//if the corner is one of the first or second
-      //console.log("1st corner",event.target)
-      event.target.removeAttribute('class', 'corner-select');
-      event.target.setAttribute('class', 'corner-deselected');
-      this.state.selected.firstCorner = null
-      console.log("1st corner event.target", event.target)
-       console.log("1st corner should now be null", this.state.selected.firstCorner)
-    }
-
-    if (event.target == this.state.selected.secondCorner){
-      console.log("2nd corner")
-      event.target.removeAttribute('class', 'corner-select'); //.corner-node{
-      event.target.setAttribute('class', 'corner-node');
-      event.target.setAttribute('class', 'corner-deselected');
-      this.state.selected.secondCorner = null
-    }
-
-    var updatedSelected = this.state.selected
-    if(this.state.selected.firstCorner){ //at least one
-      if(!this.state.selected.secondCorner){ //exactly one
-        //time to fill in 2nd
-        event.target.setAttribute('class', 'corner-select');
-        updatedSelected.secondCorner = event.target
-        this.setState({ selected: updatedSelected })
-      } //first is filled
-    }
-    //first empty, unsure about the 2nd
-    else { //
-        if(!this.state.selected.secondCorner){ //completely empty
-          event.target.setAttribute('class', 'corner-select');
-          updatedSelected.firstCorner = event.target
-          this.setState({selected: updatedSelected})
-        } //first is filled
-        //if there is a 2nd but not a first, fill back in first
-        else{
-          event.target.setAttribute('class', 'corner-select');
-          updatedSelected.firstCorner = event.target
-          this.setState({ selected: updatedSelected })
-
-        }
-    }
-    console.log('this.state.selected', this.state.selected)
-    // if(this.state.selected.length >= 2) {
-    //       console.log('ALREADY 2 SELECTED, no class added')
-    //       event.target.removeAttribute('class', 'corner-select');
-    //      // event.target.setAttribute('class', 'corner-deselected');
-    // }
-    // else if(this.state.selected.length === 0)  {
-    //   event.target.setAttribute('class', 'corner-select');
-    //   this.setState({selected: [event.target]})
-    // } else {
-    //   event.target.setAttribute('class', 'corner-select');
-    //   var sA = this.state.selected;
-    //   sA.push(event.target)
-    //   this.setState({selected: sA})
-    // }
-    // console.log('this.state', this.state)
-  }
-//XXXX
-  handleSubmit(event){
-    event.preventDefault();
-
-    let color = event.target.color.value
-    var user = { color: color }
-
-    //TESTING ONLY
-    console.log('handle addroad clicked')
-    console.log('this.state.selected', this.state.selected.firstCorner)
-    var a = this.state.selected.firstCorner, b = this.state.selected.secondCorner
-
-    this.state.selected = []
-
-    //this.addRoad(a, b, user)
-    a.removeAttribute('class', 'corner-select');
-    b.removeAttribute('class', 'corner-select');
-    // a.removeAttribute('class', 'corner-deselected');
-
-  }
-
-  //  addRoad(a, b, c){
-  //   var roadsArray = this.state.roads
-  //   var newRoad = {
-  //     x1: parseInt(a.attributes.cx.value),
-  //     y1: parseInt(a.attributes.cy.value),
-  //     x2: parseInt(b.attributes.cx.value),
-  //     y2: parseInt(b.attributes.cy.value),
-  //     color: c.color
-  //   }
-  //   roadsArray.push(newRoad)
-  //   this.setState({roads: roadsArray})
-  //   // add road to state
-  //   console.log('state after addroad', this.state)
-  // }
 
   generate(config){
     // create layout object
@@ -212,7 +111,6 @@ class Board extends Component {
 
     //puts all the corners on the state
     this.props.putCorners(allCorners)
-
     return { hexagons, layout, corners: allCorners };
   }
 
@@ -273,7 +171,6 @@ function corners(hex, visitor) {
     visitor({hexes})
   })
 }
-
 
 function findNeighbors(a, cObj){
   var neighbors = [];

@@ -8,6 +8,10 @@
   position: relative;
 }
 
+.grid {
+  min-height: 900px
+}
+
 #Form{
   z-index: 14;
 }
@@ -119,6 +123,7 @@ fill: blue;
 .hex {
   fill: none;
 }
+
 
 /*Roads*/
 
