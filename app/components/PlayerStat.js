@@ -90,18 +90,16 @@ export class PlayerStat extends Component {
 
   nextPlayer(){
     let { isFirstRound, isSettingUp, turnArray, userArray, turnInfo } = this.props
-     //Normal cycle of turns during game play, increment user to x+1
-    if (isSettingUp === false){
+    if (isSettingUp === false){ //Normal cycle of turns during game play, increment user to x+1
       var player = this.props.turnInfo
       player === 4 ? player = 1 : player++
       addAction(setNextTurn(player)); //Formerly endTurn(userID) //dispatched setNextTurn(player));
     }
-    //isSettingUp === true, tracks 1st and 2nd round, ascending then descending
-    else {
+    else { //isSettingUp === true, tracks 1st and 2nd round, ascending then descending
       //check if end of 1st round
       if (isFirstRound === true && turnArray.length === 1){
         //reset all the userArray hasBoughtARoad and hasBoughtASettlement to false
-        for (var i = 0; i<4 ; i++){
+        for (var i = 0; i<4 ; i++){ //players 1 through 4
             userArray[i].hasBoughtARoad = false;
             userArray[i].hasBoughtASettlement = false
         }
@@ -118,11 +116,9 @@ export class PlayerStat extends Component {
         if (turnArray){
           let player1 = turnArray[0]
           //if (isFirstRound === false){ player1--;} //endTurn increments the #
-          //firebase
           addAction(shiftTurns()) //Formerly this.props.nextTurn() dispatched shiftTurns()
           addAction(setNextTurn(player1)) // this.props.endTurn(player1) dispatched setNextTurn(player)
-        }
-        else { console.log("turnArray is undefined:",turnArray) }
+        } else { console.log("turnArray is undefined:",turnArray) }
       }
     }
   }
