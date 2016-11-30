@@ -26,16 +26,16 @@ export class Chatroom extends Component {
     return (
       <div className="mdl-shadow--2dp" style={{background:'white', opacity:'.95', borderRadius: '5px', position:'relative', zIndex:'-1'}}>
         <div className="mdl-color-text--grey-600">
-            <div id="messages">
-              {messages && Object.keys(messages).map(k => messages[k]).map( (message, idx) =>
-                  <div key = {idx}>{message.name}: {message.text}</div>
-                )}
-            </div>
+          <div id="messages">
+            {messages && Object.keys(messages).map(k => messages[k]).map( (message, idx) =>
+                <div key = {idx}>{message.name}: {message.text}</div>
+              )}
+          </div>
           <form id="message-form" action="#" onSubmit={this.saveMessage} >
-                  <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style={{background:'white', opacity: '.95', borderRadius: '5px'}}>
-                    <input className="mdl-textfield__input" type="text" id="message" name="text" />
-                    <label className="mdl-textfield__label" htmlFor="message">Type Message Here...</label>
-                  </div>
+              <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style={{background:'white', opacity: '.95', borderRadius: '5px'}}>
+                <input className="mdl-textfield__input" type="text" id="message" name="text" />
+                <label className="mdl-textfield__label" htmlFor="message">Type Message Here...</label>
+              </div>
           </form>
         </div>
       </div>

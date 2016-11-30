@@ -30,13 +30,27 @@
 
 .port {
   fill: brown;
+}
 
+.token-text {
+  font-family: 'Press Start 2P', cursive;
+  font-size: .2em;
+  fill: white;
+
+}
+
+.token-circle {
+  fill: black
+}
+.port-text {
+  font-family: 'Press Start 2P', cursive;
+  font-size: .1em;
+  fill: white;
 }
 
 .hexhover {
   stroke: red;
   stroke-width: .3;
-
 }
 
 .hexhover {

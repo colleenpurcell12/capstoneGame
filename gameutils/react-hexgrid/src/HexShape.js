@@ -45,7 +45,7 @@ class HexShape extends React.Component {
     let text = '', resource = ''
     let i = this.props.index
     if(this.props.hexData.length === 19){
-      text = this.props.hexData[i].token || "desert"
+      text = this.props.hexData[i].token || ""
       let resourceNumber = this.props.hexData[i].resource
       resource = resources[resourceNumber] || 'desert'
     }
@@ -68,11 +68,11 @@ class HexShape extends React.Component {
         <polygon points={points} style={styles} className={resource} />
         <image x='-8' y='-8' height="16" width="16" xlinkHref={`/images/${resource}.svg`}/>
         <HexPointers hex={hex} points={points} />
-        <circle cx='0' cy='0' r='3' onClick={(e) => this.toggleRobber(e,id)}/>
+        <circle cx='0' cy='0' r='3' className="token-circle" onClick={(e) => this.toggleRobber(e,id)}/>
         {this.props.robberHex === this.props.index?
         <image x="-3" y="-3" width="6" height="6" xlinkHref="/alien.svg" />
         :
-        <text x="0" y="0.3em" textAnchor="middle" onClick={(e) => this.toggleRobber(e,id)}>{text}</text>
+        <text x=".05em" y=".6em" className="token-text" textAnchor="middle" onClick={(e) => this.toggleRobber(e,id)}>{text}</text>
         }
       </g>
     );
