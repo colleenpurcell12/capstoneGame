@@ -75,7 +75,8 @@ export class PlayerStat extends Component {
         addAction(nextRound())
         addAction(nextRoundStep2())
         //Formerly dispatcher: this.props.setNextRound() //dispatch(nextRound()); //which sets whoseTurn to 4, turnArray to [3,2,1]) and isFirstRound = false
-        this.props.endTurn(3) //to 4
+        //this.props.endTurn(3) //to 4
+        addAction(setNextTurn(3));
         }
       //check if end of 2nd round, therefore end of set up phase
       else if (isFirstRound === false && turnArray.length === 1) {  // initialize normal cycle of turns

@@ -51,9 +51,10 @@ export class Structures extends Component {
     return (shareCorner1 || shareCorner2)
     //return true //for testing
   }
-  isAfforable(type, userID){
-    let {  userArray } = this.props
-    let userCards = userArray[userID].cardsResource
+  isAfforable(type){
+    let {  userArray, turnInfo } = this.props
+    let userIndex = turnInfo-1
+    let userCards = userArray[userIndex].cardsResource
     //console.log("userCards defined?", userCards)
     if(type==='road'){ //cost lumber and 1 brick in catan world
       //type1 = lumber, type2 = brick
@@ -97,7 +98,7 @@ export class Structures extends Component {
     everyStructure.filter( struc => 
                           (struc.cornerId === selections[0].id ) 
                           && (struc.type==='settlement' || struc.type==='city') 
-                          && userID!==turnInfo
+                          && struc.userID!==turnInfo
                         )
 
     // check that neighbors corners dont have non-owned settlements/cities
@@ -108,7 +109,7 @@ export class Structures extends Component {
         tooCloseStructure = everyStructure.filter( (struc) => 
           (struc.cornerId === cornerNeighbors.id ) 
           && (struc.type==='settlement' || struc.type==='city') 
-          && userID!==turnInfo
+          && struc.userID!==turnInfo
             ) //closes filter
       } //closes for loop
       console.log("isFarEnough keeps failing, tooCloseStructure should be falsy:",tooCloseStructure)
@@ -137,9 +138,12 @@ export class Structures extends Component {
       // }
     var coord = [ [selections[0].x, selections[0].y],
                   [selections[1].x, selections[1].y] ] //[[11,-19],[5,-9]] //x1,y1,x2,y2              
-    let userID = turnInfo-1
-    let userObj = userArray[userID]
+    let userIndex = turnInfo-1
+    let userID = turnInfo
+
+    let userObj = userArray[userIndex]
     let userColor = userObj.color
+
     let hasAlreadyPurchased = userObj.hasBoughtARoad //true or false
     let associatedHexsCorner1 = [selections[0].hexes[0].id, selections[0].hexes[1].id, selections[0].hexes[2].id]
     let associatedHexsCorner2 = [selections[1].hexes[0].id, selections[1].hexes[1].id, selections[1].hexes[2].id]
@@ -148,12 +152,12 @@ export class Structures extends Component {
     // console.log("this.isConnected(coord) ",this.isConnected(coord)  )
     // console.log("this.isFarEnough('road')", this.isFarEnough('road') )
      console.log("this.isAvailable('road', userID)",this.isAvailable('settlement', coord) )
-    // console.log("this.isAfforable('road', userID)",this.isAfforable('settlement', userID) )
+    // console.log("this.isAfforable('road')",this.isAfforable('settlement') )
     // console.log("this.isDuringSetUp() && !hasAlreadyPurchased", this.isDuringSetUp() && !hasAlreadyPurchased )
 
     if( selections.length===2 
       && this.isAvailable('road',coord)  
-      && ( (this.isAfforable('road', userID) && this.isConnected(coord)) 
+      && ( (this.isAfforable('road') && this.isConnected(coord)) 
         || (this.isDuringSetUp() && !hasAlreadyPurchased) ) 
       ){ 
 
@@ -185,18 +189,22 @@ export class Structures extends Component {
   registerSettlement(){
     //first check if it's a city, as in there is already a settlement of same owner on the single selected corner
     let {  userArray, turnInfo, selections } = this.props
-    let userObj = userArray[turnInfo-1]
+    let userIndex = turnInfo-1
+    let userID = turnInfo
+    let userObj = userArray[userIndex]
     let associatedHexs = [selections[0].hexes[0].id, selections[0].hexes[1].id, selections[0].hexes[2].id]
     let coord = [selections[0].x, selections[0].y]
     console.log("this.isAvailable('settlement', userID)",this.isAvailable('settlement', coord) )
 
     if( selections.length===1 //&& isValidSetUpMove  
       && this.isAvailable('settlement') && this.isFarEnough('settlement', coord) 
-      && ( this.isAfforable('settlement', turnInfo-1) 
+      && ( this.isAfforable('settlement') 
         || (this.isDuringSetUp() && !userObj.hasBoughtASettlement) ) 
       ){ //<--no settlement has been registered/added so far in this set up round, if in set up phase
-      let settlementObj = { type: 'settlement', points: 1 , 
-                            color: userObj.color, userID: turnInfo-1,
+      let settlementObj = { type: 'settlement', 
+                            points: 1, 
+                            color: userObj.color, 
+                            userID: userID,
                             cornerId: selections[0].id,
                             coordinates: coord,  
                             associatedHexs: associatedHexs   
@@ -215,20 +223,47 @@ export class Structures extends Component {
       console.log('Please make sure you have selected a single valid corner for your new structure and try again')
     }
   }
-  isSettlementPlayerAlreadyOwns(){
-
+  isSettlementPlayerAlreadyOwns(cornerID, userID){ //WORKS
+    var theSettlementCurrPlayerOwnsOnThisCorner = this.props.everyStructure.filter( (struc) => 
+      struc.type[0] === 'settlement' 
+      && struc.userID === userID 
+      && struc.cornerId === cornerID)
+    console.log("theSettlementCurrPlayerOwnsOnThisCorner",theSettlementCurrPlayerOwnsOnThisCorner)
+    if(theSettlementCurrPlayerOwnsOnThisCorner){
+      return true
+    }
+    else { return false }
   }
 	upgradeSettlement(){
 		//add logic for upgrading to city here
-    let corner_id = this.props.selection[0].id
+    var cornerID = 20; var userID = 2; //TESTING
+    let {   turnInfo, selections } = this.props
+    let corner_id = selections[0].id
 
-    if( selections.length===1 && this.isSettlementPlayerAlreadyOwns()
-      &&  this.isAfforable('city') && !this.isDuringSetUp() 
+    if( selections.length===1 
+      && this.isSettlementPlayerAlreadyOwns(corner_id, turnInfo)
+      &&  this.isAfforable('city') 
+      //&& !this.isDuringSetUp() 
        ) {
       addAction( this.props.upgradeBoardStructure(corner_id) )
       addAction( this.props.addCityToEveryStructure(corner_id)) 
     }    
     else{
+      //TRUE for fake example of          var cornerID = 20; var userID = 2; //TESTING
+      //console.log("this.isSettlementPlayerAlreadyOwns(corner_id) is true/false:",this.isSettlementPlayerAlreadyOwns(corner_id))
+
+      if(!this.isAfforable('city')){
+        console.log("Can't afford a city.")
+      }
+      if(!this.isSettlementPlayerAlreadyOwns(corner_id) ){
+        console.log("You dont already own a settlement at corner_id:",corner_id)
+      }
+      if( this.isDuringSetUp() ){
+        console.log("It's set up, so choose a settlement, cant purchase a city right now.")
+      }
+      if(selections.length!==1){
+        console.log("Make sure you only have one corner selected")
+      }
       console.log('Please make sure you have selected a single corner on which you already own a settlment and try again')
     }
     //addAction(addSettlementToEveryStructure(settlementObj))
@@ -254,7 +289,7 @@ import { addRoadToEveryStructure, addSettlementToEveryStructure, addCityToEveryS
 
 
 const mapState = ({ isSettingUp, turnInfo, userArray, selections, everyStructure }) => ({isSettingUp, turnInfo, userArray, selections, everyStructure });
-const mapDispatch = { addBoardStructure, addRoadToRoads, addRoadToEveryStructure, addSettlementToEveryStructure, addCityToEveryStructure};
+const mapDispatch = { addBoardStructure, upgradeBoardStructure, addRoadToRoads, addRoadToEveryStructure, addSettlementToEveryStructure, addCityToEveryStructure};
 
 export default connect(
   mapState,
