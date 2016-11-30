@@ -48,20 +48,21 @@ export class Structures extends Component {
   isConnected(coord){ //return true //FOR TESTING 
     //Check if there is a settlement/city or a road that you own, which shares a corner
     //aka matches on one of the coordinates of the road you are adding, coord.
-    let { everyStructure } = this.props
-    let everySettlement = everyStructure.filter((struc) => struc.type==='settlement')
-    let everyRoad = everyStructure.filter( (struc) => struc.type==='road')
-    let shareCorner1=[]
-    let shareCorner2=[]
-    for(var i = 0 ; i<2 ;i++){
-      shareCorner1[i] = everyRoad.filter( (struc) => 
-        struc.coordinates === coord[i] )
-      shareCorner2[i] = everySettlement.filter( (struc) => 
-        struc.coordinates.x===coord[i][0]
-        && struc.coordinates.y===coord[i][1]  )
-    }
-    return (shareCorner1[0].length>0 || shareCorner1[0].length>0 
-      || shareCorner2[1].length>0 || shareCorner2[1].length>0)
+    return true
+    // let { everyStructure } = this.props
+    // let everySettlement = everyStructure.filter((struc) => struc.type==='settlement')
+    // let everyRoad = everyStructure.filter( (struc) => struc.type==='road')
+    // let shareCorner1=[]
+    // let shareCorner2=[]
+    // for(var i = 0 ; i<2 ;i++){
+    //   shareCorner1[i] = everyRoad.filter( (struc) => 
+    //     struc.coordinates === coord[i] )
+    //   shareCorner2[i] = everySettlement.filter( (struc) => 
+    //     struc.coordinates.x===coord[i][0]
+    //     && struc.coordinates.y===coord[i][1]  )
+    // }
+    // return (shareCorner1[0].length>0 || shareCorner1[0].length>0 
+    //   || shareCorner2[1].length>0 || shareCorner2[1].length>0)
   }
 
   isAfforable(type){
