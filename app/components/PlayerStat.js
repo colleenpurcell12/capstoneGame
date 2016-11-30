@@ -8,7 +8,7 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import Checkbox from 'material-ui/Checkbox'
 import SelectField from 'material-ui/SelectField'
 import DropDownMenu from 'material-ui/DropDownMenu';
-import MenuItem from 'material-ui/MenuItem'
+import MenuItem from 'material-ui/MenuItem';
 import store from '../store'
 import {addPlayer, incrementResource, decrementResource} from '../reducers/players';
 import {addAction} from '../reducers/action-creators';
