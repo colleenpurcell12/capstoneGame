@@ -24,7 +24,6 @@ body {
   background-size: 100% ;
 }
 
-
 .playerInfo {
   background: white;
   opacity: .95;
@@ -32,7 +31,7 @@ body {
   padding-left: 15%;
   padding-top: 5%;
   padding-bottom: 5%;
-  color: #4c4747 ;
+  color: #4c4747;
 }
 
 table {
