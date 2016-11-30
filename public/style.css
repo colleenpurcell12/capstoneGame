@@ -58,6 +58,7 @@ table {
   overflow-y: auto;
   margin-bottom: 10px;
   height: 500px;
+  width: 100%;
 }
 #message-filler {
   flex-grow: 1;
@@ -105,7 +106,7 @@ table {
 #message-form {
   display: flex;
   flex-direction: row;
-  /*width: 100% ;*/
+  width: 100% ;
   float: left;
 }
 #image-form {
@@ -115,7 +116,7 @@ table {
   float: right;
 }
 #message-form .mdl-textfield {
-  /*width: calc(100% - 100px);*/
+  width: 100%
 }
 #message-form button, #image-form button {
   width: 100px;
@@ -151,6 +152,11 @@ table {
     background-size: 33px;
   }
 }
+
+#message-input{
+  width: 100%
+}
+
 .mdl-textfield__label:after {
   background-color: #0288D1;
 }

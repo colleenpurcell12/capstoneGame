@@ -21,7 +21,7 @@
 
 .corner{
   stroke: none;
-  fill: grey;
+  fill: #d9d9d9;
 }
 
 .corner-select {
@@ -42,11 +42,11 @@
 .token-text {
   font-family: 'Press Start 2P', cursive;
   font-size: .2em;
-  fill: white;
+  fill: black;
 }
 
 .token-circle {
-  fill: black
+  fill: white
 }
 
 .hexhover {
