@@ -60,10 +60,12 @@ class HexShape extends React.Component {
         //        onClick={e => actions.onClick(id, e)}
 
     return (
+
       <g className="shape-group" transform={this.translate()} draggable="true"
         id= {id}>
         <HexPattern hex={hex} />
         <polygon points={points} style={styles} className={resource} />
+        <image x='-8' y='-8' height="16" width="16" xlinkHref={`images/${resource}.svg`}/>
         <HexPointers hex={hex} points={points} />
         <circle cx='0' cy='0' r='3' onClick={(e) => this.toggleRobber(e,id)}/>
         {this.props.robberHex === this.props.index?
@@ -81,6 +83,7 @@ HexShape.propTypes = {
   actions: object.isRequired
 };
 
+/* -----------------    CONTAINER     ------------------ */
 
 import { connect } from 'react-redux';
 
