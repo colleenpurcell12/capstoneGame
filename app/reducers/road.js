@@ -21,7 +21,7 @@ let initialState = [ { color: 'blue', corners:  [19,20], userID: 2,
                     }
                       ] 
 
-export default function roads (roads = initialState, action){
+export default function roads (roads = [], action){
 
   switch (action.type) {
     case ADD_ROAD:
