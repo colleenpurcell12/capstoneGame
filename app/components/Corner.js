@@ -42,9 +42,13 @@ class CornerShape extends React.Component {
       structure = isOwned.type[0];
     }
     let isSelected = this.props.selections.find(function(select){
-      return select.id === index
+
+        return select.id === index
+
     })
-    if(isSelected){ selected = 'corner-select';}
+    if(isSelected  && this.props.type === 'corner'){
+      selected = 'corner-select';
+    }
 
     // this.props.type -> port or corner
     // this.props.resource -> port only resource
