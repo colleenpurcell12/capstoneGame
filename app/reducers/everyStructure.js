@@ -39,6 +39,7 @@ export default function reducer (everyStructure = initialState, action) {
      everyStructure.map(s => {
        if( s.cornerId === action.corner_id){
          s.type = 'city';
+         s.points=2
        }
        return s;
      })

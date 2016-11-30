@@ -198,9 +198,7 @@ export class Structures extends Component {
 
     if( selections.length===1 //&& isValidSetUpMove  
       && this.isAvailable('settlement') && this.isFarEnough('settlement', coord) 
-      && ( this.isAfforable('settlement') 
-        || (this.isDuringSetUp() && !userObj.hasBoughtASettlement) ) 
-      ){ //<--no settlement has been registered/added so far in this set up round, if in set up phase
+      && ( this.isAfforable('settlement') || ( this.isDuringSetUp() && !userObj.hasBoughtASettlement ) ) ){
       let settlementObj = { type: 'settlement', 
                             points: 1, 
                             color: userObj.color, 
@@ -213,20 +211,25 @@ export class Structures extends Component {
         userObj.hasBoughtASettlement=true
       }
       //structure used for rending visual
-      addAction( 
-        this.props.addBoardStructure({color: userObj.color, corner_id: 32, type: 'settlement'}) )
+      addAction( this.props.addBoardStructure({color: userObj.color, corner_id: 32, type: 'settlement'}) )
 
       //everyStructure used for validateion using firebase
       addAction(this.props.addSettlementToEveryStructure(settlementObj))
+
+      addAction( this.props.addPoint(userIndex)) 
     }
     else{
       console.log('Please make sure you have selected a single valid corner for your new structure and try again')
     }
   }
+
+  //UPGRADE TO A CITY LOGIC
+  //validation check
   isSettlementPlayerAlreadyOwns(cornerID, userID){ //WORKS
+    //cornerID = 20; userID = 2; //TESTING
     var theSettlementCurrPlayerOwnsOnThisCorner = this.props.everyStructure.filter( (struc) => 
-      struc.type[0] === 'settlement' 
-      && struc.userID === userID 
+      struc.userID === userID 
+      && struc.type[0] === 'settlement' 
       && struc.cornerId === cornerID)
     console.log("theSettlementCurrPlayerOwnsOnThisCorner",theSettlementCurrPlayerOwnsOnThisCorner)
     if(theSettlementCurrPlayerOwnsOnThisCorner){
@@ -234,40 +237,36 @@ export class Structures extends Component {
     }
     else { return false }
   }
+  //handles validation and updates the settlement structure to be type='city' if valid
 	upgradeSettlement(){
-		//add logic for upgrading to city here
-    var cornerID = 20; var userID = 2; //TESTING
     let {   turnInfo, selections } = this.props
-    let corner_id = selections[0].id
-
+    let cornerID = selections[0].id
+    let userID = turnInfo
+    let userIndex = userID-1
+    //cornerID = 20; userID = 2; //TESTING
     if( selections.length===1 
-      && this.isSettlementPlayerAlreadyOwns(corner_id, turnInfo)
+      && this.isSettlementPlayerAlreadyOwns(cornerID, userID)
       &&  this.isAfforable('city') 
-      //&& !this.isDuringSetUp() 
+      && !this.isDuringSetUp() 
        ) {
-      addAction( this.props.upgradeBoardStructure(corner_id) )
-      addAction( this.props.addCityToEveryStructure(corner_id)) 
+      addAction( this.props.upgradeBoardStructure(cornerID) )
+      addAction( this.props.addCityToEveryStructure(cornerID))
+      //also increment player's points in userArray
+      addAction( this.props.addPoint(userIndex)) 
     }    
     else{
-      //TRUE for fake example of          var cornerID = 20; var userID = 2; //TESTING
-      //console.log("this.isSettlementPlayerAlreadyOwns(corner_id) is true/false:",this.isSettlementPlayerAlreadyOwns(corner_id))
-
       if(!this.isAfforable('city')){
         console.log("Can't afford a city.")
-      }
-      if(!this.isSettlementPlayerAlreadyOwns(corner_id) ){
-        console.log("You dont already own a settlement at corner_id:",corner_id)
-      }
-      if( this.isDuringSetUp() ){
+      } if(!this.isSettlementPlayerAlreadyOwns(cornerID) ){
+        console.log("You dont already own a settlement at cornerID:",cornerID)
+      } if( this.isDuringSetUp() ){
         console.log("It's set up, so choose a settlement, cant purchase a city right now.")
-      }
-      if(selections.length!==1){
+      } if(selections.length!==1){
         console.log("Make sure you only have one corner selected")
-      }
-      console.log('Please make sure you have selected a single corner on which you already own a settlment and try again')
+      } console.log('Make sure you have selected a single corner on which you already own a settlment and try again')
     }
-    //addAction(addSettlementToEveryStructure(settlementObj))
 	}
+
   render() {
     //console.log("Passed from Board, selected corners are :",this.props.selected)
     return (
@@ -282,14 +281,13 @@ export class Structures extends Component {
 /* -----------------    CONTAINER     ------------------ */
 
 import {connect} from 'react-redux';
-//Dont need dispatchers: import { addRoad, addSettlement } from '../reducers/everyStructure';
 import { addBoardStructure, upgradeBoardStructure } from '../reducers/structure';
 import { addRoadToRoads } from '../reducers/road';
 import { addRoadToEveryStructure, addSettlementToEveryStructure, addCityToEveryStructure } from '../reducers/everyStructure';
-
+import { addPoint } from '../reducers/usersArray';
 
 const mapState = ({ isSettingUp, turnInfo, userArray, selections, everyStructure }) => ({isSettingUp, turnInfo, userArray, selections, everyStructure });
-const mapDispatch = { addBoardStructure, upgradeBoardStructure, addRoadToRoads, addRoadToEveryStructure, addSettlementToEveryStructure, addCityToEveryStructure};
+const mapDispatch = { addBoardStructure, upgradeBoardStructure, addRoadToRoads, addRoadToEveryStructure, addSettlementToEveryStructure, addCityToEveryStructure, addPoint};
 
 export default connect(
   mapState,
