@@ -50,15 +50,8 @@ import {connect} from 'react-redux'
 import { fetchMessages, addMessage } from '../reducers/chatroom'
 import { fetchCurrentUser } from '../reducers/login'
 
-
 const mapState = ({ messages, loggedInUser }) => ({ messages, loggedInUser })
 
 const mapDispatch = { fetchMessages, addMessage, fetchCurrentUser }
 
 export default connect(mapState, mapDispatch)(Chatroom);
-
-
-
-
-
-

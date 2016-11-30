@@ -45,7 +45,9 @@ let initialUserArray = [
 export default function userArray (userArray = initialUserArray, action){
     switch (action.type) {
     case ADD_POINT:
-     return ++userArray[userIndex].points
+     let idx = action.userIndex
+     userArray[idx].points = userArray[idx].points+1
+     return userArray
     default:
       return userArray
   }
