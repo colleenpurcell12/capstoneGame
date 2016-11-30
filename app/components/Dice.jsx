@@ -75,7 +75,7 @@ export class Dice extends Component {
        <div></div>
       }
 
-      { this.props.players.length > 0 && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.state.diceEnabled ?
+      { this.props.inProgress && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.state.diceEnabled ?
 
         <button onClick={() => addAction(newDiceRoll(this.rollDice()))}>Roll Dice</button>
           :
@@ -84,13 +84,13 @@ export class Dice extends Component {
 
       <div>Last roll:{this.props.diceRoll.sum}</div>
 
-      { this.state.d1 === this.state.d2 ?
+      { this.props.inProgress && this.state.d1 === this.state.d2 ?
         <div>Player rolled a DOUBLE!</div>
         :
         <div></div>
       }
 
-      { this.props.players.length > 0 && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.state.stealEnabled ?
+      { this.props.inProgress && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.state.stealEnabled ?
 
         <div style={{border: '1px solid gray', marginRight: '10%'}}>
           <h6 style={{textAlign: 'center'}}>STEAL FROM PLAYER</h6>
@@ -114,6 +114,6 @@ export class Dice extends Component {
 
 import {connect} from 'react-redux';
 
-const mapStore = ({ diceRoll, loggedInUser, turnInfo, players }) => ({diceRoll, loggedInUser, turnInfo, players})
+const mapStore = ({ diceRoll, loggedInUser, turnInfo, players, inProgress }) => ({diceRoll, loggedInUser, turnInfo, players, inProgress})
 const mapDispatch = {addMessage};
 export default connect(mapStore, mapDispatch)(Dice);
