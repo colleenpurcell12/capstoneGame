@@ -40,7 +40,7 @@ export class Dice extends Component {
 
       { this.props.players.length > 0 && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.state.diceEnabled ?
 
-        <RaisedButton label="Roll Dice" onClick={() => addAction(newDiceRoll(this.rollDice()))} />
+        <button onClick={() => addAction(newDiceRoll(this.rollDice()))}>Roll Dice</button>
           :
           <button disabled>Can't Roll Dice</button>
       }
