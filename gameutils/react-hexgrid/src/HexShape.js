@@ -12,10 +12,6 @@ class HexShape extends React.Component {
     super(props);
     this.toggleRobber = this.toggleRobber.bind(this)
   }
-  componentDidMount() {
-    if(this.props.hexData.length && this.props.hexData[this.props.index].resource === "desert")
-    moveRobber(this.props.index)
-  }
 
   getPoints(hex) {
     let points = this.props.layout.getPolygonPoints(hex)
@@ -35,10 +31,9 @@ class HexShape extends React.Component {
     return (hex.props == {} || typeof(hex.props.image) === "undefined") ? {} : { fill: 'url(#'+ HexUtils.getID(hex) +')' };
   }
 
-  toggleRobber(e, id) {
-    e.preventDefault()
-    console.log("TOGGLE ROBBER")
-    addAction(moveRobber(id))
+  toggleRobber(event) {
+    event.preventDefault();
+    addAction(moveRobber(this.props.index))
   }
 
   render() {
@@ -63,16 +58,16 @@ class HexShape extends React.Component {
     return (
 
       <g className="shape-group" transform={this.translate()} draggable="true"
-        id= {id} >
+        id= {id} onClick={e => this.toggleRobber(e)}>
         <HexPattern hex={hex} />
         <polygon points={points} style={styles} className={resource} />
         <image x='-8' y='-8' height="16" width="16" xlinkHref={`/images/${resource}.svg`}/>
         <HexPointers hex={hex} points={points} />
-        <circle cx='0' cy='0' r='3' onClick={(e) => this.toggleRobber(e,id)}/>
+        <circle cx='0' cy='0' r='3' onClick={e => this.toggleRobber(e)}/>
         {this.props.robberHex === this.props.index?
         <image x="-3" y="-3" width="6" height="6" xlinkHref="/alien.svg" />
         :
-        <text x="0" y="0.3em" textAnchor="middle" onClick={(e) => this.toggleRobber(e,id)}>{text}</text>
+        <text x="0" y="0.3em" textAnchor="middle" onClick={e => this.toggleRobber(e)}>{text}</text>
         }
       </g>
     );

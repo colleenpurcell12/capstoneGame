@@ -33,8 +33,6 @@ class HexGrid extends React.Component {
 }
 
 HexGrid.propTypes = {
-  width: number.isRequired,
-  height: number.isRequired,
   actions: object.isRequired,
   layout: object.isRequired,
   hexagons: array.isRequired

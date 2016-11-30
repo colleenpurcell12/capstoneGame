@@ -84,7 +84,7 @@ export class Dice extends Component {
 
       <div>Last roll:{this.props.diceRoll.sum}</div>
 
-      { this.state.d1 === this.state.d2 ?
+      { this.props.inProgress && this.state.d1 === this.state.d2 ?
         <div>Player rolled a DOUBLE!</div>
         :
         <div></div>
@@ -114,6 +114,6 @@ export class Dice extends Component {
 
 import {connect} from 'react-redux';
 
-const mapStore = ({ diceRoll, loggedInUser, turnInfo, players }) => ({diceRoll, loggedInUser, turnInfo, players})
+const mapStore = ({ diceRoll, loggedInUser, turnInfo, players, inProgress }) => ({diceRoll, loggedInUser, turnInfo, players, inProgress})
 const mapDispatch = {addMessage};
 export default connect(mapStore, mapDispatch)(Dice);
