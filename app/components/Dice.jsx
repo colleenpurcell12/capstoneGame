@@ -84,12 +84,6 @@ export class Dice extends Component {
 
       <div>Last roll:{this.props.diceRoll.sum}</div>
 
-      { this.props.inProgress && this.state.d1 === this.state.d2 ?
-        <div>Player rolled a DOUBLE!</div>
-        :
-        <div></div>
-      }
-
       { this.props.players.length > 0 && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.state.stealEnabled ?
 
         <div style={{border: '1px solid gray', marginRight: '10%'}}>

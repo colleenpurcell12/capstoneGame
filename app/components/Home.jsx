@@ -29,7 +29,12 @@ export class Home extends React.Component {
               <div className="mdl-cell mdl-cell--3-col">
                 <div >
                 <Players /> <br/>
-                <Dice />      <br/>
+                {this.props.isSettingUp?
+                  <div></div>
+                :
+                  <Dice />
+                }
+                <br/>
                 <PlayerStat />
                 </div>
               </div>
@@ -57,6 +62,6 @@ export class Home extends React.Component {
 
 import {connect} from 'react-redux'
 
-const mapStateToProps = ({ loggedInUser, doneLoading }) => ({ loggedInUser, doneLoading })
+const mapStateToProps = ({ loggedInUser, doneLoading, isSettingUp }) => ({ loggedInUser, doneLoading, isSettingUp })
 
 export default connect(mapStateToProps, null)(Home);
