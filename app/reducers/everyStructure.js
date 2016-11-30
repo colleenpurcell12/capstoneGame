@@ -20,16 +20,39 @@ export const addCityToEveryStructure = (corner_id) => ({ type: 'REGISTER_CITY', 
 
 /* ------------       REDUCER     ------------------ */
                                 //diceRoll is defined one-level deep, but the default could also point to {}
-export default function reducer (everyStructure = [], action) {
+
+let initialState = [ { type: 'settlement', points: 1 , 
+                            color: 'blue', userID: 2,
+                            cornerId: 20,
+                            coordinates: [-5.5, 9.526279441628825],  
+                            associatedHexs: [10,5,9]   
+                          },
+                     { type: 'road', points: 0, 
+                            color: 'blue', userID: 2,
+                            cornerId:  [19,20],
+                            coordinates: [[-5.5, 9.526279441628825],[-11,0]],
+                            associatedHexs: [10,5,9,9,5,4]
+                          },
+
+                     { type: 'road', points: 0, 
+                            color: 'blue', userID: 2,
+                            cornerId:  [32, 20],
+                            coordinates: [[-5.5, 9.526279441628825],[5.5, 9.526279441628825]],
+                            associatedHexs: [10,5,9,14,10,9]
+                          }
+                      ] 
+
+export default function reducer (everyStructure = initialState, action) {
   switch (action.type) {
     case REGISTER_ROAD:
       return [...everyStructure, action.newRoad]
     case REGISTER_SETTLEMENT:
       return [...everyStructure, action.newSettlement]
     case REGISTER_CITY:
-     structures.map(s => {
-       if( s.corner_id === corner.corner_id){
+     everyStructure.map(s => {
+       if( s.cornerId === action.corner_id){
          s.type = 'city';
+         s.points=2
        }
        return s;
      })

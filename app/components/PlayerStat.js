@@ -59,8 +59,7 @@ export class PlayerStat extends Component {
     if (isSettingUp === false){
       var player = this.props.turnInfo
       player === 4 ? player = 1 : player++
-      addAction(setNextTurn(player));
-      //Formerly this.props.endTurn(this.props.turnInfo) //dispatch(setNextTurn(player));
+      addAction(setNextTurn(player)); //Formerly endTurn(userID) //dispatched setNextTurn(player));
     }
     //isSettingUp === true, tracks 1st and 2nd round, ascending then descending
     else {
@@ -71,28 +70,24 @@ export class PlayerStat extends Component {
             userArray[i].hasBoughtARoad = false;
             userArray[i].hasBoughtASettlement = false
         }
-
         addAction(nextRound())
         addAction(nextRoundStep2())
-        //Formerly dispatcher: this.props.setNextRound() //dispatch(nextRound()); //which sets whoseTurn to 4, turnArray to [3,2,1]) and isFirstRound = false
-        this.props.endTurn(3) //to 4
+        addAction(setNextTurn(4));
         }
       //check if end of 2nd round, therefore end of set up phase
       else if (isFirstRound === false && turnArray.length === 1) {  // initialize normal cycle of turns
-        this.props.endTurn(0)
-        addAction(startNormGamePlay())
-        //Formerly dispatcher: this.props.endSetUp()  //dispatch(startNormGamePlay()); sets turnInfo to 1, isSettingUp ==false
+        addAction(setNextTurn(1))       //Formerly this.props.endTurn(0) dispatched setNextTurn(1)
+        addAction(startNormGamePlay()) //this.props.endSetUp() dispatched startNormGamePlay(), which sets isSettingUp ==false
       }
       else { //within either round
         if (turnArray){
           let player1 = turnArray[0]
-          if (isFirstRound === false){ player1--;} //endTurn increments the #
+          //if (isFirstRound === false){ player1--;} //endTurn increments the #
           //firebase
-          addAction(shiftTurns())
-          //Formerly dispatcher: this.props.nextTurn()
-          this.props.endTurn(player1) //dispatch(setNextTurn(player));
+          addAction(shiftTurns()) //Formerly this.props.nextTurn() dispatched shiftTurns()
+          addAction(setNextTurn(player1)) // this.props.endTurn(player1) dispatched setNextTurn(player)
         }
-        else { console.log("turnArray is undefined") }
+        else { console.log("turnArray is undefined:",turnArray) }
       }
     }
   }
@@ -139,57 +134,34 @@ export class PlayerStat extends Component {
           <input type="button" onClick={ () => this.changeCount('solar',true) } value="+"/>
           </div>
 
-        <div >
-        <br></br>
-          <label>
-              <input type="radio"
-                value="army"
-                onChange={this.handleChange}
-              />
-            Largest Army Award
-          </label>
-          <br></br>
-          <label>
-              <input type="radio"
-              value="road"
-              onChange={this.handleChange}
-              />
-              Longest Road Award
+          <div>
+            <br></br>
+            <label>
+                <input type="radio" value="army" onChange={this.handleChange}/>
+                Largest Army Award
+            </label>
+            <br></br>
+            <label>
+                <input type="radio" value="road" onChange={this.handleChange} />
+                Longest Road Award
             </label>
           </div>
+
           <br></br>
           <div><Structures /><br></br></div>
 
           <div> Expansion Materials: </div>
           <table>
           <tbody>
-            <tr>
-              <th>Structure</th>
-              <th>Cost</th>
-            </tr>
-                <tr>
-                  <td>Road</td>
-                  <td>= ❄️  + 🔆 </td>
-                </tr>
-                <tr>
-                  <td>Settlement</td>
-                  <td>= ❄️  + 🔆 + 🌽 + 🚀</td>
-                </tr>
-                <tr>
-                  <td>City</td>
-                  <td>= 🚀 🚀  + 🌑 🌑 🌑</td>
-                </tr>
-                <tr>
-                  <td>Pioneer</td>
-                  <td>= 🚀  + 🌽 + 🌑 </td>
-                </tr>
+                <tr>  <th>Structure </th> <th>Cost                </th></tr>
+                <tr> <td>Road      </td> <td>= ❄️  🔆            </td> </tr>
+                <tr> <td>Settlement</td> <td>= ❄️  🔆 🌽  🚀    </td> </tr>
+                <tr> <td>City      </td> <td>= 🚀 🚀  🌑 🌑 🌑</td> </tr>
+                <tr> <td>Pioneer   </td> <td>= 🚀 🌽  🌑       </td> </tr>
           </tbody>
           </table>
-          <br></br>
   				<button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button>
-
         </div>
-
         :
         <div>
         {this.props.inProgress?
@@ -212,16 +184,27 @@ export class PlayerStat extends Component {
 /* -----------------    CONTAINER     ------------------ */
 
 import {connect} from 'react-redux';
-import { endTurn } from '../reducers/playerStat';
+//import { endTurn } from '../reducers/playerStat';
 //import { setNextRound, endSetUp, nextTurn } from '../reducers/turnBooleans';
+import { setNextTurn } from '../reducers/playerStat';
 import { nextRound, nextRoundStep2, shiftTurns, startNormGamePlay } from '../reducers/turnBooleans';
 
 
 const mapState = ({ turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray, userArray }) => ({turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray, userArray});
 
-const mapDispatch = {  nextRound, nextRoundStep2, shiftTurns, startNormGamePlay };
-//endTurnv -> startNormGamePlay
-//setNextRound -> nextRound & nextRoundStep
+const mapDispatch = {  setNextTurn, nextRound, nextRoundStep2, shiftTurns, startNormGamePlay };
+// In first round -- nextTurn->shiftTurns
+// at the end of first round-- ->nextRound switches isFirstRound to false and ->nextRoundStep2 resets the 2nd round's turnArray
+// In 2nd round -- nextTurn->shiftTurns
+// at the end of 2nd round-- endSetUp->startNormGamePlay
+// Normal game play -- endTurn->setNextTurn
+
+
+// setNextRound -> nextRound & nextRoundStep2  //export const setNextRound = () =>  dispatch(nextRound());(nextRoundStep2());
+// nextTurn -> shiftTurns           //export const nextTurn = () => dispatch(shiftTurns()); 
+// endSetUp -> startNormGamePlay    // export const endSetUp = () => dispatch(startNormGamePlay());
+// endTurn -> setNextTurn           // export const endTurn = (player) => dispatch(setNextTurn(player));
+
 
 export default connect(
   mapState,
