@@ -13,7 +13,7 @@ export const addRoadToRoads = (road) => ({ type: 'ADD_ROAD', road })
 //10,5,4
 
 let initialState = [ { type: 'road', points: 0, 
-					  coordinates: [[-5.5, 9.526279441628825],[-11,0]],
+					           coordinates: [[-5.5, 9.526279441628825],[-11,0]],
                       corners:  [19,20],
                       associatedHexs: [10,5,9,9,5,4], color: 'blue', userID: 2 },
 

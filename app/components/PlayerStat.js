@@ -134,24 +134,19 @@ export class PlayerStat extends Component {
           <input type="button" onClick={ () => this.changeCount('solar',true) } value="+"/>
           </div>
 
-        <div >
-        <br></br>
-          <label>
-              <input type="radio"
-                value="army"
-                onChange={this.handleChange}
-              />
-            Largest Army Award
-          </label>
-          <br></br>
-          <label>
-              <input type="radio"
-              value="road"
-              onChange={this.handleChange}
-              />
-              Longest Road Award
+          <div>
+            <br></br>
+            <label>
+                <input type="radio" value="army" onChange={this.handleChange}/>
+                Largest Army Award
+            </label>
+            <br></br>
+            <label>
+                <input type="radio" value="road" onChange={this.handleChange} />
+                Longest Road Award
             </label>
           </div>
+
           <br></br>
           <div><Structures /></div>
           <br></br>
@@ -159,34 +154,15 @@ export class PlayerStat extends Component {
           <div> Expansion Materials: </div>
           <table>
           <tbody>
-            <tr>
-              <th>Structure</th>
-              <th>Cost</th>
-            </tr>
-                <tr>
-                  <td>Road</td>
-                  <td>= ❄️  🔆 </td>
-                </tr>
-                <tr>
-                  <td>Settlement</td>
-                  <td>= ❄️   🔆  🌽  🚀</td>
-                </tr>
-                <tr>
-                  <td>City</td>
-                  <td>= 🚀 🚀   🌑 🌑 🌑</td>
-                </tr>
-                <tr>
-                  <td>Pioneer</td>
-                  <td>= 🚀   🌽  🌑 </td>
-                </tr>
-              
+                <tr>  <th>Structure </th> <th>Cost                </th></tr>
+                <tr> <td>Road      </td> <td>= ❄️  🔆            </td> </tr>
+                <tr> <td>Settlement</td> <td>= ❄️  🔆 🌽  🚀    </td> </tr>
+                <tr> <td>City      </td> <td>= 🚀 🚀  🌑 🌑 🌑</td> </tr>
+                <tr> <td>Pioneer   </td> <td>= 🚀 🌽  🌑       </td> </tr>
           </tbody>
           </table>
-
   				<button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button>
-          
         </div>
-
         :
         <div>
         {this.props.inProgress?

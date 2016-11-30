@@ -26,6 +26,19 @@ let initialState = [ { type: 'settlement', points: 1 ,
                             cornerId: 20,
                             coordinates: [-5.5, 9.526279441628825],  
                             associatedHexs: [10,5,9]   
+                          },
+                     { type: 'road', points: 0, 
+                            color: 'blue', userID: 2,
+                            cornerId:  [19,20],
+                            coordinates: [[-5.5, 9.526279441628825],[-11,0]],
+                            associatedHexs: [10,5,9,9,5,4]
+                          },
+
+                     { type: 'road', points: 0, 
+                            color: 'blue', userID: 2,
+                            cornerId:  [32, 20],
+                            coordinates: [[-5.5, 9.526279441628825],[5.5, 9.526279441628825]],
+                            associatedHexs: [10,5,9,14,10,9]
                           }
                       ] 
 
