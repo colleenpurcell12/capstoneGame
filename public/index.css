@@ -91,9 +91,10 @@ fill: blue;
 .green-player {
   fill: green;
 }
-.brown-player {
+.yellow-player {
   fill: brown;
 }
+
 
 /*Resources*/
 .hematite {
@@ -143,7 +144,7 @@ fill: blue;
   fill: blue;
   stroke-weight: .5;
 }
-.brown {
+.yellow {
   stroke: brown;
   fill: brown;
   stroke-weight: .5;

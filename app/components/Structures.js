@@ -127,14 +127,23 @@ export class Structures extends Component {
 
     if(this.props.isSettingUp){ 
       if(userObj.hasBoughtARoad){
-        console.log("You have already bought a road in this round")
+        console.log("You have already bought a road in this round.")
         return false
       }
       return true //hasnt got a road yet
     }
     else{ //not during set up
+      console.log("isValidateRoad and not during set up, going to check afforability and connectivity.")
       console.log("isValidateRoad isConnected coord",coord)
-      return this.isAfforable('road') && this.isConnected(coord)
+      if(!this.isAfforable('road')){
+        console.log("Player doesn't have enough resources to buy that road.")
+        return false;
+      }
+      if(!this.isConnected(coord)){
+        console.log("That road isn't connected to other infrastructure owned by player.")
+        return false;
+      }
+      return true
     }
   }
   registerRoad(){
@@ -193,7 +202,7 @@ export class Structures extends Component {
                      coordinates: coord  }
         addAction(this.props.addRoadToRoads(roadObj)) //formerly: this.props.addBoardRoad
       }
-      else{ console.log('Road was not registered.') }
+      //else{ console.log('Road was not registered.') }
     }
     //if less than 2 corners selected
     else { console.log('Please select two corners for your new road and try again') }
