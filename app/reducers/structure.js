@@ -17,7 +17,7 @@ export const upgradeBoardStructure = (corner_id)   => ({ type: 'UPGRADE_SETTLEME
 
 let initialState = [ {owner: 'blue', corner_id: 20, type: 'settlement'} ] 
 
-export default function structures (structures = initialState, action){
+export default function structures (structures = [], action){
 
   switch (action.type) {
     case ADD_STRUCTURE:

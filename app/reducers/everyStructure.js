@@ -42,7 +42,7 @@ let initialState = [ { type: 'settlement', points: 1 ,
                           }
                       ] 
 
-export default function reducer (everyStructure = initialState, action) {
+export default function reducer (everyStructure = [], action) {
   switch (action.type) {
     case REGISTER_ROAD:
       return [...everyStructure, action.newRoad]

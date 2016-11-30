@@ -210,11 +210,12 @@ export class Structures extends Component {
   isValidateSettlement( userObj){
     if(this.props.isSettingUp){
 
-      if(!userObj.hasBoughtASettlement){
+      if(userObj.hasBoughtASettlement){
         console.log("You have already bought a settlement in this round")
+        return false
       }
-      console.log("Is not valid settlement purchase.")
-      return false //!userObj.hasBoughtASettlement 
+      // console.log("Is not valid settlement purchase.")
+      return true //!userObj.hasBoughtASettlement 
     }
     else{
       return this.isAfforable('settlement')
@@ -240,7 +241,7 @@ export class Structures extends Component {
     //console.log("this.isAvailable('settlement', userID)",this.isAvailable('settlement', coord) )
 
     if( !this.isAvailable('settlement',coord) ){
-          console.log('That road is a already taken.')
+          console.log('That settlement is a already taken.')
           return false
       }
     if ( selections.length===1 && this.isFarEnough('settlement', coord) 
