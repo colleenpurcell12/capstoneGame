@@ -105,7 +105,7 @@ export class PlayerStat extends Component {
       }
     });
     return (
-      <div style={{background:'white', opacity:'.95', borderRadius: '5px'}}>
+      <div className='playerInfo'>
         {resource ?
         <div>
 

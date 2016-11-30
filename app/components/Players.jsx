@@ -14,7 +14,7 @@ export class Players extends Component {
 	// }
 	render() {
 		return(
-			<div style={{background:'white', opacity:'.95', borderRadius: '5px'}}>
+			<div className='playerInfo'>
 				<table>
 				<tbody>
 					<tr>
