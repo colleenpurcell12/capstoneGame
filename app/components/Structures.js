@@ -109,8 +109,9 @@ export class Structures extends Component {
           && struc.userID!==turnInfo
             ) //closes filter
       } //closes for loop
-      console.log("isFarEnough away, unless this not empty:",tooCloseStructure)
+      //console.log("isFarEnough away, unless this not empty:",tooCloseStructure)
       if( tooCloseStructure.length>0 ){ 
+        console.log("is not far enought from someone else's settlement")
         return false
       }
       // look in everyStructure for settlements/cities
@@ -118,12 +119,21 @@ export class Structures extends Component {
     
     return true
   }
-  isValidateRoad( userObj){
+  isValidateRoad( userIndex, coord){
+    //XXXX
+    let { userArray } = this.props
+    let userObj = userArray[userIndex]
+    console.log("XXXX userObj",userObj) 
+
     if(this.props.isSettingUp){ 
-      if(!userObj.hasBoughtARoad){console.log("You have already bought a road in this round")}
-      return !userObj.hasBoughtARoad //true if first road of round
+      if(userObj.hasBoughtARoad){
+        console.log("You have already bought a road in this round")
+        return false
+      }
+      return true //hasnt got a road yet
     }
     else{ //not during set up
+      console.log("isValidateRoad isConnected coord",coord)
       return this.isAfforable('road') && this.isConnected(coord)
     }
   }
@@ -161,13 +171,13 @@ export class Structures extends Component {
       console.log("this.isFarEnough('road')", this.isFarEnough('road') )
       //console.log("isAvailable road? ",this.isAvailable('road',coord) )
       console.log("this.isAfforable('road')",this.isAfforable('road') )
-      console.log("this.props.isSettingUp && !userObj.hasBoughtARoad", this.props.isSettingUp && !!userObj.hasBoughtARoad )
+      console.log("this.props.isSettingUp && !userObj.hasBoughtARoad", this.props.isSettingUp && !userObj.hasBoughtARoad )
 
       if( !this.isAvailable('road',coord) ){
           console.log('That road is a already taken.')
           return false
       }
-      if(this.isValidateRoad(userObj)){ 
+      if(this.isValidateRoad(userIndex, coord)){ 
         let roadObj = { type: 'road', points: 0, coordinates: coord,
                         corners:  [cornerA.id, cornerB.id],
                         associatedHexs: associatedHexs, color: userColor, userID: userID }
