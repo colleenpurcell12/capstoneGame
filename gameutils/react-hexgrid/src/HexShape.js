@@ -31,11 +31,9 @@ class HexShape extends React.Component {
     return (hex.props == {} || typeof(hex.props.image) === "undefined") ? {} : { fill: 'url(#'+ HexUtils.getID(hex) +')' };
   }
 
-  toggleRobber(e) {
-    e.preventDefault()
-    console.log("clicked....")
+  toggleRobber(event) {
+    event.preventDefault()
     addAction(moveRobber(this.props.index))
-    alert("clicked")
   }
 
   render() {
@@ -60,7 +58,7 @@ class HexShape extends React.Component {
     return (
 
       <g className="shape-group" transform={this.translate()} draggable="true"
-        id= {id} onClick={e => this.toggleRobber(e)}>
+        id= {id} onClick={this.getSVGDocument().onClick = function(event){this.toggleRobber(event)}}>
         <HexPattern hex={hex} />
         <polygon points={points} style={styles} className={resource} />
         <image x='-8' y='-8' height="16" width="16" xlinkHref={`/images/${resource}.svg`}/>
