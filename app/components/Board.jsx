@@ -12,6 +12,7 @@ import PortGrid from './PortGrid'
 import store from '../store'
 import {addAction} from '../reducers/action-creators'
 import {assignHexData} from '../reducers/hex-data'
+import { moveRobber } from 'APP/app/reducers/robber'
 
 class Board extends Component {
   constructor(props) {
@@ -65,7 +66,7 @@ class Board extends Component {
           <Roads width={config.width} height={config.height} roads={roads}/>
           <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
         </div>
-    </div>
+    </div> 
     );
   }
 

@@ -4,6 +4,8 @@ import HexPattern from './HexPattern';
 import HexPointers from './HexPointers';
 import HexUtils from './HexUtils';
 import {resources} from 'APP/gameutils/setup.js'
+import { addAction } from 'APP/app/reducers/action-creators'
+import { moveRobber } from 'APP/app/reducers/robber'
 
 class HexShape extends React.Component {
 
@@ -24,6 +26,7 @@ class HexShape extends React.Component {
   getStyles(hex) {
     return (hex.props == {} || typeof(hex.props.image) === "undefined") ? {} : { fill: 'url(#'+ HexUtils.getID(hex) +')' };
   }
+
 
   render() {
     let text = '', resource = ''
@@ -51,9 +54,12 @@ class HexShape extends React.Component {
         <polygon points={points} style={styles} className={resource} />
         <HexPointers hex={hex} points={points} />
         <circle cx='0' cy='0' r='3' onClick={() => {console.log("In the circle onClick")} }/>
-        <image x="-3" y="-3" width="6" height="6" xlinkHref="/alien.svg" />
+        {this.props.robberHex === this.props.index?
+        <image x="-3" y="-3" width="6" height="6" xlinkHref="/alien.svg" onClick={() => {console.log("In the image onClick")} } />
+        :
         <text x="0" y="0.3em" textAnchor="middle" >{text}</text>
-      </g>
+        }
+      </g> 
     );
   }
 }
@@ -66,8 +72,8 @@ HexShape.propTypes = {
 
 import { connect } from 'react-redux';
 
-const mapStateToProps = ({ hexData }) => ({
-  hexData
+const mapStateToProps = ({ hexData, robberHex }) => ({
+  hexData, robberHex
 });
 
 const mapDispatchToProps = dispatch => ({
