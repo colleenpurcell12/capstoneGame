@@ -46,7 +46,7 @@ export class GoogleLogin extends Component {
     return (
             <div>
   					{ this.props.loggedInUser && this.props.loggedInUser.displayName ?
-                <Toolbar style={{backgroundColor:'#DD2C00', opacity:'0.93'}}>
+                <Toolbar style={{backgroundColor:'#E64A19'}}>
                   <ToolbarGroup>
                     <FlatButton label="Rules" primary={true} style={{textAlign:'left', color:'#FFF3E0'}}
                       onClick={() => this.toggleRules()}
@@ -58,7 +58,7 @@ export class GoogleLogin extends Component {
                       onRequestChange={() => this.closeRules()}
                     >
                       <MenuItem>Overview</MenuItem>
-                      <MenuItem>Rule the Second</MenuItem>
+                      <MenuItem>Coming Soon!</MenuItem>
                     </Drawer>
                   </ToolbarGroup>
       						<ToolbarGroup style={{textAlign:'center', display: 'inline-block', margin: '0 auto'}}>
