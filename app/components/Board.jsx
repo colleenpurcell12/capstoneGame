@@ -65,7 +65,7 @@ class Board extends Component {
           <Roads width={config.width} height={config.height} roads={roads}/>
           <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
         </div>
-    </div>
+    </div> 
     );
   }
 
