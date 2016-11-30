@@ -32,7 +32,7 @@ export default function reducer (players = [], action) {
     case INCREMENT_RESOURCE:
       return players.map(player => {
         if (player.name === action.player) {
-          player.cardsResource[action.resource] += count;
+          player.cardsResource[action.resource] += action.count;
           return player
         }
         else return player
@@ -40,7 +40,7 @@ export default function reducer (players = [], action) {
     case DECREMENT_RESOURCE:
       return players.map(player => {
         if (player.name === action.player) {
-          player.cardsResource[action.resource] -= count;
+          player.cardsResource[action.resource] -= action.count;
           return player
         }
         else return player

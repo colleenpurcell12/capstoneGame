@@ -7,6 +7,7 @@ import TextField from 'material-ui/TextField'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import Checkbox from 'material-ui/Checkbox'
 import SelectField from 'material-ui/SelectField'
+import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem'
 import store from '../store'
 import {addPlayer, incrementResource, decrementResource} from '../reducers/players';
@@ -31,8 +32,14 @@ const validate = values => {
 export class PlayerStat extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      giveTo: 'Player',
+      giveResource: 'Resource',
+      giveNumber: 0
+    }
     this.changeCount = this.changeCount.bind(this)
     this.addNewPlayer = this.addNewPlayer.bind(this)
+
   }
 
   changeCount(resource, isGoingUp){
@@ -41,9 +48,25 @@ export class PlayerStat extends Component {
   }
 
   handleChange (e) { //TODO fill in this onClick handler for awards selection
-
     //console.log(e.target.value) //name of input
     //need to grab the "current user" and give them the award in the database
+  }
+
+  submitGiveForm(giveState){
+    console.log("STATE inside playerState:", this.state, "form state: ", giveState)
+    let actualGiveNumber = +giveState.giveNumber; //initially set to the passed number
+    let giverName;
+    this.props.players.map((player, idx) => {
+      if (player.name === this.props.loggedInUser.displayName) {
+        if (giveState.giveNumber > player.cardsResource[giveState.giveResource]) {//do a check to only remove max   number of cards from player's hand
+          actualGiveNumber = player.cardsResource[giveState.giveResource] //if the form giveNumber is greater than what's in the player's hand, then set the actualGiveNumber to the max for that resource
+        }
+      }
+    })
+    if (actualGiveNumber > 0) { //if the number of cards being distributed is greater than zero, fire these
+      addAction(decrementResource(this.props.loggedInUser.displayName, giveState.giveResource, actualGiveNumber)); //decrease the giver's resources by the appropriate amount
+      addAction(incrementResource(giveState.giveTo, giveState.giveResource, actualGiveNumber)); //give the recipient only the amount of resources that the giver could provide
+    }
   }
 
   addNewPlayer(){
@@ -159,7 +182,24 @@ export class PlayerStat extends Component {
           </div>
           <br></br>
           <div><Structures /><br></br></div>
-
+          <button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button><br /><br />
+            <div style={{border: '1px solid gray', padding: '0', marginRight: '10%'}}>
+              <h6 style={{textAlign: 'center'}}>Give Resources</h6>
+              <DropDownMenu value={this.state.giveTo} onChange={(e,i,v) => this.setState({giveTo: v})}>
+                <MenuItem disabled={true} value='Player' primaryText="Player" />
+                { this.props.players.map((player,idx) => <MenuItem value={player.name} primaryText={player.name.split(" ")[0]} key={idx} />) }
+              </DropDownMenu> <br />
+               <DropDownMenu value={this.state.giveResource} onChange={(e,i,v) => {this.setState({giveResource: v})}} autoWidth={false}>
+                 <MenuItem disabled={true} value='Resource' primaryText="Resource" />
+                  { Object.keys(resource).map((item, idx) => <MenuItem value={item} primaryText={item} key={idx} />) }
+              </DropDownMenu>
+                <div style={{paddingLeft:'10%'}}><br /><input type="text" name="count" placeholder="Number to..." style={{ width: '70px'}} onChange={(e) => {
+                e.preventDefault();
+                this.setState({giveNumber: e.target.value});
+              }}/>
+                <button onClick={() => this.submitGiveForm(this.state)}>Give</button>
+                </div>
+            </div>
           <div> Expansion Materials: </div>
           <table>
           <tbody>
@@ -185,8 +225,6 @@ export class PlayerStat extends Component {
                 </tr>
           </tbody>
           </table>
-          <br></br>
-  				<button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button>
 
         </div>
 
