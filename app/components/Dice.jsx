@@ -26,12 +26,12 @@ export class Dice extends Component {
     let d2 = Math.floor(Math.random() * 6) + 1;
     let total = d1+d2;
     if (d1 === d2) { //if the roll is a double, keep the dice enabled to allow for additional rolls
-      this.setState({d1: d1, d2: d2, diceEnabled: true});
+      this.setState({d1: d1, d2: d2});
     }
     else if (total === 7){ //if you roll a 7
       this.setState({d1: d1, d2: d2, diceEnabled: false, stealEnabled: true}); //allow stealing
     }
-    else this.setState({d1: d1, d2: d2, diceEnabled: false});
+    else this.setState({d1: d1, d2: d2, diceEnabled: false}); //else allow only one roll and update dice
     return {sum: total}; //return the object that will be stored on the state since all the calcs are done in this function
   }
 
@@ -39,29 +39,24 @@ export class Dice extends Component {
     let resources = ["crops", "ice", "solar", "hematite", "fuel"];
     let randomResource;
     let theftCall = 0; //only allow for one steal
-    let setToStealFrom;
+    let setToStealFrom = this.props.players[playerToRob].cardsResource //player's available resources
 
-    for (var i = 0; i < this.props.players.length; i++){ //loop through the players array
-      if (this.props.players[i].name === playerToRob){  //find the player to rob
-        setToStealFrom = this.props.players[i].cardsResource //when player to rob is found, set the setToStealFrom to that player's cardResources object
-        break;
-      }
-    }
-    while (theftCall === 0){
+    while (theftCall === 0){ //while nothing has been stolen yet
       randomResource = resources[Math.floor(Math.random() * 5)]; //set randomResource to a random index 0-4
-      if (setToStealFrom[randomResource] > 0){ //if the person even has that card available
-        theftCall++;
+      if (setToStealFrom[randomResource] > 0){ //if the person has that card available
+        theftCall++; //increment theft call to break out of loop
         this.setState({stealEnabled:false}); //set stealEnabled back to false
         addAction(incrementResource(this.props.loggedInUser.displayName, randomResource, 1)); //increase robber's resource
-        addAction(decrementResource(playerToRob, randomResource, 1)); //remove one card from playerToRob
+        addAction(decrementResource(this.props.player[playerToRob].name, randomResource, 1)); //remove one card from playerToRob
       }
     }
-    theftCall = 0;
+    theftCall = 0; //set theftCall back to default 0 value
   }
 
   render() {
     return (
     	<div className='playerInfo'>
+
       { this.state.d1 && this.state.d2 ?
         <div>
            <img src={`/die/d${this.state.d1}.gif`}/>
@@ -77,11 +72,13 @@ export class Dice extends Component {
 
         <button onClick={() => addAction(newDiceRoll(this.rollDice()))}>Roll Dice</button>
           :
-          <button disabled>Can't Roll Dice</button>
+          <div></div>
       }
+
       <div>Last roll:{this.props.diceRoll.sum}</div>
+
       { this.state.d1 === this.state.d2 ?
-        <div>DOUBLE ROLL!</div>
+        <div>Player rolled a DOUBLE!</div>
         :
         <div></div>
       }
@@ -92,7 +89,7 @@ export class Dice extends Component {
           <h6 style={{textAlign: 'center'}}>STEAL FROM PLAYER</h6>
             <DropDownMenu value={this.state.stealFrom} onChange={(e,i,v) => this.setState({stealFrom: v})}>
               <MenuItem disabled={true} value='Player' primaryText="Player" />
-              { this.props.players.map((player,idx) => <MenuItem value={player.name} primaryText={player.name.split(" ")[0]} key={idx} />) }
+              { this.props.players.map((player,idx) => <MenuItem value={idx} primaryText={player.name.split(" ")[0]} key={idx} />) }
             </DropDownMenu>
           <button onClick={() => addAction(this.submitStealInfo(this.state.stealFrom))}>Steal!</button>
          </div>

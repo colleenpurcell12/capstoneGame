@@ -15,6 +15,7 @@ import {addAction} from '../reducers/action-creators';
 import {startGame} from '../reducers/home';
 import {newDiceRoll} from '../reducers/dice';
 import {addMessage} from '../reducers/chatroom';
+import {initials} from '../reducers/helperFunctions';
 //needs to know which player's card is showing
 import Structures from './Structures';
 
@@ -55,9 +56,9 @@ export class PlayerStat extends Component {
   }
 
   submitGiveForm(giveState){
-    // let station; //these are for the message at end of function
-    // let message;
-    console.log("STATE inside playerState:", this.state, "form state: ", giveState)
+    let station = "Space Station";
+    let message;
+
     let actualGiveNumber = +giveState.giveNumber; //initially set to the passed number
     this.props.players.map((player, idx) => {
       if (player.name === this.props.loggedInUser.displayName) {
@@ -66,18 +67,17 @@ export class PlayerStat extends Component {
         }
       }
     })
+
     if (actualGiveNumber > 0) { //if the number of cards being distributed is greater than zero, fire these
       addAction(decrementResource(this.props.loggedInUser.displayName, giveState.giveResource, actualGiveNumber)); //decrease the giver's resources by the appropriate amount
       addAction(incrementResource(giveState.giveTo, giveState.giveResource, actualGiveNumber)); //give the recipient only the amount of resources that the giver could provide
 
-      //trying to send off message
-      // station = "Space Station";
-      // message = {
-      //   name: station,
-      //   text: `${this.props.loggedInUser.displayName} sent ${giveState.giveTo} ${actualGiveNumber} of their ${giveState.giveResource}`
-      // }
-      // console.log(message)
-      // addMessage(message);
+      message = {
+        name: station,
+        text: `${initials(this.props.loggedInUser.displayName)} sent ${initials(giveState.giveTo)} ${actualGiveNumber} of their ${giveState.giveResource}`
+      }
+
+      this.props.addMessage(message);
     }
   }
 
@@ -240,7 +240,7 @@ import { nextRound, nextRoundStep2, shiftTurns, startNormGamePlay } from '../red
 
 const mapState = ({ turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray, userArray }) => ({turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray, userArray});
 
-const mapDispatch = {  setNextTurn, nextRound, nextRoundStep2, shiftTurns, startNormGamePlay };
+const mapDispatch = {  setNextTurn, nextRound, nextRoundStep2, shiftTurns, startNormGamePlay, addMessage };
 // In first round -- nextTurn->shiftTurns
 // at the end of first round-- ->nextRound switches isFirstRound to false and ->nextRoundStep2 resets the 2nd round's turnArray
 // In 2nd round -- nextTurn->shiftTurns
