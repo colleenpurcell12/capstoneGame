@@ -12,7 +12,6 @@ import PortGrid from './PortGrid'
 import store from '../store'
 import {addAction} from '../reducers/action-creators'
 import {assignHexData} from '../reducers/hex-data'
-import { moveRobber } from 'APP/app/reducers/robber'
 
 class Board extends Component {
   constructor(props) {
