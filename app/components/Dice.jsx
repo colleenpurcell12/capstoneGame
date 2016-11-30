@@ -34,7 +34,7 @@ export class Dice extends Component {
       this.setState({d1: d1, d2: d2, diceEnabled: false, stealEnabled: true}); //allow stealing
     }
     else this.setState({d1: d1, d2: d2, diceEnabled: false}); //else allow only one roll and update dice
-    return {sum: total}; //return the object that will be stored on the state since all the calcs are done in this function
+    return {d1: d1, d2: d2}; //return the object that will be stored on the state since all the calcs are done in this function
   }
 
   submitStealInfo(playerToRob) {
@@ -64,10 +64,10 @@ export class Dice extends Component {
     return (
     	<div className='playerInfo'>
 
-      { this.state.d1 && this.state.d2 ?
+      { this.props.diceRoll.d1 && this.props.diceRoll.d2 ?
         <div>
-           <img src={`/die/d${this.state.d1}.gif`}/>
-           <img src={`/die/d${this.state.d2}.gif`}/>
+           <img src={`/die/d${this.props.diceRoll.d1}.gif`}/>
+           <img src={`/die/d${this.props.diceRoll.d2}.gif`}/>
            <br />
            <br />
          </div>
@@ -82,7 +82,7 @@ export class Dice extends Component {
           <div></div>
       }
 
-      <div>Last roll:{this.props.diceRoll.sum}</div>
+      <div>Last roll:{this.props.diceRoll.d1 + this.props.diceRoll.d2}</div>
 
       { this.props.players.length > 0 && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.state.stealEnabled ?
 
