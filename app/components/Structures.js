@@ -20,15 +20,11 @@ export class Structures extends Component {
       // console.log("everyRoad[1].coordinates[0][1]:",everyRoad[1].coordinates[1][0],"should equal coord[1][0]:",coord[1][0])
       // console.log("everyRoad[1].coordinates[0][1]:",everyRoad[1].coordinates[1][1],"should equal coord[1][1]:",coord[1][1])
 
-  isAvailable(type, coord){           
+  isAvailable(type, coord){  //WORKS          
     //return true //for testing
-    let { everyStructure, selections, turnInfo } = this.props
-    // var cornerNeighbors =  selections[0].neighbors
-   
+    let { everyStructure, selections, turnInfo } = this.props   
     if(type==='road'){
-  
       let everyRoad = everyStructure.filter( (struc) => struc.type==='road')
-      //console.log("and within those testing to find coord", coord)
       //could alternatively check if both corners match
       //EDGE CASE is the order of coordinates always the same?
       let sameRoad = everyRoad.filter( (struc) => //struc.coordinates===coord )
@@ -46,10 +42,18 @@ export class Structures extends Component {
       let settlementOnThisCorner = everyStructure.filter( struc => 
                           (struc.cornerId === selections[0].id ) 
                           && (struc.type==='settlement' || struc.type==='city') 
-                          && struc.userID!==turnInfo
                         )
-      if(settlementOnThisCorner.length>0){
-        console.log("Someone else owns a structure here")
+      console.log("settlementOnThisCorner ",settlementOnThisCorner) 
+
+      // let sameSettlement = everyStructure.filter( (struc) => //struc.coordinates===coord
+      //   (struc.type==='settlement' || struc.type==='city')
+      //   && struc.coordinates[0]===coord[0]
+      //   && struc.coordinates[1]===coord[1] )
+      // // console.log("XXX matching settlements in everyStructure ",sameSettlement,"which should equal everySettlement[0].coordinates",everySettlement[0].coordinates)
+      //  console.log("sameSettlement ",sameSettlement) //WORKS
+
+      if(settlementOnThisCorner.length>0 ){ //&& sameSettlement.length>0){
+        console.log("Someone already owns a structure here")
         return false
       } else { return true }
     }
@@ -68,12 +72,7 @@ export class Structures extends Component {
       // console.log("everySettlement[0].coordinates[1][0]:",everySettlement[0].coordinates[1],"should equal coord[1][0]:",coord[1][0])
       // console.log("everySettlement[0].coordinates[1][1]:",everySettlement[0].coordinates[1],"should equal coord[1][1]:",coord[1][1])
 
-    //   let sameSettlement = everyStructure.filter( (struc) => //struc.coordinates===coord
-    //     struc.coordinates[0]===coord[0]
-    //     && struc.coordinates[1]===coord[1] )
-    //   // console.log("XXX matching settlements in everyStructure ",sameSettlement,"which should equal everySettlement[0].coordinates",everySettlement[0].coordinates)
-    //    console.log("sameSettlement ",sameSettlement) //WORKS
-
+    
     //   if(sameSettlement.length===0){ return true } //non already purchased, isAvailable true
     //   else { return false }
     // }
