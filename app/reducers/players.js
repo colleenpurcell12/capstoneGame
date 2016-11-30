@@ -9,8 +9,8 @@ const DECREMENT_RESOURCE = 'DECREMENT_RESOURCE'
 /* ------------   ACTION CREATORS     ------------------ */
 
 export const addPlayer  = player => ({ type: ADD_PLAYER, player })
-export const incrementResource = (player, resource) => ({ type: INCREMENT_RESOURCE, player, resource})
-export const decrementResource = (player, resource) => ({ type: DECREMENT_RESOURCE, player, resource})
+export const incrementResource = (player, resource, count) => ({ type: INCREMENT_RESOURCE, player, resource, count})
+export const decrementResource = (player, resource, count) => ({ type: DECREMENT_RESOURCE, player, resource, count})
 
 /* -----------------    ACTIONS     ------------------ */
 
@@ -32,7 +32,7 @@ export default function reducer (players = [], action) {
     case INCREMENT_RESOURCE:
       return players.map(player => {
         if (player.name === action.player) {
-          player.cardsResource[action.resource]++
+          player.cardsResource[action.resource] += action.count;
           return player
         }
         else return player
@@ -40,7 +40,7 @@ export default function reducer (players = [], action) {
     case DECREMENT_RESOURCE:
       return players.map(player => {
         if (player.name === action.player) {
-          player.cardsResource[action.resource]--
+          player.cardsResource[action.resource] -= action.count;
           return player
         }
         else return player
