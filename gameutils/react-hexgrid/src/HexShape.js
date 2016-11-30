@@ -14,7 +14,7 @@ class HexShape extends React.Component {
   }
   componentDidMount() {
     if(this.props.hexData.length && this.props.hexData[this.props.index].resource === "desert")
-    addAction(moveRobber(this.props.index))
+    moveRobber(this.props.index)
   }
 
   getPoints(hex) {
