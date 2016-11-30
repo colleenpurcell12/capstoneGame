@@ -84,7 +84,7 @@ export class Dice extends Component {
 
       <div>Last roll:{this.props.diceRoll.sum}</div>
 
-      { this.props.players.length > 0 && this.state.d1 === this.state.d2 ?
+      { this.props.inProgress && this.state.d1 === this.state.d2 ?
         <div>Player rolled a DOUBLE!</div>
         :
         <div></div>
