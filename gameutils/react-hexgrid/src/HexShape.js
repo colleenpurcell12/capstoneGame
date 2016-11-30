@@ -63,7 +63,7 @@ class HexShape extends React.Component {
     return (
 
       <g className="shape-group" transform={this.translate()} draggable="true"
-        id= {id} onClick={ e => console.log("clicked hex")}>
+        id= {id} >
         <HexPattern hex={hex} />
         <polygon points={points} style={styles} className={resource} />
         <image x='-8' y='-8' height="16" width="16" xlinkHref={`/images/${resource}.svg`}/>
