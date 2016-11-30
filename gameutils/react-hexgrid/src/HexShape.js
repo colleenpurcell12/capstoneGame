@@ -13,7 +13,7 @@ class HexShape extends React.Component {
     this.toggleRobber = this.toggleRobber.bind(this)
   }
   componentDidMount() {
-    if(this.props.hexData[this.props.index].resource === "desert")
+    if(this.props.hexData.length && this.props.hexData[this.props.index].resource === "desert")
     addAction(moveRobber(this.props.index))
   }
 
