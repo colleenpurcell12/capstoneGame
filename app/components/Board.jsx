@@ -135,7 +135,7 @@ class Board extends Component {
     // }
     // console.log('this.state', this.state)
   }
-
+//XXXX
   handleSubmit(event){
     event.preventDefault();
 

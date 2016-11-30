@@ -79,16 +79,16 @@ svg circle {
 /*Users*/
 
 .red-player {
-
+fill: red;
 }
 .blue-player {
-
+fill: blue;
 }
 .green-player {
-
+  fill: green;
 }
 .brown-player {
-
+  fill: brown;
 }
 
 /*Resources*/

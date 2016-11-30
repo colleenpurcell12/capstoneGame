@@ -89,6 +89,8 @@ export class PlayerStat extends Component {
   }
 
   nextPlayer(){
+    ///XXXXXX
+    addAction(this.props.clearSelection())
     let { isFirstRound, isSettingUp, turnArray, userArray, turnInfo } = this.props
     if (isSettingUp === false){ //Normal cycle of turns during game play, increment user to x+1
       var player = this.props.turnInfo
@@ -236,11 +238,12 @@ import {connect} from 'react-redux';
 //import { setNextRound, endSetUp, nextTurn } from '../reducers/turnBooleans';
 import { setNextTurn } from '../reducers/playerStat';
 import { nextRound, nextRoundStep2, shiftTurns, startNormGamePlay } from '../reducers/turnBooleans';
+import { clearSelection } from '../reducers/selection'
 
 
 const mapState = ({ turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray, userArray }) => ({turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray, userArray});
 
-const mapDispatch = {  setNextTurn, nextRound, nextRoundStep2, shiftTurns, startNormGamePlay };
+const mapDispatch = {  setNextTurn, nextRound, nextRoundStep2, shiftTurns, startNormGamePlay, clearSelection };
 // In first round -- nextTurn->shiftTurns
 // at the end of first round-- ->nextRound switches isFirstRound to false and ->nextRoundStep2 resets the 2nd round's turnArray
 // In 2nd round -- nextTurn->shiftTurns
