@@ -97,13 +97,11 @@ svg circle {
 }
 
 .ice {
-  /*fill: #beecf7*/
-  fill: none
+  fill: #beecf7
 }
 
 .solar  {
-  /*fill: #152e66*/
-  fill: none
+  fill: #152e66
 }
 
 .seeds {
