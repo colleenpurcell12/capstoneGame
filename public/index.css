@@ -9,7 +9,8 @@
 }
 
 .grid {
-  min-height: 900px
+  min-height: 900px;
+  height: 100%;
 }
 
 #Form{
@@ -32,20 +33,20 @@
   fill: brown;
 }
 
-.token-text {
-  font-family: 'Press Start 2P', cursive;
-  font-size: .2em;
-  fill: white;
-
-}
-
-.token-circle {
-  fill: black
-}
 .port-text {
   font-family: 'Press Start 2P', cursive;
   font-size: .1em;
   fill: white;
+}
+
+.token-text {
+  font-family: 'Press Start 2P', cursive;
+  font-size: .2em;
+  fill: white;
+}
+
+.token-circle {
+  fill: black
 }
 
 .hexhover {
