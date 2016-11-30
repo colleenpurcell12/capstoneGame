@@ -75,7 +75,7 @@ export class Dice extends Component {
        <div></div>
       }
 
-      { this.props.inProgress && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.state.diceEnabled ?
+      { this.props.players.length > 0 && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.state.diceEnabled ?
 
         <button onClick={() => addAction(newDiceRoll(this.rollDice()))}>Roll Dice</button>
           :
@@ -90,7 +90,7 @@ export class Dice extends Component {
         <div></div>
       }
 
-      { this.props.inProgress && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.state.stealEnabled ?
+      { this.props.players.length > 0 && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.state.stealEnabled ?
 
         <div style={{border: '1px solid gray', marginRight: '10%'}}>
           <h6 style={{textAlign: 'center'}}>STEAL FROM PLAYER</h6>

@@ -139,36 +139,36 @@ export class PlayerStat extends Component {
 
           <div>
           <input type="button" onClick={() => this.changeCount('crops',false) } value="-"/>
-             Crops  {resource.crops}
+             🌽Crops  {resource.crops}   
           <input type="button" onClick={ () => this.changeCount('crops',true) } value="+"/>
           </div>
 
           <div>
             <input type="button" onClick={() => this.changeCount('fuel',false) } value="-"/>
-              Fuel    {resource.fuel}
+              🚀Fuel    {resource.fuel}  
             <input type="button" onClick={ () => this.changeCount('fuel',true) } value="+"/>
           </div>
 
           <div>
           <input type="button" onClick={() => this.changeCount('hematite',false) } value="-"/>
-            Hematite    {resource.hematite}
+            🌑Hematite    {resource.hematite}
           <input type="button" onClick={ () => this.changeCount('hematite',true) } value="+"/>
           </div>
 
           <div>
           <input type="button" onClick={() => this.changeCount('ice',false) } value="-"/>
-            Ice             {resource.ice}
+            ❄️Ice             {resource.ice}
           <input type="button" onClick={ () => this.changeCount('ice',true) } value="+"/>
           </div>
 
           <div>
           <input type="button" onClick={() => this.changeCount('solar',false) } value="-"/>
-            Solar {resource.solar}
+            🔆Solar {resource.solar}
           <input type="button" onClick={ () => this.changeCount('solar',true) } value="+"/>
           </div>
 
           <div>
-            <br></br>
+            
             <label>
                 <input type="radio" value="army" onChange={this.handleChange}/>
                 Largest Army Award
@@ -179,13 +179,21 @@ export class PlayerStat extends Component {
                 Longest Road Award
             </label>
           </div>
-
-          <br></br>
+            <table>
+            <tbody>
+                  <tr>  <th>Structure </th> <th>Cost                </th></tr>
+                  <tr> <td>Road      </td> <td>= ❄️  🔆            </td> </tr>
+                  <tr> <td>Settlement</td> <td>= ❄️  🔆 🌽  🚀    </td> </tr>
+                  <tr> <td>City      </td> <td>= 🚀 🚀  🌑 🌑 🌑</td> </tr>
+                  <tr> <td>Pioneer   </td> <td>= 🚀 🌽  🌑       </td> </tr>
+            </tbody>
+            </table>
+          
           <div><Structures /><br></br></div>
           <button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button><br /><br />
 
             <div style={{border: '1px solid gray', padding: '0', marginRight: '10%'}}>
-              <h6 style={{textAlign: 'center'}}>Give Resources</h6>
+              <h8 style={{textAlign: 'center'}}>Give Resources</h8>
               <DropDownMenu value={this.state.giveTo} onChange={(e,i,v) => this.setState({giveTo: v})}>
                 <MenuItem disabled={true} value='Player' primaryText="Player" />
                 { this.props.players.map((player,idx) => <MenuItem value={player.name} primaryText={player.name.split(" ")[0]} key={idx} />) }
@@ -201,16 +209,7 @@ export class PlayerStat extends Component {
                 <button onClick={() => this.submitGiveForm(this.state)}>Give</button>
                 </div>
             </div>
-          <div> Expansion Materials: </div>
-            <table>
-            <tbody>
-                  <tr>  <th>Structure </th> <th>Cost                </th></tr>
-                  <tr> <td>Road      </td> <td>= ❄️  🔆            </td> </tr>
-                  <tr> <td>Settlement</td> <td>= ❄️  🔆 🌽  🚀    </td> </tr>
-                  <tr> <td>City      </td> <td>= 🚀 🚀  🌑 🌑 🌑</td> </tr>
-                  <tr> <td>Pioneer   </td> <td>= 🚀 🌽  🌑       </td> </tr>
-            </tbody>
-            </table>
+          
         </div>
         :
         <div>

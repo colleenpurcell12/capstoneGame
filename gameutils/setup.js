@@ -1,4 +1,7 @@
 //Create ports array
+import { moveRobber } from 'APP/app/reducers/robber'
+import { addAction } from 'APP/app/reducers/action-creators'
+
 
 var ports = [
   {type: 'port', x: -45, y: -26, r: 3, ratio: '1:3', res: null},
@@ -32,6 +35,7 @@ function assignHexInfo (tokens, resources) {
   var d = Math.floor(Math.random()*19)
   tshuff.splice(d, 0, '')
   rshuff.splice(d, 0, 'desert')
+  addAction(moveRobber(d))
   console.log('TSHUFF', tshuff)
   console.log('RSHUFF', rshuff)
   var hexData = [];

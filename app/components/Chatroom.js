@@ -24,7 +24,7 @@ export class Chatroom extends Component {
     const messages = this.props.messages;
 
     return (
-      <div className="mdl-shadow--2dp" style={{background:'white', opacity:'.95', borderRadius: '5px', position:'relative', zIndex:'-1'}}>
+      <div className="mdl-shadow--2dp" style={{background:'white', opacity:'.95', borderRadius: '5px'}}>
         <div className="mdl-color-text--grey-600">
           <div id="messages">
             {messages && Object.keys(messages).map(k => messages[k]).map( (message, idx) =>
