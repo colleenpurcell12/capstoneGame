@@ -8,7 +8,7 @@ class CornerShape extends React.Component {
     super(props);
     this.selectCorner = this.selectCorner.bind(this)
   }
-
+ 
   selectCorner(event) {
     event.preventDefault();
     var id = this.props.index
@@ -38,7 +38,7 @@ class CornerShape extends React.Component {
       return structure.corner_id === index
     })
     if(isOwned){
-      owner = isOwned.owner;
+      owner = isOwned.owner + '-player'
       structure = isOwned.type[0];
     }
     let isSelected = this.props.selections.find(function(select){
