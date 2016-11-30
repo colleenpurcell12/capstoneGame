@@ -36,8 +36,8 @@ export class PlayerStat extends Component {
   }
 
   changeCount(resource, isGoingUp){
-    isGoingUp? addAction(incrementResource(this.props.loggedInUser.displayName, resource)) :
-      addAction(decrementResource(this.props.loggedInUser.displayName, resource))
+    isGoingUp? addAction(incrementResource(this.props.loggedInUser.displayName, resource, 1)) : //passing along 1 as the 'count' for standard increment or decrement via +/- buttons
+      addAction(decrementResource(this.props.loggedInUser.displayName, resource, 1))
   }
 
   handleChange (e) { //TODO fill in this onClick handler for awards selection
