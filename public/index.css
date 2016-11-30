@@ -116,6 +116,10 @@ svg circle {
   fill: black
 }
 
+.hex {
+  fill: none;
+}
+
 /*Roads*/
 
 .green {
