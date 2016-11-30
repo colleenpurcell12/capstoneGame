@@ -34,13 +34,15 @@
 }
 
 .port-text {
-  font-family: 'Press Start 2P', cursive;
-  font-size: .1em;
+  /*font-family: 'Press Start 2P', cursive;*/
+  font-family: 'Bungee', cursive;
+  font-size: .2em;
   fill: white;
 }
 
 .token-text {
-  font-family: 'Press Start 2P', cursive;
+  /*font-family: 'Press Start 2P', cursive;*/
+  font-family: 'Bungee', cursive;
   font-size: .2em;
   fill: black;
 }

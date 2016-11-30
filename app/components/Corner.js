@@ -50,7 +50,7 @@ class CornerShape extends React.Component {
     }
     let offset = 0
     if (this.props.type === 'port'){
-      
+
     }
     // this.props.type -> port or corner
     // this.props.resource -> port only resource
@@ -64,7 +64,7 @@ class CornerShape extends React.Component {
         <img src=""/>
         <circle className={classN} cx={this.props.cx} cy={this.props.cy}
           r={this.props.r}  id= {cornerId}/>
-        <text x={this.props.cx + offset} y={this.props.cy+.5} className="port-text" textAnchor="middle" >
+        <text x={this.props.cx + offset} y={this.props.cy+1} className="port-text" textAnchor="middle" >
           {text}
         </text>
       </g>

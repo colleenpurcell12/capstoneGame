@@ -67,7 +67,7 @@ class HexShape extends React.Component {
         {this.props.robberHex === this.props.index?
         <image x="-3" y="-3" width="6" height="6" xlinkHref="/alien.svg" />
         :
-        <text x=".05em" y=".6em" className="token-text" textAnchor="middle" onClick={(e) => this.toggleRobber(e,id)}>{text}</text>
+        <text x=".05em" y=".4em" className="token-text" textAnchor="middle" onClick={(e) => this.toggleRobber(e,id)}>{text}</text>
         }
       </g>
     );

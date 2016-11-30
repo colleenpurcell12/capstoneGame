@@ -32,7 +32,7 @@ export class Chatroom extends Component {
               )}
           </div>
           <form id="message-form" action="#" onSubmit={this.saveMessage} >
-              <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style={{background:'white', opacity: '.95', borderRadius: '5px'}}>
+              <div id="message-input" className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style={{background:'white', opacity: '.95', borderRadius: '5px'}}>
                 <input className="mdl-textfield__input" type="text" id="message" name="text" />
                 <label className="mdl-textfield__label" htmlFor="message">Type Message Here...</label>
               </div>
