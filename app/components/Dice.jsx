@@ -6,6 +6,8 @@ import MenuItem from 'material-ui/MenuItem';
 import {addAction} from '../reducers/action-creators';
 import { newDiceRoll } from '../reducers/dice';
 import {incrementResource, decrementResource} from '../reducers/players';
+import {addMessage} from '../reducers/chatroom';
+import {initials} from '../reducers/helperFunctions';
 
 export class Dice extends Component {
   constructor(props) {
@@ -47,7 +49,12 @@ export class Dice extends Component {
         theftCall++; //increment theft call to break out of loop
         this.setState({stealEnabled:false}); //set stealEnabled back to false
         addAction(incrementResource(this.props.loggedInUser.displayName, randomResource, 1)); //increase robber's resource
-        addAction(decrementResource(this.props.player[playerToRob].name, randomResource, 1)); //remove one card from playerToRob
+        addAction(decrementResource(this.props.players[playerToRob].name, randomResource, 1)); //remove one card from playerToRob
+        let message = {
+          name: "Space Station",
+          text: `${initials(this.props.loggedInUser.displayName)} stole from ${initials(this.props.players[playerToRob].name)}`
+        }
+        this.props.addMessage(message);
       }
     }
     theftCall = 0; //set theftCall back to default 0 value
@@ -108,5 +115,5 @@ export class Dice extends Component {
 import {connect} from 'react-redux';
 
 const mapStore = ({ diceRoll, loggedInUser, turnInfo, players }) => ({diceRoll, loggedInUser, turnInfo, players})
-
-export default connect(mapStore, null)(Dice);
+const mapDispatch = {addMessage};
+export default connect(mapStore, mapDispatch)(Dice);

@@ -8,6 +8,10 @@
   position: relative;
 }
 
+.grid {
+  min-height: 900px
+}
+
 #Form{
   z-index: 14;
 }
@@ -79,16 +83,16 @@ svg circle {
 /*Users*/
 
 .red-player {
-
+fill: red;
 }
 .blue-player {
-
+fill: blue;
 }
 .green-player {
-
+  fill: green;
 }
 .brown-player {
-
+  fill: brown;
 }
 
 /*Resources*/
@@ -119,6 +123,7 @@ svg circle {
 .hex {
   fill: none;
 }
+
 
 /*Roads*/
 

@@ -1,4 +1,4 @@
-import HexGrid from '../../gameutils/react-hexgrid/src/HexGrid.js';
+ import HexGrid from '../../gameutils/react-hexgrid/src/HexGrid.js';
 import React, {Component} from 'react';
 //import SubmitForm from './SubmitForm'
 import {shuffle, addRoad, tokenArray, resourcesArray} from 'APP/gameutils/setup.js'
@@ -20,8 +20,9 @@ class Board extends Component {
     // this.selectCorner = this.selectCorner.bind(this);
     this.generate = this.generate.bind(this)
     //config handled off component?
+
     let boardConfig = {
-      width: 700, height: 820,
+      width: '100%', height: '100%',
       layout: { width: 10, height: 10, flat: true, spacing: 1.1 }, // change to
       origin: { x: 0, y: 0 },
       map: 'hexagon',
@@ -62,7 +63,7 @@ class Board extends Component {
           <Roads width={config.width} height={config.height} roads={roads}/>
           <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
         </div>
-    </div> 
+    </div>
     );
   }
 
@@ -110,7 +111,6 @@ class Board extends Component {
 
     //puts all the corners on the state
     this.props.putCorners(allCorners)
-
     return { hexagons, layout, corners: allCorners };
   }
 
@@ -171,7 +171,6 @@ function corners(hex, visitor) {
     visitor({hexes})
   })
 }
-
 
 function findNeighbors(a, cObj){
   var neighbors = [];
