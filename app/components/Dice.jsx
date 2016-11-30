@@ -83,13 +83,13 @@ export class Dice extends Component {
 
       { this.props.players.length > 0 && this.state.stealEnabled ?
 
-        <div style={{border: '1px solid gray', padding: '0', marginRight: '10%'}}>
+        <div style={{border: '1px solid gray', marginRight: '10%'}}>
           <h6 style={{textAlign: 'center'}}>STEAL FROM PLAYER</h6>
             <DropDownMenu value={this.state.stealFrom} onChange={(e,i,v) => this.setState({stealFrom: v})}>
               <MenuItem disabled={true} value='Player' primaryText="Player" />
               { this.props.players.map((player,idx) => <MenuItem value={player.name} primaryText={player.name.split(" ")[0]} key={idx} />) }
-            </DropDownMenu> <br />
-          <button style={{paddingLeft:'10%'}} onClick={() => addAction(submitStealInfo(this.state.stealFrom))}>Steal!</button>
+            </DropDownMenu>
+          <button onClick={() => addAction(submitStealInfo(this.state.stealFrom))}>Steal!</button>
          </div>
           :
         <button disabled>👾 Waiting to Steal! 👾</button>
