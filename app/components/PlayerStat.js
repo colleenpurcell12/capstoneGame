@@ -14,6 +14,7 @@ import {addPlayer, incrementResource, decrementResource} from '../reducers/playe
 import {addAction} from '../reducers/action-creators';
 import {startGame} from '../reducers/home';
 import {newDiceRoll} from '../reducers/dice';
+import {addMessage} from '../reducers/chatroom';
 //needs to know which player's card is showing
 import Structures from './Structures';
 
@@ -39,6 +40,7 @@ export class PlayerStat extends Component {
     }
     this.changeCount = this.changeCount.bind(this)
     this.addNewPlayer = this.addNewPlayer.bind(this)
+    this.submitGiveForm = this.submitGiveForm.bind(this)
 
   }
 
@@ -53,9 +55,10 @@ export class PlayerStat extends Component {
   }
 
   submitGiveForm(giveState){
+    // let station; //these are for the message at end of function
+    // let message;
     console.log("STATE inside playerState:", this.state, "form state: ", giveState)
     let actualGiveNumber = +giveState.giveNumber; //initially set to the passed number
-    let giverName;
     this.props.players.map((player, idx) => {
       if (player.name === this.props.loggedInUser.displayName) {
         if (giveState.giveNumber > player.cardsResource[giveState.giveResource]) {//do a check to only remove max   number of cards from player's hand
@@ -66,6 +69,15 @@ export class PlayerStat extends Component {
     if (actualGiveNumber > 0) { //if the number of cards being distributed is greater than zero, fire these
       addAction(decrementResource(this.props.loggedInUser.displayName, giveState.giveResource, actualGiveNumber)); //decrease the giver's resources by the appropriate amount
       addAction(incrementResource(giveState.giveTo, giveState.giveResource, actualGiveNumber)); //give the recipient only the amount of resources that the giver could provide
+
+      //trying to send off message
+      // station = "Space Station";
+      // message = {
+      //   name: station,
+      //   text: `${this.props.loggedInUser.displayName} sent ${giveState.giveTo} ${actualGiveNumber} of their ${giveState.giveResource}`
+      // }
+      // console.log(message)
+      // addMessage(message);
     }
   }
 
