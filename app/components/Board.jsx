@@ -111,7 +111,6 @@ class Board extends Component {
 
     //puts all the corners on the state
     this.props.putCorners(allCorners)
-
     return { hexagons, layout, corners: allCorners };
   }
 
@@ -172,7 +171,6 @@ function corners(hex, visitor) {
     visitor({hexes})
   })
 }
-
 
 function findNeighbors(a, cObj){
   var neighbors = [];
