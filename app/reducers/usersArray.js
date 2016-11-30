@@ -2,11 +2,11 @@ import * as firebase from 'firebase'
 
 /* -----------------    ACTIONS     ------------------ */
 
- //const NEXT_ROUND = 'NEXT_ROUND';
+ const ADD_POINT = 'ADD_POINT';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-// const nextRound = () => ({ type: NEXT_ROUND })
+export const addPoint = (userIndex) => ({ type: ADD_POINT, userIndex })
 
 
 /* ------------       REDUCER     ------------------ */
@@ -44,6 +44,8 @@ let initialUserArray = [
     ]
 export default function userArray (userArray = initialUserArray, action){
     switch (action.type) {
+    case ADD_POINT:
+     return ++userArray[userIndex].points
     default:
       return userArray
   }

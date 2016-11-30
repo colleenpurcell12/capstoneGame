@@ -9,19 +9,13 @@
 //from addStructure to addBoardStructure
 //from upgradeSettlement to upgradeBoardStructure
 export const addBoardStructure = (structure) => ({ type: 'ADD_STRUCTURE', structure })
-export const upgradeBoardStructure = (corner)   => ({ type: 'UPGRADE_SETTLEMENT', corner })
+export const upgradeBoardStructure = (corner_id)   => ({ type: 'UPGRADE_SETTLEMENT', corner_id })
 
 /* ------------       REDUCER     ------------------ */
  
 //settlements
 
-let initialState = [ { type: 'settlement', points: 1 , 
-                            color: 'blue', userID: 2,
-                            cornerId: 20,
-                            coordinates: [-5.5, 9.526279441628825],  
-                            associatedHexs: [10,5,9]   
-                          }
-                      ] 
+let initialState = [ {color: 'blue', corner_id: 20, type: 'settlement'} ] 
 
 export default function structures (structures = initialState, action){
 
@@ -31,7 +25,7 @@ export default function structures (structures = initialState, action){
       //upgrade structure
     case UPGRADE_SETTLEMENT:
      structures.map(s => {
-       if( s.corner_id === corner.corner_id){
+       if( s.corner_id === action.corner_id){
          s.type = 'city';
        }
        return s;
