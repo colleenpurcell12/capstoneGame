@@ -14,7 +14,7 @@ export class Dice extends Component {
     	d1: null,
     	d2: null,
       diceEnabled: true, //this should be true by default
-      stealEnabled: true,
+      stealEnabled: false,
       stealFrom: "Player"
     }
     this.rollDice = this.rollDice.bind(this);
@@ -43,7 +43,7 @@ export class Dice extends Component {
 
     for (var i = 0; i < this.props.players.length; i++){ //loop through the players array
       if (this.props.players[i].name === playerToRob){  //find the player to rob
-        setToStealFrom = this.props.players[i].cardResources //when player to rob is found, set the setToStealFrom to that player's cardResources object
+        setToStealFrom = this.props.players[i].cardsResource //when player to rob is found, set the setToStealFrom to that player's cardResources object
         break;
       }
     }
@@ -80,8 +80,13 @@ export class Dice extends Component {
           <button disabled>Can't Roll Dice</button>
       }
       <div>Last roll:{this.props.diceRoll.sum}</div>
+      { this.state.d1 === this.state.d2 ?
+        <div>DOUBLE ROLL!</div>
+        :
+        <div></div>
+      }
 
-      { this.props.players.length > 0 && this.state.stealEnabled ?
+      { this.props.players.length > 0 && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.state.stealEnabled ?
 
         <div style={{border: '1px solid gray', marginRight: '10%'}}>
           <h6 style={{textAlign: 'center'}}>STEAL FROM PLAYER</h6>
@@ -89,7 +94,7 @@ export class Dice extends Component {
               <MenuItem disabled={true} value='Player' primaryText="Player" />
               { this.props.players.map((player,idx) => <MenuItem value={player.name} primaryText={player.name.split(" ")[0]} key={idx} />) }
             </DropDownMenu>
-          <button onClick={() => addAction(submitStealInfo(this.state.stealFrom))}>Steal!</button>
+          <button onClick={() => addAction(this.submitStealInfo(this.state.stealFrom))}>Steal!</button>
          </div>
           :
         <button disabled>👾 Waiting to Steal! 👾</button>
