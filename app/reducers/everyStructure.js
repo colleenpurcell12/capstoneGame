@@ -54,7 +54,7 @@ export default function reducer (everyStructure = initialState, action) {
          s.type = 'city';
          s.points=2
        }
-       return s;
+       return everyStructure;
      })
   default:
     return everyStructure;

@@ -17,15 +17,22 @@ similar to playing on a table top.
 
 ### Learn more about the developers who created this repo ###
 [Colleen Purcell](https://www.linkedin.com/in/colleenpurcell) 
+
 [Sharon Choe](https://www.linkedin.com/in/sharonchoe) 
+
 [Deborah Kwon](https://www.linkedin.com/in/deborah-kwon) 
+
 [Samantha Lugar](https://www.linkedin.com/in/samanthalugar)
+
 
 ### Steps for running the app locally : ###
 
-#  | Command
----| -------------
-1  | npm install -g firebase-tools
-2  | firebase login firebase use –add
-3  | firebase use –add
-4  | firebase serve
+  ##           | Command
+-------------- | -------------
+ 1             | npm install -g firebase-tools
+ 2             | firebase login firebase use –add
+ 3             | firebase use –add
+ 4             | firebase serve
+
+
+
