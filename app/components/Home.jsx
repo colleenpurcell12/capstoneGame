@@ -23,7 +23,7 @@ export class Home extends React.Component {
               </div>
               :
               <div className="mdl-cell mdl-cell--6-col">
-                <h3>Loading...</h3>
+                <h3>Setting up the board...</h3>
               </div>
               }
               <div className="mdl-cell mdl-cell--1-col">

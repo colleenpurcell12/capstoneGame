@@ -65,7 +65,7 @@ class HexShape extends React.Component {
         id= {id}>
         <HexPattern hex={hex} />
         <polygon points={points} style={styles} className={resource} />
-        <image x='-8' y='-8' height="16" width="16" xlinkHref={`images/${resource}.svg`}/>
+        <image x='-8' y='-8' height="16" width="16" xlinkHref={`/images/${resource}.svg`}/>
         <HexPointers hex={hex} points={points} />
         <circle cx='0' cy='0' r='3' onClick={(e) => this.toggleRobber(e,id)}/>
         {this.props.robberHex === this.props.index?
