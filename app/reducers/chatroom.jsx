@@ -6,7 +6,7 @@ const LOAD_MESSAGES = 'LOAD_MESSAGES'
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-const load   = messages => ({ type: LOAD, messages })
+const load   = messages => ({ type: LOAD_MESSAGES, messages })
 
 /* ------------       REDUCER     ------------------ */
 
