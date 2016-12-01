@@ -45,30 +45,49 @@ export class Structures extends Component {
     }
     console.log(`Someone already owns a this ${type}`)
     let message = { name: "Space Station",
-        text: `${initials(players[userIndex].name)}, that ${type} is a already taken.`}
+        text: `${initials(players[userIndex].name)} that ${type} is a already taken.`}
     this.props.addMessage(message);
     return false 
   }
-//DOESN"T WORD
-  //ROADS VALIDATION
-  isConnected(coord){ //return true //FOR TESTING 
-    //Check if there is a settlement/city or a road that you own, which shares a corner
-    //aka matches on one of the coordinates of the road you are adding, coord.
-    return true
+
+  isConnected(type, cornerIDs){  //Roads validation, should be connected by corner to either a road or settlement
+    //if is setting up, shouldn't get here
     let { everyStructure } = this.props
-    let everySettlement = everyStructure.filter((struc) => struc.type==='settlement')
-    let everyRoad = everyStructure.filter( (struc) => struc.type==='road')
-    let shareCorner1=[]
-    let shareCorner2=[]
-    for(var i = 0 ; i<2 ;i++){
-      shareCorner1[i] = everyRoad.filter( (struc) => 
-        struc.coordinates === coord[i] )
-      shareCorner2[i] = everySettlement.filter( (struc) => 
-        struc.coordinates.x===coord[i][0]
-        && struc.coordinates.y===coord[i][1]  )
+    if(type==='settlement'){
+      let corner_id = cornerIDs
+      let matching = everyStructure.filter( function(struc) {
+        if(struc.type==='road' && (struc.corners[0]===corner_id || struc.corners[1]===corner_id) ){
+          return true
+        }
+      })
+      if (matching.length>0){ return true }
+      else if (matching.length===0) { 
+        console.log("That settlement is not connected to any of your roads.")
+        let message = { name: "Space Station",
+        text: `${initials(players[userIndex].name)}, that corner is not connected to any of your roads.`}
+        this.props.addMessage(message);
+        return false 
+      }
     }
-    return (shareCorner1[0].length>0 || shareCorner1[0].length>0 
-      || shareCorner2[1].length>0 || shareCorner2[1].length>0)
+    let startCornerID = cornerIDs[0]
+    let endCornerID = cornerIDs[1]
+    
+    let allMatchingRoadCorners = everyRoad.filter(function(struc){ 
+        if(struc.type==='road' && ( struc.corners[0]=== startCornerID || struc.corners[0]=== endCornerID
+          || struc.corners[1]=== startCornerID || struc.corners[1]=== endCornerID) ) {
+          return true
+        }
+    })
+    let allMatchingSettlementCorners = everyStructure.filter(function(struc){ 
+        if (struc.type==='settlement' && (struc.cornerId=== startCornerID || struc.cornerId=== endCornerID)){   
+          return true
+        }
+    })
+    if (allMatchingRoadCorners.length>0 || allMatchingSettlementCorners.length>0){ 
+      return true 
+    } else { 
+      return false
+    }
   }
 
   isAfforable(type){
@@ -82,9 +101,9 @@ export class Structures extends Component {
       || (type==='city'       && fuel>=2 && hematite>=3) ){
           return true
     }
-    console.log(`${initials(player.name)}, can't afford a ${type}.`)//XXX
+    console.log(`${initials(player.name)} can't afford a ${type}.`)//XXX
     let message = { name: "Space Station",
-    text: `${initials(player.name)}, can't afford a ${type}.`}
+    text: `${initials(player.name)} can't afford a ${type}.`}
     this.props.addMessage(message);
     return false
   }
@@ -120,7 +139,7 @@ export class Structures extends Component {
     
     return true
   }
-  isValidateRoad( userIndex, coord){
+  isValidateRoad(cornerIDs, userIndex, coord){
     let { players } = this.props
     let player = players[userIndex] 
     if(this.props.isSettingUp){ 
@@ -134,7 +153,8 @@ export class Structures extends Component {
     }
     else{
       if(!this.isAfforable('road')){ return false; }
-      if(!this.isConnected(coord)){
+      //isConnected(type, cornerIDs)
+      if(!this.isConnected('road', cornerIDs)){
         console.log("That road isn't connected to other infrastructure owned by player.")
         let message = { name: "Space Station",
          text: `That road isn't connected to any other piece of infrastructure owned by ${initials(player.name)}.`}
@@ -150,6 +170,7 @@ export class Structures extends Component {
     if(selections.length>=2) {
       var cornerA = selections[0], cornerB = selections[1]
       var coord = [ [cornerA.x, cornerA.y], [cornerB.x, cornerB.y] ] //x1,y1,x2,y2
+      var cornerIDs = [ cornerA.id, cornerB.id ]
       let userIndex = turnInfo-1
       let userID = turnInfo
       let player = players[userIndex] //let userObj = players[userIndex]
@@ -168,9 +189,7 @@ export class Structures extends Component {
           associatedHexs.push(cornerB.hexes[i].id)
         }
       }
-
-      console.log("this.isConnected(coord) ",this.isConnected(coord)  )
-      console.log("this.isFarEnough('road')", this.isFarEnough('road') )
+      //console.log("this.isFarEnough('road')", this.isFarEnough('road') )
       //console.log("isAvailable road? ",this.isAvailable('road',coord) )
       
       if(this.props.isSettingUp){
@@ -182,7 +201,7 @@ export class Structures extends Component {
           //console.log('That road is a already taken.') //Error message
           return; //break/exit from function
       }
-      if(this.isValidateRoad(userIndex, coord)){ 
+      if(this.isValidateRoad(cornerIDs, userIndex, coord)){ 
         let roadObj = { type: 'road', points: 0, coordinates: coord,
                         corners:  [cornerA.id, cornerB.id],
                         associatedHexs: associatedHexs, color: userColor, userID: userID } //XXX
@@ -208,7 +227,7 @@ export class Structures extends Component {
     //if less than 2 corners selected
     else { console.log('Please select two corners for your new road and try again') }
   }
-  isValidateSettlement( player){
+  isValidateSettlement(cornerID, player){
     if(this.props.isSettingUp){
       if(player.hasBoughtASettlement){
         console.log("You have already bought a settlement in this round")
@@ -219,9 +238,10 @@ export class Structures extends Component {
       }
       return true 
     }
-    else{
-      return this.isAfforable('settlement')
-    }
+    var ifConnected = this.isConnected('settlement',cornerID)
+    if(ifConnected){ console.log("Settlement is connected.") } 
+    return this.isAfforable('settlement') && ifConnected
+    
   }
   registerSettlement(){
     let { players, turnInfo, selections, userArray } = this.props //userArray,
@@ -240,7 +260,7 @@ export class Structures extends Component {
 
     if( !this.isAvailable('settlement',coord) ){ return; }
     if ( selections.length===1 && this.isFarEnough('settlement', coord) 
-        && this.isValidateSettlement(player) ){
+        && this.isValidateSettlement(corner.id, player) ){
       let settlementObj = { type: 'settlement', points: 1, 
                             color: userColor, 
                             userID: userID,

@@ -20,7 +20,6 @@ export const decrementResource = (player, resource, count) => ({ type: DECREMENT
 
 export const addPoint = (userIndex) => ({ type: ADD_POINT, userIndex })
 
-
 /* ------------       REDUCER     ------------------ */
 
 export default function reducer (players = [], action) {
