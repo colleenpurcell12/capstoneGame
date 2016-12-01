@@ -20,7 +20,7 @@ export class Players extends Component {
 				<tbody>
 					{this.props.players.map((player, idx) => (
 						<tr key={idx}>
-							<td>{idx+1}: {player.name}</td>
+							<td><span className={`player${idx}`}>&#9632;</span>{idx+1}: {player.name}</td>
 							<td>{player.cardsTotal()}</td>
 						</tr>
 					))}

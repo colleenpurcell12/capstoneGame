@@ -160,3 +160,20 @@ fill: blue;
   fill: brown;
   stroke-weight: .5;
 }
+
+.player0 {
+  color: red;
+}
+
+.player1 {
+  color: blue;
+}
+
+.player2 {
+  color: green;
+}
+
+.player3 {
+  color: brown;
+}
+
