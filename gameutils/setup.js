@@ -1,7 +1,12 @@
-//Create ports array
 import { moveRobber } from 'APP/app/reducers/robber'
 import { addAction } from 'APP/app/reducers/action-creators'
-import {incrementResource} from 'APP/app/reducers/players'
+import { incrementResource } from 'APP/app/reducers/players'
+import Layout from './react-hexgrid/src/Layout'
+import GridGenerator from './react-hexgrid/src/GridGenerator'
+import HexUtils from './react-hexgrid/src/HexUtils';
+import Point from './react-hexgrid/src/Point';
+
+/* -----------------    CONSTANTS     ------------------ */
 
 var ports = [
   {type: 'port', x: -45, y: -26, r: 3, ratio: '1:3', res: null},
@@ -15,9 +20,65 @@ var ports = [
   {type: 'port', x: 45, y: 7, r: 3, ratio: '1:2', res: 'fuel'},
 ]
 
+const neighborDirections = [
+    {q: 0, r: -1,s: +1},
+    {q: 1, r: -1,s: 0},
+    {q: 1, r: 0, s:-1},
+    {q: 0, r: 1, s:-1},
+    {q: -1,r:  1,s: 0},
+    {q: -1,r:  0,s: 1},
+]
+
 var resources = ['solar', 'ice', 'crops', 'hematite', 'fuel']
 var resourcesArray = [0, 0, 0, 0, 1,1,1,1,2,2,2,2,3,3,3,4,4,4]
 var tokenArray = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12]
+
+
+function generate(config){
+    // create layout object
+    let layout = new Layout(config.layout, config.origin);
+    let generator = GridGenerator.getGenerator(config.map);
+
+    //make hexagon array
+    let hexagons = generator.apply(this, config.mapProps);
+
+    //make hexagon object with
+    let map = hexagons.reduce((all, one) => Object.assign({},
+      all,
+      {[[one.q, one.r, one.s]]: one}
+    ), {})
+
+    const allCorners = {}
+    // create corners object out of hexes
+    hexagons.forEach((hex, i) => {
+      hex.id = i
+      makeCorners(hex, corner => {
+        const hexes = corner.hexes.map(hex => map[coord(hex)] || coord(hex))
+        allCorners[cornerCoord(...corner.hexes)] = {hexes, id: null}
+      })
+    })
+    var n = 0;
+    // assign id to all corners
+    for(var corner in allCorners){
+      allCorners[corner].id = n++;
+    }
+
+    // assign neighbors to all corners
+    for(var corner in allCorners){
+      allCorners[corner].neighbors = findNeighbors(allCorners[corner], allCorners)
+      var coords = setCoords(corner, layout);
+      allCorners[corner].x = coords.x
+      allCorners[corner].y = coords.y
+    }
+
+    //debugging
+    console.log('hexagons', hexagons)
+    console.log('corners', allCorners)
+    console.log(`found ${Object.keys(allCorners).length} corners`)
+
+    return { hexagons, layout, corners: allCorners };
+  }
+
 
 function shuffle(arr){
   var shuffled = [];
@@ -45,22 +106,82 @@ function assignHexInfo (tokens, resources) {
   }
  return hexData;
 }
+function setCoords(corner , layout){
+  var hexCoords = corner.split(':'), x, y
+  var a = HexUtils.hexToPixel(hexCoords[0], layout);
+  var b = HexUtils.hexToPixel(hexCoords[1], layout);
+  var c = HexUtils.hexToPixel(hexCoords[2], layout);
 
-const neighborDirections = [
-    {q: 0, r: -1,s: +1},
-    {q: 1, r: -1,s: 0},
-    {q: 1, r: 0, s:-1},
-    {q: 0, r: 1, s:-1},
-    {q: -1,r:  1,s: 0},
-    {q: -1,r:  0,s: 1},
-]
+  if (a.x === b.x){
+    x = (a.x + c.x + b.x)/3
+    y = (c.y)
+  }
+  else if (a.x === c.x){
+    x = (a.x + c.x + b.x)/3
+    y = (b.y)
+  } else {
+    x = (a.x + c.x + b.x)/3
+    y = (a.y)
+  }
+  return new Point(x, y);
+}
+
+function findNeighbors(a, cObj){
+  var neighbors = [];
+  for(var corner in cObj){
+    var common = 0;
+    a.hexes.forEach(hex => {
+      if(cObj[corner].hexes.indexOf(hex) >= 0){
+        common++
+      }
+    })
+    if(common === 2){
+      neighbors.push(cObj[corner].id)
+    }
+  }
+  return neighbors;
+}
+
+// Add the hex coordinate lhs to the hex coordinate rhs
+function plus(lhs, rhs) {
+  return {
+    q: lhs.q + rhs.q,
+    r: lhs.r + rhs.r,
+    s: lhs.s + rhs.s,
+  }
+}
+
+function makeCorners(hex, visitor) {
+  const dirs = neighborDirections
+  dirs.forEach((vec, i) => {
+    // come up with a corner based on my coordinate, my ith
+    // neighbor's coordinate, and my i + 1th neighbor's coordinate
+    const hexes = [hex, plus(hex, vec), plus(hex, dirs[(i + 1) % dirs.length])]
+    visitor({hexes})
+  })
+}
+
+
+function coord(hex) {
+  return [hex.q, hex.r, hex.s].join(',')
+}
+// Return the normalized corner coords between hexes A, B, and C.
+const cornerCoord = (a, b, c) =>
+  [coord(a), coord(b), coord(c)].sort().join(':')
 
 
 module.exports = {
-  shuffle,
+  // shuffle,
   ports,
   resources,
   resourcesArray,
   tokenArray,
-  assignHexInfo,
-  neighborDirections}
+  // assignHexInfo,
+  // neighborDirections,
+  // findNeighbors,
+  // makeCorners,
+  // cornerCoord,
+  // coord,
+  // setCoords,
+  generate,
+}
