@@ -1,24 +1,22 @@
 import React from 'react'
 import chai, {expect} from 'chai'
-chai.use(require('chai-enzyme'))
+import {spy} from 'sinon';
+chai.use(require('sinon-chai'));
+chai.use(require('chai-enzyme')());
 import {shallow} from 'enzyme'
 import IconButton from 'material-ui/IconButton';
-import Chatroom from './Chatroom'
+import {PureChatroom}from './Chatroom'
 import store from '../store';
 
 describe('<Chatroom />', () => {
 
   let chatroom;
   beforeEach('render the Chatroom component', () =>
-    chatroom = shallow(<Chatroom />, { context: {store} })
+    chatroom = shallow(<PureChatroom />)
   )
 
-  // it('has a place to enter text', () => {
-  //   expect(chatroom.find("textarea")).to.have.length(1)
-  // })
-
   it('has an input to enter text', () => {
-    expect(chatroom.find('div')).to.have.length(1);
+    expect(chatroom.find('input')).to.have.length(1);
   })
 
   it('has a label for the text input area', () => {

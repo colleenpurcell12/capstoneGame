@@ -25,7 +25,7 @@ export class Dice extends Component {
   	let d1 = Math.floor(Math.random() * 6) + 1;
     let d2 = Math.floor(Math.random() * 6) + 1;
     let total = d1+d2;
-    if (d1 !== d2) { 
+    if (d1 !== d2) {
       this.setState({diceEnabled: false});
     }
     else if (total === 7){ //if you roll a 7
@@ -107,3 +107,5 @@ import {connect} from 'react-redux';
 const mapStore = ({ diceRoll, loggedInUser, turnInfo, players, inProgress }) => ({diceRoll, loggedInUser, turnInfo, players, inProgress})
 const mapDispatch = {addMessage};
 export default connect(mapStore, mapDispatch)(Dice);
+
+export { Dice as PureDice }; //this is for testing, do not remove unless updating test suite

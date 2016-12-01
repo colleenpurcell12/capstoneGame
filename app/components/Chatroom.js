@@ -55,3 +55,5 @@ const mapState = ({ messages, loggedInUser }) => ({ messages, loggedInUser })
 const mapDispatch = { fetchMessages, addMessage, fetchCurrentUser }
 
 export default connect(mapState, mapDispatch)(Chatroom);
+
+export { Chatroom as PureChatroom }; //this is for testing, do not remove unless updating test suite

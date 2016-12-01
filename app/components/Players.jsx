@@ -44,3 +44,5 @@ import {connect} from 'react-redux';
 const mapState = ({ players, loggedInUser, turnInfo, inProgress, doneLoading }) => ({ players, loggedInUser, turnInfo, inProgress, doneLoading }) //added turnInfo for display purposes
 
 export default connect(mapState, null)(Players);
+
+export { Players as PurePlayers }; //this is for testing, do not remove unless updating test suite

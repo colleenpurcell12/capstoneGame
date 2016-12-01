@@ -198,3 +198,5 @@ export default connect(
   mapStateToProps,
   mapDispatch
 )(Board)
+
+export { Board as PureBoard}; //this is for testing, do not remove unless updating test suite
