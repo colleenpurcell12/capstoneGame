@@ -74,7 +74,6 @@ export class PlayerStat extends Component {
     if (actualGiveNumber > 0) { //if the number of cards being distributed is greater than zero, fire these
       addAction(decrementResource(this.props.loggedInUser.displayName, giveState.giveResource, actualGiveNumber)); //decrease the giver's resources by the appropriate amount
       addAction(incrementResource(giveState.giveTo, giveState.giveResource, actualGiveNumber)); //give the recipient only the amount of resources that the giver could provide
-
       message = {
         name: station,
         text: `${initials(this.props.loggedInUser.displayName)} sent ${initials(giveState.giveTo)} ${actualGiveNumber} of their ${giveState.giveResource}`
@@ -110,7 +109,9 @@ export class PlayerStat extends Component {
       console.log("and next player is",player)
       addAction(setNextTurn(player)); //Formerly endTurn(userID) //dispatched setNextTurn(player));
     }
+
     else { //isSettingUp === true, tracks 1st and 2nd round, ascending then descending
+
       //check if end of 1st round
       if (isFirstRound === true && turnArray.length === 0){
         //reset all the userArray hasBoughtARoad and hasBoughtASettlement to false
@@ -124,7 +125,7 @@ export class PlayerStat extends Component {
         addAction(nextRoundStep2())
         console.log("and next player is 4")
         addAction(setNextTurn(4));
-        }
+     }
       //check if end of 2nd round, therefore end of set up phase
       else if (isFirstRound === false && turnArray.length === 0) {  // initialize normal cycle of turns
         console.log("and next player is 1")
@@ -139,7 +140,7 @@ export class PlayerStat extends Component {
           addAction(shiftTurns()) //Formerly this.props.nextTurn() dispatched shiftTurns()
           addAction(setNextTurn(nextPlayerID)) // this.props.endTurn(player1) dispatched setNextTurn(player)
         } else { console.log("turnArray is undefined:", turnArray) }
-      }
+       }
     }
   }
 
@@ -157,13 +158,13 @@ export class PlayerStat extends Component {
 
           <div>
           <input type="button" onClick={() => this.changeCount('crops',false) } value="-"/>
-             🌽Crops  {resource.crops}   
+             🌽Crops  {resource.crops}
           <input type="button" onClick={ () => this.changeCount('crops',true) } value="+"/>
           </div>
 
           <div>
             <input type="button" onClick={() => this.changeCount('fuel',false) } value="-"/>
-              🚀Fuel    {resource.fuel}  
+              🚀Fuel    {resource.fuel}
             <input type="button" onClick={ () => this.changeCount('fuel',true) } value="+"/>
           </div>
 
@@ -184,7 +185,13 @@ export class PlayerStat extends Component {
             🔆Solar {resource.solar}
           <input type="button" onClick={ () => this.changeCount('solar',true) } value="+"/>
           </div>
+<<<<<<< HEAD
           <div>            
+=======
+
+          <div>
+
+>>>>>>> 13af1695c29fac238a0f30dac92a28459b9f1937
             <label>
                 <input type="radio" value="army" onChange={this.handleChange}/>
                 Largest Army Award
@@ -204,7 +211,7 @@ export class PlayerStat extends Component {
                   <tr> <td>Pioneer   </td> <td>= 🚀 🌽  🌑       </td> </tr>
             </tbody>
             </table>
-          
+
           <div><Structures /><br></br></div>
           <button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button><br /><br />
 
@@ -225,7 +232,7 @@ export class PlayerStat extends Component {
                 <button onClick={() => this.submitGiveForm(this.state)}>Give</button>
                 </div>
             </div>
-          
+
         </div>
         :
         <div>

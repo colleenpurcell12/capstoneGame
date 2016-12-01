@@ -1,6 +1,5 @@
- import HexGrid from '../../gameutils/react-hexgrid/src/HexGrid.js';
+import HexGrid from '../../gameutils/react-hexgrid/src/HexGrid.js';
 import React, {Component} from 'react';
-//import SubmitForm from './SubmitForm'
 import {shuffle, addRoad, tokenArray, resourcesArray} from 'APP/gameutils/setup.js'
 import CornerGrid from './CornerGrid'
 import Roads from './Roads'
@@ -16,13 +15,11 @@ import {assignHexData} from '../reducers/hex-data'
 class Board extends Component {
   constructor(props) {
     super(props);
-    // this.handleSubmit = this.handleSubmit.bind(this);
-    // this.selectCorner = this.selectCorner.bind(this);
     this.generate = this.generate.bind(this)
-    //config handled off component?
 
+    //config handled off component?
     let boardConfig = {
-      width: '100%', height: '100%',
+      width: '100%', height: 800,
       layout: { width: 10, height: 10, flat: true, spacing: 1.1 }, // change to
       origin: { x: 0, y: 0 },
       map: 'hexagon',
@@ -50,18 +47,15 @@ class Board extends Component {
 
   componentDidMount(){
   }
-        // <div>
-        //  <SubmitForm id = "Form" handleSubmit={this.handleSubmit}/>
-        // </div>
+
   render() {
     let { grid, config, roads} = this.state;
+
     return (
       <div>
-        <div className="board" style={{marginTop: '-60px'}}>
-          <PortGrid width={config.width} height={config.height} selectPort={this.selectPort}/>
-          <CornerGrid width={config.width} height={config.height} selectCorner={this.selectCorner} corners={this.state.corners} />
+        <div className="board" >
           <Roads width={config.width} height={config.height} roads={roads}/>
-          <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
+          <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} corners={this.state.corners}  />
         </div>
     </div>
     );
