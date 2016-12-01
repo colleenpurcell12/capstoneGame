@@ -15,7 +15,6 @@ class HexGrid extends React.Component {
     };
   }
 
-  // hexshape text={hext.text}?
   render() {
     // should be on state or imported config file rather than kept on board
     let corners = this.props.corners
@@ -25,7 +24,9 @@ class HexGrid extends React.Component {
     let cornersArray = keys.map(key => (corners[key]))
 
     return (
-      <svg id="HexGrid" className="grid" width={this.props.width} height={this.props.height} viewBox="-50 -50 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <svg id="HexGrid" className="grid" width={this.props.width} height={this.props.height}
+        viewBox="-50 -50 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="xMinYMin meet">
         {
           this.props.hexagons.map((hex, index) => {
             return (
