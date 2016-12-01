@@ -9,7 +9,8 @@
 }
 
 .grid {
-  min-height: 900px
+  min-height: 900px;
+  height: 100%;
 }
 
 #Form{
@@ -20,7 +21,7 @@
 
 .corner{
   stroke: none;
-  fill: grey;
+  fill: #d9d9d9;
 }
 
 .corner-select {
@@ -30,13 +31,29 @@
 
 .port {
   fill: brown;
+}
 
+.port-text {
+  /*font-family: 'Press Start 2P', cursive;*/
+  font-family: 'Bungee', cursive;
+  font-size: .2em;
+  fill: white;
+}
+
+.token-text {
+  /*font-family: 'Press Start 2P', cursive;*/
+  font-family: 'Bungee', cursive;
+  font-size: .2em;
+  fill: black;
+}
+
+.token-circle {
+  fill: white
 }
 
 .hexhover {
   stroke: red;
   stroke-width: .3;
-
 }
 
 .hexhover {
@@ -91,10 +108,9 @@ fill: blue;
 .green-player {
   fill: green;
 }
-.yellow-player {
+.brown-player {
   fill: brown;
 }
-
 
 /*Resources*/
 .hematite {
@@ -144,7 +160,7 @@ fill: blue;
   fill: blue;
   stroke-weight: .5;
 }
-.yellow {
+.brown {
   stroke: brown;
   fill: brown;
   stroke-weight: .5;
