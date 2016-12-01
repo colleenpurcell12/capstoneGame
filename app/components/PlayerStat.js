@@ -10,7 +10,6 @@ import SelectField from 'material-ui/SelectField'
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import store from '../store'
-import {addPlayer, incrementResource, decrementResource} from '../reducers/players';
 import {addAction} from '../reducers/action-creators';
 import {startGame} from '../reducers/home';
 import {newDiceRoll} from '../reducers/dice';
@@ -48,6 +47,10 @@ export class PlayerStat extends Component {
   changeCount(resource, isGoingUp){
     isGoingUp? addAction(incrementResource(this.props.loggedInUser.displayName, resource, 1)) : //passing along 1 as the 'count' for standard increment or decrement via +/- buttons
       addAction(decrementResource(this.props.loggedInUser.displayName, resource, 1))
+
+    isGoingUp? addAction(incrementResource(this.props.loggedInUser.displayName, resource, 1)) : //passing along 1 as the 'count' for standard increment or decrement via +/- buttons
+      addAction(decrementResource(this.props.loggedInUser.displayName, resource, 1))
+
   }
 
   handleChange (e) { //TODO fill in this onClick handler for awards selection
@@ -85,42 +88,57 @@ export class PlayerStat extends Component {
      if (this.props.players.length === 3){ //if we're on the third player, and now we're calling addNew Player
       addAction(startGame(true)); //set game progress to be true
     }
-      addAction(addPlayer(this.props.loggedInUser.displayName)); //add the player to the game
+    // console.log("addNewPlayer this.props.colors",this.props.colors)
+    //   let { colors } = this.props
+
+    //   //var colorsArray = ['red','blue','green','yellow']
+    //   var color = colors[0]
+    //    console.log("NewPlayer color is",color)
+    //   addAction(this.props.grabColorFromArray())
+      //console.log("After addNewPlayer grabColorFromArray, store.getState().colors",store.getState().colors)
+      addAction(addPlayer(this.props.loggedInUser.displayName)); //, color));
+
   }
 
   nextPlayer(){
-    ///XXXXXX
     addAction(this.props.clearSelection())
-    let { isFirstRound, isSettingUp, turnArray, userArray, turnInfo } = this.props
+    let { isFirstRound, isSettingUp, turnArray, turnInfo, players } = this.props //userArray,
+    console.log("Past player is",turnInfo, "isFirstRound",isFirstRound," and turn Array is",turnArray)
     if (isSettingUp === false){ //Normal cycle of turns during game play, increment user to x+1
       var player = this.props.turnInfo
       player === 4 ? player = 1 : player++
+      console.log("and next player is",player)
       addAction(setNextTurn(player)); //Formerly endTurn(userID) //dispatched setNextTurn(player));
     }
     else { //isSettingUp === true, tracks 1st and 2nd round, ascending then descending
       //check if end of 1st round
-      if (isFirstRound === true && turnArray.length === 1){
+      if (isFirstRound === true && turnArray.length === 0){
         //reset all the userArray hasBoughtARoad and hasBoughtASettlement to false
         for (var i = 0; i<4 ; i++){ //players 1 through 4
-            userArray[i].hasBoughtARoad = false;
-            userArray[i].hasBoughtASettlement = false
+            players[i].hasBoughtARoad = false;
+            players[i].hasBoughtASettlement = false
+            // userArray[i].hasBoughtARoad = false;
+            // userArray[i].hasBoughtASettlement = false
         }
         addAction(nextRound())
         addAction(nextRoundStep2())
+        console.log("and next player is 4")
         addAction(setNextTurn(4));
         }
       //check if end of 2nd round, therefore end of set up phase
-      else if (isFirstRound === false && turnArray.length === 1) {  // initialize normal cycle of turns
+      else if (isFirstRound === false && turnArray.length === 0) {  // initialize normal cycle of turns
+        console.log("and next player is 1")
         addAction(setNextTurn(1))       //Formerly this.props.endTurn(0) dispatched setNextTurn(1)
         addAction(startNormGamePlay()) //this.props.endSetUp() dispatched startNormGamePlay(), which sets isSettingUp ==false
       }
       else { //within either round
         if (turnArray){
-          let player1 = turnArray[0]
+          let nextPlayerID = turnArray[0]
+          console.log("about to call shiftTurns and setNextTurn with nextPlayerID:",nextPlayerID)
           //if (isFirstRound === false){ player1--;} //endTurn increments the #
           addAction(shiftTurns()) //Formerly this.props.nextTurn() dispatched shiftTurns()
-          addAction(setNextTurn(player1)) // this.props.endTurn(player1) dispatched setNextTurn(player)
-        } else { console.log("turnArray is undefined:",turnArray) }
+          addAction(setNextTurn(nextPlayerID)) // this.props.endTurn(player1) dispatched setNextTurn(player)
+        } else { console.log("turnArray is undefined:", turnArray) }
       }
     }
   }
@@ -166,9 +184,7 @@ export class PlayerStat extends Component {
             🔆Solar {resource.solar}
           <input type="button" onClick={ () => this.changeCount('solar',true) } value="+"/>
           </div>
-
-          <div>
-            
+          <div>            
             <label>
                 <input type="radio" value="army" onChange={this.handleChange}/>
                 Largest Army Award
@@ -238,11 +254,14 @@ import {connect} from 'react-redux';
 import { setNextTurn } from '../reducers/playerStat';
 import { nextRound, nextRoundStep2, shiftTurns, startNormGamePlay } from '../reducers/turnBooleans';
 import { clearSelection } from '../reducers/selection'
+import { addPlayer, incrementResource, decrementResource } from '../reducers/players';
+//import {addAPlayer, increResource, decreResource} from '../reducers/usersArray';
+//import { grabColorFromArray } from '../reducers/colors';
 
 
-const mapState = ({ turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray, userArray }) => ({turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray, userArray});
+const mapState = ({ turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray }) => ({turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray }); //userArray, colors
 
-const mapDispatch = {  setNextTurn, nextRound, nextRoundStep2, shiftTurns, startNormGamePlay, clearSelection, addMessage };
+const mapDispatch = {  setNextTurn, nextRound, nextRoundStep2, shiftTurns, startNormGamePlay, clearSelection, addMessage }; //grabColorFromArray
 
 // In first round -- nextTurn->shiftTurns
 // at the end of first round-- ->nextRound switches isFirstRound to false and ->nextRoundStep2 resets the 2nd round's turnArray
