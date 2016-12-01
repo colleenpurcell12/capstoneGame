@@ -30,7 +30,7 @@
 }
 
 .port {
-  fill: brown;
+  fill: grey;
 }
 
 .port-text {
@@ -120,7 +120,7 @@ fill: blue;
   fill: #152e66
 }
 
-.seeds {
+.crops {
   fill: #669b5a
 }
 
@@ -156,8 +156,8 @@ fill: blue;
   stroke-weight: .5;
 }
 .brown {
-  stroke: brown;
-  fill: brown;
+  stroke: #774d22;
+  fill: #774d22;
   stroke-weight: .5;
 }
 

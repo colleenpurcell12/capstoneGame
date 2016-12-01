@@ -8,7 +8,7 @@ import { newDiceRoll } from '../reducers/dice';
 import {incrementResource, decrementResource} from '../reducers/players';
 import {addMessage} from '../reducers/chatroom';
 import {initials} from '../reducers/helperFunctions';
-import {deal} from 'APP/gameutils/setup'
+import {deal} from 'APP/gameutils/deal'
 
 export class Dice extends Component {
   constructor(props) {

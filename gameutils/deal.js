@@ -16,8 +16,8 @@ function deal(structures, corners, hexData, roll){
     theCorner.hexes.forEach(hex => {
       if(hexData[hex.id] && hexData[hex.id].token === roll){
         var resource = resources[hexData[hex.id].resource]
-        console.log('structure', structure)
-        addAction(incrementResource(structure.player, resource, num))
+        var player = structure.player
+        addAction(incrementResource(player, resource, num))
       }
     })
   })
