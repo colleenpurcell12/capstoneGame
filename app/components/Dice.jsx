@@ -13,8 +13,6 @@ export class Dice extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    	d1: null,
-    	d2: null,
       diceEnabled: true, //this should be true by default
       stealEnabled: false,
       stealFrom: "Player"
