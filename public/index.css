@@ -56,11 +56,6 @@
   stroke-width: .3;
 }
 
-.hexhover {
-  stroke: red;
-  stroke-width: .3;
-}
-
 /*svg 'canvases'*/
 #HexGrid{
   position: absolute ;
@@ -72,7 +67,7 @@
   position: absolute ;
   top:0 ;
   left:0 ;
-  z-index: 12;
+  /*z-index: 12;*/
 }
 
 #Roads {
