@@ -8,8 +8,7 @@ import store from './store'
 //import Awards from './components/Awards';
 //   <Route path="awards" component={() => <Awards database={database}/>} />
 
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
+import injectTapEventPlugin from 'react-tap-event-plugin'; //required for onTouchTap
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import Home from './components/Home';
@@ -30,6 +29,8 @@ const auth = firebase.auth();
       // this.storage = firebase.storage();
       // Initiates Firebase auth and listen to auth state changes.
       // this.auth.onAuthStateChanged(this.onAuthStateChanged.bind(this));
+injectTapEventPlugin();
+
 render (
   <MuiThemeProvider>
     <Provider store={store}>

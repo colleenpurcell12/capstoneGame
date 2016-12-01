@@ -5,7 +5,7 @@ describe('makeBoard(levels, origin)', () => {
   describe('with 0 levels', () => {
     const board = makeBoard(0)
 
-    it('just emits one hex at 0,0,0', () => {
+    xit('just emits one hex at 0,0,0', () => {
       expect(board.hexes).to.have.length(1)
       const hex = board.hexes[0]
       expect(hex.id).to.eql(0)
@@ -17,7 +17,7 @@ describe('makeBoard(levels, origin)', () => {
       })
     })
 
-    it('with 0 levels, emits corners for the hex at 0,0,0', () => {
+    xit('with 0 levels, emits corners for the hex at 0,0,0', () => {
       expect(board.corners).to.deep.equal(board.hexes[0].corners)
     })
   })
