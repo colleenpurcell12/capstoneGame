@@ -1,9 +1,9 @@
 //Create ports array
 import { moveRobber } from 'APP/app/reducers/robber'
 import { addAction } from 'APP/app/reducers/action-creators'
-import {incrementResource} from 'APP/app/reducers/players'
-import {_} from 'lodash'
+import _ from 'lodash'
 import {filter} from 'lodash.filter'
+import {incrementResource} from 'APP/app/reducers/players'
 
 var ports = [
   {type: 'port', x: -45, y: -26, r: 3, ratio: '1:3', res: null},
@@ -51,15 +51,7 @@ function assignHexInfo (tokens, resources) {
  return hexData;
 }
 
-var structures = [];
-// structures array is passed in from store
-// how to get corners from Board? put on state
-
 function deal(structures, corners, hexData, roll){
-  // var structures = this.props.structures
-  // var corners = this.props.corners
-  // var hexData = this.props.hexData
-  // var roll = this.props.diceRoll.d1 + this.props.diceRoll.d2
   structures.forEach(structure => {
     var num;
     if(structure.type === 'city')  num = 2;
@@ -67,16 +59,11 @@ function deal(structures, corners, hexData, roll){
     var theCorner = _.filter(corners, function(corner){
       return corner.id === structure.corner_id
     })[0]
-    // theOwner = _.filter()
     theCorner.hexes.forEach(hex => {
-      if(hexData[hex.id].token === roll){
-        var resource = resources[hex.resource]
-        // wrap iwth addAction
-        // resource = string
-        // num = int
-        // structure.owner = player name?
-        // this.props.loggedInUser.displayName
-        incrementResource(structure.owner, resource, num)
+      if(hexData[hex.id] && hexData[hex.id].token === roll){
+        var resource = resources[hexData[hex.id].resource]
+        console.log('structure', structure)
+        addAction(incrementResource(structure.player, resource, num))
       }
     })
   })
@@ -84,7 +71,7 @@ function deal(structures, corners, hexData, roll){
 
 function setupDeal(){
   let tokens = [2,3,4,5,6,8,9,19,11,12]
-  tokens.forEach(token => deal(structures, corners, token))
+  tokens.forEach(token => deal(token))
 }
 
-module.exports = {shuffle, deal, ports, resources, resourcesArray, tokenArray, assignHexInfo}
+module.exports = {shuffle, ports, resources, resourcesArray, tokenArray, assignHexInfo, deal, setupDeal}
