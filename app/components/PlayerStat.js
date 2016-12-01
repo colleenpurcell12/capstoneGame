@@ -185,13 +185,7 @@ export class PlayerStat extends Component {
             🔆Solar {resource.solar}
           <input type="button" onClick={ () => this.changeCount('solar',true) } value="+"/>
           </div>
-<<<<<<< HEAD
-          <div>            
-=======
-
           <div>
-
->>>>>>> 13af1695c29fac238a0f30dac92a28459b9f1937
             <label>
                 <input type="radio" value="army" onChange={this.handleChange}/>
                 Largest Army Award
