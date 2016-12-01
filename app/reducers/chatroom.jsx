@@ -1,23 +1,19 @@
 import * as firebase from 'firebase'
-
+import store from '../store'
 /* -----------------    ACTIONS     ------------------ */
 
-const LOAD = 'LOAD_MESSAGES'
-const SAVE = 'SAVE_MESSAGE'
-
+const LOAD_MESSAGES = 'LOAD_MESSAGES'
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-const load   = messages => ({ type: LOAD, messages })
-const save = message   => ({ type: SAVE, message })
-
+const load   = messages => ({ type: LOAD_MESSAGES, messages })
 
 /* ------------       REDUCER     ------------------ */
 
 export default function reducer (messages = {}, action) {
   switch (action.type) {
     
-    case LOAD: 
+    case LOAD_MESSAGES: 
       return action.messages
 
     default: 
@@ -28,9 +24,11 @@ export default function reducer (messages = {}, action) {
 
 /* ------------       DISPATCHERS     ------------------ */
 
-export const fetchMessages = () => dispatch => {
+//TODO: change all action creators to accept game ID, for now using getStore
+
+export const listenForMessages = () => dispatch => {
   const rootRef = firebase.database().ref()
-  const messagesRef = rootRef.child('messages')
+  const messagesRef = rootRef.child('game').child(store.getState().gameID).child('messages')
   messagesRef.limitToLast(24).on('value', snap => {
     dispatch(load(snap.val()))
 	});
@@ -38,6 +36,6 @@ export const fetchMessages = () => dispatch => {
 
 export const addMessage = message => dispatch => {
   const rootRef = firebase.database().ref()
-  const messagesRef = rootRef.child('messages')
+  const messagesRef = rootRef.child('game').child(store.getState().gameID).child('messages')
   messagesRef.push(message)
 }
