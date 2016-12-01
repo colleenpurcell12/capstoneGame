@@ -54,15 +54,18 @@ class Board extends Component {
         // <div>
         //  <SubmitForm id = "Form" handleSubmit={this.handleSubmit}/>
         // </div>
+
+  // <CornerGrid width={config.width} height={config.height} corners={this.state.corners} />
+  // <PortGrid width={config.width} height={config.height} selectPort={this.selectPort}/>
+
   render() {
     let { grid, config, roads} = this.state;
+
     return (
       <div>
         <div className="board" style={{marginTop: '-60px'}}>
           <Roads width={config.width} height={config.height} roads={roads}/>
-          <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
-          <CornerGrid width={config.width} height={config.height} corners={this.state.corners} />
-          <PortGrid width={config.width} height={config.height} selectPort={this.selectPort}/>
+          <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} corners={this.state.corners}  />
         </div>
     </div>
     );
