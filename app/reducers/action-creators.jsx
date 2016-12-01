@@ -10,29 +10,33 @@ import { assignHexInfo, tokenArray, resourcesArray } from 'APP/gameutils/setup.j
 //when player joins game turn on listeners and fire actions
 
 export const loadActions = (gameID) => dispatch => {
-  return firebase.database().ref().child('games').once('value')
+  return firebase.database().ref().child('games').child(gameID).once('value')
     .then(snap => {
-      return dispatch(Object.keys(snap.val()).map(key => snap.val()[key]));
+      var actions = snap.val().actions
+      dispatch(Object.keys(actions).map(key => actions[key]));
+      return gameID
     })
-    .then(() => {
-      dispatch(setLoadingState(true))
+    .then((gameID) => {
+      var first = true;
+      dispatch(syncActions(first, gameID));
       if(store.getState().hexData.length !== 19){
+        console.log("in load action", gameID)
         var hd = assignHexInfo(tokenArray, resourcesArray)
         addAction(assignHexData(hd))
       }
-      var first = true;
-      dispatch(syncActions(gameID, first));
-    });
+      dispatch(setLoadingState(true))
+    })
 }
 
-export const syncActions = (gameID, first) => dispatch => {
-  firebase.database().ref().child('games').childlimitToLast(1).on('child_added', (snap) => {
+export const syncActions = (first, gameID) => dispatch => {
+  firebase.database().ref().child('games').child(gameID).child('actions').limitToLast(1).on('child_added', (snap) => {
     first? first = false : dispatch(snap.val());
   });
 }
 //add new moves to database
-export const addAction = action => {
-  firebase.database().ref().child('games').push(action)
+export const addAction = (action) => {
+  console.log('in add action')
+  firebase.database().ref().child('games').child(store.getState().gameID).child('actions').push(action)
 }
 
 //when player leaves game turn off listener

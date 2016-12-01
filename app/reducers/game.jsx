@@ -7,7 +7,7 @@ const LOAD_GAMES = 'LOAD_GAMES'
 /* ------------   ACTION CREATORS     ------------------ */
 
 export const join = gameID => ({ type: JOIN_GAME, gameID })
-export const listen = game => ({type: LOAD_GAMES, game})
+export const listen = games => ({type: LOAD_GAMES, games})
 
 /* ------------       REDUCER     ------------------ */
 
@@ -22,11 +22,11 @@ export default function reducer (gameID = null, action) {
   }
 }
 
-export const games = function (games = [], action) {
+export const games = function (games = {}, action) {
   switch (action.type) {
 
     case LOAD_GAMES: 
-      return games.concat(action.game)
+      return action.games
 
     default:
       return games;
@@ -37,8 +37,7 @@ export const games = function (games = [], action) {
 /* ------------       DISPATCHERS     ------------------ */
 
 export const listenGames = () => dispatch => {
-	firebase.database().ref().child('games').on('child_added', (snap) => {
-		console.log(snap.val())
+	firebase.database().ref().child('games').on('value', (snap) => {
 		dispatch(listen(snap.val()))
 	})
 }
