@@ -20,13 +20,11 @@ class HexGrid extends React.Component {
         {
           this.props.hexagons.map((hex, index) => {
             return (
-
-              <HexShape key={index} hex={hex} layout={this.props.layout} actions={this.props.actions} index={index} />
-
+              <HexShape key={index} hex={hex} layout={this.props.layout}
+                actions={this.props.actions} index={index} />
             );
           })
         }
-        <Path {...this.state.path} layout={this.props.layout} />
       </svg>
     );
   }

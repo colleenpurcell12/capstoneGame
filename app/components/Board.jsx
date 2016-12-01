@@ -50,6 +50,7 @@ class Board extends Component {
 
   componentDidMount(){
   }
+  // selectCorner={this.selectCorner}
         // <div>
         //  <SubmitForm id = "Form" handleSubmit={this.handleSubmit}/>
         // </div>
@@ -58,10 +59,10 @@ class Board extends Component {
     return (
       <div>
         <div className="board" style={{marginTop: '-60px'}}>
-          <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
-          <PortGrid width={config.width} height={config.height} selectPort={this.selectPort}/>
-          <CornerGrid width={config.width} height={config.height} selectCorner={this.selectCorner} corners={this.state.corners} />
           <Roads width={config.width} height={config.height} roads={roads}/>
+          <HexGrid actions={config.actions} width={config.width} height={config.height} hexagons={grid.hexagons} layout={grid.layout} />
+          <CornerGrid width={config.width} height={config.height} corners={this.state.corners} />
+          <PortGrid width={config.width} height={config.height} selectPort={this.selectPort}/>
         </div>
     </div>
     );
