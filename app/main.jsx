@@ -5,9 +5,6 @@ import  {render} from 'react-dom'
 import {connect, Provider} from 'react-redux'
 import store from './store'
 
-//import Awards from './components/Awards';
-//   <Route path="awards" component={() => <Awards database={database}/>} />
-
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -25,11 +22,7 @@ var config = {
   };
 
 firebase.initializeApp(config);
-const database = firebase.database();
-const auth = firebase.auth();
-      // this.storage = firebase.storage();
-      // Initiates Firebase auth and listen to auth state changes.
-      // this.auth.onAuthStateChanged(this.onAuthStateChanged.bind(this));
+
 render (
   <MuiThemeProvider>
     <Provider store={store}>
@@ -40,16 +33,3 @@ render (
   </MuiThemeProvider>,
   document.getElementById('main')
 )
-
-// var propRef = database.ref(propKey)
-// database.
-
-// firebase.database().ref('users/' + userId).set({ prop1: val1,  prop2: val2 })
-// set() overwrites data
-
-//set v update:
-
-// listeners:
-// var xRef = firebase.database().ref('abc');
-// xRef.on('value', (snapshot)=>{ updateStarCount(postElement, snapshot.val());});
-
