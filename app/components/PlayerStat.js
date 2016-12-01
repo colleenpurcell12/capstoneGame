@@ -71,7 +71,6 @@ export class PlayerStat extends Component {
     if (actualGiveNumber > 0) { //if the number of cards being distributed is greater than zero, fire these
       addAction(decrementResource(this.props.loggedInUser.displayName, giveState.giveResource, actualGiveNumber)); //decrease the giver's resources by the appropriate amount
       addAction(incrementResource(giveState.giveTo, giveState.giveResource, actualGiveNumber)); //give the recipient only the amount of resources that the giver could provide
-
       message = {
         name: station,
         text: `${initials(this.props.loggedInUser.displayName)} sent ${initials(giveState.giveTo)} ${actualGiveNumber} of their ${giveState.giveResource}`
@@ -89,26 +88,25 @@ export class PlayerStat extends Component {
   }
 
   nextPlayer(){
-    ///XXXXXX
-    addAction(this.props.clearSelection())
-    let { isFirstRound, isSettingUp, turnArray, userArray, turnInfo } = this.props
-    if (isSettingUp === false){ //Normal cycle of turns during game play, increment user to x+1
+    addAction(this.props.clearSelection());
+    let { isFirstRound, isSettingUp, turnArray, userArray, turnInfo } = this.props;
+
+    if (isSettingUp === false){ //Normal cycle of turns during game play, set next player in 1-4 order
       var player = this.props.turnInfo
       player === 4 ? player = 1 : player++
-      addAction(setNextTurn(player)); //Formerly endTurn(userID) //dispatched setNextTurn(player));
+      addAction(setNextTurn(player));
     }
+
     else { //isSettingUp === true, tracks 1st and 2nd round, ascending then descending
-      //check if end of 1st round
-      if (isFirstRound === true && turnArray.length === 1){
-        //reset all the userArray hasBoughtARoad and hasBoughtASettlement to false
-        for (var i = 0; i<4 ; i++){ //players 1 through 4
-            userArray[i].hasBoughtARoad = false;
-            userArray[i].hasBoughtASettlement = false
+      if (isFirstRound === true && turnArray.length === 1){ //check if we're in the very first round of game and there's only one player left to go (current player)
+        for (var i = 0; i < 4; i++){ //players 1 through 4
+          userArray[i].hasBoughtARoad = false; //set users in usersArray hasBoughtARoad to false
+          userArray[i].hasBoughtASettlement = false //set users in usersArray hasBoughtASettlement to false
         }
-        addAction(nextRound())
-        addAction(nextRoundStep2())
-        addAction(setNextTurn(4));
-        }
+        addAction(nextRound()); //this is setting isFirstRound to false
+        addAction(nextRoundStep2()); //sets the turnArray in store state to be [4,3,2,1]
+        addAction(setNextTurn(4)); //set the next players turn to be the 4th player
+      }
       //check if end of 2nd round, therefore end of set up phase
       else if (isFirstRound === false && turnArray.length === 1) {  // initialize normal cycle of turns
         addAction(setNextTurn(1))       //Formerly this.props.endTurn(0) dispatched setNextTurn(1)
@@ -116,11 +114,12 @@ export class PlayerStat extends Component {
       }
       else { //within either round
         if (turnArray){
-          let player1 = turnArray[0]
           //if (isFirstRound === false){ player1--;} //endTurn increments the #
           addAction(shiftTurns()) //Formerly this.props.nextTurn() dispatched shiftTurns()
+          let player1 = turnArray[0];
           addAction(setNextTurn(player1)) // this.props.endTurn(player1) dispatched setNextTurn(player)
-        } else { console.log("turnArray is undefined:",turnArray) }
+        }
+        else { console.log("turnArray is undefined:",turnArray) }
       }
     }
   }
@@ -139,13 +138,13 @@ export class PlayerStat extends Component {
 
           <div>
           <input type="button" onClick={() => this.changeCount('crops',false) } value="-"/>
-             🌽Crops  {resource.crops}   
+             🌽Crops  {resource.crops}
           <input type="button" onClick={ () => this.changeCount('crops',true) } value="+"/>
           </div>
 
           <div>
             <input type="button" onClick={() => this.changeCount('fuel',false) } value="-"/>
-              🚀Fuel    {resource.fuel}  
+              🚀Fuel    {resource.fuel}
             <input type="button" onClick={ () => this.changeCount('fuel',true) } value="+"/>
           </div>
 
@@ -168,7 +167,7 @@ export class PlayerStat extends Component {
           </div>
 
           <div>
-            
+
             <label>
                 <input type="radio" value="army" onChange={this.handleChange}/>
                 Largest Army Award
@@ -188,7 +187,7 @@ export class PlayerStat extends Component {
                   <tr> <td>Pioneer   </td> <td>= 🚀 🌽  🌑       </td> </tr>
             </tbody>
             </table>
-          
+
           <div><Structures /><br></br></div>
           <button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button><br /><br />
 
@@ -209,7 +208,7 @@ export class PlayerStat extends Component {
                 <button onClick={() => this.submitGiveForm(this.state)}>Give</button>
                 </div>
             </div>
-          
+
         </div>
         :
         <div>
