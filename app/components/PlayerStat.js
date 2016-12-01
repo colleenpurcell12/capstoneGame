@@ -187,7 +187,6 @@ export class PlayerStat extends Component {
             🔆Solar {resource.solar}
           <input type="button" onClick={ () => this.changeCount('solar',true) } value="+"/>
           </div>
-
           <div>
 
             <label>

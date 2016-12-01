@@ -1,8 +1,6 @@
 //Create ports array
 import { moveRobber } from 'APP/app/reducers/robber'
 import { addAction } from 'APP/app/reducers/action-creators'
-import _ from 'lodash'
-import {filter} from 'lodash.filter'
 import {incrementResource} from 'APP/app/reducers/players'
 
 var ports = [
@@ -48,28 +46,21 @@ function assignHexInfo (tokens, resources) {
  return hexData;
 }
 
-// function deal(structures, corners, hexData, roll){
-//   structures.forEach(structure => {
-//     var num;
-//     if(structure.type === 'city')  num = 2;
-//     if(structure.type === 'settlement')  num = 1;
-//     var theCorner = _.filter(corners, function(corner){
-//       return corner.id === structure.corner_id
-//     })[0]
-//     theCorner.hexes.forEach(hex => {
-//       if(hexData[hex.id] && hexData[hex.id].token === roll){
-//         var resource = resources[hexData[hex.id].resource]
-//         console.log('structure', structure)
-//         var player = structure.player || 'Sami Lugar'
-//         addAction(incrementResource(structure.player, resource, num))
-//       }
-//     })
-//   })
-// }
-//
-// function setupDeal(){
-//   let tokens = [2,3,4,5,6,8,9,19,11,12]
-//   tokens.forEach(token => deal(token))
-// }
+const neighborDirections = [
+    {q: 0, r: -1,s: +1},
+    {q: 1, r: -1,s: 0},
+    {q: 1, r: 0, s:-1},
+    {q: 0, r: 1, s:-1},
+    {q: -1,r:  1,s: 0},
+    {q: -1,r:  0,s: 1},
+]
 
-module.exports = {shuffle, ports, resources, resourcesArray, tokenArray, assignHexInfo, }
+
+module.exports = {
+  shuffle,
+  ports,
+  resources,
+  resourcesArray,
+  tokenArray,
+  assignHexInfo,
+  neighborDirections}
