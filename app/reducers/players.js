@@ -18,7 +18,7 @@ export const addPlayer  = player => ({ type: ADD_PLAYER, player }) //, color })
 export const incrementResource = (player, resource, count) => ({ type: INCREMENT_RESOURCE, player, resource, count})
 export const decrementResource = (player, resource, count) => ({ type: DECREMENT_RESOURCE, player, resource, count})
 
-export const addPoint = (userIndex) => ({ type: ADD_POINT, userIndex })
+export const addPoint = (player) => ({ type: ADD_POINT, player })
 
 /* ------------       REDUCER     ------------------ */
 

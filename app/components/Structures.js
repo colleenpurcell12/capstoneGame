@@ -10,7 +10,7 @@ export class Structures extends Component {
     super(props);
     this.state = {
       //wool: 0
-    };
+    }; 
   }
   componentDidMount() {
 
@@ -72,7 +72,7 @@ export class Structures extends Component {
     let startCornerID = cornerIDs[0]
     let endCornerID = cornerIDs[1]
     
-    let allMatchingRoadCorners = everyRoad.filter(function(struc){ 
+    let allMatchingRoadCorners = everyStructure.filter(function(struc){ 
         if(struc.type==='road' && ( struc.corners[0]=== startCornerID || struc.corners[0]=== endCornerID
           || struc.corners[1]=== startCornerID || struc.corners[1]=== endCornerID) ) {
           return true
@@ -276,7 +276,7 @@ export class Structures extends Component {
       //everyStructure used for movie validation dispatched with firebase
       addAction(this.props.addSettlementToEveryStructure(settlementObj))
 
-      addAction( this.props.addPoint(userIndex))  //player score DOESN"T WORK 
+      addAction( this.props.addPoint(player))  //player score DOESN"T WORK 
 
       //structure used for rending visual
       var settleObj = {owner: userColor, corner_id: corner.id, type: 'settlement'} //userObj
