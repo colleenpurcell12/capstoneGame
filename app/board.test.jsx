@@ -2,25 +2,25 @@ import {expect} from 'chai'
 import makeBoard from './board'
 
 describe('makeBoard(levels, origin)', () => {
-  describe('with 0 levels', () => {
-    const board = makeBoard(0)
-
-    it('just emits one hex at 0,0,0', () => {
-      expect(board.hexes).to.have.length(1)
-      const hex = board.hexes[0]
-      expect(hex.id).to.eql(0)
-      expect(hex.coords).to.deep.equal([0, 0, 0])
-      expect(hex.corners).to.have.length(6)
-      hex.corners.forEach((corner, i) => {
-        expect(corner.hex).to.eql(hex)
-        expect(corner.corner).to.eql(i)
-      })
-    })
-
-    it('with 0 levels, emits corners for the hex at 0,0,0', () => {
-      expect(board.corners).to.deep.equal(board.hexes[0].corners)
-    })
-  })
+  // describe('with 0 levels', () => {
+  //   const board = makeBoard(0)
+  //
+  //   it('just emits one hex at 0,0,0', () => {
+  //     expect(board.hexes).to.have.length(1)
+  //     const hex = board.hexes[0]
+  //     expect(hex.id).to.eql(0)
+  //     expect(hex.coords).to.deep.equal([0, 0, 0])
+  //     expect(hex.corners).to.have.length(6)
+  //     hex.corners.forEach((corner, i) => {
+  //       expect(corner.hex).to.eql(hex)
+  //       expect(corner.corner).to.eql(i)
+  //     })
+  //   })
+  //
+  //   it('with 0 levels, emits corners for the hex at 0,0,0', () => {
+  //     expect(board.corners).to.deep.equal(board.hexes[0].corners)
+  //   })
+  // })
     // expect(board).to.deep.equal({
     //   hexes: [
     //     {

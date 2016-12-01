@@ -1,7 +1,9 @@
 //Create ports array
 import { moveRobber } from 'APP/app/reducers/robber'
 import { addAction } from 'APP/app/reducers/action-creators'
-
+import {incrementResource} from 'APP/app/reducers/players'
+import {_} from 'lodash'
+import {filter} from 'lodash.filter'
 
 var ports = [
   {type: 'port', x: -45, y: -26, r: 3, ratio: '1:3', res: null},
@@ -12,10 +14,10 @@ var ports = [
   {type: 'port', x: 16, y: -43, r: 3, ratio: '1:3', res: null},
   {type: 'port', x: 29, y: 35, r: 3, ratio: '1:2', res: 'seeds'},
   {type: 'port', x: 45, y: -26, r: 3, ratio: '1:3', res: null},
-  {type: 'port', x: 45, y: 7, r: 3, ratio: '1:2', res: 'other'},
+  {type: 'port', x: 45, y: 7, r: 3, ratio: '1:2', res: 'fuel'},
 ]
 
-var resources = ['solar', 'ice', 'seeds', 'hematite', 'other']
+var resources = ['solar', 'ice', 'seeds', 'hematite', 'fuel']
 var resourcesArray = [0, 0, 0, 0, 1,1,1,1,2,2,2,2,3,3,3,4,4,4]
 var tokenArray = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12]
 
@@ -49,5 +51,34 @@ function assignHexInfo (tokens, resources) {
  return hexData;
 }
 
+var structures = [];
+// structures array is passed in from store
+// how to get corners from Board? put on state
 
-module.exports = {shuffle, ports, resources, resourcesArray, tokenArray, assignHexInfo}
+function deal(structures, corners, hexData, roll){
+  // var structures = this.props.structures
+  // var corners = this.props.corners
+  // var hexData = this.props.hexData
+  // var roll = this.props.diceRoll.d1 + this.props.diceRoll.d2
+  structures.forEach(structure => {
+    var num;
+    if(structure.type === 'city')  num = 2;
+    if(structure.type === 'settlement')  num = 1;
+    var theCorner = _.filter(corners, function(corner){
+      return corner.id === structure.corner_id
+    })[0]
+    theCorner.hexes.forEach(hex => {
+      if(hexData[hex.id].token === roll){
+        var resource = resources[hex.resource]
+        incrementResource(structure.owner, resource, num)
+      }
+    })
+  })
+}
+
+function setupDeal(){
+  let tokens = [2,3,4,5,6,8,9,19,11,12]
+  tokens.forEach(token => deal(structures, corners, token))
+}
+
+module.exports = {shuffle, deal, ports, resources, resourcesArray, tokenArray, assignHexInfo}
