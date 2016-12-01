@@ -9,8 +9,8 @@ import { assignHexInfo, tokenArray, resourcesArray } from 'APP/gameutils/setup.j
 
 //when player joins game turn on listeners and fire actions
 
-export const loadActions = () => dispatch => {
-  return firebase.database().ref().child('action-creators').once('value')
+export const loadActions = (gameID) => dispatch => {
+  return firebase.database().ref().child('games').once('value')
     .then(snap => {
       return dispatch(Object.keys(snap.val()).map(key => snap.val()[key]));
     })
@@ -21,23 +21,23 @@ export const loadActions = () => dispatch => {
         addAction(assignHexData(hd))
       }
       var first = true;
-      dispatch(syncActions(first));
+      dispatch(syncActions(gameID, first));
     });
 }
 
-export const syncActions = (first) => dispatch => {
-  firebase.database().ref().child('action-creators').limitToLast(1).on('child_added', (snap) => {
+export const syncActions = (gameID, first) => dispatch => {
+  firebase.database().ref().child('games').childlimitToLast(1).on('child_added', (snap) => {
     first? first = false : dispatch(snap.val());
   });
 }
 //add new moves to database
 export const addAction = action => {
-  firebase.database().ref().child('action-creators').push(action)
+  firebase.database().ref().child('games').push(action)
 }
 
 //when player leaves game turn off listener
-export const unsyncActions = () => {
-  firebase.database().ref().child('action-creators').off()
+export const unsyncActions = (gameID) => {
+  firebase.database().ref().child('games').off()
 }
 
 const SET_LOADING_STATE = 'SET_LOADING_STATE'

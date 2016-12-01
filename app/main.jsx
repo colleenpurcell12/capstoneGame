@@ -10,6 +10,7 @@ injectTapEventPlugin();
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import Home from './components/Home';
+import GameRoom from './components/GameRoom'
 import {listenToAuth} from './reducers/login';
 import * as firebase from 'firebase'
 
@@ -27,7 +28,9 @@ render (
   <MuiThemeProvider>
     <Provider store={store}>
       <Router history={browserHistory}>
-        <Route path="/" component={Home} onEnter={store.dispatch(listenToAuth())} />
+        <Route path="/" component={Home} onEnter={store.dispatch(listenToAuth())} >
+          <Route path="game/:id" component={GameRoom} />
+        </Route>
       </Router>
     </Provider>
   </MuiThemeProvider>,

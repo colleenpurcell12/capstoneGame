@@ -2,22 +2,18 @@ import * as firebase from 'firebase'
 
 /* -----------------    ACTIONS     ------------------ */
 
-const LOAD = 'LOAD_MESSAGES'
-const SAVE = 'SAVE_MESSAGE'
-
+const LOAD_MESSAGES = 'LOAD_MESSAGES'
 
 /* ------------   ACTION CREATORS     ------------------ */
 
 const load   = messages => ({ type: LOAD, messages })
-const save = message   => ({ type: SAVE, message })
-
 
 /* ------------       REDUCER     ------------------ */
 
 export default function reducer (messages = {}, action) {
   switch (action.type) {
     
-    case LOAD: 
+    case LOAD_MESSAGES: 
       return action.messages
 
     default: 
@@ -28,7 +24,7 @@ export default function reducer (messages = {}, action) {
 
 /* ------------       DISPATCHERS     ------------------ */
 
-export const fetchMessages = () => dispatch => {
+export const listenForMessages = () => dispatch => {
   const rootRef = firebase.database().ref()
   const messagesRef = rootRef.child('messages')
   messagesRef.limitToLast(24).on('value', snap => {
