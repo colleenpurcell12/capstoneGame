@@ -196,12 +196,12 @@ export class Structures extends Component {
         if( this.props.isSettingUp ) { userObj.hasBoughtARoad = true }
           addAction(this.props.clearSelection())
         //send off to the everyStructures array used for validation, with firebase
-        addAction(this.props.addRoadToEveryStructure(roadObj)) //formerly addRoad()
+        this.props.addRoadToEveryStructure(roadObj)) //formerly addRoad()
 
         //to the road state used for rending visuals
         var roadObj = { color: userColor, corners:  [cornerA.id, cornerB.id] , userID: userID, 
                      coordinates: coord  }
-        addAction(this.props.addRoadToRoads(roadObj)) //formerly: this.props.addBoardRoad
+        this.props.addRoadToRoads(roadObj)) //formerly: this.props.addBoardRoad
       }
       //else{ console.log('Road was not registered.') }
     }
@@ -255,13 +255,13 @@ export class Structures extends Component {
                             associatedHexs: associatedHexs   
                           }
       if( this.props.isSettingUp ) {  userObj.hasBoughtASettlement=true }
-      
-      console.log("selections.length",selections.length )
+      console.log("selections.length", selections.length )
       console.log("this.isFarEnough('settlement')", this.isFarEnough('settlement') )
-      console.log("this.isAfforable('settlement')",this.isAfforable('settlement') )
+      console.log("this.isAfforable('settlement')", this.isAfforable('settlement') )
       console.log("this.props.isSettingUp && !userObj.hasBoughtASettlement", this.props.isSettingUp && !!userObj.hasBoughtASettlement )
 
       //WORKS
+      this.takePayment('settlement')
       //console.log("isAvailable settlement?",this.isAvailable('settlement',coord) )
       addAction(this.props.clearSelection())
       //everyStructure used for movie validation dispatched with firebase
@@ -277,6 +277,25 @@ export class Structures extends Component {
     }
   }
 
+takePayment(type){
+    let {  userArray, turnInfo } = this.props
+    let userIndex = turnInfo-1
+    let userCards = userArray[userIndex].cardsResource
+    let {  type1, type2, type3, type4, type5 } = userCards
+    if(type==='road'){ //cost lumber and 1 brick in catan world
+      //type1 = lumber, type2 = brick, type3 = wool, type4 = grain, type5 = ore
+      addAction(payForEquipment({resource: type1, userIndex: userIndex, num: 1 })) //resourceNumUserIdxObj
+      addAction(payForEquipment({resource: type2, userIndex: userIndex, num: 1 }))
+    } else if (type==='settlement') { //settlement cost 1L+1B+1G+1W
+      addAction(payForEquipment({resource: type1, userIndex: userIndex, num: 1 })) 
+      addAction(payForEquipment({resource: type2, userIndex: userIndex, num: 1 }))
+      addAction(payForEquipment({resource: type3, userIndex: userIndex, num: 1 })) 
+      addAction(payForEquipment({resource: type4, userIndex: userIndex, num: 1 }))
+    } else{ //if type ==='city'
+      addAction(payForEquipment({resource: type3, userIndex: userIndex, num: 2 })) 
+      addAction(payForEquipment({resource: type5, userIndex: userIndex, num: 3 }))
+    }
+  }
   //UPGRADE TO A CITY LOGIC
   //validation check
   isSettlementPlayerAlreadyOwns(cornerID, userID){ //WORKS
@@ -298,14 +317,16 @@ export class Structures extends Component {
     let userID = turnInfo
     let userIndex = userID-1
     //cornerID = 20; userID = 2; //TESTING
-    if( selections.length===1 
+    if( selections.length === 1 
       && this.isSettlementPlayerAlreadyOwns(cornerID, userID)
-      &&  this.isAfforable('city') 
+      && this.isAfforable('city') 
       && !this.props.isSettingUp 
        ) {
+      // take away the cards afforded
+      this.takePayment('city')
       addAction(this.props.clearSelection())
       addAction( this.props.upgradeBoardStructure(cornerID) )
-      addAction( this.props.addCityToEveryStructure(cornerID))
+      addAction( this.props.addCityToEveryStructure(cornerID) )
       //also increment player's points in userArray
       console.log("before addPoint for city, userIndex",userIndex)
       addAction( this.props.addPoint(userIndex)) 
@@ -317,7 +338,7 @@ export class Structures extends Component {
         console.log("You dont already own a settlement at cornerID:",cornerID)
       } if( this.props.isSettingUp ){
         console.log("It's set up, so choose a settlement, cant purchase a city right now.")
-      } if(selections.length!==1){
+      } if(selections.length !== 1){
         console.log("Make sure you only have one corner selected")
       } console.log('Make sure you have selected a single corner on which you already own a settlment and try again')
     }
@@ -340,11 +361,11 @@ import {connect} from 'react-redux';
 import { addBoardStructure, upgradeBoardStructure } from '../reducers/structure';
 import { addRoadToRoads } from '../reducers/road';
 import { addRoadToEveryStructure, addSettlementToEveryStructure, addCityToEveryStructure } from '../reducers/everyStructure';
-import { addPoint } from '../reducers/usersArray';
+import { addPoint, payForEquipment } from '../reducers/usersArray';
 import { clearSelection } from '../reducers/selection'
 
 const mapState = ({ isSettingUp, turnInfo, userArray, selections, everyStructure }) => ({isSettingUp, turnInfo, userArray, selections, everyStructure });
-const mapDispatch = { addBoardStructure, upgradeBoardStructure, addRoadToRoads, addRoadToEveryStructure, addSettlementToEveryStructure, addCityToEveryStructure, addPoint, clearSelection};
+const mapDispatch = { addBoardStructure, upgradeBoardStructure, addRoadToRoads, addRoadToEveryStructure, addSettlementToEveryStructure, addCityToEveryStructure, addPoint, payForEquipment, clearSelection};
 
 export default connect(
   mapState,
