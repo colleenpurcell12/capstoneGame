@@ -73,3 +73,41 @@ describe('<Chatroom />', () => {
   });
 
 })
+
+// describe("<Chatroom />'s connection", () => {
+ // chatroom.find('input').simulate('keydown', {keycode: 13});
+// wrapper.find('input').simulate('change', {target: {value: 'My new value'}});
+//   let root, store, dispatch
+//   beforeEach('create store and render the root', () => {
+//     store = createStore(state => state, state)
+//     dispatch = spy(store, 'dispatch')
+//     root = shallow(<PureChatroom store={store}/>) //think since these don't have specific container..maybe this could move into the PureComponent test
+//   })
+
+// saveMessage={saveMessageSpy}
+
+//   it('gets messages prop from store', () => {
+//     expect(root).to.have.prop('messages').eql(state.messages);
+//   });
+
+// })
+
+ // it('has a default state of ....', () => {
+  //   expect(chatroom.state().stars).to.equal(0)
+  // })
+
+  // it('has a default state where text is an empty string', () => {
+  //   expect(chatroom.state().text).to.equal("")
+  // })
+
+  // starButton = shallow(<IconButton name="two-star"/>)
+
+
+ // it('calls saveMessage() when you submit (press enter)', () => {
+  //   expect(chatroom.find())
+  // })
+
+  // it('updates state on text change', () => {
+  //   chatroom.find("textarea").simulate('change',{target: {value: 'This is some new text'}})
+  //   expect(chatroom.state().text).to.equal('This is some new text')
+  // })
