@@ -189,8 +189,11 @@ export class PlayerStat extends Component {
             </table>
 
           <div><Structures /><br></br></div>
-          <button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button><br /><br />
-
+          { this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.props.inProgress ?
+            <div><button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button><br /><br /></div>
+            :
+            <div></div>
+          }
             <div style={{border: '1px solid gray', padding: '0', marginRight: '10%'}}>
               <h8 style={{textAlign: 'center'}}>Give Resources</h8>
               <DropDownMenu value={this.state.giveTo} onChange={(e,i,v) => this.setState({giveTo: v})}>
