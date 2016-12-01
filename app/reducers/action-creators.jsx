@@ -3,7 +3,7 @@
 
 import * as firebase from 'firebase';
 import store from '../store';
-import {addPlayer} from './players';
+//import {addPlayer} from './players';
 import { assignHexData } from './hex-data'
 import { assignHexInfo, tokenArray, resourcesArray } from 'APP/gameutils/setup.js'
 

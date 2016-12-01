@@ -67,9 +67,15 @@ function deal(structures, corners, hexData, roll){
     var theCorner = _.filter(corners, function(corner){
       return corner.id === structure.corner_id
     })[0]
+    // theOwner = _.filter()
     theCorner.hexes.forEach(hex => {
       if(hexData[hex.id].token === roll){
         var resource = resources[hex.resource]
+        // wrap iwth addAction
+        // resource = string
+        // num = int
+        // structure.owner = player name?
+        // this.props.loggedInUser.displayName
         incrementResource(structure.owner, resource, num)
       }
     })
