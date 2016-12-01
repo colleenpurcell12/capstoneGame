@@ -15,11 +15,17 @@ import robberHex from './robber'
 import doneLoading from './action-creators';
 import hexData from './hex-data'
 import corners  from './corner';
+
 import gameID, {games} from './game';
+
+//import colors  from './colors';
+
 
 
 const rootReducer = combineReducers({ loggedInUser, messages, players, diceRoll, turnInfo, inProgress,
   isFirstRound, isSettingUp, turnArray,  userArray, everyStructure, structure, selections, roads, robberHex,
-  doneLoading, hexData, corners, gameID, games });
+
+  doneLoading, hexData, corners, gameID, games }); //colors
+
 
 export default rootReducer;
