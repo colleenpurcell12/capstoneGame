@@ -33,6 +33,7 @@ class HexShape extends React.Component {
 
   toggleRobber(event) {
     event.preventDefault();
+    console.log('clicked the token')
     addAction(moveRobber(this.props.index))
   }
 

@@ -1,39 +1,36 @@
 import React, { Component } from 'react';
 import { addAction } from '../reducers/action-creators'
 import { addPlayer } from '../reducers/players';
-import { startGame } from '../reducers/home';
-
 
 export class Players extends Component {
 	constructor() {
 		super()
 	}
-	// componentWillMount() {
-	// 	this.props.players.length >= 4 && this.props.inProgress === false ?
-	// 	addAction(startGame(true)) : null;
-	// }
+
 	render() {
 		return(
 			<div className='playerInfo'>
 				<table>
-				<tbody>
+				<thead>
 					<tr>
 						<th>Players</th>
 						<th>Card Count</th>
 					</tr>
-						{this.props.players.map((player, idx) => (
-							<tr key={idx}>
-								<td>{idx+1}: {player.name}</td>
-								<td>{player.cardsTotal()}</td>
-							</tr>
-						))}
-						{this.props.inProgress ?
-							<tr><th>Current Player: {this.props.players[this.props.turnInfo-1].name}</th></tr>
-							:
-							<tr><th>Current Player: </th></tr>
-						}
+				</thead>
+				<tbody>
+					{this.props.players.map((player, idx) => (
+						<tr key={idx}>
+							<td><span className={`player${idx}`}>&#9632;</span>{idx+1}: {player.name}</td>
+							<td>{player.cardsTotal()}</td>
+						</tr>
+					))}
 				</tbody>
 				</table>
+				{this.props.inProgress ?
+					<div><strong>Current Player: {this.props.players[this.props.turnInfo-1].name}</strong></div>
+					:
+					<div><strong>Waiting for {4 - this.props.players.length} more player(s)</strong></div>
+				}
 			</div>
 		)
 	}

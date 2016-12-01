@@ -56,11 +56,6 @@
   stroke-width: .3;
 }
 
-.hexhover {
-  stroke: red;
-  stroke-width: .3;
-}
-
 /*svg 'canvases'*/
 #HexGrid{
   position: absolute ;
@@ -72,7 +67,7 @@
   position: absolute ;
   top:0 ;
   left:0 ;
-  z-index: 12;
+  /*z-index: 12;*/
 }
 
 #Roads {
@@ -118,7 +113,7 @@ fill: blue;
 }
 
 .ice {
-  fill: #beecf7
+  fill: #a3cedc
 }
 
 .solar  {
@@ -130,7 +125,7 @@ fill: blue;
 }
 
 .other {
- fill: #a5a45e
+ fill: #eecf63
 }
 
 .desert {
@@ -165,3 +160,20 @@ fill: blue;
   fill: brown;
   stroke-weight: .5;
 }
+
+.player0 {
+  color: red;
+}
+
+.player1 {
+  color: blue;
+}
+
+.player2 {
+  color: green;
+}
+
+.player3 {
+  color: brown;
+}
+
