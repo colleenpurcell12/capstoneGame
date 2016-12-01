@@ -1,6 +1,6 @@
 import * as firebase from 'firebase'
 
-let initialState = [{ id: 0,  color: 'red' }, { id: 1,  color: 'blue' }, 
+let initialState = [{ id: 0,  color: 'red' }, { id: 1,  color: 'blue' },
                     { id: 2,  color: 'green' }, { id: 3,  color: 'yellow' }]
 
 export default function userArray (userArray = initialState, action){
@@ -34,35 +34,35 @@ export default function userArray (userArray = initialState, action){
 //selection: [ ], taken out since can't select corners if it isn't your turn
 
 // let initialUserArrayOld = [
-//   	{id: 1, 
-//     color: 'red', 
-//     hasBoughtARoad: false, 
-//     hasBoughtASettlement: false, 
-//     points: 3, 
+//   	{id: 1,
+//     color: 'red',
+//     hasBoughtARoad: false,
+//     hasBoughtASettlement: false,
+//     points: 3,
 //     cardsResource: {type1: 2 , type2: 2, type3: 3, type4: 3, type5: 3},
 //     displayName: 'Colleen'
 //     },
-//  	{id: 2, 
-//     color: 'blue', 
-//     hasBoughtARoad: false, 
-//     hasBoughtASettlement: false, 
-//     points: 0, 
+//  	{id: 2,
+//     color: 'blue',
+//     hasBoughtARoad: false,
+//     hasBoughtASettlement: false,
+//     points: 0,
 //     cardsResource: {type1: 2 , type2: 2, type3: 2, type4: 2, type5: 2},
 //     displayName: 'Sami'
 //     },
-//     {id: 3, 
-//     color: 'green', 
-//     hasBoughtARoad: false, 
-//     hasBoughtASettlement: false, 
-//     points: 0, 
+//     {id: 3,
+//     color: 'green',
+//     hasBoughtARoad: false,
+//     hasBoughtASettlement: false,
+//     points: 0,
 //     cardsResource: {type1: 2 , type2: 2, type3: 2, type4: 2, type5: 2},
 //     displayName: 'Sharon'
 //     },
-//     {id: 4, 
-//     color: 'yellow', 
-//     hasBoughtARoad: false, 
-//     hasBoughtASettlement: false, 
-//     points: 0, 
+//     {id: 4,
+//     color: 'yellow',
+//     hasBoughtARoad: false,
+//     hasBoughtASettlement: false,
+//     points: 0,
 //     cardsResource: {type1: 3 , type2: 3, type3: 3, type4: 3, type5: 3},
 //     displayName: 'Deborah',
 //     }
@@ -82,6 +82,7 @@ export default function userArray (userArray = initialState, action){
 //       return userArray
 //   }
 // }
+
 
 /* ------------      DISPATCHERS     ------------------ */
 

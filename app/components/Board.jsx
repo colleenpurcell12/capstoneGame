@@ -11,21 +11,14 @@ import PortGrid from './PortGrid'
 import store from '../store'
 import {addAction} from '../reducers/action-creators'
 import {assignHexData} from '../reducers/hex-data'
+import {neighborDirections} from 'APP/gameutils/setup'
+import {boardConfig} from 'APP/gameutils/boardConfig'
 
 class Board extends Component {
   constructor(props) {
     super(props);
     this.generate = this.generate.bind(this)
 
-    //config handled off component?
-    let boardConfig = {
-      width: '100%', height: 800,
-      layout: { width: 10, height: 10, flat: true, spacing: 1.1 }, // change to
-      origin: { x: 0, y: 0 },
-      map: 'hexagon',
-      mapProps: [ 2 ],
-      actions: {}
-    }
     let grid = this.generate(boardConfig);
 
     let corners = grid.corners
@@ -109,15 +102,6 @@ class Board extends Component {
   }
 
 }
-
-const neighborDirections = [
-    {q: 0, r: -1,s: +1},
-    {q: 1, r: -1,s: 0},
-    {q: 1, r: 0, s:-1},
-    {q: 0, r: 1, s:-1},
-    {q: -1,r:  1,s: 0},
-    {q: -1,r:  0,s: 1},
-]
 
 function coord(hex) {
   return [hex.q, hex.r, hex.s].join(',')

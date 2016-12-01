@@ -17,6 +17,7 @@ import {addMessage} from '../reducers/chatroom';
 import {initials} from '../reducers/helperFunctions';
 //needs to know which player's card is showing
 import Structures from './Structures';
+import {setupDeal} from 'APP/gameutils/deal'
 
 
 const validate = values => {
@@ -131,6 +132,7 @@ export class PlayerStat extends Component {
         console.log("and next player is 1")
         addAction(setNextTurn(1))       //Formerly this.props.endTurn(0) dispatched setNextTurn(1)
         addAction(startNormGamePlay()) //this.props.endSetUp() dispatched startNormGamePlay(), which sets isSettingUp ==false
+        setupDeal(this.props.structure, this.props.corners, this.props.hexData)
       }
       else { //within either round
         if (turnArray){
@@ -186,6 +188,7 @@ export class PlayerStat extends Component {
           <input type="button" onClick={ () => this.changeCount('solar',true) } value="+"/>
           </div>
           <div>
+
             <label>
                 <input type="radio" value="army" onChange={this.handleChange}/>
                 Largest Army Award
@@ -260,7 +263,7 @@ import { addPlayer, incrementResource, decrementResource } from '../reducers/pla
 //import { grabColorFromArray } from '../reducers/colors';
 
 
-const mapState = ({ turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray }) => ({turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray }); //userArray, colors
+const mapState = ({ turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray, structure, corners, hexData }) => ({turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray,  structure, corners, hexData }); //userArray, colors
 
 const mapDispatch = {  setNextTurn, nextRound, nextRoundStep2, shiftTurns, startNormGamePlay, clearSelection, addMessage }; //grabColorFromArray
 
