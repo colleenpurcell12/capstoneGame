@@ -13,8 +13,6 @@ export class Dice extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    	d1: null,
-    	d2: null,
       diceEnabled: true, //this should be true by default
       stealEnabled: false,
       stealFrom: "Player"
@@ -27,14 +25,13 @@ export class Dice extends Component {
   	let d1 = Math.floor(Math.random() * 6) + 1;
     let d2 = Math.floor(Math.random() * 6) + 1;
     let total = d1+d2;
-    if (d1 === d2) { //if the roll is a double, keep the dice enabled to allow for additional rolls
-      this.setState({d1: d1, d2: d2});
+    if (d1 !== d2) { 
+      this.setState({diceEnabled: false});
     }
     else if (total === 7){ //if you roll a 7
-      this.setState({d1: d1, d2: d2, diceEnabled: false, stealEnabled: true}); //allow stealing
+      this.setState({diceEnabled: false, stealEnabled: true}); //allow stealing
     }
-    else this.setState({d1: d1, d2: d2, diceEnabled: false}); //else allow only one roll and update dice
-    return {sum: total}; //return the object that will be stored on the state since all the calcs are done in this function
+    return {d1: d1, d2: d2}; //return the object that will be stored on the state since all the calcs are done in this function
   }
 
   submitStealInfo(playerToRob) {
@@ -64,10 +61,11 @@ export class Dice extends Component {
     return (
     	<div className='playerInfo'>
 
-      { this.state.d1 && this.state.d2 ?
+      { this.props.diceRoll.d1 && this.props.diceRoll.d2 ?
         <div>
-           <img src={`/die/d${this.state.d1}.gif`}/>
-           <img src={`/die/d${this.state.d2}.gif`}/>
+           <div>Last roll:{this.props.diceRoll.d1 + this.props.diceRoll.d2}</div>
+           <img src={`/die/d${this.props.diceRoll.d1}.gif`}/>
+           <img src={`/die/d${this.props.diceRoll.d2}.gif`}/>
            <br />
            <br />
          </div>
@@ -81,8 +79,6 @@ export class Dice extends Component {
           :
           <div></div>
       }
-
-      <div>Last roll:{this.props.diceRoll.sum}</div>
 
       { this.props.players.length > 0 && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.state.stealEnabled ?
 
