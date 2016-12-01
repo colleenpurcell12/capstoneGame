@@ -63,6 +63,7 @@ export class Dice extends Component {
 
       { this.props.diceRoll.d1 && this.props.diceRoll.d2 ?
         <div>
+           <div>Last roll:{this.props.diceRoll.d1 + this.props.diceRoll.d2}</div>
            <img src={`/die/d${this.props.diceRoll.d1}.gif`}/>
            <img src={`/die/d${this.props.diceRoll.d2}.gif`}/>
            <br />
@@ -78,8 +79,6 @@ export class Dice extends Component {
           :
           <div></div>
       }
-
-      <div>Last roll:{this.props.diceRoll.d1 + this.props.diceRoll.d2}</div>
 
       { this.props.players.length > 0 && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.state.stealEnabled ?
 
