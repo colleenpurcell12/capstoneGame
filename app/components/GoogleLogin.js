@@ -49,7 +49,7 @@ export class GoogleLogin extends Component {
                 <Toolbar style={{backgroundColor:'#E64A19'}}>
                   <ToolbarGroup>
                     <FlatButton label="Rules" primary={true} style={{textAlign:'left', color:'#FFF3E0'}}
-                      onClick={() => this.toggleRules()}
+                      onClick={() => this.toggleRules()} hoverColor='#E64A19'
                     />
                     <Drawer
                       docked={false}
@@ -70,6 +70,11 @@ export class GoogleLogin extends Component {
     				        		<MenuItem primaryText="Sign Out" onClick={() => this.signOut()}/>
     				      	</IconMenu>
     			      	</ToolbarGroup>
+									<ToolbarGroup>
+										<FlatButton label="Home" primary={false} style={{textAlign:'left', color:'#FFF3E0'}}
+											href='/' hoverColor='#E64A19'
+										/>
+									</ToolbarGroup>
                 </Toolbar>
   						:
                 <Toolbar>
@@ -92,6 +97,3 @@ import {connect} from 'react-redux'
 const mapState = ({ loggedInUser }) => ({ loggedInUser })
 
 export default connect(mapState, null)(GoogleLogin);
-
-
-
