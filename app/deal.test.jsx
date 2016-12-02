@@ -105,23 +105,45 @@ describe('Deal', () => {
       expect(dealt.length).to.be.equal(7)
     })
     it('returns one inc obj for corners on one hex', ()=>{
-      var found = dealt.find(inc=>{
-        return inc.player = 'Sami Lugar'
+      var found = dealt.filter(inc=>{
+        return inc.player === 'Sami Lugar'
       })
       expect(found.length).to.be.equal(2)
     })
     it('returns two inc objs for corners on 2 hexes', ()=>{
-      var found = dealt.find(inc=>{
-        return inc.player = 'Colleen Purcell'
+      var found = dealt.filter(inc=>{
+        return inc.player === 'Colleen Purcell'
       })
       expect(found.length).to.be.equal(1)
     })
     it('returns three inc objs for corners on 3 hexes', ()=>{
-      var found = dealt.find(inc=>{
-        return inc.player = 'Sharon Choe'
+      var found = dealt.filter(inc=>{
+        return inc.player === 'Sharon Choe'
       })
       expect(found.length).to.be.equal(3)
     })
+  })
+
+  describe('setupDeal gives appropriate resource if hex resources are the same', () => {
+    // 7: {token: 6, resource: 1}
+    // 8: {token: 6, resource: 2}
+    var structures = [
+      {owner: 'red', corner_id: 7, type: 'settlement', player: 'Sami Lugar' }, // on hex 1, 2, 5
+      {owner: 'red', corner_id: 12, type: 'settlement', player: 'Sami Lugar' }, // on hex 3
+    ]
+    var dealt = setupDeal(structures, corners, hexData)
+    console.log('DEALT', dealt)
+
+    it('returns array of length 7', () => {
+      expect(dealt.length).to.be.equal(4)
+    })
+    it('returns one inc obj for corners on one hex', ()=>{
+      var found = dealt.filter(inc=>{
+        return inc.player === 'Sami Lugar'
+      })
+      expect(found.length).to.be.equal(4)
+    })
+
   })
 
 })
