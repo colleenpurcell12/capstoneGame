@@ -1,28 +1,32 @@
 import React from 'react'
 import chai, {expect} from 'chai'
 chai.use(require('chai-enzyme')());
-import reducer, {addRoadToRoads} from './road';
+import reducer, {addSelection, removeSelection, clearSelection} from './selection';
 
-describe('Road reducer (roads)', () => {
+describe('Selection reducer (selections)', () => {
 
-  it('returns its initial state of an empty array (no selected roads)', () => {
+  const selectionObj = {
+    hexes: [{id:4,q:-1,r:0,s:1},{id:1,q:-2,r:1,s:1},{id:0,q:-2,r:0,s:2}],
+    neighbors: [1,3,6],
+    id: 2,
+    x: -27.5,
+    y: -9.5,
+  };
+
+  it('returns its initial state of an empty array (no selections)', () => {
     expect(reducer(undefined, {})).to.be.empty;
   });
 
-  it('should have a `addRoadsToRoads` action creator to update roads on state', () => {
-    const roadObj = {
-      color: 'red',
-      coordinates: [[11,19],[11,21]],
-      corners: [33,33],
-      userId: 1
+  xit('should have a `addSelection` action creator to update selections state', () => {
 
-    }
-    const newRoad = { type: 'ADD_ROAD', road: roadObj};
+    const newRoad = { type: 'ADD_SELECTION', selection: selectionObj};
     expect(addRoadToRoads(roadObj)).to.contain(newRoad);
 
   });
 
-  it('should handle ADD_ROAD to have an array of all road additions', () => {
+  xit('should handle ADD_ROAD to have an array of all selections', () => {
+
+
     const road1 = {
       color: 'red',
       coordinates: [[11,19],[11,21]],

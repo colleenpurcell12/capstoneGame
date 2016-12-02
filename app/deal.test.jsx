@@ -7,11 +7,11 @@ import { addAction } from 'APP/app/reducers/action-creators'
 // var roll = this.props.diceRoll.d1 + this.props.diceRoll.d2
 var structures
 var corners
-var hexData 
+var hexData
 
 describe('Deal', () => {
   describe(' loops over the structures array', () => {
-    it('that calls incrementResource for each corners hex that matches token', () => {
+    xit('that calls incrementResource for each corners hex that matches token', () => {
       var roll = 4;
       deal(structures, corners, hexData, roll)
       var playerstats = store.getState(players)
