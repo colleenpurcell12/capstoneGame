@@ -7,11 +7,10 @@ import {shallow} from 'enzyme';
 import Chatroom, {PureChatroom}from './Chatroom';
 import {createStore} from 'redux';
 
-describe('<Chatroom />', () => {
+describe('<Chatroom /> 💬', () => {
 
   let chatroom;
   let wrapperChatroom;
-  const saveMessageSpy = spy();
   const state = {
     messages: {
       randoKey:{
@@ -68,7 +67,7 @@ describe('<Chatroom />', () => {
     chatroom.update();
     chatroomInstance.forceUpdate();
     chatroom.find('input').simulate('change', {target: {value: 'I told you so'}} );
-    chatroom.find('form').simulate('submit', { preventDefault: () => {} });
+    chatroom.find('form').simulate('submit');
     expect(saveMessageStub).to.have.been.called
   });
 

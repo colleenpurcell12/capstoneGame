@@ -7,6 +7,7 @@ import Board from './Board';
 import Players from './Players';
 
 import {Grid, Row, Col} from 'react-bootstrap';
+
 export class Home extends React.Component {
   render(){
     return (
