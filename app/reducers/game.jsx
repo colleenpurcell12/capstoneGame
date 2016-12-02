@@ -5,10 +5,12 @@ import { browserHistory } from 'react-router';
 
 const JOIN_GAME = 'JOIN_GAME'
 const LOAD_GAMES = 'LOAD_GAMES'
+
 /* ------------   ACTION CREATORS     ------------------ */
 
 export const join = gameID => ({ type: JOIN_GAME, gameID })
 export const listen = games => ({type: LOAD_GAMES, games})
+export const reset = () => ({type: RESET_GAME })
 
 /* ------------       REDUCER     ------------------ */
 
@@ -17,7 +19,6 @@ export default function reducer (gameID = null, action) {
 
     case JOIN_GAME: 
       return action.gameID
-
     default:
       return gameID;
   }
@@ -27,13 +28,12 @@ export const games = function (games = {}, action) {
   switch (action.type) {
 
     case LOAD_GAMES: 
-      return action.games
-
+      return action.games 
+    
     default:
       return games;
   }
 }
-
 
 /* ------------       DISPATCHERS     ------------------ */
 
@@ -45,7 +45,6 @@ export const listenGames = () => dispatch => {
 
 export const newGame = () => dispatch => {
 	var newGame = firebase.database().ref().child('games').push({actions: false, messages: false}).key
-	dispatch(join(newGame));
 	browserHistory.push(`/game/${newGame}`)
 
 }

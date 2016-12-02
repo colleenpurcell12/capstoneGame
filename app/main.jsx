@@ -27,6 +27,8 @@ var config = {
 firebase.initializeApp(config);
 
 const enterGame = (nextState) => {
+  store.dispatch({type: 'RESET_GAME'})
+  store.dispatch(listenToAuth())
   store.dispatch(join(nextState.params.id))
   store.dispatch(loadActions(nextState.params.id))
 }
