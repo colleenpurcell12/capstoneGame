@@ -6,17 +6,17 @@ const LOAD_MESSAGES = 'LOAD_MESSAGES'
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-const load   = messages => ({ type: LOAD_MESSAGES, messages })
+export const load = messages => ({ type: LOAD_MESSAGES, messages })
 
 /* ------------       REDUCER     ------------------ */
 
 export default function reducer (messages = {}, action) {
   switch (action.type) {
-    
-    case LOAD_MESSAGES: 
+
+    case LOAD_MESSAGES:
       return action.messages
 
-    default: 
+    default:
       return messages;
   }
 }

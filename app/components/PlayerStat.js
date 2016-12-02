@@ -251,3 +251,5 @@ export default connect(
   mapState,
   mapDispatch
 )(PlayerStat)
+
+export { PlayerStat as PurePlayerStat }; //this is for testing, do not remove unless updating test suite
