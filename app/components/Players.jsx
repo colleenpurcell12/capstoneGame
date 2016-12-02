@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { addAction } from '../reducers/action-creators'
-import { addPlayer } from '../reducers/players';
 
 export class Players extends Component {
 	constructor() {
@@ -36,12 +34,11 @@ export class Players extends Component {
 	}
 }
 
-
 /* -----------------    CONTAINER     ------------------ */
 
 import {connect} from 'react-redux';
 
-const mapState = ({ players, loggedInUser, turnInfo, inProgress, doneLoading }) => ({ players, loggedInUser, turnInfo, inProgress, doneLoading }) //added turnInfo for display purposes
+const mapState = ({ players, turnInfo, loggedInUser, inProgress, doneLoading }) => ({ players, loggedInUser, turnInfo, inProgress, doneLoading }) //added turnInfo for display purposes, deleted loggedInUser
 
 export default connect(mapState, null)(Players);
 

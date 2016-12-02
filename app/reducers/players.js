@@ -1,25 +1,24 @@
 import * as firebase from 'firebase'
-import {startTheGame} from './home';
+//import {startTheGame} from './home';
 /* -----------------    ACTIONS     ------------------ */
 
+const LOAD_PLAYERS = 'LOAD_PLAYERS'
 const ADD_PLAYER = 'ADD_PLAYER'
 const INCREMENT_RESOURCE = 'INCREMENT_RESOURCE'
 const DECREMENT_RESOURCE = 'DECREMENT_RESOURCE'
 
-/* ------------   ACTION CREATORS     ------------------ */
+const ADD_POINT = 'ADD_POINT'
 
-export const addPlayer  = player => ({ type: ADD_PLAYER, player })
+
+/* ------------   ACTION CREATORS     ------------------ */
+const load  = players => ({ type: LOAD_PLAYERS, players })
+const add  = player => ({ type: ADD_PLAYER, player })
+
+export const addPlayer  = player => ({ type: ADD_PLAYER, player }) //, color })
 export const incrementResource = (player, resource, count) => ({ type: INCREMENT_RESOURCE, player, resource, count})
 export const decrementResource = (player, resource, count) => ({ type: DECREMENT_RESOURCE, player, resource, count})
 
-/* -----------------    ACTIONS     ------------------ */
-
-const LOAD_PLAYERS = 'LOAD_PLAYERS'
-
-/* ------------   ACTION CREATORS     ------------------ */
-
-const load  = players => ({ type: LOAD_PLAYERS, players })
-const add  = player => ({ type: ADD_PLAYER, player })
+export const addPoint = (player) => ({ type: ADD_POINT, player })
 
 /* ------------       REDUCER     ------------------ */
 
@@ -28,7 +27,14 @@ export default function reducer (players = [], action) {
     case ADD_PLAYER:
       return players.concat([{name: action.player, cardsTotal: function(){
         return Object.keys(this.cardsResource).map(resource => this.cardsResource[resource]).reduce((a,b) => a+b)
-        }, cardsResource: {crops: 0, fuel: 0, hematite: 0, ice: 0, solar: 0}, points: 0, startRoad: null, startSettlement: null}]);
+        }, 
+        cardsResource: {crops: 0, fuel: 0, hematite: 0, ice: 0, solar: 0}, 
+        points: 0, 
+        hasBoughtARoad: false, 
+        hasBoughtASettlement: false
+        // , 
+        // color: action.color
+      }]);
     case INCREMENT_RESOURCE:
       return players.map(player => {
         if (player.name === action.player) {
@@ -45,6 +51,15 @@ export default function reducer (players = [], action) {
         }
         else return player
       })
+
+    case ADD_POINT:
+     return players.map(player => {
+      if (player.name === action.player) {
+        ++player.points;
+        return player
+        }
+        else return player
+     })
     default:
       return players;
   }

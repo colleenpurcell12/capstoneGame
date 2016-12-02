@@ -3,41 +3,45 @@
 
 import * as firebase from 'firebase';
 import store from '../store';
-import {addPlayer} from './players';
+//import {addPlayer} from './players';
 import { assignHexData } from './hex-data'
 import { assignHexInfo, tokenArray, resourcesArray } from 'APP/gameutils/setup.js'
 
 //when player joins game turn on listeners and fire actions
 
-export const loadActions = () => dispatch => {
-  return firebase.database().ref().child('action-creators').once('value')
+export const loadActions = (gameID) => dispatch => {
+  return firebase.database().ref().child('games').child(gameID).once('value')
     .then(snap => {
-      return dispatch(Object.keys(snap.val()).map(key => snap.val()[key]));
+      var actions = snap.val().actions
+      dispatch(Object.keys(actions).map(key => actions[key]));
+      return gameID
     })
-    .then(() => {
-      dispatch(setLoadingState(true))
+    .then((gameID) => {
+      var first = true;
+      dispatch(syncActions(first, gameID));
       if(store.getState().hexData.length !== 19){
+        console.log("in load action", gameID)
         var hd = assignHexInfo(tokenArray, resourcesArray)
         addAction(assignHexData(hd))
       }
-      var first = true;
-      dispatch(syncActions(first));
-    });
+      dispatch(setLoadingState(true))
+    })
 }
 
-export const syncActions = (first) => dispatch => {
-  firebase.database().ref().child('action-creators').limitToLast(1).on('child_added', (snap) => {
+export const syncActions = (first, gameID) => dispatch => {
+  firebase.database().ref().child('games').child(gameID).child('actions').limitToLast(1).on('child_added', (snap) => {
     first? first = false : dispatch(snap.val());
   });
 }
 //add new moves to database
-export const addAction = action => {
-  firebase.database().ref().child('action-creators').push(action)
+export const addAction = (action) => {
+  console.log('in add action')
+  firebase.database().ref().child('games').child(store.getState().gameID).child('actions').push(action)
 }
 
 //when player leaves game turn off listener
-export const unsyncActions = () => {
-  firebase.database().ref().child('action-creators').off()
+export const unsyncActions = (gameID) => {
+  firebase.database().ref().child('games').off()
 }
 
 const SET_LOADING_STATE = 'SET_LOADING_STATE'

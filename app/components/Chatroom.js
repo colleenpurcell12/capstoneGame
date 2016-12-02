@@ -6,7 +6,7 @@ export class Chatroom extends Component {
     this.saveMessage = this.saveMessage.bind(this);
   }
   componentDidMount() {
-    this.props.fetchMessages();
+    this.props.listenForMessages();
   }
 
   saveMessage(e) {
@@ -47,12 +47,11 @@ export class Chatroom extends Component {
 /* -----------------    CONTAINER     ------------------ */
 
 import {connect} from 'react-redux'
-import { fetchMessages, addMessage } from '../reducers/chatroom'
-import { fetchCurrentUser } from '../reducers/login'
+import { listenForMessages, addMessage } from '../reducers/chatroom'
 
 const mapState = ({ messages, loggedInUser }) => ({ messages, loggedInUser })
 
-const mapDispatch = { fetchMessages, addMessage, fetchCurrentUser }
+const mapDispatch = { listenForMessages, addMessage }
 
 export default connect(mapState, mapDispatch)(Chatroom);
 

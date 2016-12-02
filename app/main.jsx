@@ -9,10 +9,13 @@ import store from './store'
 //   <Route path="awards" component={() => <Awards database={database}/>} />
 
 import injectTapEventPlugin from 'react-tap-event-plugin'; //required for onTouchTap
+injectTapEventPlugin();
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import Home from './components/Home';
+import GameRoom from './components/GameRoom'
 import {listenToAuth} from './reducers/login';
+import {loadActions} from './reducers/action-creators'
 import * as firebase from 'firebase'
 
 var config = {
@@ -24,33 +27,25 @@ var config = {
   };
 
 firebase.initializeApp(config);
+
 const database = firebase.database();
 const auth = firebase.auth();
       // this.storage = firebase.storage();
       // Initiates Firebase auth and listen to auth state changes.
       // this.auth.onAuthStateChanged(this.onAuthStateChanged.bind(this));
-injectTapEventPlugin();
+
+const enterGame = (nextState) => {
+  store.dispatch(loadActions(nextState.params.id))
+}
 
 render (
   <MuiThemeProvider>
     <Provider store={store}>
       <Router history={browserHistory}>
         <Route path="/" component={Home} onEnter={store.dispatch(listenToAuth())} />
+        <Route path="/game/:id" component={GameRoom} onEnter={enterGame} />
       </Router>
     </Provider>
   </MuiThemeProvider>,
   document.getElementById('main')
 )
-
-// var propRef = database.ref(propKey)
-// database.
-
-// firebase.database().ref('users/' + userId).set({ prop1: val1,  prop2: val2 })
-// set() overwrites data
-
-//set v update:
-
-// listeners:
-// var xRef = firebase.database().ref('abc');
-// xRef.on('value', (snapshot)=>{ updateStarCount(postElement, snapshot.val());});
-
