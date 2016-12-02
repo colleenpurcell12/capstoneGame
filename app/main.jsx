@@ -13,6 +13,7 @@ import Home from './components/Home';
 import GameRoom from './components/GameRoom'
 import {listenToAuth} from './reducers/login';
 import {loadActions} from './reducers/action-creators'
+import {join} from './reducers/game'
 import * as firebase from 'firebase'
 
 var config = {
@@ -25,11 +26,12 @@ var config = {
 
 firebase.initializeApp(config);
 
-
 const enterGame = (nextState) => {
+  store.dispatch({type: 'RESET_GAME'})
+  store.dispatch(listenToAuth())
+  store.dispatch(join(nextState.params.id))
   store.dispatch(loadActions(nextState.params.id))
 }
-
 
 render (
   <MuiThemeProvider>

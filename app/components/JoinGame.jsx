@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 
-import { listenGames, join, newGame } from '../reducers/game'
+import { listenGames, newGame } from '../reducers/game'
 
 export class JoinGame extends React.Component {
 	constructor() {
@@ -12,18 +12,13 @@ export class JoinGame extends React.Component {
 			showCheckboxes: false,
 		}
 		this.addNewGame = this.addNewGame.bind(this)
-		this.joinGame = this.joinGame.bind(this)
 	}
 	componentDidMount() {
 		this.props.listenGames()
 	}
 
-	joinGame(key) {
-		this.props.join(key)
-	}
-
-	addNewGame(gameID) {
-		this.props.newGame(gameID)
+	addNewGame() {
+		this.props.newGame()
 	}
 
 	render() {
@@ -42,17 +37,16 @@ export class JoinGame extends React.Component {
 				      </TableRow>
 				    </TableHeader>
 				    <TableBody displayRowCheckbox={this.state.showCheckboxes}>
-				      	{games && Object.keys(games).map(key => (
+				      	{games && Object.keys(games).map((key, idx) => (
 			      		<TableRow key={key}>
 					        <TableRowColumn>{key}</TableRowColumn>
-					        <TableRowColumn>Game{key}</TableRowColumn>
-					        <TableRowColumn><Link to={`/game/${key}`}><button onClick={()=>this.joinGame(key)}>Join</button></Link></TableRowColumn>
+					        <TableRowColumn>Game {idx}</TableRowColumn>
+					        <TableRowColumn><Link to={`/game/${key}`}><button>Join</button></Link></TableRowColumn>
 				      	</TableRow>
 		      			))}
 				    </TableBody>
 			  	</Table>
-
-			  	<Link><button onClick={() => this.props.newGame()}>New Game</button></Link>
+			  	<button onClick={() => this.props.newGame()}>New Game</button>
 			</div>
 		)
 	}
@@ -62,8 +56,8 @@ export class JoinGame extends React.Component {
 
 import {connect} from 'react-redux'
  
-const mapStateToProps = ({ games }) => ({ games })
+const mapStateToProps = ({ games, gameID }) => ({ games, gameID })
 
-const mapDispatch = { listenGames, newGame, join }
+const mapDispatch = { listenGames, newGame }
 
 export default connect(mapStateToProps, mapDispatch)(JoinGame);

@@ -87,8 +87,8 @@ HexGrid.defaultProps = {
 
 import { connect } from 'react-redux';
 
-const mapStateToProps = ({ hexData }) => ({
-  hexData
+const mapStateToProps = ({ hexData, corners }) => ({
+  hexData, corners
 });
 
 const mapDispatchToProps = dispatch => ({

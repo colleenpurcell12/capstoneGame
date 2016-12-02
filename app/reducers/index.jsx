@@ -20,12 +20,20 @@ import gameID, {games} from './game';
 
 //import colors  from './colors';
 
-
-
-const rootReducer = combineReducers({ loggedInUser, messages, players, diceRoll, turnInfo, inProgress,
+const appReducer = combineReducers({ loggedInUser, messages, players, diceRoll, turnInfo, inProgress,
   isFirstRound, isSettingUp, turnArray,  userArray, everyStructure, structure, selections, roads, robberHex,
-
   doneLoading, hexData, corners, gameID, games }); //colors
+
+const rootReducer = (state, action) => {
+  if (action.type === 'RESET_GAME') {
+    state = undefined
+  }
+
+  return appReducer(state, action)
+}
+
 
 
 export default rootReducer;
+
+

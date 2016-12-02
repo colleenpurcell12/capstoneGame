@@ -8,6 +8,7 @@ import { newDiceRoll } from '../reducers/dice';
 import {incrementResource, decrementResource} from '../reducers/players';
 import {addMessage} from '../reducers/chatroom';
 import {initials} from '../reducers/helperFunctions';
+import {deal} from 'APP/gameutils/deal'
 
 export class Dice extends Component {
   constructor(props) {
@@ -25,12 +26,13 @@ export class Dice extends Component {
   	let d1 = Math.floor(Math.random() * 6) + 1;
     let d2 = Math.floor(Math.random() * 6) + 1;
     let total = d1+d2;
-    if (d1 !== d2) { 
+    if (d1 !== d2) {
       this.setState({diceEnabled: false});
     }
     else if (total === 7){ //if you roll a 7
       this.setState({diceEnabled: false, stealEnabled: true}); //allow stealing
     }
+    deal(this.props.structure, this.props.corners, this.props.hexData, total)
     return {d1: d1, d2: d2}; //return the object that will be stored on the state since all the calcs are done in this function
   }
 
@@ -104,6 +106,6 @@ export class Dice extends Component {
 
 import {connect} from 'react-redux';
 
-const mapStore = ({ diceRoll, loggedInUser, turnInfo, players, inProgress }) => ({diceRoll, loggedInUser, turnInfo, players, inProgress})
+const mapStore = ({ diceRoll, loggedInUser, turnInfo, players, inProgress, corners, structure, hexData }) => ({diceRoll, loggedInUser, turnInfo, players, inProgress, corners, structure, hexData })
 const mapDispatch = {addMessage};
 export default connect(mapStore, mapDispatch)(Dice);
