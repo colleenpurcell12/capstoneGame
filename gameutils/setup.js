@@ -1,7 +1,7 @@
 //Create ports array
 import { moveRobber } from 'APP/app/reducers/robber'
 import { addAction } from 'APP/app/reducers/action-creators'
-
+import {incrementResource} from 'APP/app/reducers/players'
 
 var ports = [
   {type: 'port', x: -45, y: -26, r: 3, ratio: '1:3', res: null},
@@ -10,12 +10,12 @@ var ports = [
   {type: 'port', x: -16, y: -43, r: 3, ratio: '1:2', res: 'ice'},
   {type: 'port', x: 0, y: 52, r: 3, ratio: '1:3', res: null},
   {type: 'port', x: 16, y: -43, r: 3, ratio: '1:3', res: null},
-  {type: 'port', x: 29, y: 35, r: 3, ratio: '1:2', res: 'seeds'},
+  {type: 'port', x: 29, y: 35, r: 3, ratio: '1:2', res: 'crops'},
   {type: 'port', x: 45, y: -26, r: 3, ratio: '1:3', res: null},
-  {type: 'port', x: 45, y: 7, r: 3, ratio: '1:2', res: 'other'},
+  {type: 'port', x: 45, y: 7, r: 3, ratio: '1:2', res: 'fuel'},
 ]
 
-var resources = ['solar', 'ice', 'seeds', 'hematite', 'other']
+var resources = ['solar', 'ice', 'crops', 'hematite', 'fuel']
 var resourcesArray = [0, 0, 0, 0, 1,1,1,1,2,2,2,2,3,3,3,4,4,4]
 var tokenArray = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12]
 
@@ -36,10 +36,7 @@ function assignHexInfo (tokens, resources) {
   tshuff.splice(d, 0, '')
   rshuff.splice(d, 0, 'desert')
   addAction(moveRobber(d))
-  console.log('TSHUFF', tshuff)
-  console.log('RSHUFF', rshuff)
   var hexData = [];
-  console.log('HEX DATA', hexData);
   for(var i = 0; i < 19; i ++){
     hexData.push({
       token : tshuff[i],
@@ -49,5 +46,21 @@ function assignHexInfo (tokens, resources) {
  return hexData;
 }
 
+const neighborDirections = [
+    {q: 0, r: -1,s: +1},
+    {q: 1, r: -1,s: 0},
+    {q: 1, r: 0, s:-1},
+    {q: 0, r: 1, s:-1},
+    {q: -1,r:  1,s: 0},
+    {q: -1,r:  0,s: 1},
+]
 
-module.exports = {shuffle, ports, resources, resourcesArray, tokenArray, assignHexInfo}
+
+module.exports = {
+  shuffle,
+  ports,
+  resources,
+  resourcesArray,
+  tokenArray,
+  assignHexInfo,
+  neighborDirections}
