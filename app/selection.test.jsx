@@ -10,18 +10,36 @@ var hexData = resourcesArray.map((res, i) => {
   return {token: tokenArray[i], resource: res }
 })
 
-describe('selectCorner', () => {
+xdescribe('selectCorner', () => {
 
   describe('new corner', () => {
-    it('should create an action to increment Resources', () => {
+    var corner = {
+
+    }
+    it('should create an action to addSelection', () => {
+
       const expectedAction = {
-        type: 'INCREMENT_RESOURCE',
-        player,
-        resource,
-        count: 1
+        type: 'ADD_SELECTION',
+        corner
       }
-      expect(incrementResource(player, resource, 1)).to.deep.equal(expectedAction)
+      expect(addSelection(corner)).to.deep.equal(expectedAction)
     })
+    it('should create an action to removeSelection', () => {
+
+      const expectedAction = {
+        type: 'REMOVE_SELECTION',
+        id
+      }
+      expect(removeSelection(corner)).to.deep.equal(expectedAction)
+    })
+    it('should create an action to removeSelection', () => {
+      const expectedAction = {
+        type: 'CLEAR_SELECTION',
+        id
+      }
+      expect(clearSelection(corner)).to.deep.equal(expectedAction)
+    })
+
   })
 
   describe(' loops over the structures array', () => {

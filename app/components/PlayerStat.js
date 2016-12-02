@@ -69,7 +69,7 @@ export class PlayerStat extends Component {
     })
 
     if (actualGiveNumber > 0) { //if the number of cards being distributed is greater than zero, fire these
-      addAction(decrementResource(this.props.loggedInUser.displayName, giveState.giveResource, actualGiveNumber)); 
+      addAction(decrementResource(this.props.loggedInUser.displayName, giveState.giveResource, actualGiveNumber));
       addAction(incrementResource(giveState.giveTo, giveState.giveResource, actualGiveNumber));
       message = {
         name: station,
@@ -88,7 +88,7 @@ export class PlayerStat extends Component {
 
   nextPlayer(){
     addAction(this.props.clearSelection())
-    let { isFirstRound, isSettingUp, turnArray, turnInfo, players } = this.props 
+    let { isFirstRound, isSettingUp, turnArray, turnInfo, players } = this.props
     console.log("Past player is",turnInfo, "isFirstRound",isFirstRound," and turn Array is",turnArray)
     if (isSettingUp === false){ //Normal cycle of turns during game play, increment user to x+1
       var player = this.props.turnInfo
@@ -111,11 +111,14 @@ export class PlayerStat extends Component {
         addAction(setNextTurn(4));  // starts 2nd round with 4th player
      }
       // At the end of 2nd round, normal game play is initiated
-      else if (isFirstRound === false && turnArray.length === 0) {  
+      else if (isFirstRound === false && turnArray.length === 0) {
         console.log("and next player is 1")
         addAction(setNextTurn(1))      // game starts with the 1st player
         addAction(startNormGamePlay()) // !isSettingUp
-        setupDeal(this.props.structure, this.props.corners, this.props.hexData)
+        var dealt = setupDeal(this.props.structure, this.props.corners, this.props.hexData)
+        dealt.forEach(incr => {
+          addAction(incrementResource(incr.player, incr.resource, incr.num))
+        })
       }
       else { //within either round
         if (turnArray){
