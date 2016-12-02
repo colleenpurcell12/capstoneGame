@@ -1,9 +1,7 @@
 import {expect} from 'chai'
-import {assignHexInfo, tokenArray, resourcesArray, generate} from 'APP/gameutils/setup'
-import { addAction } from 'APP/app/reducers/action-creators'
-import {incrementResource } from 'APP/app/reducers/players';
+import { tokenArray, resourcesArray, generate} from 'APP/gameutils/setup'
 import {boardConfig} from 'APP/gameutils/boardConfig'
-import {deal, setupDeal} from 'APP/gameutils/deal'
+import {addSelection, removeSelection, clearSelection} from 'APP/app/reducers/selection'
 import sinon from 'sinon'
 
 let grid = generate(boardConfig);
@@ -12,15 +10,10 @@ var hexData = resourcesArray.map((res, i) => {
   return {token: tokenArray[i], resource: res }
 })
 
-describe('Deal', () => {
+describe('selectCorner', () => {
 
-  var roll = hexData[2].token // corner 12 is on hex #3
-  var structures = [ {owner: 'red', corner_id: 12, type: 'settlement', player: 'Sami Lugar' }]
-
-  describe('actions', () => {
+  describe('new corner', () => {
     it('should create an action to increment Resources', () => {
-      let player = structures[0].player
-      let resource = 'crops'
       const expectedAction = {
         type: 'INCREMENT_RESOURCE',
         player,
