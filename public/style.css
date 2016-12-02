@@ -167,3 +167,17 @@ table {
   top: -1px;
   margin-right: 5px;
 }
+
+.game-name {
+  font-family: 'Space Mono', monospace;
+}
+
+.game-new {
+  background: white;
+  padding-left: 24px;
+}
+
+.game-button {
+  margin-top: 35px;
+  padding-left: 8px;
+
