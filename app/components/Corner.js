@@ -2,7 +2,6 @@ import React from 'react';
 import {addSelection, removeSelection} from '../reducers/selection.js'
 import {addAction} from '../reducers/action-creators'
 
-
 class CornerShape extends React.Component {
   constructor(props) {
     super(props);
@@ -11,10 +10,9 @@ class CornerShape extends React.Component {
 
   selectCorner(event) {
     event.preventDefault();
-    var id = this.props.index
-    var dupe = false;
-    //if the corner is one of the first or second
+    var id = this.props.index, dupe = false;
 
+    //check the corner already in selections, remove
     if (this.props.selections.length){
       this.props.selections.forEach(function(sel){
         if(sel.id === id){
@@ -23,7 +21,8 @@ class CornerShape extends React.Component {
         }
       }, this)
     }
-   //selections is not full & not just removed
+
+   //add to selections if not full & not just removed
    if(this.props.selections.length < 2 && !dupe){
       var cornerObj = this.props.corners[id]
       addAction(addSelection(cornerObj))
@@ -33,35 +32,36 @@ class CornerShape extends React.Component {
   render() {
     let index = this.props.index
     let cornerId = this.props.type[0]+index
-    let owner = null, selected = null;
+    let owner = '', selected = '';
     let text = this.props.text
-    let isOwned = this.props.structure.find(function(structure){
+
+    // Check if corner has a structure
+    let isSettled = this.props.structure.find(function(structure){
       return structure.corner_id === index
     })
-    if(isOwned){
+    if(isSettled){
+      // sets css class for owner and circle text as structure type
       owner = isOwned.owner + '-player'
       text = isOwned.type[0];
     }
+
+    // checks if corner is 'selected' and a 'corner', adds selected class
     let isSelected = this.props.selections.find(function(select){
       return select.id === index
     })
-    if(isSelected  && this.props.type === 'corner'){
+    if (isSelected && this.props.type === 'corner'){
       selected = 'corner-select';
     }
     let offset = 0
-    if (this.props.type === 'port'){
 
-    }
     // this.props.type -> port or corner
     // this.props.resource -> port only resource
-    // selected -> ring (glow?)
-    // owner -> color
-    // structure -> 'city' or 'settlement'
+
     let classN = [this.props.type, this.props.resource, owner, selected].join(' ')
+
     return (
       <g className="shape-group"  onClick={ e => this.selectCorner(e) }
         id= {cornerId} >
-        <img src=""/>
         <circle className={classN} cx={this.props.cx} cy={this.props.cy}
           r={this.props.r}  id= {cornerId}/>
         <text x={this.props.cx + offset} y={this.props.cy+1} className="port-text" textAnchor="middle" >
@@ -69,6 +69,7 @@ class CornerShape extends React.Component {
         </text>
       </g>
     );
+
   }
 }
 
