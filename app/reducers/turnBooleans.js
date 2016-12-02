@@ -37,7 +37,7 @@ export function isSettingUp (isSettingUp = true, action){
 export function turnArray (turnArray= [2,3,4], action){
     switch (action.type) {
     case NEXT_ROUND_STEP2:
-      return [4,3,2,1]
+      return [3,2,1]
     case SHIFT_TURNS:
       return turnArray.slice(1)
     default:
