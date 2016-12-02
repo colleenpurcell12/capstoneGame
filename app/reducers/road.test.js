@@ -9,7 +9,7 @@ describe('Road reducer (roads)', () => {
     expect(reducer(undefined, {})).to.be.empty;
   });
 
-  it('should have a `addRoadsToRoads` action creator to update roads on state', () => {
+  it('has `addRoadsToRoads` action creator with road object payload', () => {
     const roadObj = {
       color: 'red',
       coordinates: [[11,19],[11,21]],
@@ -22,7 +22,7 @@ describe('Road reducer (roads)', () => {
 
   });
 
-  it('should handle ADD_ROAD to have an array of all road additions', () => {
+  it('handles ADD_ROAD to update roads on state to have all road additions', () => {
     const road1 = {
       color: 'red',
       coordinates: [[11,19],[11,21]],

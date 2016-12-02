@@ -9,17 +9,15 @@ describe('Dice reducer (diceRoll)', () => {
     expect(reducer(undefined, {})).to.contain({d1: null, d2: null})
   })
 
-  it('should have a `newDiceRoll` action creator to update dice rolls', () => {
+  it('has `newDiceRoll` action creator ', () => {
     const diceRoll = {d1:5, d2:7};
     const updateDice = { type: 'DICE_ROLL', diceRoll}
     expect(newDiceRoll(diceRoll)).to.contain(updateDice)
   })
 
-  it('should handle a DICE_ROLL', () => {
+  it('handles DICE_ROLL to update diceRoll on state', () => {
     expect(reducer(undefined, {type:'DICE_ROLL', diceRoll: {d1:1, d:2}})).to.contain({d1:1, d:2});
-
     expect(reducer({d1:1, d:2}, {type:'DICE_ROLL', diceRoll: {d1:7, d:3}})).to.contain({d1:7, d:3});
-
     expect(reducer({d1:7, d:3}, {type:'DICE_ROLL', diceRoll: {d1:2, d:2}})).to.contain({d1:2, d:2});
 
   })

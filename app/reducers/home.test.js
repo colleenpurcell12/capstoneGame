@@ -9,19 +9,19 @@ describe('Home reducer (inProgress)', () => {
     expect(reducer(undefined, {})).to.equal(false)
   })
 
-  it('should have a `startGame` action creator to start gameplay', () => {
+  it('has `startGame` action creator with bool (boolean) payload', () => {
     const bool = true;
     const setsGameInMotion = { type: 'INITIALIZE_GAME', bool}
     expect(startGame(bool)).to.contain(setsGameInMotion);
   })
 
-  it('should handle INITIALIZE_GAME when passed true', () => {
+  it('handles INITIALIZE_GAME when passed true to set game inProgress to true on state', () => {
     expect(reducer(undefined, {type:'INITIALIZE_GAME', bool: true})).to.equal(true);
     expect(reducer(false, {type:'INITIALIZE_GAME', bool: true})).to.equal(true);
     expect(reducer(true, {type:'INITIALIZE_GAME', bool: true})).to.equal(true);
   })
 
-  it('should handle INITIALIZE_GAME when passed false', () => {
+  it('handles INITIALIZE_GAME when passed false and does not set inProgress to true on state', () => {
     expect(reducer(undefined, {type:'INITIALIZE_GAME', bool: false})).to.equal(false);
     expect(reducer(false, {type:'INITIALIZE_GAME', bool: false})).to.equal(false);
     expect(reducer(true, {type:'INITIALIZE_GAME', bool: false})).to.equal(false);

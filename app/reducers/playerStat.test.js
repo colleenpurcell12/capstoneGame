@@ -9,12 +9,12 @@ describe('PlayerStat reducer (turnInfo)', () => {
     expect(reducer(undefined, {})).to.equal(1);
   });
 
-  it('should have a `setNextTurn` action creator to update turnInfo on state', () => {
+  it('has `setNextTurn` action creator with player integer payload', () => {
     const nextPlayer = { type: 'SET_NEXT_TURN', player: 2};
     expect(setNextTurn(2)).to.contain(nextPlayer);
   });
 
-  it('should handle SET_NEXT_TURN when passed a single integer value', () => {
+  it('handles SET_NEXT_TURN when passed a single integer value to update turnInfo on state', () => {
     const playerTurnsArray = [2,3,4,4,3,2,1];
     expect(reducer(undefined,{})).to.equal(1);
     expect(reducer(1, {type:'SET_NEXT_TURN', player: playerTurnsArray.shift()})).to.equal(2);

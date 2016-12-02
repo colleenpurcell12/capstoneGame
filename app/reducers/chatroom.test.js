@@ -9,7 +9,7 @@ describe('Chatroom reducer (messages)', () => {
     expect(reducer(undefined, {})).to.contain({});
   });
 
-  it('should have a `load` action creator to set the messages on state', () => {
+  it('should have a `load` action creator with `messages` payload', () => {
 
     const messages = {
           1: { name: 'Space Alien',
@@ -24,14 +24,14 @@ describe('Chatroom reducer (messages)', () => {
     expect(load(messages)).to.contain(currentMessages);
   });
 
-  it('should handle LOAD_MESSAGES when passed a single message', () => {
+  it('handles LOAD_MESSAGES when passed a single message to update messages on state', () => {
     const singleMessage = {1: {name: 'Space Alien', text: 'HI'}};
     const anotherMessage = {name: 'Space Cat', text: 'MEOW'};
     expect(reducer(undefined, {type:'LOAD_MESSAGES', messages: singleMessage})).to.contain(singleMessage);
     expect(reducer(singleMessage, {type:'LOAD_MESSAGES', messages: anotherMessage})).to.contain(anotherMessage);
   });
 
-  it('should handle LOAD_MESSAGES when multiple messages', () => {
+  it('handles LOAD_MESSAGES with nested (multiple) messages to update messages on state', () => {
     const messageSet1 = {
       1: { name: 'Space Alien',
         text: 'Crop circles are cool!'

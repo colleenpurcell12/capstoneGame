@@ -26,12 +26,12 @@ describe('Corner reducer (corners)', () => {
     expect(reducer(undefined, {})).to.be.empty;
   });
 
-  it('should have a `putCorners` action creator to update robberHex position on state', () => {
+  it('has `putCorners` action creator with `corners` object payload ', () => {
     const cornersToAdd = { type: 'PUT_CORNERS', corners: cornerSet};
     expect(putCorners(cornerSet)).to.contain(cornersToAdd);
   });
 
-  it('should handle PUT_CORNERS when passed a single integer value', () => {
+  it('handles PUT_CORNERS when passed a single integer value to update corners on state', () => {
     expect(reducer(undefined, {type:'PUT_CORNERS', corners: cornerSet})).to.equal(cornerSet);
     expect(reducer(cornerSet, {type:'PUT_CORNERS', corners: cornerSet2})).to.equal(cornerSet2);
   });

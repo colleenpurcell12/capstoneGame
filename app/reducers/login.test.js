@@ -9,18 +9,18 @@ describe('Login reducer (loggedInUser)', () => {
     expect(reducer(undefined, {})).to.equal(null)
   });
 
-  it('should have a loginUser action creator to set the loggedInUser on state', () => {
+  it('has a `loginUser` action creator with loggedInUser object payload', () => {
     const user = {name: 'Elon Musk'};
     const loggedInUser = { type: 'SET_CURRENT_USER', loggedInUser: user}
     expect(loginUser(user)).to.contain(loggedInUser);
   });
 
-  it('should handle SET_CURRENT_USER when passed user info', () => {
+  it('handles SET_CURRENT_USER to update loggedInUser on state', () => {
     const user = {name: 'Space Alien'};
     expect(reducer(undefined, {type:'SET_CURRENT_USER', loggedInUser: user})).to.contain(user);
   });
 
-  it('should handle SET_CURRENT_USER when passed null value', () => {
+  it('handles SET_CURRENT_USER to set the loggedInUser to null on state', () => {
     const user = {name: 'Ice Cap'}
     expect(reducer(undefined, {type:'SET_CURRENT_USER', loggedInUser: user})).to.contain(user);
     expect(reducer(user, {type:'SET_CURRENT_USER', loggedInUser: null})).to.equal(null);
