@@ -48,7 +48,8 @@ export class Structures extends Component {
     })
     if (!matching ){ return true } 
     else { 
-      console.log("That road is taken.")
+
+      console.log("That road is taken, it's ",matching)
         let message = { name: "Space Station",
         text: `${initials(players[userIndex].name)}, that road is already taken.`}
         this.props.addMessage(message);
@@ -200,7 +201,8 @@ export class Structures extends Component {
       //console.log("isAvailable road? ",this.isAvailable('road',coord) )
 
       if(this.props.isSettingUp){
-        console.log("For this round of setting up, a player hasn't already BoughtARoad?", player.hasBoughtARoad )
+        console.log("For this round of setting up, player has already BoughtARoad?", player.hasBoughtARoad )
+        if(player.hasBoughtARoad) { return; }
       }
 
       //Validation
@@ -281,7 +283,7 @@ export class Structures extends Component {
                             coordinates: coord,
                             associatedHexs: associatedHexs
                           }
-
+ 
       if( this.props.isSettingUp ) {  player.hasBoughtASettlement = true }
       else { this.takePayment('settlement') }//decrement relevant cards from userArray user object's card resources
 
@@ -289,7 +291,10 @@ export class Structures extends Component {
 
       //everyStructure used for movie validation dispatched with firebase
       addAction(this.props.addSettlementToEveryStructure(settlementObj))
-      addAction( this.props.addPoint(player))  //player score DOESN"T WORK
+       // console.log("player",player,"name",player.name )
+       // console.log(this.props.addPoint(player) )
+      
+      addAction( this.props.addPoint(player.name))  //player score DOESN"T WORK
 
       //structure used for rending visual
       var settleObj = {owner: userColor, corner_id: corner.id, type: 'settlement', player: player.name } //userObj
