@@ -3,9 +3,9 @@ import chai, {expect} from 'chai'
 chai.use(require('chai-enzyme')());
 import reducer, {newDiceRoll} from './dice';
 
-describe('dice reducer', () => {
+describe('Dice reducer (diceRoll)', () => {
 
-  it('returns the initial state with null d1 and d2 values', () => {
+  it('returns its initial state with null d1 and d2 values', () => {
     expect(reducer(undefined, {})).to.contain({d1: null, d2: null})
   })
 

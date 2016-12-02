@@ -3,9 +3,9 @@ import chai, {expect} from 'chai'
 chai.use(require('chai-enzyme')());
 import reducer, {moveRobber} from './robber';
 
-describe('robber reducer', () => {
+describe('Robber reducer (robberHex)', () => {
 
-  it('returns the initial state with null value', () => {
+  it('returns its initial state with null value', () => {
     expect(reducer(undefined, {})).to.equal(null);
   });
 

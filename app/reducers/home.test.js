@@ -3,7 +3,7 @@ import chai, {expect} from 'chai'
 chai.use(require('chai-enzyme')());
 import reducer, {startGame} from './home';
 
-describe('home (inProgress) reducer', () => {
+describe('Home reducer (inProgress)', () => {
 
   it('returns the initial state with default inProgress value', () => {
     expect(reducer(undefined, {})).to.equal(false)

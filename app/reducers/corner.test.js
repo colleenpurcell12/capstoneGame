@@ -3,7 +3,7 @@ import chai, {expect} from 'chai'
 chai.use(require('chai-enzyme')());
 import reducer, {putCorners} from './corner';
 
-describe('corner reducer', () => {
+describe('Corner reducer (corners)', () => {
 
   const cornerSet = {
     '0,0,0:0,1,-1:1,0,-1': {
@@ -22,8 +22,8 @@ describe('corner reducer', () => {
   }
 
 
-  it('returns the initial `corners` state of empty array', () => {
-    expect(reducer(undefined, [])).to.be.empty;
+  it('returns its initial state of an empty array', () => {
+    expect(reducer(undefined, {})).to.be.empty;
   });
 
   it('should have a `putCorners` action creator to update robberHex position on state', () => {

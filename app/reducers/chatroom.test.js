@@ -3,9 +3,9 @@ import chai, {expect} from 'chai'
 chai.use(require('chai-enzyme')());
 import reducer, {load} from './chatroom';
 
-describe('chatroom reducer', () => {
+describe('Chatroom reducer (messages)', () => {
 
-  it('returns the initial state with empty messages object', () => {
+  it('returns its initial state of an empty object', () => {
     expect(reducer(undefined, {})).to.contain({});
   });
 

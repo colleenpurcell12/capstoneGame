@@ -3,7 +3,7 @@ import chai, {expect} from 'chai'
 chai.use(require('chai-enzyme')());
 import reducer, {loginUser} from './login';
 
-describe('login reducer', () => {
+describe('Login reducer (loggedInUser)', () => {
 
   it('returns the initial state with loggedInUser value of null', () => {
     expect(reducer(undefined, {})).to.equal(null)
