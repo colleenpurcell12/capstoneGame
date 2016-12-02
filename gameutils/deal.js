@@ -6,6 +6,7 @@ import {resources} from './setup';
 
 function deal(structures, corners, hexData, roll){
   // loops through structures array from state
+  var toDeal =[];
   structures.forEach(structure => {
     // determines number of cards to deal based on type
     var num;
@@ -24,16 +25,24 @@ function deal(structures, corners, hexData, roll){
       if(hexData[hex.id] && hexData[hex.id].token === roll){
         var resource = resources[hexData[hex.id].resource];
         var player = structure.player;
-        addAction(incrementResource(player, resource, num));
+        toDeal.push({player, resource, num});
+
+        // addAction(incrementResource(player, resource, num));
       }
     });
   });
+  return toDeal;
 }
 
 function setupDeal(structures, corners, hexData){
   // for every token number on the map, deal adjoining settlements
-  let tokens = [2,3,4,5,6,8,9,19,11,12];
-  tokens.forEach(token => deal(structures, corners, hexData, token));
+  let tokens = [2,3,4,5,6,8,9,10,11,12];
+  let setupDealt = [];
+  tokens.forEach(token => {
+   var dealt = deal(structures, corners, hexData, token);
+   setupDealt = setupDealt.concat(dealt);
+ });
+  return setupDealt;
 }
 
 module.exports = {deal, setupDeal};
