@@ -73,13 +73,12 @@ export class PlayerStat extends Component {
     })
 
     if (actualGiveNumber > 0) { //if the number of cards being distributed is greater than zero, fire these
-      addAction(decrementResource(this.props.loggedInUser.displayName, giveState.giveResource, actualGiveNumber)); //decrease the giver's resources by the appropriate amount
-      addAction(incrementResource(giveState.giveTo, giveState.giveResource, actualGiveNumber)); //give the recipient only the amount of resources that the giver could provide
+      addAction(decrementResource(this.props.loggedInUser.displayName, giveState.giveResource, actualGiveNumber)); 
+      addAction(incrementResource(giveState.giveTo, giveState.giveResource, actualGiveNumber));
       message = {
         name: station,
         text: `${initials(this.props.loggedInUser.displayName)} sent ${initials(giveState.giveTo)} ${actualGiveNumber} of their ${giveState.giveResource}`
       }
-
       this.props.addMessage(message);
     }
   }
@@ -88,16 +87,7 @@ export class PlayerStat extends Component {
      if (this.props.players.length === 3){ //if we're on the third player, and now we're calling addNew Player
       addAction(startGame(true)); //set game progress to be true
     }
-    // console.log("addNewPlayer this.props.colors",this.props.colors)
-    //   let { colors } = this.props
-
-    //   //var colorsArray = ['red','blue','green','yellow']
-    //   var color = colors[0]
-    //    console.log("NewPlayer color is",color)
-    //   addAction(this.props.grabColorFromArray())
-      //console.log("After addNewPlayer grabColorFromArray, store.getState().colors",store.getState().colors)
-      addAction(addPlayer(this.props.loggedInUser.displayName)); //, color));
-
+       addAction(addPlayer(this.props.loggedInUser.displayName)); //, color));
   }
 
   nextPlayer(){
@@ -123,6 +113,7 @@ export class PlayerStat extends Component {
             // userArray[i].hasBoughtASettlement = false
         }
         addAction(nextRound())
+        //isFirstRound set to false
         addAction(nextRoundStep2())
         console.log("and next player is 4")
         addAction(setNextTurn(4));
@@ -249,36 +240,17 @@ export class PlayerStat extends Component {
   }
 }
 
-
 /* -----------------    CONTAINER     ------------------ */
 
 import {connect} from 'react-redux';
-//import { endTurn } from '../reducers/playerStat';
-//import { setNextRound, endSetUp, nextTurn } from '../reducers/turnBooleans';
 import { setNextTurn } from '../reducers/playerStat';
 import { nextRound, nextRoundStep2, shiftTurns, startNormGamePlay } from '../reducers/turnBooleans';
 import { clearSelection } from '../reducers/selection'
 import { addPlayer, incrementResource, decrementResource } from '../reducers/players';
-//import {addAPlayer, increResource, decreResource} from '../reducers/usersArray';
-//import { grabColorFromArray } from '../reducers/colors';
-
 
 const mapState = ({ turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray, structure, corners, hexData }) => ({turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray,  structure, corners, hexData }); //userArray, colors
 
 const mapDispatch = {  setNextTurn, nextRound, nextRoundStep2, shiftTurns, startNormGamePlay, clearSelection, addMessage }; //grabColorFromArray
-
-// In first round -- nextTurn->shiftTurns
-// at the end of first round-- ->nextRound switches isFirstRound to false and ->nextRoundStep2 resets the 2nd round's turnArray
-// In 2nd round -- nextTurn->shiftTurns
-// at the end of 2nd round-- endSetUp->startNormGamePlay
-// Normal game play -- endTurn->setNextTurn
-
-
-// setNextRound -> nextRound & nextRoundStep2  //export const setNextRound = () =>  dispatch(nextRound());(nextRoundStep2());
-// nextTurn -> shiftTurns           //export const nextTurn = () => dispatch(shiftTurns());
-// endSetUp -> startNormGamePlay    // export const endSetUp = () => dispatch(startNormGamePlay());
-// endTurn -> setNextTurn           // export const endTurn = (player) => dispatch(setNextTurn(player));
-
 
 export default connect(
   mapState,

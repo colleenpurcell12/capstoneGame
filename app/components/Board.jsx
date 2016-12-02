@@ -1,6 +1,6 @@
 import HexGrid from '../../gameutils/react-hexgrid/src/HexGrid.js';
 import React, {Component} from 'react';
-import {shuffle, addRoad, tokenArray, resourcesArray} from 'APP/gameutils/setup.js'
+import {shuffle, addRoad, tokenArray, resourcesArray, neighborDirections} from 'APP/gameutils/setup.js'
 import CornerGrid from './CornerGrid'
 import Roads from './Roads'
 import Layout from '../../gameutils/react-hexgrid/src/Layout'
@@ -11,7 +11,6 @@ import PortGrid from './PortGrid'
 import store from '../store'
 import {addAction} from '../reducers/action-creators'
 import {assignHexData} from '../reducers/hex-data'
-import {neighborDirections} from 'APP/gameutils/setup'
 import {boardConfig} from 'APP/gameutils/boardConfig'
 
 class Board extends Component {
