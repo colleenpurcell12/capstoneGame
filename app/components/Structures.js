@@ -10,15 +10,17 @@ export class Structures extends Component {
     super(props);
     this.state = {
       //wool: 0
-    }; 
+    };
   }
   componentDidMount() {
 
   }
-  isAvailable(type, coord){  //WORKS          
+  isAvailable(type, coord){  //WORKS
     //return true //for testing
-    let { everyStructure, selections, turnInfo, players } = this.props  
-    let userIndex = --turnInfo 
+
+    let { everyStructure, selections, turnInfo, players } = this.props
+    let userIndex = --turnInfo
+
     if(type==='road'){
       let everyRoad = everyStructure.filter( (struc) => struc.type==='road')
       //could alternatively check if both corners match
@@ -29,26 +31,28 @@ export class Structures extends Component {
         && struc.coordinates[1][0] === coord[1][0]
         && struc.coordinates[1][1] === coord[1][1]
         )
-      if(sameRoad.length===0){ 
-        return true 
+      if(sameRoad.length===0){
+        return true
       } //non already purchased, isAvailable true
     }
     else { //settlement
-      let settlementOnThisCorner = everyStructure.filter( struc => 
-                          (struc.cornerId === selections[0].id ) 
-                          && (struc.type==='settlement' || struc.type==='city') 
+      let settlementOnThisCorner = everyStructure.filter( struc =>
+                          (struc.cornerId === selections[0].id )
+                          && (struc.type==='settlement' || struc.type==='city')
                         )
-      //console.log("settlementOnThisCorner ",settlementOnThisCorner) 
+
+      //console.log("settlementOnThisCorner ",settlementOnThisCorner)
       if(settlementOnThisCorner.length===0 ){ //&& sameSettlement.length>0){
-        return true 
+        return true
       }
     }
     console.log(`Someone already owns a this ${type}`)
     let message = { name: "Space Station",
         text: `${initials(players[userIndex].name)} that ${type} is a already taken.`}
     this.props.addMessage(message);
-    return false 
+    return false
   }
+
 
   isConnected(type, cornerIDs){  //Roads validation, should be connected by corner to either a road or settlement
     //if is setting up, shouldn't get here
@@ -61,31 +65,31 @@ export class Structures extends Component {
         }
       })
       if (matching.length>0){ return true }
-      else if (matching.length===0) { 
+      else if (matching.length===0) {
         console.log("That settlement is not connected to any of your roads.")
         let message = { name: "Space Station",
         text: `${initials(players[userIndex].name)}, that corner is not connected to any of your roads.`}
         this.props.addMessage(message);
-        return false 
+        return false
       }
     }
     let startCornerID = cornerIDs[0]
     let endCornerID = cornerIDs[1]
-    
-    let allMatchingRoadCorners = everyStructure.filter(function(struc){ 
+
+    let allMatchingRoadCorners = everyStructure.filter(function(struc){
         if(struc.type==='road' && ( struc.corners[0]=== startCornerID || struc.corners[0]=== endCornerID
           || struc.corners[1]=== startCornerID || struc.corners[1]=== endCornerID) ) {
           return true
         }
     })
-    let allMatchingSettlementCorners = everyStructure.filter(function(struc){ 
-        if (struc.type==='settlement' && (struc.cornerId=== startCornerID || struc.cornerId=== endCornerID)){   
+    let allMatchingSettlementCorners = everyStructure.filter(function(struc){
+        if (struc.type==='settlement' && (struc.cornerId=== startCornerID || struc.cornerId=== endCornerID)){
           return true
         }
     })
-    if (allMatchingRoadCorners.length>0 || allMatchingSettlementCorners.length>0){ 
-      return true 
-    } else { 
+    if (allMatchingRoadCorners.length>0 || allMatchingSettlementCorners.length>0){
+      return true
+    } else {
       return false
     }
   }
@@ -107,7 +111,7 @@ export class Structures extends Component {
     this.props.addMessage(message);
     return false
   }
- 
+
    //CITY/SETTLEMENT VALIDATION
   isFarEnough(coord){
     //take selected corner
@@ -117,33 +121,33 @@ export class Structures extends Component {
 
     let {  turnInfo, selections, everyStructure, corners } = this.props
     var cornerNeighbors =  selections[0].neighbors
-   
+
     // check that neighbors corners dont have non-owned settlements/cities
 
       //have to look at each neighbor corner and see if any match another player's owned structures
       let tooCloseStructure;
       for(var i = 0 ; i<cornerNeighbors.length ; i++){
-        tooCloseStructure = everyStructure.filter( (struc) => 
-          (struc.cornerId === cornerNeighbors.id ) 
-          && (struc.type==='settlement' || struc.type==='city') 
+        tooCloseStructure = everyStructure.filter( (struc) =>
+          (struc.cornerId === cornerNeighbors.id )
+          && (struc.type==='settlement' || struc.type==='city')
           && struc.userID!==turnInfo
             ) //closes filter
       } //closes for loop
       //console.log("isFarEnough away, unless this not empty:",tooCloseStructure)
-      if( tooCloseStructure.length>0 ){ 
+      if( tooCloseStructure.length>0 ){
         console.log("Is not far enought from someone else's settlement")
         return false
       }
       // look in everyStructure for settlements/cities
       // then try to "match" the settlements by ??? to the neighbor corners by either name or coordinates
-    
+
     return true
   }
   isValidateRoad(cornerIDs, userIndex, coord){
     let { players } = this.props
-    let player = players[userIndex] 
-    if(this.props.isSettingUp){ 
-      if(player.hasBoughtARoad){ 
+    let player = players[userIndex]
+    if(this.props.isSettingUp){
+      if(player.hasBoughtARoad){
         console.log(player.name," has already bought a road in this round.")
         let message = { name: "Space Station",
          text: `${initials(player.name)} has already bought a road in this round.`}
@@ -166,7 +170,7 @@ export class Structures extends Component {
   }
   registerRoad(){
     let {  players, turnInfo, selections, userArray } = this.props //userArray
-    
+
     if(selections.length>=2) {
       var cornerA = selections[0], cornerB = selections[1]
       var coord = [ [cornerA.x, cornerA.y], [cornerB.x, cornerB.y] ] //x1,y1,x2,y2
@@ -177,38 +181,39 @@ export class Structures extends Component {
       let userColor = userArray[userIndex].color
 
       let associatedHexs = []
-      for(var i = 0 ; i<3 ; i++){ //some corners are on coast lines
+      for(var i = 0 ; i < 3 ; i++){ //some corners are on coast lines
         if(typeof cornerA.hexes[i] === 'string'){
-          //console.log("This cornerA is on an edge.")   
+          //console.log("This cornerA is on an edge.")
         } else {
           associatedHexs.push(cornerA.hexes[i].id)
         }
         if(typeof cornerB.hexes[i] === 'string'){
-          //console.log("This cornerB is on an edge.")   
+          //console.log("This cornerB is on an edge.")
         } else {
           associatedHexs.push(cornerB.hexes[i].id)
         }
       }
       //console.log("this.isFarEnough('road')", this.isFarEnough('road') )
       //console.log("isAvailable road? ",this.isAvailable('road',coord) )
-      
+
       if(this.props.isSettingUp){
         console.log("For this round of setting up, a player hasn't already BoughtARoad?", player.hasBoughtARoad )
       }
-      
+
       //Validation
       if( !this.isAvailable('road',coord) ){
           //console.log('That road is a already taken.') //Error message
           return; //break/exit from function
       }
-      if(this.isValidateRoad(cornerIDs, userIndex, coord)){ 
+
+      if(this.isValidateRoad(cornerIDs, userIndex, coord)){
         let roadObj = { type: 'road', points: 0, coordinates: coord,
                         corners:  [cornerA.id, cornerB.id],
                         associatedHexs: associatedHexs, color: userColor, userID: userID } //XXX
 
         //so user can't select/register another road during this round of set up
-        if( this.props.isSettingUp ) { 
-          player.hasBoughtARoad = true 
+        if( this.props.isSettingUp ) {
+          player.hasBoughtARoad = true
          } else{
           this.takePayment('road') //the local func addAction(decrement()) relevant cards from userArray user object's card resources
         }
@@ -218,7 +223,8 @@ export class Structures extends Component {
         addAction(this.props.addRoadToEveryStructure(roadObj)) //formerly addRoad()
 
         //to the road state used for rending visuals
-        var roadObj = { color: userColor, corners:  [cornerA.id, cornerB.id] , userID: userID, 
+
+        var roadObj = { color: userColor, corners:  [cornerA.id, cornerB.id] , userID: userID,
                      coordinates: coord  }
         addAction(this.props.addRoadToRoads(roadObj)) //formerly: this.props.addBoardRoad
       }
@@ -236,12 +242,13 @@ export class Structures extends Component {
          this.props.addMessage(message);
         return false
       }
-      return true 
+
+      return true
     }
     var ifConnected = this.isConnected('settlement',cornerID)
-    if(ifConnected){ console.log("Settlement is connected.") } 
+    if(ifConnected){ console.log("Settlement is connected.") }
     return this.isAfforable('settlement') && ifConnected
-    
+
   }
   registerSettlement(){
     let { players, turnInfo, selections, userArray } = this.props //userArray,
@@ -251,7 +258,8 @@ export class Structures extends Component {
     let userColor = userArray[userIndex].color
     let associatedHexs = []
     let corner = selections[0]
-      for(var i = 0 ; i<3 ; i++){ //some corners are on coast lines
+      for(var i = 0 ; i < 3 ; i++){ //some corners are on coast lines
+
         if(typeof corner.hexes[i] !== 'string'){ associatedHexs.push(corner.hexes[i].id) }
       }
     let coord = [selections[0].x, selections[0].y]
@@ -259,27 +267,27 @@ export class Structures extends Component {
     console.log("this.isFarEnough('settlement')", this.isFarEnough('settlement') )
 
     if( !this.isAvailable('settlement',coord) ){ return; }
-    if ( selections.length===1 && this.isFarEnough('settlement', coord) 
+    if ( selections.length===1 && this.isFarEnough('settlement', coord)
         && this.isValidateSettlement(corner.id, player) ){
-      let settlementObj = { type: 'settlement', points: 1, 
-                            color: userColor, 
+      let settlementObj = { type: 'settlement', points: 1,
+                            color: userColor,
                             userID: userID,
                             cornerId: selections[0].id,
-                            coordinates: coord,  
-                            associatedHexs: associatedHexs   
+                            coordinates: coord,
+                            associatedHexs: associatedHexs
                           }
-      if( this.props.isSettingUp ) {  player.hasBoughtASettlement = true } 
+
+      if( this.props.isSettingUp ) {  player.hasBoughtASettlement = true }
       else { this.takePayment('settlement') }//decrement relevant cards from userArray user object's card resources
 
       addAction(this.props.clearSelection())
 
       //everyStructure used for movie validation dispatched with firebase
       addAction(this.props.addSettlementToEveryStructure(settlementObj))
-
-      addAction( this.props.addPoint(player))  //player score DOESN"T WORK 
+      addAction( this.props.addPoint(player))  //player score DOESN"T WORK
 
       //structure used for rending visual
-      var settleObj = {owner: userColor, corner_id: corner.id, type: 'settlement'} //userObj
+      var settleObj = {owner: userColor, corner_id: corner.id, type: 'settlement', player: player.name } //userObj
       addAction( this.props.addBoardStructure(settleObj) )
     }
     else {
@@ -302,8 +310,8 @@ takePayment(type){
     let playerName = players[userIndex].name
     //let userCards = userArray[userIndex].cardsResource
     //crops: 0, fuel: 0, hematite: 0, ice: 0, solar: 0
-    //Road type1 ice ❄️  type2 solar 🔆  
-    // Settlement type1 ice  ❄️ type2 solar  🔆 type3 fuel 🚀 type4 crops🌽  
+    //Road type1 ice ❄️  type2 solar 🔆
+    // Settlement type1 ice  ❄️ type2 solar  🔆 type3 fuel 🚀 type4 crops🌽
     // City type3 fuel 🚀 type5 hematite 🌑
     // Pioneer type3 fuel 🚀 type4  crops 🌽 type5 hematite 🌑
 
@@ -314,7 +322,7 @@ takePayment(type){
     if(type==='road'){ //cost lumber and 1 brick in catan world
       //type1 = lumber, type2 = brick, type3 = wool, type4 = grain, type5 = ore
       //decrementResource = (player, resource, count) => ({ type: DECREMENT_RESOURCE, player, resource, count})
-      
+
       //translate userIndex to player name
 
       this.props.decrementResource( playerName, 'ice', 1)
@@ -333,9 +341,9 @@ takePayment(type){
   //validation check
   isSettlementPlayerAlreadyOwns(cornerID, userID){ //WORKS
     //cornerID = 20; userID = 2; //TESTING
-    var theSettlementCurrPlayerOwnsOnThisCorner = this.props.everyStructure.filter( (struc) => 
-      struc.userID === userID 
-      && struc.type[0] === 'settlement' 
+    var theSettlementCurrPlayerOwnsOnThisCorner = this.props.everyStructure.filter( (struc) =>
+      struc.userID === userID
+      && struc.type[0] === 'settlement'
       && struc.cornerId === cornerID)
     console.log("theSettlementCurrPlayerOwnsOnThisCorner",theSettlementCurrPlayerOwnsOnThisCorner)
     if(theSettlementCurrPlayerOwnsOnThisCorner){
@@ -350,10 +358,10 @@ takePayment(type){
     let userID = turnInfo
     let userIndex = userID-1
     //cornerID = 20; userID = 2; //TESTING
-    if( selections.length === 1 
+    if( selections.length === 1
       && this.isSettlementPlayerAlreadyOwns(cornerID, userID)
-      && this.isAfforable('city') 
-      && !this.props.isSettingUp 
+      && this.isAfforable('city')
+      && !this.props.isSettingUp
        ) {
       // take away the cards afforded
       this.takePayment('city')
@@ -362,8 +370,8 @@ takePayment(type){
       addAction( this.props.addCityToEveryStructure(cornerID) )
       //also increment player's points in userArray
       console.log("before addPoint for city, userIndex",userIndex)
-      addAction( this.props.addPoint(userIndex)) 
-    }    
+      addAction( this.props.addPoint(userIndex))
+    }
     else{
       // if(!this.isAfforable('city')){
       //   console.log("Can't afford a city.")
