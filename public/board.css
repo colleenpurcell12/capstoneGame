@@ -30,7 +30,7 @@
 }
 
 .port {
-  fill: grey;
+  fill: #9a6590;
 }
 
 .port-text {
@@ -108,8 +108,8 @@ fill: blue;
 }
 
 /*Resources*/
-.hematite {
- fill: #ad7545
+.iron {
+ fill: grey
 }
 
 .ice {
@@ -117,7 +117,7 @@ fill: blue;
 }
 
 .solar  {
-  fill: #455ca1
+  fill: #eecf63
 }
 
 .crops {
@@ -125,7 +125,7 @@ fill: blue;
 }
 
 .fuel {
- fill: #eecf63
+ fill: #e14f33
 }
 
 .desert {
