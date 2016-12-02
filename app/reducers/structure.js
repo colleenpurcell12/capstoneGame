@@ -35,12 +35,3 @@ export default function structures (structures = [], action){
       return structures;
   }
 }
-
-/* ------------      DISPATCHERS     ------------------ */
-
-// export const addBoardStructure = (structure) => dispatch => {
-//     dispatch(addStructure(structure));
-// }
-// export const upgradeBoardStructure = (corner) => dispatch => {
-//     dispatch(upgradeSettlement(corner));
-// }
