@@ -1,4 +1,5 @@
 import * as firebase from 'firebase'
+import { browserHistory } from 'react-router';
 
 /* -----------------    ACTIONS     ------------------ */
 
@@ -43,6 +44,9 @@ export const listenGames = () => dispatch => {
 }
 
 export const newGame = () => dispatch => {
-	firebase.database().ref().child('games').push({actions: false, messages: false})
+	var newGame = firebase.database().ref().child('games').push({actions: false, messages: false}).key
+	dispatch(join(newGame));
+	browserHistory.push(`/game/${newGame}`)
+
 }
 
