@@ -96,7 +96,7 @@ export class Dice extends Component {
           <button onClick={() => addAction(this.submitStealInfo(this.state.stealFrom))}>Steal!</button>
          </div>
           :
-        <button disabled>👾 Waiting to Steal! 👾</button>
+        <button disabled> Waiting to Steal! </button>
       }
 
 		</div>
