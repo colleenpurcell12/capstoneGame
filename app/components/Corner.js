@@ -39,10 +39,10 @@ class CornerShape extends React.Component {
     let isSettled = this.props.structure.find(function(structure){
       return structure.corner_id === index
     })
-    if(isSettled){
+    if(isSettled && this.props.type === 'corner'){
       // sets css class for owner and circle text as structure type
-      owner = isOwned.owner + '-player'
-      text = isOwned.type[0];
+      owner = isSettled.owner + '-player'
+      text = isSettled.type[0];
     }
 
     // checks if corner is 'selected' and a 'corner', adds selected class
