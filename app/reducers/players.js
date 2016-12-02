@@ -51,11 +51,10 @@ export default function reducer (players = [], action) {
         }
         else return player
       })
-
     case ADD_POINT:
      return players.map(player => {
-      if (player.name === action.player.name) {
-        ++player.points;
+      if (player.name === action.player) {
+        player.points++;
         return player
         }
         else return player
