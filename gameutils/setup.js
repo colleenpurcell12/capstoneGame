@@ -186,7 +186,7 @@ module.exports = {
   resources,
   resourcesArray,
   tokenArray,
-  // assignHexInfo,
+  assignHexInfo,
   // neighborDirections,
   // findNeighbors,
   // makeCorners,
