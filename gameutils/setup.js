@@ -6,7 +6,7 @@ import GridGenerator from './react-hexgrid/src/GridGenerator'
 import HexUtils from './react-hexgrid/src/HexUtils';
 import Point from './react-hexgrid/src/Point';
 
-/* -----------------    CONSTANTS     ------------------ */
+/* -----------------   STATIC GAME VARIABLES   ------------------ */
 
 var ports = [
   {type: 'port', x: -45, y: -26, r: 3, ratio: '1:3', res: null},
@@ -33,23 +33,24 @@ var resources = ['solar', 'ice', 'crops', 'hematite', 'fuel']
 var resourcesArray = [0, 0, 0, 0, 1,1,1,1,2,2,2,2,3,3,3,4,4,4]
 var tokenArray = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12]
 
+/* -----------------    BOARD GENERATOR     ------------------ */
 
 function generate(config){
     // create layout object
     let layout = new Layout(config.layout, config.origin);
     let generator = GridGenerator.getGenerator(config.map);
 
-    //make hexagon array
+    // make hexagon array
     let hexagons = generator.apply(this, config.mapProps);
 
-    //make hexagon object with
+    // make hexagon object
     let map = hexagons.reduce((all, one) => Object.assign({},
       all,
       {[[one.q, one.r, one.s]]: one}
     ), {})
 
+    // create corners object from hexes
     const allCorners = {}
-    // create corners object out of hexes
     hexagons.forEach((hex, i) => {
       hex.id = i
       makeCorners(hex, corner => {
@@ -58,6 +59,7 @@ function generate(config){
       })
     })
     var n = 0;
+
     // assign id to all corners
     for(var corner in allCorners){
       allCorners[corner].id = n++;
@@ -79,7 +81,9 @@ function generate(config){
     return { hexagons, layout, corners: allCorners };
   }
 
+/* -----------------    BOARD UTILITIES     ------------------ */
 
+// shuffle resources or tokens
 function shuffle(arr){
   var shuffled = [];
   var len = arr.length
@@ -90,6 +94,7 @@ function shuffle(arr){
   return shuffled;
 }
 
+// create hexData array of token/resource assignments
 function assignHexInfo (tokens, resources) {
   var tshuff = shuffle(tokens);
   var rshuff = shuffle(resources);
@@ -106,6 +111,8 @@ function assignHexInfo (tokens, resources) {
   }
  return hexData;
 }
+
+// generate corner coordinates based on surrounding hexes
 function setCoords(corner , layout){
   var hexCoords = corner.split(':'), x, y
   var a = HexUtils.hexToPixel(hexCoords[0], layout);
@@ -126,6 +133,7 @@ function setCoords(corner , layout){
   return new Point(x, y);
 }
 
+// neighbor corners array generated from checking shared hexes
 function findNeighbors(a, cObj){
   var neighbors = [];
   for(var corner in cObj){
@@ -151,6 +159,7 @@ function plus(lhs, rhs) {
   }
 }
 
+// generate corners for each point on a hex
 function makeCorners(hex, visitor) {
   const dirs = neighborDirections
   dirs.forEach((vec, i) => {
@@ -161,10 +170,11 @@ function makeCorners(hex, visitor) {
   })
 }
 
-
+// Return normalized hex coords
 function coord(hex) {
   return [hex.q, hex.r, hex.s].join(',')
 }
+
 // Return the normalized corner coords between hexes A, B, and C.
 const cornerCoord = (a, b, c) =>
   [coord(a), coord(b), coord(c)].sort().join(':')
