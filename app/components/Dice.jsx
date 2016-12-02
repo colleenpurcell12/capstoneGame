@@ -32,7 +32,10 @@ export class Dice extends Component {
     else if (total === 7){ //if you roll a 7
       this.setState({diceEnabled: false, stealEnabled: true}); //allow stealing
     }
-    deal(this.props.structure, this.props.corners, this.props.hexData, total)
+    var dealt = deal(this.props.structure, this.props.corners, this.props.hexData, total)
+    dealt.forEach(incr => {
+      addAction(incrementResource(incr.player, incr.resource, incr.num))
+    })
     return {d1: d1, d2: d2}; //return the object that will be stored on the state since all the calcs are done in this function
   }
 
@@ -93,7 +96,7 @@ export class Dice extends Component {
           <button onClick={() => addAction(this.submitStealInfo(this.state.stealFrom))}>Steal!</button>
          </div>
           :
-        <button disabled>👾 Waiting to Steal! 👾</button>
+        <button disabled> Waiting to Steal! </button>
       }
 
 		</div>

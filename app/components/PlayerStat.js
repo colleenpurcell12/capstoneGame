@@ -69,7 +69,7 @@ export class PlayerStat extends Component {
     })
 
     if (actualGiveNumber > 0) { //if the number of cards being distributed is greater than zero, fire these
-      addAction(decrementResource(this.props.loggedInUser.displayName, giveState.giveResource, actualGiveNumber)); 
+      addAction(decrementResource(this.props.loggedInUser.displayName, giveState.giveResource, actualGiveNumber));
       addAction(incrementResource(giveState.giveTo, giveState.giveResource, actualGiveNumber));
       message = {
         name: station,
@@ -88,7 +88,7 @@ export class PlayerStat extends Component {
 
   nextPlayer(){
     addAction(this.props.clearSelection())
-    let { isFirstRound, isSettingUp, turnArray, turnInfo, players } = this.props 
+    let { isFirstRound, isSettingUp, turnArray, turnInfo, players } = this.props
     console.log("Past player is",turnInfo, "isFirstRound",isFirstRound," and turn Array is",turnArray)
     if (isSettingUp === false){ //Normal cycle of turns during game play, increment user to x+1
       var player = this.props.turnInfo
@@ -111,11 +111,14 @@ export class PlayerStat extends Component {
         addAction(setNextTurn(4));  // starts 2nd round with 4th player
      }
       // At the end of 2nd round, normal game play is initiated
-      else if (isFirstRound === false && turnArray.length === 0) {  
+      else if (isFirstRound === false && turnArray.length === 0) {
         console.log("and next player is 1")
         addAction(setNextTurn(1))      // game starts with the 1st player
         addAction(startNormGamePlay()) // !isSettingUp
-        setupDeal(this.props.structure, this.props.corners, this.props.hexData)
+        var dealt = setupDeal(this.props.structure, this.props.corners, this.props.hexData)
+        dealt.forEach(incr => {
+          addAction(incrementResource(incr.player, incr.resource, incr.num))
+        })
       }
       else { //within either round
         if (turnArray){
@@ -140,35 +143,37 @@ export class PlayerStat extends Component {
       <div className='playerInfo'>
         {resource ?
         <div>
+          <div><Structures /><br></br></div>
+          <button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button><br /><br />
 
           <div>
           <input type="button" onClick={() => this.changeCount('crops',false) } value="-"/>
-             🌽Crop Greenhouse  {resource.crops}
           <input type="button" onClick={ () => this.changeCount('crops',true) } value="+"/>
+             &nbsp; {resource.crops} &nbsp; 🌽 &nbsp; Crop Greenhouse  
           </div>
 
           <div>
             <input type="button" onClick={() => this.changeCount('fuel',false) } value="-"/>
-              🚀Fuel Factory    {resource.fuel}
             <input type="button" onClick={ () => this.changeCount('fuel',true) } value="+"/>
+            &nbsp; {resource.fuel} &nbsp; 🚀 &nbsp; Fuel Factory    
           </div>
 
           <div>
           <input type="button" onClick={() => this.changeCount('iron',false) } value="-"/>
-            🌑Iron Ore Mine    {resource.iron}
           <input type="button" onClick={ () => this.changeCount('iron',true) } value="+"/>
+            &nbsp; {resource.iron} &nbsp; 🌑 &nbsp; Iron Ore Mine    
           </div>
 
           <div>
           <input type="button" onClick={() => this.changeCount('ice',false) } value="-"/>
-            ❄️Ice             {resource.ice}
           <input type="button" onClick={ () => this.changeCount('ice',true) } value="+"/>
+            &nbsp; {resource.ice} &nbsp; ❄️ &nbsp; Ice             
           </div>
 
           <div>
           <input type="button" onClick={() => this.changeCount('solar',false) } value="-"/>
-            🔆Solar Panels{resource.solar}
           <input type="button" onClick={ () => this.changeCount('solar',true) } value="+"/>
+            &nbsp; {resource.solar} &nbsp; 🔆 &nbsp; Solar Panels
           </div>
           <div>
 
@@ -181,6 +186,7 @@ export class PlayerStat extends Component {
                 <input type="radio" value="road" onChange={this.handleChange} />
                 Longest Road Award
             </label>
+
           </div>
             <table>
             <tbody>
@@ -192,24 +198,21 @@ export class PlayerStat extends Component {
             </tbody>
             </table>
 
-          <div><Structures /><br></br></div>
-          <button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button><br /><br />
-
             <div style={{border: '1px solid gray', padding: '0', marginRight: '10%'}}>
-              <h8 style={{textAlign: 'center'}}>Give Resources</h8>
+              <div style={{textAlign: 'center', padding: '10' , fontSize: '18'}}>Give Resources</div>
               <DropDownMenu value={this.state.giveTo} onChange={(e,i,v) => this.setState({giveTo: v})}>
                 <MenuItem disabled={true} value='Player' primaryText="Player" />
                 { this.props.players.map((player,idx) => <MenuItem value={player.name} primaryText={player.name.split(" ")[0]} key={idx} />) }
-              </DropDownMenu> <br />
+              </DropDownMenu> 
                <DropDownMenu value={this.state.giveResource} onChange={(e,i,v) => {this.setState({giveResource: v})}} autoWidth={false}>
                  <MenuItem disabled={true} value='Resource' primaryText="Resource" />
                   { Object.keys(resource).map((item, idx) => <MenuItem value={item} primaryText={item} key={idx} />) }
               </DropDownMenu>
-                <div style={{paddingLeft:'10%'}}><br /><input type="text" name="count" placeholder="Number to..." style={{ width: '70px'}} onChange={(e) => {
+                <div style={{paddingLeft:'10%' , fontSize: '16' }}><input type="text" name="count" placeholder="Number" style={{ width: '70px'}} onChange={(e) => {
                 e.preventDefault();
                 this.setState({giveNumber: e.target.value});
               }}/>
-                <button onClick={() => this.submitGiveForm(this.state)}>Give</button>
+                <button style={{ margin: '10', fontSize: '16'}} onClick={() => this.submitGiveForm(this.state)}>Give</button>
                 </div>
             </div>
 

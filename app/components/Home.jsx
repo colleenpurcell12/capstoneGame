@@ -2,8 +2,6 @@ import React from 'react';
 import GoogleLogin from './GoogleLogin';
 import JoinGame from './JoinGame'
 
-import {Grid, Row, Col} from 'react-bootstrap';
-
 export class Home extends React.Component {
   render(){
     return (
