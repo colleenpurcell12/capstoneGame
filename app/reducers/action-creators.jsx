@@ -20,7 +20,6 @@ export const loadActions = (gameID) => dispatch => {
       var first = true;
       dispatch(syncActions(first, gameID));
       if(store.getState().hexData.length !== 19){
-        console.log("in load action", gameID)
         var hd = assignHexInfo(tokenArray, resourcesArray)
         addAction(assignHexData(hd))
       }
@@ -35,7 +34,6 @@ export const syncActions = (first, gameID) => dispatch => {
 }
 //add new moves to database
 export const addAction = (action) => {
-  console.log('in add action')
   firebase.database().ref().child('games').child(store.getState().gameID).child('actions').push(action)
 }
 
