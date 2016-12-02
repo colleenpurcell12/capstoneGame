@@ -6,8 +6,8 @@ const LOAD_PLAYERS = 'LOAD_PLAYERS'
 const ADD_PLAYER = 'ADD_PLAYER'
 const INCREMENT_RESOURCE = 'INCREMENT_RESOURCE'
 const DECREMENT_RESOURCE = 'DECREMENT_RESOURCE'
-
 const ADD_POINT = 'ADD_POINT'
+const HAS_BOUGHT= 'HAS_BOUGHT'
 
 
 /* ------------   ACTION CREATORS     ------------------ */
@@ -19,6 +19,7 @@ export const incrementResource = (player, resource, count) => ({ type: INCREMENT
 export const decrementResource = (player, resource, count) => ({ type: DECREMENT_RESOURCE, player, resource, count})
 
 export const addPoint = (player) => ({ type: ADD_POINT, player })
+export const hasBought = (name, property) => ({ type: HAS_BOUGHT, name, property })
 
 /* ------------       REDUCER     ------------------ */
 
@@ -28,7 +29,7 @@ export default function reducer (players = [], action) {
       return players.concat([{name: action.player, cardsTotal: function(){
         return Object.keys(this.cardsResource).map(resource => this.cardsResource[resource]).reduce((a,b) => a+b)
         }, 
-        cardsResource: {crops: 0, fuel: 0, hematite: 0, ice: 0, solar: 0}, 
+        cardsResource: {crops: 0, fuel: 0, iron: 0, ice: 0, solar: 0}, 
         points: 0, 
         hasBoughtARoad: false, 
         hasBoughtASettlement: false
@@ -51,11 +52,19 @@ export default function reducer (players = [], action) {
         }
         else return player
       })
-
     case ADD_POINT:
      return players.map(player => {
-      if (player.name === action.player.name) {
-        ++player.points;
+      if (player.name === action.player) {
+        player.points++;
+        return player
+        }
+        else return player
+     })
+     case HAS_BOUGHT:
+     return players.map(player => {
+      if (player.name === action.name) {
+        let { property } = action;
+        player[property] = true;
         return player
         }
         else return player

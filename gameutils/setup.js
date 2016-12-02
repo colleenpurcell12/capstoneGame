@@ -10,7 +10,7 @@ import Point from './react-hexgrid/src/Point';
 
 var ports = [
   {type: 'port', x: -45, y: -26, r: 3, ratio: '1:3', res: null},
-  {type: 'port', x: -45, y: 7,r: 3, ratio: '1:2', res: 'hematite'},
+  {type: 'port', x: -45, y: 7,r: 3, ratio: '1:2', res: 'iron'},
   {type: 'port', x: -29, y: 35, r: 3, ratio: '1:2', res: 'solar'},
   {type: 'port', x: -16, y: -43, r: 3, ratio: '1:2', res: 'ice'},
   {type: 'port', x: 0, y: 52, r: 3, ratio: '1:3', res: null},
@@ -29,7 +29,7 @@ const neighborDirections = [
     {q: -1,r:  0,s: 1},
 ];
 
-var resources = ['solar', 'ice', 'crops', 'hematite', 'fuel'];
+var resources = ['solar', 'ice', 'crops', 'iron', 'fuel'];
 var resourcesArray = [0, 0, 0, 0, 1,1,1,1,2,2,2,2,3,3,3,4,4,4];
 var tokenArray = [2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12];
 

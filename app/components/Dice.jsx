@@ -37,7 +37,7 @@ export class Dice extends Component {
   }
 
   submitStealInfo(playerToRob) {
-    let resources = ["crops", "ice", "solar", "hematite", "fuel"];
+    let resources = ["crops", "ice", "solar", "iron", "fuel"];
     let randomResource;
     let theftCall = 0; //only allow for one steal
     let setToStealFrom = this.props.players[playerToRob].cardsResource //player's available resources
