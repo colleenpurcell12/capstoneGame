@@ -11,7 +11,6 @@ import PortGrid from './PortGrid'
 import store from '../store'
 import {addAction} from '../reducers/action-creators'
 import {assignHexData} from '../reducers/hex-data'
-import {neighborDirections} from 'APP/gameutils/setup'
 import {boardConfig} from 'APP/gameutils/boardConfig'
 
 class Board extends Component {

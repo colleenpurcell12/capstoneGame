@@ -28,7 +28,7 @@ export default function reducer (messages = {}, action) {
 
 export const listenForMessages = () => dispatch => {
   const rootRef = firebase.database().ref()
-  const messagesRef = rootRef.child('game').child(store.getState().gameID).child('messages')
+  const messagesRef = rootRef.child('games').child(store.getState().gameID).child('messages')
   messagesRef.limitToLast(24).on('value', snap => {
     dispatch(load(snap.val()))
 	});
@@ -36,6 +36,6 @@ export const listenForMessages = () => dispatch => {
 
 export const addMessage = message => dispatch => {
   const rootRef = firebase.database().ref()
-  const messagesRef = rootRef.child('game').child(store.getState().gameID).child('messages')
+  const messagesRef = rootRef.child('games').child(store.getState().gameID).child('messages')
   messagesRef.push(message)
 }
