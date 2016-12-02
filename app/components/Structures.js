@@ -28,7 +28,7 @@ export class Structures extends Component {
       })
       if (!matching){ return true }
       else  { 
-        console.log("That settlement is already taken.")
+        console.log("That settlement is already taken. Should be something here:",matching)
         let message = { name: "Space Station",
         text: `${initials(players[userIndex].name)}, that corner is already taken.`}
         this.props.addMessage(message);

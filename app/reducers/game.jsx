@@ -10,7 +10,6 @@ const LOAD_GAMES = 'LOAD_GAMES'
 
 export const join = gameID => ({ type: JOIN_GAME, gameID })
 export const listen = games => ({type: LOAD_GAMES, games})
-export const reset = () => ({type: RESET_GAME })
 
 /* ------------       REDUCER     ------------------ */
 
