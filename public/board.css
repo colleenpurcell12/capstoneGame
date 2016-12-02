@@ -30,7 +30,7 @@
 }
 
 .port {
-  fill: brown;
+  fill: grey;
 }
 
 .port-text {
@@ -104,7 +104,7 @@ fill: blue;
   fill: green;
 }
 .brown-player {
-  fill: brown;
+  fill: #774d22;
 }
 
 /*Resources*/
@@ -117,14 +117,14 @@ fill: blue;
 }
 
 .solar  {
-  fill: #152e66
+  fill: #455ca1
 }
 
-.seeds {
+.crops {
   fill: #669b5a
 }
 
-.other {
+.fuel {
  fill: #eecf63
 }
 
@@ -135,7 +135,6 @@ fill: blue;
 .hex {
   fill: none;
 }
-
 
 /*Roads*/
 
@@ -156,8 +155,8 @@ fill: blue;
   stroke-weight: .5;
 }
 .brown {
-  stroke: brown;
-  fill: brown;
+  stroke: #774d22;
+  fill: #774d22;
   stroke-weight: .5;
 }
 
@@ -174,5 +173,5 @@ fill: blue;
 }
 
 .player3 {
-  color: brown;
+  color: #774d22;
 }

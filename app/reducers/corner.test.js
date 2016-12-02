@@ -5,19 +5,35 @@ import reducer, {putCorners} from './corner';
 
 describe('corner reducer', () => {
 
-  it('returns the initial state with null value', () => {
-    expect(reducer(undefined, {})).to.equal(null);
+  const cornerSet = {
+    '0,0,0:0,1,-1:1,0,-1': {
+      id: 32,
+      hex: [{id:14},{id:10},{id:9}],
+      neighbors: [20,31,33]
+    }
+  }
+
+  const cornerSet2 = {
+    '0,1,-1:0,2,-2:1,1,-2': {
+      id: 31,
+      hex: [{id:14},{id:9},{id:13}],
+      neighbors: [30,32,42]
+    }
+  }
+
+
+  it('returns the initial `corners` state of empty array', () => {
+    expect(reducer(undefined, {})).to.equal([]);
   });
 
-  it('should have a `moveRobber` action creator to update robberHex position on state', () => {
-    const shiftRobberToTwo = { type: 'MOVE_ROBBER', hexID: 2}
-    expect(moveRobber(2)).to.contain(shiftRobberToTwo);
+  it('should have a `putCorners` action creator to update robberHex position on state', () => {
+    const cornersToAdd = { type: 'PUT_CORNERS', corners: cornerSet};
+    expect(putCorners(cornerSet)).to.contain(cornersToAdd);
   });
 
-  it('should handle MOVE_ROBBER when passed a single integer value', () => {
-    expect(reducer(undefined, {type:'MOVE_ROBBER', hexID:7})).to.equal(7);
-    expect(reducer(7, {type:'MOVE_ROBBER', hexID: 15})).to.equal(15);
-    expect(reducer(15, {type:'MOVE_ROBBER', hexID: 3})).to.equal(3);
+  it('should handle PUT_CORNERS when passed a single integer value', () => {
+    expect(reducer(undefined, {type:'PUT_CORNERS', corners: cornerSet})).to.equal(cornerSet);
+    expect(reducer(cornerSet, {type:'PUT_CORNERS', corners: cornerSet2})).to.equal(cornerSet2);
   });
 
 });
