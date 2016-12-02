@@ -15,43 +15,46 @@ export class Structures extends Component {
   componentDidMount() {
 
   }
-  isAvailable(type, coord){  //WORKS
+  isAvailable(type, cornerIDs){  //WORKS 
     //return true //for testing
-
-    let { everyStructure, selections, turnInfo, players } = this.props
-    let userIndex = --turnInfo
-
-    if(type==='road'){
-      let everyRoad = everyStructure.filter( (struc) => struc.type==='road')
-      //could alternatively check if both corners match
-      //EDGE CASE is the order of coordinates always the same?
-      let sameRoad = everyRoad.filter( (struc) => //struc.coordinates===coord )
-        struc.coordinates[0][0]    === coord[0][0]
-        && struc.coordinates[0][1] === coord[0][1]
-        && struc.coordinates[1][0] === coord[1][0]
-        && struc.coordinates[1][1] === coord[1][1]
-        )
-      if(sameRoad.length===0){
-        return true
-      } //non already purchased, isAvailable true
-    }
-    else { //settlement
-      let settlementOnThisCorner = everyStructure.filter( struc =>
-                          (struc.cornerId === selections[0].id )
-                          && (struc.type==='settlement' || struc.type==='city')
-                        )
-
-      //console.log("settlementOnThisCorner ",settlementOnThisCorner)
-      if(settlementOnThisCorner.length===0 ){ //&& sameSettlement.length>0){
-        return true
+    let { everyStructure, selections, turnInfo, players } = this.props  
+    let userIndex = --turnInfo 
+    if(type==='settlement'){
+      let corner_id = cornerIDs
+      let matching = everyStructure.find( function(struc) {
+        if(struc.type==='settlement' && struc.cornerId===corner_id ){
+          return true
+        }
+      })
+      if (!matching){ return true }
+      else  { 
+        console.log("That settlement is already taken.")
+        let message = { name: "Space Station",
+        text: `${initials(players[userIndex].name)}, that corner is already taken.`}
+        this.props.addMessage(message);
+        return false 
       }
     }
-    console.log(`Someone already owns a this ${type}`)
-    let message = { name: "Space Station",
-        text: `${initials(players[userIndex].name)} that ${type} is a already taken.`}
-    this.props.addMessage(message);
-    return false
-  }
+
+    let startCornerID = cornerIDs[0]
+    let endCornerID = cornerIDs[1]
+    
+    let matching = everyStructure.find(function(struc){ 
+        if(struc.type==='road' && 
+          ( struc.corners[0]=== startCornerID && struc.corners[1]=== endCornerID)
+          || (struc.corners[0]=== endCornerID || struc.corners[1]=== startCornerID) ) {
+          return true
+        }
+    })
+    if (!matching ){ return true } 
+    else { 
+      console.log("That road is taken.")
+        let message = { name: "Space Station",
+        text: `${initials(players[userIndex].name)}, that road is already taken.`}
+        this.props.addMessage(message);
+        return false 
+     }
+   }
 
 
   isConnected(type, cornerIDs){  //Roads validation, should be connected by corner to either a road or settlement
@@ -201,7 +204,7 @@ export class Structures extends Component {
       }
 
       //Validation
-      if( !this.isAvailable('road',coord) ){
+      if( !this.isAvailable('road',cornerIDs) ){
           //console.log('That road is a already taken.') //Error message
           return; //break/exit from function
       }
@@ -266,8 +269,10 @@ export class Structures extends Component {
     //XXX
     console.log("this.isFarEnough('settlement')", this.isFarEnough('settlement') )
 
-    if( !this.isAvailable('settlement',coord) ){ return; }
-    if ( selections.length===1 && this.isFarEnough('settlement', coord)
+
+    if( !this.isAvailable('settlement',corner.id) ){ return; }
+    if ( selections.length===1 && this.isFarEnough('settlement', coord) 
+
         && this.isValidateSettlement(corner.id, player) ){
       let settlementObj = { type: 'settlement', points: 1,
                             color: userColor,
