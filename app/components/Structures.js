@@ -15,8 +15,7 @@ export class Structures extends Component {
   componentDidMount() {
 
   }
-  isAvailable(type, cornerIDs){  //WORKS 
-    //return true //for testing
+  isAvailable(type, cornerIDs){  
     let { everyStructure, selections, turnInfo, players } = this.props  
     let userIndex = --turnInfo 
     let matching
@@ -41,27 +40,7 @@ export class Structures extends Component {
           }
       })
     }
-    if (!matching){ 
-        console.log("That settlement is available.")
-        let message = { name: "Space Station",
-        text: `${initials(players[userIndex].name)}, that corner is available.`}
-        this.props.addMessage(message);
-        return true 
-      }
-      else  { 
-        console.log("That settlement is already taken. Should be something here:",matching)
-        let message = { name: "Space Station",
-        text: `${initials(players[userIndex].name)}, that corner is already taken.`}
-        this.props.addMessage(message);
-        return false 
-      }
-    if (!matching ){ 
-      console.log(`That ${type} is available.`)
-      let message = { name: "Space Station",
-      text: `${initials(players[userIndex].name)}, that road is available.`}
-      this.props.addMessage(message);
-      return true 
-    } 
+    if (!matching){ return true }
     else { 
       console.log(`That ${type} is taken, it's ${matching}`)
         let message = { name: "Space Station",
@@ -82,13 +61,7 @@ export class Structures extends Component {
           return true
         }
       })
-      if (matching.length>0){ 
-        console.log("That settlement is connected to",matching[0])
-        let message = { name: "Space Station",
-        text: `${initials(players[userIndex].name)}, that corner is connected to your other infrastructure.`}
-        this.props.addMessage(message);
-        return true 
-      }
+      if (matching.length>0){ return true }
       else if (matching.length===0) {
         console.log("That settlement is not connected to any of your roads.")
         let message = { name: "Space Station",
@@ -115,12 +88,6 @@ export class Structures extends Component {
           }
       })
       if (allMatchingRoadCorners.length>0 || allMatchingSettlementCorners.length>0){
-        if(allMatchingRoadCorners.length>0){
-          console.log("That road is connected to road:",allMatchingRoadCorners[0])
-        } else{console.log("That road is connected to settlement",allMatchingSettlementCorners[0])}
-        let message = { name: "Space Station",
-        text: `${initials(players[userIndex].name)}, that corner is connected to your other infrastructure.`}
-        this.props.addMessage(message);
         return true
       } 
       else {
@@ -152,23 +119,28 @@ export class Structures extends Component {
   }
 
    //CITY/SETTLEMENT VALIDATION
-  isFarEnough(coord){
-    let {  turnInfo, selections, everyStructure, corners } = this.props
+  isFarEnough(){
+    let {  turnInfo, selections, everyStructure, players} = this.props //corners
+    let userIndex=turnInfo-1
+    let player = players[userIndex]
     var cornerNeighbors =  selections[0].neighbors
-    // check that neighbors corners dont have another player's structures
-      let tooCloseStructure;
-      for(var i = 0 ; i<cornerNeighbors.length ; i++){
-        tooCloseStructure = everyStructure.filter( (struc) =>
-          (struc.cornerId === cornerNeighbors.id )
-          && (struc.type==='settlement' || struc.type==='city')
-          && struc.userID!==turnInfo
-            ) 
+    
+      let isTooClose=[]
+      let additional 
+      // check that neighbors corners dont have another player's structures
+      let allBuidlings = everyStructure.filter((struc) => (struc.type==='settlement' || struc.type==='city'))
+      for(var i = 0 ; i<cornerNeighbors.length ; i++){ //
+        additional = allBuidlings.filter((struc) => struc.cornerId===cornerNeighbors[i] && struc.userID!==turnInfo ) 
+        isTooClose = isTooClose.concat(additional)
       } 
-      if( tooCloseStructure.length>0 ){
-        console.log("Is not far enought from someone else's settlement")
+      if( isTooClose.length>0 ){
+        console.log("Is not far enought from someone else's settlement:",isTooClose)
+        let message = { name: "Space Station",
+           text: `${initials(player.name)}, that corner is not far enough from someone else's settlement.`}
+        this.props.addMessage(message);
         return false
       }
-    return true
+      else{ return true }
   }
   isValidRoad(cornerIDs, userIndex, coord){
     let { players } = this.props
@@ -182,7 +154,9 @@ export class Structures extends Component {
     return true
   }
   registerRoad(){
-    let {  players, turnInfo, selections, userArray } = this.props //userArray
+    let {  players, turnInfo, selections, userArray } = this.props
+    let userIndex = turnInfo-1
+    let player = players[userIndex]
 
     if(selections.length<2) {
       console.log('Please select two corners for your new road and try again')
@@ -194,9 +168,7 @@ export class Structures extends Component {
       var cornerA = selections[0], cornerB = selections[1]
       var coord = [ [cornerA.x, cornerA.y], [cornerB.x, cornerB.y] ] //x1,y1,x2,y2
       var cornerIDs = [ cornerA.id, cornerB.id ]
-      let userIndex = turnInfo-1
       let userID = turnInfo
-      let player = players[userIndex] //let userObj = players[userIndex]
       let userColor = userArray[userIndex].color
 
       let associatedHexs = []
@@ -241,21 +213,17 @@ export class Structures extends Component {
   }
  
   registerSettlement(){
+    if( !this.isFarEnough() ){ return; }
     let { players, turnInfo, selections, userArray } = this.props //userArray,
-    let userIndex = turnInfo-1
-    let userID = turnInfo
-    let player = players[userIndex]
-    let userColor = userArray[userIndex].color
-    let associatedHexs = []
     let corner = selections[0]
+    if( !this.isAvailable('settlement',corner.id) ){ return; }
+    let userIndex = turnInfo-1
+    let player = players[userIndex]
+    let associatedHexs = []
       for(var i = 0 ; i < 3 ; i++){ //some corners are on coast lines
-
         if(typeof corner.hexes[i] !== 'string'){ associatedHexs.push(corner.hexes[i].id) }
       }
     let coord = [selections[0].x, selections[0].y]
-    //XXX
-    console.log("this.isFarEnough('settlement')", this.isFarEnough('settlement') )
-
     if(this.props.isSettingUp){
         if(player.hasBoughtASettlement) { 
           console.log("You have already bought a settlement in this round")
@@ -269,54 +237,42 @@ export class Structures extends Component {
           text: `${initials(player.name)}'s first settlement of this round.`}
           this.props.addMessage(message);
         }
+      }    
+    if ( selections.length!==1 ){
+      console.log('Please make sure you have selected a valid corner for your new structure and try again')
+      let message = { name: "Space Station",
+         text: `${initials(player.name)} make sure you only have one corner selected.`}
+      this.props.addMessage(message);
+      return;
+    }
+    let cornerID = selections[0].id
+    if(! this.props.isSettingUp ) {  //tests for only normal game play 
+      if(!this.isAfforable('settlement') || !this.isConnected('settlement',cornerID)){
+        console.log("about to break out")
+        return; //break out if either is false
       }
-
-    if( !this.isAvailable('settlement',corner.id) ){ return; }
-    if ( selections.length===1 && this.isFarEnough('settlement', coord)  ){
-
-      if(! this.props.isSettingUp ) {  //tests for only normal game play 
-        if(this.isAfforable('settlement') && this.isConnected('settlement',cornerID)){
-          return; //break out
-        }
-      }
-      let settlementObj = { type: 'settlement', points: 1,
-                            color: userColor,
-                            userID: userID,
-                            cornerId: selections[0].id,
-                            coordinates: coord,
-                            associatedHexs: associatedHexs
+    }
+    let userColor = userArray[userIndex].color
+    let settlementObj = { type: 'settlement', points: 1, color: userColor,
+                            userID: turnInfo, cornerId: selections[0].id,
+                            coordinates: coord, associatedHexs: associatedHexs
                           }
       
-      if( this.props.isSettingUp ) {  
-        addAction(this.props.hasBought(player.name, 'hasBoughtASettlement'))// sets player.hasBoughtASettlement = true 
-      }
-      else { this.takePayment('settlement') }//decrement relevant cards from userArray user object's card resources
-
-      addAction(this.props.clearSelection())
-
-      //everyStructure used for movie validation dispatched with firebase
-      addAction(this.props.addSettlementToEveryStructure(settlementObj))
-       // console.log("player",player,"name",player.name )
-       // console.log(this.props.addPoint(player) )
-      
-      addAction( this.props.addPoint(player.name))  //player score DOESN"T WORK
-
-      //structure used for rending visual
-      var settleObj = {owner: userColor, corner_id: corner.id, type: 'settlement', player: player.name } //userObj
-      addAction( this.props.addBoardStructure(settleObj) )
+    if( this.props.isSettingUp ) {  
+      addAction(this.props.hasBought(player.name, 'hasBoughtASettlement'))// sets player.hasBoughtASettlement = true 
     }
-    else {
-      console.log('Please make sure you have selected a valid corner for your new structure and try again')
-      if (selections.length===2){
-        let message = { name: "Space Station",
-         text: `${initials(player.name)} make sure you only have one corner selected.`}
-         this.props.addMessage(message);
-      } else{
-        // let message = { name: "Space Station",
-        //  text: `${initials(player.name)} selected an invalid corner.`}
-        //  this.props.addMessage(message);
-      }
-    }
+    else { this.takePayment('settlement') }//decrement relevant cards from userArray user object's card resources
+
+    addAction(this.props.clearSelection())
+
+    //everyStructure used for movie validation dispatched with firebase
+    addAction(this.props.addSettlementToEveryStructure(settlementObj))   
+    addAction( this.props.addPoint(player.name))  //player score DOESN"T WORK
+
+    //structure used for rending visual
+    
+    var settleObj = {owner: userColor, corner_id: corner.id, type: 'settlement', player: player.name } //userObj
+    addAction( this.props.addBoardStructure(settleObj) )
   }
 
 takePayment(type){
