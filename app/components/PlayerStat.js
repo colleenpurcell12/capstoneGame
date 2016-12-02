@@ -48,10 +48,6 @@ export class PlayerStat extends Component {
   changeCount(resource, isGoingUp){
     isGoingUp? addAction(incrementResource(this.props.loggedInUser.displayName, resource, 1)) : //passing along 1 as the 'count' for standard increment or decrement via +/- buttons
       addAction(decrementResource(this.props.loggedInUser.displayName, resource, 1))
-
-    isGoingUp? addAction(incrementResource(this.props.loggedInUser.displayName, resource, 1)) : //passing along 1 as the 'count' for standard increment or decrement via +/- buttons
-      addAction(decrementResource(this.props.loggedInUser.displayName, resource, 1))
-
   }
 
   handleChange (e) { //TODO fill in this onClick handler for awards selection
@@ -92,7 +88,7 @@ export class PlayerStat extends Component {
 
   nextPlayer(){
     addAction(this.props.clearSelection())
-    let { isFirstRound, isSettingUp, turnArray, turnInfo, players } = this.props //userArray,
+    let { isFirstRound, isSettingUp, turnArray, turnInfo, players } = this.props 
     console.log("Past player is",turnInfo, "isFirstRound",isFirstRound," and turn Array is",turnArray)
     if (isSettingUp === false){ //Normal cycle of turns during game play, increment user to x+1
       var player = this.props.turnInfo
@@ -101,28 +97,24 @@ export class PlayerStat extends Component {
       addAction(setNextTurn(player)); //Formerly endTurn(userID) //dispatched setNextTurn(player));
     }
 
-    else { //isSettingUp === true, tracks 1st and 2nd round, ascending then descending
-
-      //check if end of 1st round
+    else { //isSettingUp, ascending turns in 1st and descending in 2nd round
       if (isFirstRound === true && turnArray.length === 0){
-        //reset all the userArray hasBoughtARoad and hasBoughtASettlement to false
-        for (var i = 0; i<4 ; i++){ //players 1 through 4
+        //Players are allowed a purchase of each, per round.
+        for (var i = 0; i<4 ; i++){ //4 players
+          if(players[i]){
             players[i].hasBoughtARoad = false;
             players[i].hasBoughtASettlement = false
-            // userArray[i].hasBoughtARoad = false;
-            // userArray[i].hasBoughtASettlement = false
+          }
         }
-        addAction(nextRound())
-        //isFirstRound set to false
-        addAction(nextRoundStep2())
-        console.log("and next player is 4")
-        addAction(setNextTurn(4));
+        addAction(nextRound())      // sets !isFirstRound
+        addAction(nextRoundStep2()) // sets turnsArray to descending
+        addAction(setNextTurn(4));  // starts 2nd round with 4th player
      }
-      //check if end of 2nd round, therefore end of set up phase
-      else if (isFirstRound === false && turnArray.length === 0) {  // initialize normal cycle of turns
+      // At the end of 2nd round, normal game play is initiated
+      else if (isFirstRound === false && turnArray.length === 0) {  
         console.log("and next player is 1")
-        addAction(setNextTurn(1))       //Formerly this.props.endTurn(0) dispatched setNextTurn(1)
-        addAction(startNormGamePlay()) //this.props.endSetUp() dispatched startNormGamePlay(), which sets isSettingUp ==false
+        addAction(setNextTurn(1))      // game starts with the 1st player
+        addAction(startNormGamePlay()) // !isSettingUp
         setupDeal(this.props.structure, this.props.corners, this.props.hexData)
       }
       else { //within either round
@@ -151,20 +143,20 @@ export class PlayerStat extends Component {
 
           <div>
           <input type="button" onClick={() => this.changeCount('crops',false) } value="-"/>
-             🌽Crops  {resource.crops}
+             🌽Crop Greenhouse  {resource.crops}
           <input type="button" onClick={ () => this.changeCount('crops',true) } value="+"/>
           </div>
 
           <div>
             <input type="button" onClick={() => this.changeCount('fuel',false) } value="-"/>
-              🚀Fuel    {resource.fuel}
+              🚀Fuel Factory    {resource.fuel}
             <input type="button" onClick={ () => this.changeCount('fuel',true) } value="+"/>
           </div>
 
           <div>
-          <input type="button" onClick={() => this.changeCount('hematite',false) } value="-"/>
-            🌑Hematite    {resource.hematite}
-          <input type="button" onClick={ () => this.changeCount('hematite',true) } value="+"/>
+          <input type="button" onClick={() => this.changeCount('iron',false) } value="-"/>
+            🌑Iron Ore Mine    {resource.iron}
+          <input type="button" onClick={ () => this.changeCount('iron',true) } value="+"/>
           </div>
 
           <div>
@@ -175,7 +167,7 @@ export class PlayerStat extends Component {
 
           <div>
           <input type="button" onClick={() => this.changeCount('solar',false) } value="-"/>
-            🔆Solar {resource.solar}
+            🔆Solar Panels{resource.solar}
           <input type="button" onClick={ () => this.changeCount('solar',true) } value="+"/>
           </div>
           <div>
