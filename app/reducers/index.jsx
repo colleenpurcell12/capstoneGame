@@ -20,8 +20,6 @@ import gameID, {games} from './game';
 
 //import colors  from './colors';
 
-
-
 const rootReducer = combineReducers({ loggedInUser, messages, players, diceRoll, turnInfo, inProgress,
   isFirstRound, isSettingUp, turnArray,  userArray, everyStructure, structure, selections, roads, robberHex,
 
@@ -29,3 +27,5 @@ const rootReducer = combineReducers({ loggedInUser, messages, players, diceRoll,
 
 
 export default rootReducer;
+
+
