@@ -269,13 +269,10 @@ export class Structures extends Component {
     //XXX
     console.log("this.isFarEnough('settlement')", this.isFarEnough('settlement') )
 
-<<<<<<< HEAD
+
     if( !this.isAvailable('settlement',corner.id) ){ return; }
     if ( selections.length===1 && this.isFarEnough('settlement', coord) 
-=======
-    if( !this.isAvailable('settlement',coord) ){ return; }
-    if ( selections.length===1 && this.isFarEnough('settlement', coord)
->>>>>>> d705f1ca70b0a8584e3b37e19fb6fd2c0f422f04
+
         && this.isValidateSettlement(corner.id, player) ){
       let settlementObj = { type: 'settlement', points: 1,
                             color: userColor,
