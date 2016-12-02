@@ -51,11 +51,11 @@ describe('turnBooleans reducers (isFirstRound, isSettingUp, turnArray)', () => {
      expect(shiftTurns()).to.contain(shiftTurnsFunction);
     });
 
-    it('handles NEXT_ROUND_STEP2 to update the turnArray to only [4,3,2,1] on state', () => {
-      expect(turnArray(undefined, {type: 'NEXT_ROUND_STEP2'})).to.contain(4,3,2,1);
-      expect(turnArray(undefined, {type: 'NEXT_ROUND_STEP2'})).to.have.length(4);
-      expect(turnArray([5,6,7,8], {type: 'NEXT_ROUND_STEP2'})).to.contain(4,3,2,1);
-      expect(turnArray([1,2,3,4,5,6,7,8,9], {type: 'NEXT_ROUND_STEP2'})).to.have.length(4);
+    it('handles NEXT_ROUND_STEP2 to update the turnArray to only [3,2,1] on state', () => {
+      expect(turnArray(undefined, {type: 'NEXT_ROUND_STEP2'})).to.contain(3,2,1);
+      expect(turnArray(undefined, {type: 'NEXT_ROUND_STEP2'})).to.have.length(3);
+      expect(turnArray([5,6,7,8], {type: 'NEXT_ROUND_STEP2'})).to.contain(3,2,1);
+      expect(turnArray([1,2,3,4,5,6,7,8,9], {type: 'NEXT_ROUND_STEP2'})).to.have.length(3);
     });
 
     it('handles SHIFT_TURNS to update the turnArray to an array containing everything except first element', () => {
