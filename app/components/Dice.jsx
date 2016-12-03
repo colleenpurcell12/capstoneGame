@@ -25,10 +25,10 @@ export class Dice extends Component {
   }
 
   rollDice(bool) {
-    deal(this.props.structure, this.props.corners, this.props.hexData, total)
-  	let d1 = Math.floor(Math.random() * 6) + 1;
+    let d1 = Math.floor(Math.random() * 6) + 1;
     let d2 = Math.floor(Math.random() * 6) + 1;
-    let total = d1+d2   
+    let total = d1+d2 
+    var dealt = deal(this.props.structure, this.props.corners, this.props.hexData, total)
     if (d1 === d2) {
       return {d1: d1, d2: d2, diceEnabled: true, stealEnabled: false};
     }  
@@ -94,7 +94,10 @@ export class Dice extends Component {
         console.log("and next player is 1")
         addAction(setNextTurn(1))      // game starts with the 1st player
         addAction(startNormGamePlay()) // !isSettingUp
-        setupDeal(this.props.structure, this.props.corners, this.props.hexData)
+        let setupDealt = setupDeal(this.props.structure, this.props.corners, this.props.hexData)
+        setupDealt.forEach(incr => {
+          addAction(incrementResource(incr.player, incr.resource, incr.num))
+        })  
       }
       else { //within either round
         if (turnArray){
@@ -135,14 +138,14 @@ export class Dice extends Component {
         <button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button>
       }
 
-      { this.props.players.length > 0 && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.props.diceRoll.stealEnabled && total?
+      { this.props.players.length > 0 && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.props.diceRoll.stealEnabled ?
 
         <div style={{border: '1px solid gray', marginRight: '10%'}}>
           <h6 style={{textAlign: 'center'}}>STEAL FROM PLAYER</h6>
             <DropDownMenu value={this.state.stealFrom} onChange={(e,i,v) => this.setState({stealFrom: v})}>
               <MenuItem disabled={true} value='Player' primaryText="Player" />
               { this.props.players.map((player,idx) => {
-                if(player.name !== this.props.loggedInUser.displayName || player.cardsTotal()) 
+                if(player.name !== this.props.loggedInUser.displayName && player.cardsTotal()) 
                   return (
                   <MenuItem value={idx} primaryText={player.name.split(" ")[0]} key={idx} />
                   )
@@ -168,3 +171,5 @@ import {connect} from 'react-redux';
 const mapStore = ({ diceRoll, loggedInUser, turnInfo, players, inProgress, corners, hexData, isFirstRound, isSettingUp, turnArray, structure }) => ({diceRoll, loggedInUser, turnInfo, players, inProgress, corners, hexData, isFirstRound, isSettingUp, turnArray, structure })
 const mapDispatch = {addMessage};
 export default connect(mapStore, mapDispatch)(Dice);
+
+export { Dice as PureDice }; //this is for testing, do not remove unless updating test suite

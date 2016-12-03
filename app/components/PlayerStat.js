@@ -51,11 +51,6 @@ export class PlayerStat extends Component {
       addAction(decrementResource(this.props.loggedInUser.displayName, resource, 1))
   }
 
-  handleChange (e) { //TODO fill in this onClick handler for awards selection
-    //console.log(e.target.value) //name of input
-    //need to grab the "current user" and give them the award in the database
-  }
-
   submitGiveForm(giveState){
     let station = "Space Station";
     let message;
@@ -70,7 +65,7 @@ export class PlayerStat extends Component {
     })
 
     if (actualGiveNumber > 0) { //if the number of cards being distributed is greater than zero, fire these
-      addAction(decrementResource(this.props.loggedInUser.displayName, giveState.giveResource, actualGiveNumber)); 
+      addAction(decrementResource(this.props.loggedInUser.displayName, giveState.giveResource, actualGiveNumber));
       addAction(incrementResource(giveState.giveTo, giveState.giveResource, actualGiveNumber));
       message = {
         name: station,
@@ -87,8 +82,6 @@ export class PlayerStat extends Component {
        addAction(addPlayer(this.props.loggedInUser.displayName)); //, color));
   }
 
-
-
   render() {
     var resource, points;
     this.props.players.forEach((player, idx) => {
@@ -101,8 +94,9 @@ export class PlayerStat extends Component {
       <div className='playerInfo'>
         {resource ?
         <div>
-
           <div><strong>Victory Points:</strong> {points}</div><br />
+
+          <div><Structures /><br></br></div>
 
           <div>
           <input type="button" onClick={() => this.changeCount('crops',false) } value="-"/>
@@ -155,21 +149,21 @@ export class PlayerStat extends Component {
 
           <div><Structures /><br/></div>
 
-            <div style={{border: '1px solid gray', padding: '0', marginRight: '10%'}}>
-              <h8 style={{textAlign: 'center'}}>Give Resources</h8>
+            <div style={{border: '1px solid gray', padding: '0px' , marginRight: '10%'}}>
+              <div style={{textAlign: 'center', padding: '10px' , fontSize: '18px'}}>Give Resources</div>
               <DropDownMenu value={this.state.giveTo} onChange={(e,i,v) => this.setState({giveTo: v})}>
                 <MenuItem disabled={true} value='Player' primaryText="Player" />
                 { this.props.players.map((player,idx) => <MenuItem value={player.name} primaryText={player.name.split(" ")[0]} key={idx} />) }
-              </DropDownMenu> <br />
+              </DropDownMenu> 
                <DropDownMenu value={this.state.giveResource} onChange={(e,i,v) => {this.setState({giveResource: v})}} autoWidth={false}>
                  <MenuItem disabled={true} value='Resource' primaryText="Resource" />
                   { Object.keys(resource).map((item, idx) => <MenuItem value={item} primaryText={item} key={idx} />) }
               </DropDownMenu>
-                <div style={{paddingLeft:'10%'}}><br /><input type="text" name="count" placeholder="Number to..." style={{ width: '70px'}} onChange={(e) => {
+                <div style={{paddingLeft:'10%' , fontSize: '16px' }}><input type="text" name="count" placeholder="Number" style={{ width: '70px'}} onChange={(e) => {
                 e.preventDefault();
                 this.setState({giveNumber: e.target.value});
               }}/>
-                <button onClick={() => this.submitGiveForm(this.state)}>Give</button>
+                <button style={{ margin: '10px', fontSize: '16px'}} onClick={() => this.submitGiveForm(this.state)}>Give</button>
                 </div>
             </div>
 
@@ -204,3 +198,5 @@ export default connect(
   mapState,
   mapDispatch
 )(PlayerStat)
+
+export { PlayerStat as PurePlayerStat }; //this is for testing, do not remove unless updating test suite

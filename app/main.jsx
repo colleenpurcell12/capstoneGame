@@ -5,7 +5,10 @@ import  {render} from 'react-dom'
 import {connect, Provider} from 'react-redux'
 import store from './store'
 
-import injectTapEventPlugin from 'react-tap-event-plugin';
+//import Awards from './components/Awards';
+//   <Route path="awards" component={() => <Awards database={database}/>} />
+
+import injectTapEventPlugin from 'react-tap-event-plugin'; //required for onTouchTap
 injectTapEventPlugin();
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -13,7 +16,7 @@ import Home from './components/Home';
 import GameRoom from './components/GameRoom'
 import {listenToAuth} from './reducers/login';
 import {loadActions} from './reducers/action-creators'
-import {join} from './reducers/game'
+import {join, turnOffGamesListener} from './reducers/game'
 import * as firebase from 'firebase'
 
 var config = {
@@ -27,6 +30,7 @@ var config = {
 firebase.initializeApp(config);
 
 const enterGame = (nextState) => {
+  store.dispatch(turnOffGamesListener())
   store.dispatch({type: 'RESET_GAME'})
   store.dispatch(listenToAuth())
   store.dispatch(join(nextState.params.id))

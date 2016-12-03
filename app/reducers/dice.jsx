@@ -1,7 +1,7 @@
 
 /* -----------------    ACTIONS     ------------------ */
 
-const DICE_ROLL = 'DICE_ROLL';
+export const DICE_ROLL = 'DICE_ROLL';
 
 /* ------------   ACTION CREATORS     ------------------ */
 

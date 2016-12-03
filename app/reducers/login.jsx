@@ -6,7 +6,7 @@ const SET_CURRENT_USER = 'SET_CURRENT_USER'
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-const loginUser  = loggedInUser => ({ type: SET_CURRENT_USER, loggedInUser })
+export const loginUser  = loggedInUser => ({ type: SET_CURRENT_USER, loggedInUser })
 
 /* ------------       REDUCER     ------------------ */
 

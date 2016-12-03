@@ -93,5 +93,5 @@ const mapState = ({ loggedInUser }) => ({ loggedInUser })
 
 export default connect(mapState, null)(GoogleLogin);
 
-
+export { GoogleLogin as PureGoogleLogin }; //this is for testing, do not remove unless updating test suite
 

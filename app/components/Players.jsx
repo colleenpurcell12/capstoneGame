@@ -21,7 +21,6 @@ export class Players extends Component {
 	}
 
 	handleArmyChange(event) {
-		console.log("VICTORY CARDS", this.props.victoryCards)
 		if(this.props.victoryCards.army) { //if previous player had largest army, need to remove 2 VPs
 			addAction(subtractPoint(this.props.victoryCards.army, 2))
 		} 
@@ -71,3 +70,5 @@ import {connect} from 'react-redux';
 const mapState = ({ players, turnInfo, loggedInUser, inProgress, doneLoading, victoryCards }) => ({ players, loggedInUser, turnInfo, inProgress, doneLoading, victoryCards }) //added turnInfo for display purposes, deleted loggedInUser
 
 export default connect(mapState, null)(Players);
+
+export { Players as PurePlayers }; //this is for testing, do not remove unless updating test suite
