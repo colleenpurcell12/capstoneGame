@@ -1,9 +1,11 @@
 import {expect} from 'chai'
 import {assignHexInfo, tokenArray, resourcesArray, generate, resources} from 'APP/gameutils/setup'
-import {incrementResource } from 'APP/app/reducers/players';
+import {incrementResource, addPlayer } from 'APP/app/reducers/players';
 import {boardConfig} from 'APP/gameutils/boardConfig'
 import {deal, setupDeal} from 'APP/gameutils/deal'
+import reducer from 'APP/app/reducers/players.js'
 import sinon from 'sinon'
+
 
 let grid = generate(boardConfig);
 var corners = grid.corners
@@ -143,7 +145,44 @@ describe('Deal', () => {
       })
       expect(found.length).to.be.equal(4)
     })
+  })
 
+    // ,
+    // color: action.color
+  describe('players reducer', () => {
+    let initialState = reducer(undefined, addPlayer('Sami Lugar'))
+
+
+    it('is incremented using results form deal', () => {
+      let structures = [ {owner: 'red', corner_id: 12, type: 'settlement', player: 'Sami Lugar' }]
+      let resource = 'crops'
+      let newState = reducer(initialState, incrementResource('Sami Lugar', 'crops', 1))
+      expect(newState[0].cardsTotal()).to.be.equal(1)
+      expect(newState[0].cardsResource.crops).to.be.equal(1)
+    })
+    it('works for multiple settlements', () => {
+      var structures = [
+        {owner: 'red', corner_id: 26, type: 'settlement', player: 'Sami Lugar' }, // on hex 7, 12
+        {owner: 'green', corner_id: 12, type: 'settlement', player: 'Colleen Purcell' }, // on hex 3
+        {owner: 'blue', corner_id: 29, type: 'settlement', player: 'Sharon Choe' }, // on hex 8 ,12, 13
+        {owner: 'brown', corner_id: 17, type: 'settlement', player: 'Deborah Kwon' } // on hex 3
+      ]
+      var nextState = initialState
+      for(var i = 1; i < 4; i ++){
+         nextState = reducer(nextState, addPlayer(structures[i].player))
+      }
+
+      var dealt = deal(structures, corners, hexData, 12)
+      dealt.map(inc => {
+        nextState = reducer(nextState, incrementResource(inc.player, inc.resource, inc.num))
+      })
+      console.log('NEXTSTATE', nextState)
+      expect(nextState).to.have.length(4)
+      expect(nextState[0].cardsTotal()).to.be.equal(1)
+      expect(nextState[1].cardsTotal()).to.be.equal(0)
+      expect(nextState[2].cardsTotal()).to.be.equal(1)
+      expect(nextState[3].cardsTotal()).to.be.equal(0)
+    })
   })
 
 })
