@@ -33,7 +33,7 @@ class HexShape extends React.Component {
 
   toggleRobber(event) {
     event.preventDefault();
-    if(this.props.diceRoll === 7) {
+    if(this.props.diceRoll.stealEnabled) {
     addAction(moveRobber(this.props.index))
     }
   }

@@ -1,13 +1,10 @@
-import * as firebase from 'firebase';
-import {listenToAuth} from './login';
-
 /* -----------------    ACTIONS     ------------------ */
 
 const INITIALIZE_GAME = 'INITIALIZE_GAME';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-export const startGame = bool => ({ type: INITIALIZE_GAME, bool }) //payload is called 'diceRoll'
+export const startGame = bool => ({ type: INITIALIZE_GAME, bool }) 
 
 /* ------------       REDUCER     ------------------ */
                                   //game is not in progress by default
@@ -18,10 +15,4 @@ export default function reducer (inProgress = false, action) {
     default:
       return inProgress
   }
-}
-
-/* ------------       DISPATCHERS     ------------------ */
-
-export const startTheGame = (bool) => dispatch => {
-  dispatch(startGame(bool));
 }

@@ -1,5 +1,3 @@
-import * as firebase from 'firebase'
-
 /* -----------------    ACTIONS     ------------------ */
 
  const ASSIGN_HEX_DATA = 'ASSIGN_HEX_DATA';
@@ -22,4 +20,3 @@ export default function hexData (hexesArray = [], action){
   }
 }
 
-/* ------------      DISPATCHERS     ------------------ */

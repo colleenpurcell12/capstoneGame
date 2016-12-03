@@ -15,6 +15,7 @@ import robberHex from './robber'
 import doneLoading from './action-creators';
 import hexData from './hex-data'
 import corners  from './corner';
+import victoryCards from './victory-cards'
 
 import gameID, {games} from './game';
 
@@ -22,7 +23,7 @@ import gameID, {games} from './game';
 
 const appReducer = combineReducers({ loggedInUser, messages, players, diceRoll, turnInfo, inProgress,
   isFirstRound, isSettingUp, turnArray,  userArray, everyStructure, structure, selections, roads, robberHex,
-  doneLoading, hexData, corners, gameID, games }); //colors
+  doneLoading, hexData, corners, gameID, games, victoryCards }); //colors
 
 const rootReducer = (state, action) => {
   if (action.type === 'RESET_GAME') {

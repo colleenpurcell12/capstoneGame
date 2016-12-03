@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn, TableFooter} from 'material-ui/Table';
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
@@ -23,11 +23,11 @@ export class JoinGame extends React.Component {
 	}
 
 	handleChange(event) {
-		this.setState({name: event.target.value})
+		this.setState({name: event.target.value, errorText: ""})
 	}
 
 	addNewGame(name) {
-		if(!this.state.name) 
+		if(!this.state.name.trim()) 
 			this.setState({errorText: "Name is required"})
 		else this.props.newGame(name)
 	}
@@ -51,7 +51,7 @@ export class JoinGame extends React.Component {
 				    <TableBody displayRowCheckbox={this.state.showCheckboxes}>
 			      	{games && Object.keys(games).map((key, idx) => (
 		      		<TableRow key={key}>
-				        <TableRowColumn className="game-name" style={{fontSize:'20px'}}>{games[key].name}</TableRowColumn>
+				        <TableRowColumn className="game-name" style={{fontSize:'18px'}}>{games[key].name}</TableRowColumn>
 				        <TableRowColumn><Link to={`/game/${key}`}><RaisedButton label="Join" /></Link></TableRowColumn>
 			      	</TableRow>
 	      			))}

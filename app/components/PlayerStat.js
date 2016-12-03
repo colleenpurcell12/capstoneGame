@@ -9,6 +9,7 @@ import Checkbox from 'material-ui/Checkbox'
 import SelectField from 'material-ui/SelectField'
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+
 import store from '../store'
 import {addAction} from '../reducers/action-creators';
 import {startGame} from '../reducers/home';
@@ -17,7 +18,7 @@ import {addMessage} from '../reducers/chatroom';
 import {initials} from '../reducers/helperFunctions';
 //needs to know which player's card is showing
 import Structures from './Structures';
-import {setupDeal} from 'APP/gameutils/deal'
+import { addPlayer, incrementResource, decrementResource } from '../reducers/players';
 
 
 const validate = values => {
@@ -37,7 +38,8 @@ export class PlayerStat extends Component {
     this.state = {
       giveTo: 'Player',
       giveResource: 'Resource',
-      giveNumber: 0
+      giveNumber: "",
+      errorText: ''
     }
     this.changeCount = this.changeCount.bind(this)
     this.addNewPlayer = this.addNewPlayer.bind(this)
@@ -50,25 +52,29 @@ export class PlayerStat extends Component {
       addAction(decrementResource(this.props.loggedInUser.displayName, resource, 1))
   }
 
-  handleChange (e) { //TODO fill in this onClick handler for awards selection
-    //console.log(e.target.value) //name of input
-    //need to grab the "current user" and give them the award in the database
-  }
-
   submitGiveForm(giveState){
+    let {players, loggedInUser} = this.props;
+    //if not a number, display error message
+    if(isNaN(parseFloat(this.state.giveNumber))) {
+      this.setState({errorText: "Invalid number"})
+      return;
+    }
     let station = "Space Station";
     let message;
-
     let actualGiveNumber = +giveState.giveNumber; //initially set to the passed number
-    this.props.players.map((player, idx) => {
-      if (player.name === this.props.loggedInUser.displayName) {
-        if (giveState.giveNumber > player.cardsResource[giveState.giveResource]) {//do a check to only remove max   number of cards from player's hand
-          actualGiveNumber = player.cardsResource[giveState.giveResource] //if the form giveNumber is greater than what's in the player's hand, then set the actualGiveNumber to the max for that resource
-        }
-      }
-    })
 
-    if (actualGiveNumber > 0) { //if the number of cards being distributed is greater than zero, fire these
+    for (var i = 0; i < players.length; i++) {
+      if(players[i].name === loggedInUser.displayName && giveState.giveNumber > players[i].cardsResource[giveState.giveResource]) {
+        return this.setState({errorText: "Not enough resource"})
+      }
+    }
+
+    if(giveState.giveTo === "Bank") {
+      addAction(decrementResource(loggedInUser.displayName, giveState.giveResource, actualGiveNumber))
+      return;
+    }
+
+    else if (actualGiveNumber > 0) { //if the number of cards being distributed is greater than zero, fire these
       addAction(decrementResource(this.props.loggedInUser.displayName, giveState.giveResource, actualGiveNumber));
       addAction(incrementResource(giveState.giveTo, giveState.giveResource, actualGiveNumber));
       message = {
@@ -86,133 +92,91 @@ export class PlayerStat extends Component {
        addAction(addPlayer(this.props.loggedInUser.displayName)); //, color));
   }
 
-  nextPlayer(){
-    addAction(this.props.clearSelection())
-    let { isFirstRound, isSettingUp, turnArray, turnInfo, players } = this.props
-    console.log("Past player is",turnInfo, "isFirstRound",isFirstRound," and turn Array is",turnArray)
-    if (isSettingUp === false){ //Normal cycle of turns during game play, increment user to x+1
-      var player = this.props.turnInfo
-      player === 4 ? player = 1 : player++
-      console.log("and next player is",player)
-      addAction(setNextTurn(player)); //Formerly endTurn(userID) //dispatched setNextTurn(player));
-    }
-
-    else { //isSettingUp, ascending turns in 1st and descending in 2nd round
-      if (isFirstRound === true && turnArray.length === 0){
-        //Players are allowed a purchase of each, per round.
-        for (var i = 0; i<4 ; i++){ //4 players
-          if(players[i]){
-            players[i].hasBoughtARoad = false;
-            players[i].hasBoughtASettlement = false
-          }
-        }
-        addAction(nextRound())      // sets !isFirstRound
-        addAction(nextRoundStep2()) // sets turnsArray to descending
-        addAction(setNextTurn(4));  // starts 2nd round with 4th player
-     }
-      // At the end of 2nd round, normal game play is initiated
-      else if (isFirstRound === false && turnArray.length === 0) {
-        console.log("and next player is 1")
-        addAction(setNextTurn(1))      // game starts with the 1st player
-        addAction(startNormGamePlay()) // !isSettingUp
-        var dealt = setupDeal(this.props.structure, this.props.corners, this.props.hexData)
-        dealt.forEach(incr => {
-          addAction(incrementResource(incr.player, incr.resource, incr.num))
-        })
-      }
-      else { //within either round
-        if (turnArray){
-          let nextPlayerID = turnArray[0]
-          console.log("about to call shiftTurns and setNextTurn with nextPlayerID:",nextPlayerID)
-          //if (isFirstRound === false){ player1--;} //endTurn increments the #
-          addAction(shiftTurns()) //Formerly this.props.nextTurn() dispatched shiftTurns()
-          addAction(setNextTurn(nextPlayerID)) // this.props.endTurn(player1) dispatched setNextTurn(player)
-        } else { console.log("turnArray is undefined:", turnArray) }
-       }
-    }
-  }
-
   render() {
-    var resource;
+    var resource, points;
     this.props.players.forEach((player, idx) => {
       if(player.name === this.props.loggedInUser.displayName) {
         resource = this.props.players[idx].cardsResource
+        points = this.props.players[idx].points
       }
     });
     return (
       <div className='playerInfo'>
         {resource ?
         <div>
+          <div><strong>Victory Points:</strong> {points}</div><br />
+
           <div><Structures /><br></br></div>
-          <button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button><br /><br />
 
           <div>
           <input type="button" onClick={() => this.changeCount('crops',false) } value="-"/>
+          {resource.crops}
           <input type="button" onClick={ () => this.changeCount('crops',true) } value="+"/>
-             &nbsp; {resource.crops} &nbsp; 🌽 &nbsp; Crop Greenhouse  
+             🌽Crop Greenhouse
           </div>
 
           <div>
             <input type="button" onClick={() => this.changeCount('fuel',false) } value="-"/>
+            {resource.fuel}
             <input type="button" onClick={ () => this.changeCount('fuel',true) } value="+"/>
-            &nbsp; {resource.fuel} &nbsp; 🚀 &nbsp; Fuel Factory    
+              🚀Fuel Factory 
           </div>
 
           <div>
           <input type="button" onClick={() => this.changeCount('iron',false) } value="-"/>
+          {resource.iron}
           <input type="button" onClick={ () => this.changeCount('iron',true) } value="+"/>
-            &nbsp; {resource.iron} &nbsp; 🌑 &nbsp; Iron Ore Mine    
+            🌑Iron Ore Mine    
           </div>
 
           <div>
           <input type="button" onClick={() => this.changeCount('ice',false) } value="-"/>
+          {resource.ice}
           <input type="button" onClick={ () => this.changeCount('ice',true) } value="+"/>
-            &nbsp; {resource.ice} &nbsp; ❄️ &nbsp; Ice             
+            ❄️Ice             
           </div>
 
           <div>
           <input type="button" onClick={() => this.changeCount('solar',false) } value="-"/>
+          {resource.solar}
           <input type="button" onClick={ () => this.changeCount('solar',true) } value="+"/>
-            &nbsp; {resource.solar} &nbsp; 🔆 &nbsp; Solar Panels
+            🔆Solar Panels
           </div>
-          <div>
+          
+          <br/>
 
-            <label>
-                <input type="radio" value="army" onChange={this.handleChange}/>
-                Largest Army Award
-            </label>
-            <br></br>
-            <label>
-                <input type="radio" value="road" onChange={this.handleChange} />
-                Longest Road Award
-            </label>
-
-          </div>
-            <table>
+          <table>
+            <thead>
+              <tr><th>Building</th><th>Costs</th><th>VP</th></tr>
+            </thead>
             <tbody>
-                  <tr>  <th>Structure </th> <th>Cost                </th></tr>
-                  <tr> <td>Road      </td> <td>= ❄️  🔆            </td> </tr>
-                  <tr> <td>Settlement</td> <td>= ❄️  🔆 🌽  🚀    </td> </tr>
-                  <tr> <td>City      </td> <td>= 🚀 🚀  🌑 🌑 🌑</td> </tr>
-                  <tr> <td>Pioneer   </td> <td>= 🚀 🌽  🌑       </td> </tr>
+              <tr><td>Road</td><td>= ❄️  🔆</td><td>0</td></tr>
+              <tr><td>Settlement</td><td>= ❄️  🔆 🌽  🚀</td><td>1</td></tr>
+              <tr><td>City</td><td>= 🚀 🚀  🌑 🌑 🌑</td><td>2</td></tr>
+              <tr><td>Pioneer</td><td>= 🚀 🌽  🌑</td><td>?</td></tr>
             </tbody>
-            </table>
+          </table>
 
-            <div style={{border: '1px solid gray', padding: '0', marginRight: '10%'}}>
-              <div style={{textAlign: 'center', padding: '10' , fontSize: '18'}}>Give Resources</div>
+            <div style={{border: '1px solid gray', padding: '0px' , marginRight: '10%'}}>
+              <div style={{textAlign: 'center', padding: '10px' , fontSize: '18px'}}>Give Resources</div>
               <DropDownMenu value={this.state.giveTo} onChange={(e,i,v) => this.setState({giveTo: v})}>
                 <MenuItem disabled={true} value='Player' primaryText="Player" />
-                { this.props.players.map((player,idx) => <MenuItem value={player.name} primaryText={player.name.split(" ")[0]} key={idx} />) }
+                  <MenuItem value="Bank" primaryText="Bank" /> 
+                { this.props.players.map((player,idx) => {
+                  if(player.name !== this.props.loggedInUser.displayName) return (
+                  <MenuItem value={player.name} primaryText={player.name.split(" ")[0]} key={idx} /> 
+                )})}
               </DropDownMenu> 
                <DropDownMenu value={this.state.giveResource} onChange={(e,i,v) => {this.setState({giveResource: v})}} autoWidth={false}>
                  <MenuItem disabled={true} value='Resource' primaryText="Resource" />
                   { Object.keys(resource).map((item, idx) => <MenuItem value={item} primaryText={item} key={idx} />) }
               </DropDownMenu>
-                <div style={{paddingLeft:'10%' , fontSize: '16' }}><input type="text" name="count" placeholder="Number" style={{ width: '70px'}} onChange={(e) => {
-                e.preventDefault();
-                this.setState({giveNumber: e.target.value});
-              }}/>
-                <button style={{ margin: '10', fontSize: '16'}} onClick={() => this.submitGiveForm(this.state)}>Give</button>
+                <div style={{paddingLeft:'10%' , fontSize: '16px' }}>
+                  <TextField hintText="Number" errorText={this.state.errorText} style={{ width: '70px'}} onChange={(e) => {
+                    e.preventDefault();
+                    this.setState({giveNumber: e.target.value, errorText: ""});
+                    }} />
+                  <button style={{ margin: '10px', fontSize: '16px'}} onClick={() => this.submitGiveForm(this.state)}>Give</button>
                 </div>
             </div>
 
@@ -238,14 +202,10 @@ export class PlayerStat extends Component {
 /* -----------------    CONTAINER     ------------------ */
 
 import {connect} from 'react-redux';
-import { setNextTurn } from '../reducers/playerStat';
-import { nextRound, nextRoundStep2, shiftTurns, startNormGamePlay } from '../reducers/turnBooleans';
-import { clearSelection } from '../reducers/selection'
-import { addPlayer, incrementResource, decrementResource } from '../reducers/players';
 
-const mapState = ({ turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray, structure, corners, hexData }) => ({turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray,  structure, corners, hexData }); //userArray, colors
+const mapState = ({ loggedInUser, players, inProgress }) => ({ loggedInUser, players, inProgress }); //userArray, colors
 
-const mapDispatch = {  setNextTurn, nextRound, nextRoundStep2, shiftTurns, startNormGamePlay, clearSelection, addMessage }; //grabColorFromArray
+const mapDispatch = { addMessage }; //grabColorFromArray
 
 export default connect(
   mapState,
