@@ -82,11 +82,6 @@ const mapStateToProps = ({ structure, selections }) => ({
   structure, selections
 });
 
-const mapDispatchToProps = dispatch => ({
-
-});
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(CornerShape);

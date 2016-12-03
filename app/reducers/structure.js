@@ -1,5 +1,3 @@
-// import * as firebase from 'firebase'
-
 /* -----------------    ACTIONS     ------------------ */
 
  const ADD_STRUCTURE = 'ADD_STRUCTURE';

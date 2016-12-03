@@ -10,7 +10,6 @@ const PUT_CORNERS = 'PUT_CORNERS';
 export const putCorners = corners => ({ type: PUT_CORNERS, corners }) //payload is called 'diceRoll'
 
 /* ------------       REDUCER     ------------------ */
-                            //diceRoll is defined one-level deep, but the default could also point to {}
 export default function reducer (corners = [], action) {
   switch (action.type) {
     case PUT_CORNERS:

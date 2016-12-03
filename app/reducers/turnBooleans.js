@@ -1,5 +1,3 @@
-import * as firebase from 'firebase'
-
 /* -----------------    ACTIONS     ------------------ */
 
  const NEXT_ROUND = 'NEXT_ROUND';
@@ -44,16 +42,3 @@ export function turnArray (turnArray= [2,3,4], action){
       return turnArray
   }
 }
-
-/* ------------      DISPATCHERS     ------------------ */
-
-// export const setNextRound = () => dispatch => {
-//     dispatch(nextRound());
-//     dispatch(nextRoundStep2());
-// }
-// export const endSetUp = () => dispatch => {
-//     dispatch(startNormGamePlay());
-// }
-// export const nextTurn = () => dispatch => {
-//     dispatch(shiftTurns());
-// }

@@ -9,6 +9,7 @@ import Checkbox from 'material-ui/Checkbox'
 import SelectField from 'material-ui/SelectField'
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+
 import store from '../store'
 import {addAction} from '../reducers/action-creators';
 import {startGame} from '../reducers/home';
@@ -17,7 +18,7 @@ import {addMessage} from '../reducers/chatroom';
 import {initials} from '../reducers/helperFunctions';
 //needs to know which player's card is showing
 import Structures from './Structures';
-import {setupDeal} from 'APP/gameutils/deal'
+import { addPlayer, incrementResource, decrementResource } from '../reducers/players';
 
 
 const validate = values => {
@@ -86,54 +87,14 @@ export class PlayerStat extends Component {
        addAction(addPlayer(this.props.loggedInUser.displayName)); //, color));
   }
 
-  nextPlayer(){
-    addAction(this.props.clearSelection())
-    let { isFirstRound, isSettingUp, turnArray, turnInfo, players } = this.props 
-    console.log("Past player is",turnInfo, "isFirstRound",isFirstRound," and turn Array is",turnArray)
-    if (isSettingUp === false){ //Normal cycle of turns during game play, increment user to x+1
-      var player = this.props.turnInfo
-      player === 4 ? player = 1 : player++
-      console.log("and next player is",player)
-      addAction(setNextTurn(player)); //Formerly endTurn(userID) //dispatched setNextTurn(player));
-    }
 
-    else { //isSettingUp, ascending turns in 1st and descending in 2nd round
-      if (isFirstRound === true && turnArray.length === 0){
-        //Players are allowed a purchase of each, per round.
-        for (var i = 0; i<4 ; i++){ //4 players
-          if(players[i]){
-            players[i].hasBoughtARoad = false;
-            players[i].hasBoughtASettlement = false
-          }
-        }
-        addAction(nextRound())      // sets !isFirstRound
-        addAction(nextRoundStep2()) // sets turnsArray to descending
-        addAction(setNextTurn(4));  // starts 2nd round with 4th player
-     }
-      // At the end of 2nd round, normal game play is initiated
-      else if (isFirstRound === false && turnArray.length === 0) {  
-        console.log("and next player is 1")
-        addAction(setNextTurn(1))      // game starts with the 1st player
-        addAction(startNormGamePlay()) // !isSettingUp
-        setupDeal(this.props.structure, this.props.corners, this.props.hexData)
-      }
-      else { //within either round
-        if (turnArray){
-          let nextPlayerID = turnArray[0]
-          console.log("about to call shiftTurns and setNextTurn with nextPlayerID:",nextPlayerID)
-          //if (isFirstRound === false){ player1--;} //endTurn increments the #
-          addAction(shiftTurns()) //Formerly this.props.nextTurn() dispatched shiftTurns()
-          addAction(setNextTurn(nextPlayerID)) // this.props.endTurn(player1) dispatched setNextTurn(player)
-        } else { console.log("turnArray is undefined:", turnArray) }
-       }
-    }
-  }
 
   render() {
-    var resource;
+    var resource, points;
     this.props.players.forEach((player, idx) => {
       if(player.name === this.props.loggedInUser.displayName) {
         resource = this.props.players[idx].cardsResource
+        points = this.props.players[idx].points
       }
     });
     return (
@@ -141,59 +102,58 @@ export class PlayerStat extends Component {
         {resource ?
         <div>
 
+          <div><strong>Victory Points:</strong> {points}</div><br />
+
           <div>
           <input type="button" onClick={() => this.changeCount('crops',false) } value="-"/>
-             🌽Crop Greenhouse  {resource.crops}
+          {resource.crops}
           <input type="button" onClick={ () => this.changeCount('crops',true) } value="+"/>
+             🌽Crop Greenhouse
           </div>
 
           <div>
             <input type="button" onClick={() => this.changeCount('fuel',false) } value="-"/>
-              🚀Fuel Factory    {resource.fuel}
+            {resource.fuel}
             <input type="button" onClick={ () => this.changeCount('fuel',true) } value="+"/>
+              🚀Fuel Factory 
           </div>
 
           <div>
           <input type="button" onClick={() => this.changeCount('iron',false) } value="-"/>
-            🌑Iron Ore Mine    {resource.iron}
+          {resource.iron}
           <input type="button" onClick={ () => this.changeCount('iron',true) } value="+"/>
+            🌑Iron Ore Mine    
           </div>
 
           <div>
           <input type="button" onClick={() => this.changeCount('ice',false) } value="-"/>
-            ❄️Ice             {resource.ice}
+          {resource.ice}
           <input type="button" onClick={ () => this.changeCount('ice',true) } value="+"/>
+            ❄️Ice             
           </div>
 
           <div>
           <input type="button" onClick={() => this.changeCount('solar',false) } value="-"/>
-            🔆Solar Panels{resource.solar}
+          {resource.solar}
           <input type="button" onClick={ () => this.changeCount('solar',true) } value="+"/>
+            🔆Solar Panels
           </div>
-          <div>
+          
+          <br/>
 
-            <label>
-                <input type="radio" value="army" onChange={this.handleChange}/>
-                Largest Army Award
-            </label>
-            <br></br>
-            <label>
-                <input type="radio" value="road" onChange={this.handleChange} />
-                Longest Road Award
-            </label>
-          </div>
-            <table>
+          <table>
+            <thead>
+              <tr><th>Structure</th><th>Cost</th></tr>
+            </thead>
             <tbody>
-                  <tr>  <th>Structure </th> <th>Cost                </th></tr>
-                  <tr> <td>Road      </td> <td>= ❄️  🔆            </td> </tr>
-                  <tr> <td>Settlement</td> <td>= ❄️  🔆 🌽  🚀    </td> </tr>
-                  <tr> <td>City      </td> <td>= 🚀 🚀  🌑 🌑 🌑</td> </tr>
-                  <tr> <td>Pioneer   </td> <td>= 🚀 🌽  🌑       </td> </tr>
+              <tr><td>Road</td><td>= ❄️  🔆</td></tr>
+              <tr><td>Settlement</td><td>= ❄️  🔆 🌽  🚀</td></tr>
+              <tr><td>City</td><td>= 🚀 🚀  🌑 🌑 🌑</td></tr>
+              <tr><td>Pioneer</td><td>= 🚀 🌽  🌑</td></tr>
             </tbody>
-            </table>
+          </table>
 
-          <div><Structures /><br></br></div>
-          <button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button><br /><br />
+          <div><Structures /><br/></div>
 
             <div style={{border: '1px solid gray', padding: '0', marginRight: '10%'}}>
               <h8 style={{textAlign: 'center'}}>Give Resources</h8>
@@ -235,14 +195,10 @@ export class PlayerStat extends Component {
 /* -----------------    CONTAINER     ------------------ */
 
 import {connect} from 'react-redux';
-import { setNextTurn } from '../reducers/playerStat';
-import { nextRound, nextRoundStep2, shiftTurns, startNormGamePlay } from '../reducers/turnBooleans';
-import { clearSelection } from '../reducers/selection'
-import { addPlayer, incrementResource, decrementResource } from '../reducers/players';
 
-const mapState = ({ turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray, structure, corners, hexData }) => ({turnInfo, loggedInUser, players, inProgress, isFirstRound, isSettingUp, turnArray,  structure, corners, hexData }); //userArray, colors
+const mapState = ({ loggedInUser, players, inProgress }) => ({ loggedInUser, players, inProgress }); //userArray, colors
 
-const mapDispatch = {  setNextTurn, nextRound, nextRoundStep2, shiftTurns, startNormGamePlay, clearSelection, addMessage }; //grabColorFromArray
+const mapDispatch = { addMessage }; //grabColorFromArray
 
 export default connect(
   mapState,

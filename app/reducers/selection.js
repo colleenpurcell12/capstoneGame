@@ -1,5 +1,3 @@
-import * as firebase from 'firebase'
-
 /* -----------------    ACTIONS     ------------------ */
 
 const ADD_SELECTION = 'ADD_SELECTION';
@@ -30,15 +28,3 @@ export default function selections (selections = [], action){
   }
 }
 
-/* ------------      DISPATCHERS     ------------------ */
-
-// export const addBoardSelection = (selection) => dispatch => {
-//   dispatch(addSelection(selection));
-// }
-// export const removeBoardSelection = (id) => dispatch => {
-//   dispatch(removeSelection(id));
-// }
-//
-// export const clearBoardSelection = ()=> dispatch => {
-//   dispatch(clearSelection());
-// }
