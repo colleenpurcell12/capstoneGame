@@ -109,38 +109,38 @@ export class PlayerStat extends Component {
           <div><Structures /><br></br></div>
 
           <div>
-          <input type="button" onClick={() => this.changeCount('crops',false) } value="-"/>
+          <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('crops',false) }></i>
           {resource.crops}
-          <input type="button" onClick={ () => this.changeCount('crops',true) } value="+"/>
-             🌽Crop Greenhouse
+          <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('crops',true) }></i>
+            &nbsp; 🌽Crop Greenhouse
           </div>
 
           <div>
-            <input type="button" onClick={() => this.changeCount('fuel',false) } value="-"/>
+          <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('fuel',false) }></i>
             {resource.fuel}
-            <input type="button" onClick={ () => this.changeCount('fuel',true) } value="+"/>
-              🚀Fuel Factory 
+          <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('fuel',true) }></i>
+            &nbsp; 🚀Fuel Factory 
           </div>
 
           <div>
-          <input type="button" onClick={() => this.changeCount('iron',false) } value="-"/>
+          <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('iron',false) }></i>
           {resource.iron}
-          <input type="button" onClick={ () => this.changeCount('iron',true) } value="+"/>
-            🌑Iron Ore Mine    
+          <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('iron',true) }></i>
+            &nbsp; 🌑Iron Ore Mine    
           </div>
 
           <div>
-          <input type="button" onClick={() => this.changeCount('ice',false) } value="-"/>
+          <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('ice',false) }></i>
           {resource.ice}
-          <input type="button" onClick={ () => this.changeCount('ice',true) } value="+"/>
-            ❄️Ice             
+          <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('ice',true) }></i>
+            &nbsp; ❄️Ice             
           </div>
 
           <div>
-          <input type="button" onClick={() => this.changeCount('solar',false) } value="-"/>
+          <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('solar',false) }></i>
           {resource.solar}
-          <input type="button" onClick={ () => this.changeCount('solar',true) } value="+"/>
-            🔆Solar Panels
+          <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('solar',true) }></i>
+            &nbsp; 🔆Solar Panels
           </div>
           
           <br/>

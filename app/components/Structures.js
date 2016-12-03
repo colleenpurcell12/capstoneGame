@@ -7,6 +7,7 @@ import { clearSelection } from '../reducers/selection'
 import { addPoint, hasBought, incrementResource, decrementResource } from '../reducers/players';
 import { initials } from '../reducers/helperFunctions'
 
+import RaisedButton from 'material-ui/RaisedButton';
 
 export class Structures extends Component {
 	constructor(props) {
@@ -337,9 +338,9 @@ takePayment(type){
     //console.log("Passed from Board, selected corners are :",this.props.selected)
     return (
       <div>
-    		<button type='submit' onClick={() => this.registerSettlement()}> Build Settlement </button>
-    		<button type='submit' onClick={() => this.registerRoad()}> Build Road </button><br></br>
-        <button type='submit' onClick={() => this.upgradeSettlement()}> Upgrade to City</button>
+        <RaisedButton label="Build Settlement" onClick={() => this.registerSettlement()} />
+    		<RaisedButton label="Build Road" onClick={() => this.registerRoad()} /><br />
+        <RaisedButton label="Upgrade to City" onClick={() => this.upgradeSettlement()} />
       </div>
     	)
 	}
