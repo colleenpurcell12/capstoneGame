@@ -28,7 +28,10 @@ export class Dice extends Component {
     let d1 = Math.floor(Math.random() * 6) + 1;
     let d2 = Math.floor(Math.random() * 6) + 1;
     let total = d1+d2 
-    var dealt = deal(this.props.structure, this.props.corners, this.props.hexData, total)
+    deal(this.props.structure, this.props.corners, this.props.hexData, total).forEach(incr => {
+      console.log("inside dealt!!!!!!!!!")
+      addAction(incrementResource(incr.player, incr.resource, incr.num))
+    })
     if (d1 === d2) {
       return {d1: d1, d2: d2, diceEnabled: true, stealEnabled: false};
     }  

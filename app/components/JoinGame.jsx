@@ -27,7 +27,7 @@ export class JoinGame extends React.Component {
 	}
 
 	addNewGame(name) {
-		if(!this.state.name) 
+		if(!this.state.name.trim()) 
 			this.setState({errorText: "Name is required"})
 		else this.props.newGame(name)
 	}
