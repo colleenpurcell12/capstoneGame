@@ -38,7 +38,8 @@ export class PlayerStat extends Component {
     this.state = {
       giveTo: 'Player',
       giveResource: 'Resource',
-      giveNumber: 0
+      giveNumber: "",
+      errorText: ''
     }
     this.changeCount = this.changeCount.bind(this)
     this.addNewPlayer = this.addNewPlayer.bind(this)
@@ -52,19 +53,28 @@ export class PlayerStat extends Component {
   }
 
   submitGiveForm(giveState){
+    let {players, loggedInUser} = this.props;
+    //if not a number, display error message
+    if(isNaN(parseFloat(this.state.giveNumber))) {
+      this.setState({errorText: "Invalid number"})
+      return;
+    }
     let station = "Space Station";
     let message;
-
     let actualGiveNumber = +giveState.giveNumber; //initially set to the passed number
-    this.props.players.map((player, idx) => {
-      if (player.name === this.props.loggedInUser.displayName) {
-        if (giveState.giveNumber > player.cardsResource[giveState.giveResource]) {//do a check to only remove max   number of cards from player's hand
-          actualGiveNumber = player.cardsResource[giveState.giveResource] //if the form giveNumber is greater than what's in the player's hand, then set the actualGiveNumber to the max for that resource
-        }
-      }
-    })
 
-    if (actualGiveNumber > 0) { //if the number of cards being distributed is greater than zero, fire these
+    for (var i = 0; i < players.length; i++) {
+      if(players[i].name === loggedInUser.displayName && giveState.giveNumber > players[i].cardsResource[giveState.giveResource]) {
+        return this.setState({errorText: "Not enough resource"})
+      }
+    }
+
+    if(giveState.giveTo === "Bank") {
+      addAction(decrementResource(loggedInUser.displayName, giveState.giveResource, actualGiveNumber))
+      return;
+    }
+
+    else if (actualGiveNumber > 0) { //if the number of cards being distributed is greater than zero, fire these
       addAction(decrementResource(this.props.loggedInUser.displayName, giveState.giveResource, actualGiveNumber));
       addAction(incrementResource(giveState.giveTo, giveState.giveResource, actualGiveNumber));
       message = {
@@ -137,33 +147,36 @@ export class PlayerStat extends Component {
 
           <table>
             <thead>
-              <tr><th>Structure</th><th>Cost</th></tr>
+              <tr><th>Building</th><th>Costs</th><th>VP</th></tr>
             </thead>
             <tbody>
-              <tr><td>Road</td><td>= ❄️  🔆</td></tr>
-              <tr><td>Settlement</td><td>= ❄️  🔆 🌽  🚀</td></tr>
-              <tr><td>City</td><td>= 🚀 🚀  🌑 🌑 🌑</td></tr>
-              <tr><td>Pioneer</td><td>= 🚀 🌽  🌑</td></tr>
+              <tr><td>Road</td><td>= ❄️  🔆</td><td>0</td></tr>
+              <tr><td>Settlement</td><td>= ❄️  🔆 🌽  🚀</td><td>1</td></tr>
+              <tr><td>City</td><td>= 🚀 🚀  🌑 🌑 🌑</td><td>2</td></tr>
+              <tr><td>Pioneer</td><td>= 🚀 🌽  🌑</td><td>?</td></tr>
             </tbody>
           </table>
-
-          <div><Structures /><br/></div>
 
             <div style={{border: '1px solid gray', padding: '0px' , marginRight: '10%'}}>
               <div style={{textAlign: 'center', padding: '10px' , fontSize: '18px'}}>Give Resources</div>
               <DropDownMenu value={this.state.giveTo} onChange={(e,i,v) => this.setState({giveTo: v})}>
                 <MenuItem disabled={true} value='Player' primaryText="Player" />
-                { this.props.players.map((player,idx) => <MenuItem value={player.name} primaryText={player.name.split(" ")[0]} key={idx} />) }
+                  <MenuItem value="Bank" primaryText="Bank" /> 
+                { this.props.players.map((player,idx) => {
+                  if(player.name !== this.props.loggedInUser.displayName) return (
+                  <MenuItem value={player.name} primaryText={player.name.split(" ")[0]} key={idx} /> 
+                )})}
               </DropDownMenu> 
                <DropDownMenu value={this.state.giveResource} onChange={(e,i,v) => {this.setState({giveResource: v})}} autoWidth={false}>
                  <MenuItem disabled={true} value='Resource' primaryText="Resource" />
                   { Object.keys(resource).map((item, idx) => <MenuItem value={item} primaryText={item} key={idx} />) }
               </DropDownMenu>
-                <div style={{paddingLeft:'10%' , fontSize: '16px' }}><input type="text" name="count" placeholder="Number" style={{ width: '70px'}} onChange={(e) => {
-                e.preventDefault();
-                this.setState({giveNumber: e.target.value});
-              }}/>
-                <button style={{ margin: '10px', fontSize: '16px'}} onClick={() => this.submitGiveForm(this.state)}>Give</button>
+                <div style={{paddingLeft:'10%' , fontSize: '16px' }}>
+                  <TextField hintText="Number" errorText={this.state.errorText} style={{ width: '70px'}} onChange={(e) => {
+                    e.preventDefault();
+                    this.setState({giveNumber: e.target.value, errorText: ""});
+                    }} />
+                  <button style={{ margin: '10px', fontSize: '16px'}} onClick={() => this.submitGiveForm(this.state)}>Give</button>
                 </div>
             </div>
 

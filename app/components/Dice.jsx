@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+import TextField from 'material-ui/TextField';
 
 import {addAction} from '../reducers/action-creators';
 import { newDiceRoll } from '../reducers/dice';
@@ -29,7 +30,6 @@ export class Dice extends Component {
     let d2 = Math.floor(Math.random() * 6) + 1;
     let total = d1+d2 
     deal(this.props.structure, this.props.corners, this.props.hexData, total).forEach(incr => {
-      console.log("inside dealt!!!!!!!!!")
       addAction(incrementResource(incr.player, incr.resource, incr.num))
     })
     if (d1 === d2) {
@@ -115,10 +115,6 @@ export class Dice extends Component {
   }
 
   render() {
-    var total;
-    for (var i = 0; i < this.props.players.length; i++) {
-      total += this.props.players[i].cardsTotal()
-    }
     return (
     	<div className='playerInfo'>
 
@@ -138,7 +134,7 @@ export class Dice extends Component {
 
         <button onClick={() => addAction(newDiceRoll(this.rollDice()))}>Roll Dice</button>
           :
-        <button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button>
+        <button type='submit' onClick={() => this.nextPlayer()}> End Turn </button>
       }
 
       { this.props.players.length > 0 && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.props.diceRoll.stealEnabled ?

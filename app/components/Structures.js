@@ -337,9 +337,9 @@ takePayment(type){
     //console.log("Passed from Board, selected corners are :",this.props.selected)
     return (
       <div>
-    		<button type='submit' onClick={() => this.registerSettlement()}> Add Structure </button>
-    		<button type='submit' onClick={() => this.registerRoad()}> Add Road </button><br></br>
-        <button type='submit' onClick={() => this.upgradeSettlement()}> Upgrade Settlement to a City</button>
+    		<button type='submit' onClick={() => this.registerSettlement()}> Build Settlement </button>
+    		<button type='submit' onClick={() => this.registerRoad()}> Build Road </button><br></br>
+        <button type='submit' onClick={() => this.upgradeSettlement()}> Upgrade to City</button>
       </div>
     	)
 	}
