@@ -132,14 +132,14 @@ export class Dice extends Component {
 
       { this.props.players.length > 0 && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.props.diceRoll.diceEnabled && !this.props.isSettingUp ?
 
-        <button onClick={() => addAction(newDiceRoll(this.rollDice()))}>Roll Dice</button>
+        <RaisedButton label="Roll Dice" onClick={() => addAction(newDiceRoll(this.rollDice()))} />
           :
-        <button type='submit' onClick={() => this.nextPlayer()}> End Turn </button>
+        <RaisedButton label="End Turn" onClick={() => this.nextPlayer()} />
       }
 
       { this.props.players.length > 0 && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.props.diceRoll.stealEnabled ?
 
-        <div style={{border: '1px solid gray', marginRight: '10%'}}>
+        <div style={{border: '1px solid gray', marginRight: '10%', borderRadius: '5px'}}>
           <h6 style={{textAlign: 'center'}}>STEAL FROM PLAYER</h6>
             <DropDownMenu value={this.state.stealFrom} onChange={(e,i,v) => this.setState({stealFrom: v})}>
               <MenuItem disabled={true} value='Player' primaryText="Player" />
@@ -151,7 +151,7 @@ export class Dice extends Component {
                 })
               }
             </DropDownMenu>
-          <button onClick={() => addAction(this.submitStealInfo(this.state.stealFrom))}>Steal!</button>
+          <RaisedButton label="Steal!" onClick={() => addAction(this.submitStealInfo(this.state.stealFrom))} />
          </div>
           :
         <div></div>

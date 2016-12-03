@@ -336,6 +336,7 @@ takePayment(type){
 
   render() {
     //console.log("Passed from Board, selected corners are :",this.props.selected)
+    // style={{padding: '5px', fontFamily: "Verdana, Verdana, sans-serif", color: 'white', margin:'2px', borderRadius: '5px', border: 'none', textAlign: 'center', backgroundColor: '#a5424d'}}
     return (
       <div>
         <RaisedButton label="Build Settlement" onClick={() => this.registerSettlement()} />

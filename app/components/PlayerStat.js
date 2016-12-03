@@ -9,6 +9,7 @@ import Checkbox from 'material-ui/Checkbox'
 import SelectField from 'material-ui/SelectField'
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import store from '../store'
 import {addAction} from '../reducers/action-creators';
@@ -104,9 +105,9 @@ export class PlayerStat extends Component {
       <div className='playerInfo'>
         {resource ?
         <div>
-          <div><strong>Victory Points:</strong> {points}</div><br />
+          <div><strong>Victory Points:</strong> {points}</div>
 
-          <div><Structures /><br></br></div>
+          <div><Structures /></div>
 
           <div>
           <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('crops',false) }></i>
@@ -142,8 +143,6 @@ export class PlayerStat extends Component {
           <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('solar',true) }></i>
             &nbsp; 🔆Solar Panels
           </div>
-          
-          <br/>
 
           <table>
             <thead>
@@ -157,8 +156,8 @@ export class PlayerStat extends Component {
             </tbody>
           </table>
 
-            <div style={{border: '1px solid gray', padding: '0px' , marginRight: '10%'}}>
-              <div style={{textAlign: 'center', padding: '10px' , fontSize: '18px'}}>Give Resources</div>
+            <div style={{border: '1px solid gray', borderRadius: '5px', padding: '0px', marginRight: '15%', marginTop: '5%'}}>
+              <div style={{textAlign: 'center', paddingTop: '10px' , fontSize: '18px'}}>Give Resources</div>
               <DropDownMenu value={this.state.giveTo} onChange={(e,i,v) => this.setState({giveTo: v})}>
                 <MenuItem disabled={true} value='Player' primaryText="Player" />
                   <MenuItem value="Bank" primaryText="Bank" /> 
@@ -176,7 +175,7 @@ export class PlayerStat extends Component {
                     e.preventDefault();
                     this.setState({giveNumber: e.target.value, errorText: ""});
                     }} />
-                  <button style={{ margin: '10px', fontSize: '16px'}} onClick={() => this.submitGiveForm(this.state)}>Give</button>
+                  <RaisedButton label="Give" onClick={() => this.submitGiveForm(this.state)} />
                 </div>
             </div>
 
