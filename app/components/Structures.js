@@ -231,11 +231,6 @@ export class Structures extends Component {
           text: `${initials(player.name)} has already bought a settlement in this round.`}
           this.props.addMessage(message);
           return ; 
-        } else{
-          console.log("Player's first settlement of this round.")
-          let message = { name: "Space Station",
-          text: `${initials(player.name)}'s first settlement of this round.`}
-          this.props.addMessage(message);
         }
       }    
     if ( selections.length!==1 ){
@@ -344,7 +339,7 @@ takePayment(type){
     return (
       <div>
     		<button type='submit' onClick={() => this.registerSettlement()}> Add Structure </button>
-    		<button type='submit' onClick={() => this.registerRoad()}> Add Road </button>
+    		<button type='submit' onClick={() => this.registerRoad()}> Add Road </button><br></br>
         <button type='submit' onClick={() => this.upgradeSettlement()}> Upgrade Settlement to a City</button>
       </div>
     	)

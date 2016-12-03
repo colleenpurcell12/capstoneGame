@@ -143,35 +143,37 @@ export class PlayerStat extends Component {
       <div className='playerInfo'>
         {resource ?
         <div>
+          <div><Structures /><br></br></div>
+          <button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button><br /><br />
 
           <div>
           <input type="button" onClick={() => this.changeCount('crops',false) } value="-"/>
-             🌽Crop Greenhouse  {resource.crops}
           <input type="button" onClick={ () => this.changeCount('crops',true) } value="+"/>
+             &nbsp; {resource.crops} &nbsp; 🌽 &nbsp; Crop Greenhouse  
           </div>
 
           <div>
             <input type="button" onClick={() => this.changeCount('fuel',false) } value="-"/>
-              🚀Fuel Factory    {resource.fuel}
             <input type="button" onClick={ () => this.changeCount('fuel',true) } value="+"/>
+            &nbsp; {resource.fuel} &nbsp; 🚀 &nbsp; Fuel Factory    
           </div>
 
           <div>
           <input type="button" onClick={() => this.changeCount('iron',false) } value="-"/>
-            🌑Iron Ore Mine    {resource.iron}
           <input type="button" onClick={ () => this.changeCount('iron',true) } value="+"/>
+            &nbsp; {resource.iron} &nbsp; 🌑 &nbsp; Iron Ore Mine    
           </div>
 
           <div>
           <input type="button" onClick={() => this.changeCount('ice',false) } value="-"/>
-            ❄️Ice             {resource.ice}
           <input type="button" onClick={ () => this.changeCount('ice',true) } value="+"/>
+            &nbsp; {resource.ice} &nbsp; ❄️ &nbsp; Ice             
           </div>
 
           <div>
           <input type="button" onClick={() => this.changeCount('solar',false) } value="-"/>
-            🔆Solar Panels{resource.solar}
           <input type="button" onClick={ () => this.changeCount('solar',true) } value="+"/>
+            &nbsp; {resource.solar} &nbsp; 🔆 &nbsp; Solar Panels
           </div>
           <div>
 
@@ -184,6 +186,7 @@ export class PlayerStat extends Component {
                 <input type="radio" value="road" onChange={this.handleChange} />
                 Longest Road Award
             </label>
+
           </div>
             <table>
             <tbody>
@@ -195,24 +198,21 @@ export class PlayerStat extends Component {
             </tbody>
             </table>
 
-          <div><Structures /><br></br></div>
-          <button type='submit' onClick={() => this.nextPlayer()}> Done with Turn </button><br /><br />
-
             <div style={{border: '1px solid gray', padding: '0', marginRight: '10%'}}>
-              <h8 style={{textAlign: 'center'}}>Give Resources</h8>
+              <div style={{textAlign: 'center', padding: '10' , fontSize: '18'}}>Give Resources</div>
               <DropDownMenu value={this.state.giveTo} onChange={(e,i,v) => this.setState({giveTo: v})}>
                 <MenuItem disabled={true} value='Player' primaryText="Player" />
                 { this.props.players.map((player,idx) => <MenuItem value={player.name} primaryText={player.name.split(" ")[0]} key={idx} />) }
-              </DropDownMenu> <br />
+              </DropDownMenu> 
                <DropDownMenu value={this.state.giveResource} onChange={(e,i,v) => {this.setState({giveResource: v})}} autoWidth={false}>
                  <MenuItem disabled={true} value='Resource' primaryText="Resource" />
                   { Object.keys(resource).map((item, idx) => <MenuItem value={item} primaryText={item} key={idx} />) }
               </DropDownMenu>
-                <div style={{paddingLeft:'10%'}}><br /><input type="text" name="count" placeholder="Number to..." style={{ width: '70px'}} onChange={(e) => {
+                <div style={{paddingLeft:'10%' , fontSize: '16' }}><input type="text" name="count" placeholder="Number" style={{ width: '70px'}} onChange={(e) => {
                 e.preventDefault();
                 this.setState({giveNumber: e.target.value});
               }}/>
-                <button onClick={() => this.submitGiveForm(this.state)}>Give</button>
+                <button style={{ margin: '10', fontSize: '16'}} onClick={() => this.submitGiveForm(this.state)}>Give</button>
                 </div>
             </div>
 
@@ -251,3 +251,5 @@ export default connect(
   mapState,
   mapDispatch
 )(PlayerStat)
+
+export { PlayerStat as PurePlayerStat }; //this is for testing, do not remove unless updating test suite

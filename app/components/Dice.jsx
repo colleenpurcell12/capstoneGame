@@ -93,7 +93,7 @@ export class Dice extends Component {
           <button onClick={() => addAction(this.submitStealInfo(this.state.stealFrom))}>Steal!</button>
          </div>
           :
-        <button disabled>👾 Waiting to Steal! 👾</button>
+        <button disabled> Waiting to Steal! </button>
       }
 
 		</div>
@@ -109,3 +109,5 @@ import {connect} from 'react-redux';
 const mapStore = ({ diceRoll, loggedInUser, turnInfo, players, inProgress, corners, structure, hexData }) => ({diceRoll, loggedInUser, turnInfo, players, inProgress, corners, structure, hexData })
 const mapDispatch = {addMessage};
 export default connect(mapStore, mapDispatch)(Dice);
+
+export { Dice as PureDice }; //this is for testing, do not remove unless updating test suite

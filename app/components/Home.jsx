@@ -36,3 +36,5 @@ import {connect} from 'react-redux'
 const mapStateToProps = ({ loggedInUser, doneLoading, isSettingUp }) => ({ loggedInUser, doneLoading, isSettingUp })
 
 export default connect(mapStateToProps, null)(Home);
+
+export { Home  as PureHome }; //this is for testing, do not remove unless updating test suite

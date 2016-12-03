@@ -5,7 +5,10 @@ import  {render} from 'react-dom'
 import {connect, Provider} from 'react-redux'
 import store from './store'
 
-import injectTapEventPlugin from 'react-tap-event-plugin';
+//import Awards from './components/Awards';
+//   <Route path="awards" component={() => <Awards database={database}/>} />
+
+import injectTapEventPlugin from 'react-tap-event-plugin'; //required for onTouchTap
 injectTapEventPlugin();
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
