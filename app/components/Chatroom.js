@@ -40,7 +40,6 @@ export class Chatroom extends Component {
             {messages && Object.keys(messages).map(k => messages[k]).map( (message, idx) =>
                 <div key = {idx}>{message.name}: {message.text}</div>
               )}
-          }
           </div>
           <form id="message-form" action="#" onSubmit={this.saveMessage} >
               <div id="message-input" className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style={{background:'white', opacity: '.95', borderRadius: '5px'}}>
