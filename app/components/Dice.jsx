@@ -32,10 +32,7 @@ export class Dice extends Component {
     else if (total === 7){ //if you roll a 7
       this.setState({diceEnabled: false, stealEnabled: true}); //allow stealing
     }
-    var dealt = deal(this.props.structure, this.props.corners, this.props.hexData, total)
-    dealt.forEach(incr => {
-      addAction(incrementResource(incr.player, incr.resource, incr.num))
-    })
+    deal(this.props.structure, this.props.corners, this.props.hexData, total)
     return {d1: d1, d2: d2}; //return the object that will be stored on the state since all the calcs are done in this function
   }
 

@@ -100,7 +100,7 @@ export class PlayerStat extends Component {
     else { //isSettingUp, ascending turns in 1st and descending in 2nd round
       if (isFirstRound === true && turnArray.length === 0){
         //Players are allowed a purchase of each, per round.
-        for (var i = 0; i<4 ; i++){ //4 players
+        for (var i = 0; i < 4 ; i++){ //4 players
           if(players[i]){
             players[i].hasBoughtARoad = false;
             players[i].hasBoughtASettlement = false
@@ -187,11 +187,11 @@ export class PlayerStat extends Component {
           </div>
             <table>
             <tbody>
-                  <tr>  <th>Structure </th> <th>Cost                </th></tr>
-                  <tr> <td>Road      </td> <td>= ❄️  🔆            </td> </tr>
-                  <tr> <td>Settlement</td> <td>= ❄️  🔆 🌽  🚀    </td> </tr>
-                  <tr> <td>City      </td> <td>= 🚀 🚀  🌑 🌑 🌑</td> </tr>
-                  <tr> <td>Pioneer   </td> <td>= 🚀 🌽  🌑       </td> </tr>
+                  <tr><th>Structure </th><th>Cost                </th></tr>
+                  <tr><td>Road      </td><td>= ❄️  🔆            </td></tr>
+                  <tr><td>Settlement</td><td>= ❄️  🔆 🌽  🚀    </td></tr>
+                  <tr><td>City      </td><td>= 🚀 🚀  🌑 🌑 🌑</td></tr>
+                  <tr><td>Pioneer   </td><td>= 🚀 🌽  🌑       </td></tr>
             </tbody>
             </table>
 
