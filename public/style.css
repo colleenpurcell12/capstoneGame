@@ -15,7 +15,9 @@
  */
 
 html, body {
-  font-family: 'Roboto', 'Helvetica', sans-serif;
+  font-family: 'Verdana', 'Verdana', sans-serif;
+  font-size: 16px;
+  color: #494444;
 }
 
 /*https://www.wired.com/wp-content/uploads/images_blogs/wiredscience/2014/03/mars-crater-ft.jpg*/
@@ -24,12 +26,53 @@ body {
   background-size: 100% ;
 }
 
+.increDecre{
+  border-radius: 4px;
+  border: none;
+  margin: 2px;
+  color: #494444;
+  background-color: #e8a34a;
+}
+.playerButtons{
+  font-family: Verdana, Verdana, sans-serif;
+  font-size: 15px;
+  padding: 5px;
+  padding-right: 7px;
+  color: #494444;
+  margin: 2px;
+  border-radius: 5px;
+  border: none;
+  text-align: center;
+}
+.rollButton{
+  background-color: #56b766;
+}
+.endTurnButton{
+   background-color: #e5606f;
+}
+.addStructure{
+  background-color: #56adb7;
+  margin-top: 10px;
+}
+.addRoad{
+  background-color: #769be8;
+  margin-top: 10px;
+}
+.addCity{
+  background-color: #8f74e0;
+  margin-bottom: 10px;
+}
+.giveButton{
+  background-color: #b75858;
+}
+
+
 .playerInfo {
   background: white;
   opacity: .95;
   border-radius: 5px;
   padding-left: 15%;
-  padding-top: 5%;
+  padding-top: 4%;
   padding-bottom: 5%;
   color: #4c4747;
 }
@@ -152,7 +195,6 @@ table {
     background-size: 33px;
   }
 }
-
 #message-input{
   width: 100%
 }

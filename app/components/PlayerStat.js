@@ -104,47 +104,45 @@ export class PlayerStat extends Component {
       <div className='playerInfo'>
         {resource ?
         <div>
-          <div><strong>Victory Points:</strong> {points}</div><br />
+          <div><strong>Victory Points:</strong> {points}</div>
 
-          <div><Structures /><br></br></div>
-
+          <div><Structures /></div>
+          <div style={{marginBottom: '7px'}}>
           <div>
-          <input type="button" onClick={() => this.changeCount('crops',false) } value="-"/>
+          <input className='increDecre' type="button" onClick={() => this.changeCount('crops',false) } value="-"/>
           {resource.crops}
-          <input type="button" onClick={ () => this.changeCount('crops',true) } value="+"/>
-             🌽Crop Greenhouse
+          <input className='increDecre' type="button" onClick={ () => this.changeCount('crops',true) } value="+"/>
+             &nbsp;  🌽 &nbsp; Crop Greenhouse
           </div>
 
           <div>
-            <input type="button" onClick={() => this.changeCount('fuel',false) } value="-"/>
+            <input className='increDecre' type="button" onClick={() => this.changeCount('fuel',false) } value="-"/>
             {resource.fuel}
-            <input type="button" onClick={ () => this.changeCount('fuel',true) } value="+"/>
-              🚀Fuel Factory 
+            <input className='increDecre' type="button" onClick={ () => this.changeCount('fuel',true) } value="+"/>
+              &nbsp;  🚀 &nbsp; Fuel Factory 
           </div>
 
           <div>
-          <input type="button" onClick={() => this.changeCount('iron',false) } value="-"/>
+          <input className='increDecre' type="button" onClick={() => this.changeCount('iron',false) } value="-"/>
           {resource.iron}
-          <input type="button" onClick={ () => this.changeCount('iron',true) } value="+"/>
-            🌑Iron Ore Mine    
+          <input className='increDecre' type="button" onClick={ () => this.changeCount('iron',true) } value="+"/>
+            &nbsp;  🌑 &nbsp; Iron Ore Mine    
           </div>
 
           <div>
-          <input type="button" onClick={() => this.changeCount('ice',false) } value="-"/>
+          <input className='increDecre' type="button" onClick={() => this.changeCount('ice',false) } value="-"/>
           {resource.ice}
-          <input type="button" onClick={ () => this.changeCount('ice',true) } value="+"/>
-            ❄️Ice             
+          <input className='increDecre' type="button" onClick={ () => this.changeCount('ice',true) } value="+"/>
+            &nbsp;  ❄️ &nbsp; Ice             
           </div>
 
           <div>
-          <input type="button" onClick={() => this.changeCount('solar',false) } value="-"/>
+          <input className='increDecre' type="button" onClick={() => this.changeCount('solar',false) } value="-"/>
           {resource.solar}
-          <input type="button" onClick={ () => this.changeCount('solar',true) } value="+"/>
-            🔆Solar Panels
+          <input className='increDecre' type="button" onClick={ () => this.changeCount('solar',true) } value="+"/>
+            &nbsp;  🔆 &nbsp; Solar Panels
           </div>
-          
-          <br/>
-
+          </div>
           <table>
             <thead>
               <tr><th>Building</th><th>Costs</th><th>VP</th></tr>
@@ -157,8 +155,8 @@ export class PlayerStat extends Component {
             </tbody>
           </table>
 
-            <div style={{border: '1px solid gray', padding: '0px' , marginRight: '10%'}}>
-              <div style={{textAlign: 'center', padding: '10px' , fontSize: '18px'}}>Give Resources</div>
+            <div style={{border: '1px solid gray', borderRadius: '5px', padding: '0px', marginRight: '15%', marginTop: '5%'}}>
+              <div style={{textAlign: 'center', paddingTop: '10px' , fontSize: '18px'}}>Give Resources</div>
               <DropDownMenu value={this.state.giveTo} onChange={(e,i,v) => this.setState({giveTo: v})}>
                 <MenuItem disabled={true} value='Player' primaryText="Player" />
                   <MenuItem value="Bank" primaryText="Bank" /> 
@@ -176,7 +174,7 @@ export class PlayerStat extends Component {
                     e.preventDefault();
                     this.setState({giveNumber: e.target.value, errorText: ""});
                     }} />
-                  <button style={{ margin: '10px', fontSize: '16px'}} onClick={() => this.submitGiveForm(this.state)}>Give</button>
+                  <button className='playerButtons giveButton' onClick={() => this.submitGiveForm(this.state)}>Give</button>
                 </div>
             </div>
 

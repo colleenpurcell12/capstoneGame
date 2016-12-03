@@ -335,11 +335,16 @@ takePayment(type){
 
   render() {
     //console.log("Passed from Board, selected corners are :",this.props.selected)
+    // style={{padding: '5px', fontFamily: "Verdana, Verdana, sans-serif", color: 'white', margin:'2px', borderRadius: '5px', border: 'none', textAlign: 'center', backgroundColor: '#a5424d'}}
     return (
       <div>
-    		<button type='submit' onClick={() => this.registerSettlement()}> Build Settlement </button>
-    		<button type='submit' onClick={() => this.registerRoad()}> Build Road </button><br></br>
-        <button type='submit' onClick={() => this.upgradeSettlement()}> Upgrade to City</button>
+    		<button className='playerButtons addStructure'
+         type='submit' onClick={() => this.registerSettlement()}> Add Structure </button>
+        <button className='playerButtons addRoad'
+            type='submit' onClick={() => this.registerRoad()}> Add Road </button><br></br>
+        <button className='playerButtons addCity'
+        type='submit' onClick={() => this.upgradeSettlement()}> Upgrade Settlement to a City</button>
+
       </div>
     	)
 	}
