@@ -4,8 +4,9 @@ import {filter} from 'lodash.filter';
 import {incrementResource} from 'APP/app/reducers/players';
 import {resources} from './setup';
 
-function deal(structures, corners, hexData, roll){
+function deal(structures, corners, hexData, robber, roll){
   // loops through structures array from state
+  console.log('DEALING')
   var toDeal =[];
   structures.forEach(structure => {
     // determines number of cards to deal based on type
@@ -22,7 +23,7 @@ function deal(structures, corners, hexData, roll){
     theCorner.hexes.forEach(hex => {
       // if the hex has an id, i.e. it's a true hex and not a dummy neighbor
       // && the token matches the roll passed in, fire incrementResource action
-      if(hexData[hex.id] && hexData[hex.id].token === roll){
+      if(hexData[hex.id] && hexData[hex.id].token === roll && hex.id !== robber.hexID){
         var resource = resources[hexData[hex.id].resource];
         var player = structure.player;
         toDeal.push({player, resource, num});
@@ -38,8 +39,9 @@ function setupDeal(structures, corners, hexData){
   // for every token number on the map, deal adjoining settlements
   let tokens = [2,3,4,5,6,8,9,10,11,12];
   let setupDealt = [];
+  let robber = {hexID: null}
   tokens.forEach(token => {
-   var dealt = deal(structures, corners, hexData, token);
+   var dealt = deal(structures, corners, hexData, robber, token);
    setupDealt = setupDealt.concat(dealt);
  });
   return setupDealt;

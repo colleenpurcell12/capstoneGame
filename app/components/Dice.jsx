@@ -28,16 +28,16 @@ export class Dice extends Component {
   rollDice(bool) {
     let d1 = Math.floor(Math.random() * 6) + 1;
     let d2 = Math.floor(Math.random() * 6) + 1;
-    let total = d1+d2 
-    deal(this.props.structure, this.props.corners, this.props.hexData, total).forEach(incr => {
+    let total = d1+d2
+    deal(this.props.structure, this.props.corners, this.props.hexData, this.props.robberHex, total).forEach(incr => {
       addAction(incrementResource(incr.player, incr.resource, incr.num))
     })
     if (d1 === d2) {
       return {d1: d1, d2: d2, diceEnabled: true, stealEnabled: false};
-    }  
+    }
     else if (total === 7){ //if you roll a 7
       return {d1: d1, d2: d2, diceEnabled: false, stealEnabled: true}; //allow stealing
-    }    
+    }
     else {
       return {d1: d1, d2: d2, diceEnabled: false, stealEnabled: false}; //return the object that will be stored on the state since all the calcs are done in this function
     }
@@ -70,7 +70,7 @@ export class Dice extends Component {
   nextPlayer(){
     if(this.props.diceRoll.d1) addAction(newDiceRoll({d1: this.props.diceRoll.d1, d2:  this.props.diceRoll.d2, diceEnabled: true, stealEnabled: false}))
     addAction(clearSelection())
-    let { isFirstRound, isSettingUp, turnArray, turnInfo, players } = this.props 
+    let { isFirstRound, isSettingUp, turnArray, turnInfo, players } = this.props
     console.log("Past player is",turnInfo, "isFirstRound",isFirstRound," and turn Array is",turnArray)
     if (isSettingUp === false){ //Normal cycle of turns during game play, increment user to x+1
       var player = this.props.turnInfo
@@ -82,7 +82,8 @@ export class Dice extends Component {
     else { //isSettingUp, ascending turns in 1st and descending in 2nd round
       if (isFirstRound === true && turnArray.length === 0){
         //Players are allowed a purchase of each, per round.
-        for (var i = 0; i<4 ; i++){ //4 players
+        for (var i = 0; i<
+          4 ; i++){ //4 players
           if(players[i]){
             players[i].hasBoughtARoad = false;
             players[i].hasBoughtASettlement = false
@@ -93,14 +94,14 @@ export class Dice extends Component {
         addAction(setNextTurn(4));  // starts 2nd round with 4th player
      }
       // At the end of 2nd round, normal game play is initiated
-      else if (isFirstRound === false && turnArray.length === 0) {  
+      else if (isFirstRound === false && turnArray.length === 0) {
         console.log("and next player is 1")
         addAction(setNextTurn(1))      // game starts with the 1st player
         addAction(startNormGamePlay()) // !isSettingUp
         let setupDealt = setupDeal(this.props.structure, this.props.corners, this.props.hexData)
         setupDealt.forEach(incr => {
           addAction(incrementResource(incr.player, incr.resource, incr.num))
-        })  
+        })
       }
       else { //within either round
         if (turnArray){
@@ -144,7 +145,7 @@ export class Dice extends Component {
             <DropDownMenu value={this.state.stealFrom} onChange={(e,i,v) => this.setState({stealFrom: v})}>
               <MenuItem disabled={true} value='Player' primaryText="Player" />
               { this.props.players.map((player,idx) => {
-                if(player.name !== this.props.loggedInUser.displayName && player.cardsTotal()) 
+                if(player.name !== this.props.loggedInUser.displayName && player.cardsTotal())
                   return (
                   <MenuItem value={idx} primaryText={player.name.split(" ")[0]} key={idx} />
                   )
@@ -167,7 +168,7 @@ export class Dice extends Component {
 
 import {connect} from 'react-redux';
 
-const mapStore = ({ diceRoll, loggedInUser, turnInfo, players, inProgress, corners, hexData, isFirstRound, isSettingUp, turnArray, structure }) => ({diceRoll, loggedInUser, turnInfo, players, inProgress, corners, hexData, isFirstRound, isSettingUp, turnArray, structure })
+const mapStore = ({ diceRoll, loggedInUser, turnInfo, players, inProgress, corners, hexData, isFirstRound, isSettingUp, turnArray, structure, robberHex}) => ({diceRoll, loggedInUser, turnInfo, players, inProgress, corners, hexData, isFirstRound, isSettingUp, turnArray, structure, robberHex})
 const mapDispatch = {addMessage};
 export default connect(mapStore, mapDispatch)(Dice);
 

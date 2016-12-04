@@ -13,26 +13,11 @@ var hexData = resourcesArray.map((res, i) => {
 
 describe('Deal', () => {
 
-  describe('actions', () => {
-    it('should create an action to increment Resources', () => {
-      let structures = [ {owner: 'red', corner_id: 12, type: 'settlement', player: 'Sami Lugar' }]
-      let player = structures[0].player
-      let resource = hexData[2].resource
-      const expectedAction = {
-        type: 'INCREMENT_RESOURCE',
-        player,
-        resource,
-        count: 1
-      }
-      expect(incrementResource(player, resource, 1)).to.deep.equal(expectedAction)
-    })
-  })
-
   describe('deal with one structure', () => {
     var roll = hexData[2].token // corner 12 is on hex #3
     var structures = [ {owner: 'red', corner_id: 12, type: 'settlement', player: 'Sami Lugar' }]
-    var dealt = deal(structures, corners, hexData, roll)
-    console.log('DEALT', dealt)
+    var robber = {hexID: 18}
+    var dealt = deal(structures, corners, hexData, robber, roll)
     it('returns an array', () => {
       expect(dealt).to.instanceof(Array)
     })
@@ -62,8 +47,8 @@ describe('Deal', () => {
       {owner: 'red', corner_id: 12, type: 'settlement', player: 'Sami Lugar' }, // does not touch a 6
       {owner: 'blue', corner_id: 29, type: 'city', player: 'Colleen Purcell' } // on hex 8
     ]
-    var dealt = deal(structures, corners, hexData, roll)
-    console.log('DEALT', dealt)
+    var robber = {hexID: 18}
+    var dealt = deal(structures, corners, hexData, robber, roll)
     it('returns an array', () => {
       expect(dealt).to.instanceof(Array)
     })
@@ -83,6 +68,21 @@ describe('Deal', () => {
       expect(dealt[1].player).to.be.equal(structures[2].player)
       expect(dealt[1].resource).to.be.equal(resource8)
       expect(dealt[1].num).to.be.equal(2)
+    })
+  })
+  describe('robber', () => {
+    var roll = 6
+    // 7: {token: 6, resource: 1}
+    // 8: {token: 6, resource: 2}
+    var structures = [
+      {owner: 'red', corner_id: 25, type: 'settlement', player: 'Sami Lugar' }, // on hex 7
+      {owner: 'red', corner_id: 12, type: 'settlement', player: 'Sami Lugar' }, // does not touch a 6
+      {owner: 'blue', corner_id: 29, type: 'city', player: 'Colleen Purcell' } // on hex 8
+    ]
+    var robber = {hexID: 7}
+    var dealt = deal(structures, corners, hexData, robber, roll)
+    it('prevents resource distribution', () => {
+      expect(dealt.length).to.be.equal(1)
     })
   })
 
@@ -124,7 +124,7 @@ describe('Deal', () => {
     })
   })
 
-  describe('setupDeal gives appropriate resource if hex resources are the same', () => {
+  describe('setupDeal', () => {
     // 7: {token: 6, resource: 1}
     // 8: {token: 6, resource: 2}
     var structures = [
