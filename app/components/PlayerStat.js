@@ -9,6 +9,7 @@ import Checkbox from 'material-ui/Checkbox'
 import SelectField from 'material-ui/SelectField'
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import store from '../store'
 import {addAction} from '../reducers/action-creators';
@@ -106,43 +107,59 @@ export class PlayerStat extends Component {
         <div>
           <div><strong>Victory Points:</strong> {points}</div>
 
+          <br />
+
           <div><Structures /></div>
-          <div style={{marginBottom: '7px'}}>
+
+          <br />
+
           <div>
-          <input className='increDecre' type="button" onClick={() => this.changeCount('crops',false) } value="-"/>
+          <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('crops',false) }></i>
+          &nbsp;
           {resource.crops}
-          <input className='increDecre' type="button" onClick={ () => this.changeCount('crops',true) } value="+"/>
-             &nbsp;  🌽 &nbsp; Crop Greenhouse
+          &nbsp;
+          <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('crops',true) }></i>
+            &nbsp; 🌽Crop Greenhouse
           </div>
 
           <div>
-            <input className='increDecre' type="button" onClick={() => this.changeCount('fuel',false) } value="-"/>
+          <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('fuel',false) }></i>
+          &nbsp;
             {resource.fuel}
-            <input className='increDecre' type="button" onClick={ () => this.changeCount('fuel',true) } value="+"/>
-              &nbsp;  🚀 &nbsp; Fuel Factory 
+          &nbsp;
+          <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('fuel',true) }></i>
+            &nbsp; 🚀Fuel Factory 
           </div>
 
           <div>
-          <input className='increDecre' type="button" onClick={() => this.changeCount('iron',false) } value="-"/>
+          <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('iron',false) }></i>
+          &nbsp;
           {resource.iron}
-          <input className='increDecre' type="button" onClick={ () => this.changeCount('iron',true) } value="+"/>
-            &nbsp;  🌑 &nbsp; Iron Ore Mine    
+          &nbsp;
+          <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('iron',true) }></i>
+            &nbsp; 🌑Iron Ore Mine    
           </div>
 
           <div>
-          <input className='increDecre' type="button" onClick={() => this.changeCount('ice',false) } value="-"/>
+          <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('ice',false) }></i>
+          &nbsp;
           {resource.ice}
-          <input className='increDecre' type="button" onClick={ () => this.changeCount('ice',true) } value="+"/>
-            &nbsp;  ❄️ &nbsp; Ice             
+          &nbsp;
+          <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('ice',true) }></i>
+            &nbsp; ❄️Ice             
           </div>
 
           <div>
-          <input className='increDecre' type="button" onClick={() => this.changeCount('solar',false) } value="-"/>
+          <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('solar',false) }></i>
+          &nbsp;
           {resource.solar}
-          <input className='increDecre' type="button" onClick={ () => this.changeCount('solar',true) } value="+"/>
-            &nbsp;  🔆 &nbsp; Solar Panels
+          &nbsp;
+          <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('solar',true) }></i>
+            &nbsp; 🔆Solar Panels
           </div>
-          </div>
+
+          <br />
+
           <table>
             <thead>
               <tr><th>Building</th><th>Costs</th><th>VP</th></tr>
@@ -174,7 +191,7 @@ export class PlayerStat extends Component {
                     e.preventDefault();
                     this.setState({giveNumber: e.target.value, errorText: ""});
                     }} />
-                  <button className='playerButtons giveButton' onClick={() => this.submitGiveForm(this.state)}>Give</button>
+                  <RaisedButton label="Give" onClick={() => this.submitGiveForm(this.state)} />
                 </div>
             </div>
 

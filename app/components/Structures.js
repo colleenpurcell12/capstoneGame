@@ -7,6 +7,7 @@ import { clearSelection } from '../reducers/selection'
 import { addPoint, hasBought, incrementResource, decrementResource } from '../reducers/players';
 import { initials } from '../reducers/helperFunctions'
 
+import RaisedButton from 'material-ui/RaisedButton';
 
 export class Structures extends Component {
 	constructor(props) {
@@ -338,13 +339,9 @@ takePayment(type){
     // style={{padding: '5px', fontFamily: "Verdana, Verdana, sans-serif", color: 'white', margin:'2px', borderRadius: '5px', border: 'none', textAlign: 'center', backgroundColor: '#a5424d'}}
     return (
       <div>
-    		<button className='playerButtons addStructure'
-         type='submit' onClick={() => this.registerSettlement()}> Add Structure </button>
-        <button className='playerButtons addRoad'
-            type='submit' onClick={() => this.registerRoad()}> Add Road </button><br></br>
-        <button className='playerButtons addCity'
-        type='submit' onClick={() => this.upgradeSettlement()}> Upgrade Settlement to a City</button>
-
+        <RaisedButton label="Build Settlement" onClick={() => this.registerSettlement()} />
+    		<RaisedButton label="Build Road" onClick={() => this.registerRoad()} /><br />
+        <RaisedButton label="Upgrade to City" onClick={() => this.upgradeSettlement()} />
       </div>
     	)
 	}
