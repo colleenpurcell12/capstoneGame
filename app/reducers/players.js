@@ -29,12 +29,12 @@ export default function reducer (players = [], action) {
     case ADD_PLAYER:
       return players.concat([{name: action.player, cardsTotal: function(){
         return Object.keys(this.cardsResource).map(resource => this.cardsResource[resource]).reduce((a,b) => a+b)
-        }, 
-        cardsResource: {crops: 0, fuel: 0, iron: 0, ice: 0, solar: 0}, 
-        points: 0, 
-        hasBoughtARoad: false, 
+        },
+        cardsResource: {crops: 0, fuel: 0, iron: 0, ice: 0, solar: 0},
+        points: 0,
+        hasBoughtARoad: false,
         hasBoughtASettlement: false
-        // , 
+        // ,
         // color: action.color
       }]);
     case INCREMENT_RESOURCE:

@@ -23,6 +23,8 @@ function deal(structures, corners, hexData, roll){
       // if the hex has an id, i.e. it's a true hex and not a dummy neighbor
       // && the token matches the roll passed in, fire incrementResource action
       if(hexData[hex.id] && hexData[hex.id].token === roll){
+        if(hexData[hex.id].resource === 0){
+        }
         var resource = resources[hexData[hex.id].resource];
         var player = structure.player;
         toDeal.push({player, resource, num});

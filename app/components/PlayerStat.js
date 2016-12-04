@@ -92,6 +92,7 @@ export class PlayerStat extends Component {
        addAction(addPlayer(this.props.loggedInUser.displayName)); //, color));
   }
 
+
   render() {
     var resource, points;
     this.props.players.forEach((player, idx) => {
@@ -119,21 +120,21 @@ export class PlayerStat extends Component {
             <input className='increDecre' type="button" onClick={() => this.changeCount('fuel',false) } value="-"/>
             {resource.fuel}
             <input className='increDecre' type="button" onClick={ () => this.changeCount('fuel',true) } value="+"/>
-              &nbsp;  🚀 &nbsp; Fuel Factory 
+              &nbsp;  🚀 &nbsp; Fuel Factory
           </div>
 
           <div>
           <input className='increDecre' type="button" onClick={() => this.changeCount('iron',false) } value="-"/>
           {resource.iron}
           <input className='increDecre' type="button" onClick={ () => this.changeCount('iron',true) } value="+"/>
-            &nbsp;  🌑 &nbsp; Iron Ore Mine    
+            &nbsp;  🌑 &nbsp; Iron Ore Mine
           </div>
 
           <div>
           <input className='increDecre' type="button" onClick={() => this.changeCount('ice',false) } value="-"/>
           {resource.ice}
           <input className='increDecre' type="button" onClick={ () => this.changeCount('ice',true) } value="+"/>
-            &nbsp;  ❄️ &nbsp; Ice             
+            &nbsp;  ❄️ &nbsp; Ice
           </div>
 
           <div>
@@ -148,6 +149,7 @@ export class PlayerStat extends Component {
               <tr><th>Building</th><th>Costs</th><th>VP</th></tr>
             </thead>
             <tbody>
+
               <tr><td>Road</td><td>= ❄️  🔆</td><td>0</td></tr>
               <tr><td>Settlement</td><td>= ❄️  🔆 🌽  🚀</td><td>1</td></tr>
               <tr><td>City</td><td>= 🚀 🚀  🌑 🌑 🌑</td><td>2</td></tr>
@@ -159,12 +161,12 @@ export class PlayerStat extends Component {
               <div style={{textAlign: 'center', paddingTop: '10px' , fontSize: '18px'}}>Give Resources</div>
               <DropDownMenu value={this.state.giveTo} onChange={(e,i,v) => this.setState({giveTo: v})}>
                 <MenuItem disabled={true} value='Player' primaryText="Player" />
-                  <MenuItem value="Bank" primaryText="Bank" /> 
+                  <MenuItem value="Bank" primaryText="Bank" />
                 { this.props.players.map((player,idx) => {
                   if(player.name !== this.props.loggedInUser.displayName) return (
-                  <MenuItem value={player.name} primaryText={player.name.split(" ")[0]} key={idx} /> 
+                  <MenuItem value={player.name} primaryText={player.name.split(" ")[0]} key={idx} />
                 )})}
-              </DropDownMenu> 
+              </DropDownMenu>
                <DropDownMenu value={this.state.giveResource} onChange={(e,i,v) => {this.setState({giveResource: v})}} autoWidth={false}>
                  <MenuItem disabled={true} value='Resource' primaryText="Resource" />
                   { Object.keys(resource).map((item, idx) => <MenuItem value={item} primaryText={item} key={idx} />) }
