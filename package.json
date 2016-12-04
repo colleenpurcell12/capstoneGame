@@ -1,54 +1,40 @@
 {
   "name": "capstone-game",
   "version": "0.0.1",
-  "description": "A happy little skeleton.",
+  "description": "Pioneers of Mars is a four-player game of expansion",
   "main": "index.js",
   "scripts": {
     "test": "check-node-version --node '>= 6.7.0' && bin/setup && mocha --compilers js:babel-register app/**/*.test.js app/**/*.test.jsx",
     "test-watch": "check-node-version --node '>= 6.7.0' && bin/setup && mocha --compilers js:babel-register --watch app/**/*.test.js app/**/*.test.jsx",
     "build": "check-node-version --node '>= 6.7.0' && bin/setup && webpack",
-    "build-watch": "check-node-version --node '>= 6.7.0' && bin/setup && webpack -w",
-    "start": "check-node-version --node '>= 6.7.0' && bin/setup && nodemon server/start.js",
-    "seed": "node db/seed.js"
+    "build-watch": "check-node-version --node '>= 6.7.0' && bin/setup && webpack -w"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/queerviolet/bones.git"
+    "url": "git+https://github.com/colleenpurcell12/capstoneGame.git"
   },
   "keywords": [
     "react",
     "redux",
-    "skeleton"
+    "firebase"
   ],
-  "author": "Ashi Krishnan <me@ashi.works>",
+  "author": "Sharon Choe, Deborah Kwon, Samantha Lugar, Colleen Purcell",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/queerviolet/bones/issues"
+    "url": "https://github.com/colleenpurcell12/capstoneGame/issues"
   },
-  "homepage": "https://github.com/queerviolet/bones#readme",
+  "homepage": "https://github.com/colleenpurcell12/capstoneGame/#readme",
   "dependencies": {
-    "axios": "^0.15.2",
     "babel-preset-stage-2": "^6.18.0",
     "bcrypt": "^0.8.7",
-    "bluebird": "^3.4.6",
-    "body-parser": "^1.15.2",
     "chai": "^3.5.0",
     "chai-enzyme": "^0.5.2",
     "chalk": "^1.1.3",
     "check-node-version": "^1.1.2",
-    "cookie-session": "^2.0.0-alpha.1",
     "enzyme": "^2.6.0",
-    "epilogue": "^0.7.0",
-    "express": "^4.14.0",
     "firebase": "^3.6.1",
     "jsdom": "^9.8.3",
     "material-ui": "^0.16.4",
-    "npm-css": "^0.2.3",
-    "passport": "^0.3.2",
-    "passport-facebook": "^2.1.1",
-    "passport-github2": "^0.1.10",
-    "passport-google-oauth": "^1.0.0",
-    "passport-local": "^1.0.0",
     "react": "^15.3.2",
     "react-bootstrap": "^0.30.6",
     "react-dom": "^15.3.2",
@@ -75,9 +61,6 @@
     "babel-preset-stage-1": "^6.16.0",
     "chai": "^3.5.0",
     "mocha": "^3.1.2",
-    "supertest": "^2.0.1",
-    "supertest-as-promised": "^4.0.1",
-    "volleyball": "^1.4.1",
     "webpack": "^1.13.3"
   }
 }
