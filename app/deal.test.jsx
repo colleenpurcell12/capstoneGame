@@ -34,7 +34,6 @@ describe('Deal', () => {
     var roll = hexData[2].token // corner 12 is on hex #3
     var structures = [ {owner: 'red', corner_id: 12, type: 'settlement', player: 'Sami Lugar' }]
     var dealt = deal(structures, corners, hexData, roll)
-    console.log('DEALT', dealt)
     it('returns an array', () => {
       expect(dealt).to.instanceof(Array)
     })
@@ -65,7 +64,6 @@ describe('Deal', () => {
       {owner: 'blue', corner_id: 29, type: 'city', player: 'Colleen Purcell' } // on hex 8
     ]
     var dealt = deal(structures, corners, hexData, roll)
-    console.log('DEALT', dealt)
     it('returns an array', () => {
       expect(dealt).to.instanceof(Array)
     })
@@ -99,7 +97,6 @@ describe('Deal', () => {
 
     ]
     var dealt = setupDeal(structures, corners, hexData)
-    console.log('DEALT', dealt)
     it('returns an array', () => {
       expect(dealt).to.instanceof(Array)
     })
@@ -134,7 +131,6 @@ describe('Deal', () => {
       {owner: 'red', corner_id: 12, type: 'settlement', player: 'Sami Lugar' }, // on hex 3
     ]
     var dealt = setupDeal(structures, corners, hexData)
-    console.log('DEALT', dealt)
 
     it('returns array of length 7', () => {
       expect(dealt.length).to.be.equal(4)
@@ -160,9 +156,9 @@ describe('Deal', () => {
       expect(newState[0].cardsTotal()).to.be.equal(1)
       expect(newState[0].cardsResource.crops).to.be.equal(1)
     })
-    it('works for multiple settlements', () => {
+    it('works for multiple settlements on the same hex', () => {
       var structures = [
-        {owner: 'red', corner_id: 26, type: 'settlement', player: 'Sami Lugar' }, // on hex 7, 12
+        {owner: 'red', corner_id: 27, type: 'settlement', player: 'Sami Lugar' }, // on hex 7, 12
         {owner: 'green', corner_id: 12, type: 'settlement', player: 'Colleen Purcell' }, // on hex 3
         {owner: 'blue', corner_id: 29, type: 'settlement', player: 'Sharon Choe' }, // on hex 8 ,12, 13
         {owner: 'brown', corner_id: 17, type: 'settlement', player: 'Deborah Kwon' } // on hex 3
@@ -172,16 +168,94 @@ describe('Deal', () => {
          nextState = reducer(nextState, addPlayer(structures[i].player))
       }
 
-      var dealt = deal(structures, corners, hexData, 12)
+      var dealt = deal(structures, corners, hexData, 6)
       dealt.map(inc => {
         nextState = reducer(nextState, incrementResource(inc.player, inc.resource, inc.num))
       })
-      console.log('NEXTSTATE', nextState)
       expect(nextState).to.have.length(4)
-      expect(nextState[0].cardsTotal()).to.be.equal(1)
+      expect(nextState[0].cardsTotal()).to.be.equal(3) // 1 crops from first test, 1 crop, 1 solar from current
       expect(nextState[1].cardsTotal()).to.be.equal(0)
       expect(nextState[2].cardsTotal()).to.be.equal(1)
       expect(nextState[3].cardsTotal()).to.be.equal(0)
+    })
+  })
+  describe('setupDeal increments player reducer when given array of 8 settlements', ()=>{
+    var structures = [
+      {owner: 'red', corner_id: 27, type: 'settlement', player: 'Sami Lugar' }, // on hex 7, 8, 12 => 3 resources
+      {owner: 'green', corner_id: 12, type: 'settlement', player: 'Colleen Purcell' }, // on hex 2 => 1 resource
+      {owner: 'blue', corner_id: 29, type: 'settlement', player: 'Sharon Choe' }, // on hex 8 ,12, 13 => 3 resources
+      {owner: 'brown', corner_id: 17, type: 'settlement', player: 'Deborah Kwon' }, // on hex 3 => 1 resource
+      {owner: 'brown', corner_id: 14, type: 'settlement', player: 'Deborah Kwon' }, // on hex 3, 7 => 2 resources
+      {owner: 'blue', corner_id: 8, type: 'settlement', player: 'Sharon Choe' }, // on hex 1, 3 => 2 resources
+      {owner: 'green', corner_id: 30, type: 'settlement', player: 'Colleen Purcell' }, // on hex 8, 9, 13 => 3 resources
+      {owner: 'red', corner_id: 40, type: 'settlement', player: 'Sami Lugar' }, //on hex  12, 13, 16 => 3 resources
+    ]
+    //set initial state to have empty hands
+    let initialState = reducer(undefined, addPlayer('Sami Lugar'))
+    let nextState = initialState
+    for(let i = 1; i < 4; i ++){
+       nextState = reducer(nextState, addPlayer(structures[i].player))
+    }
+    // creates array of players to be incremented
+    var setupDealArray = setupDeal(structures, corners, hexData)
+
+    //increments using incrementResource
+    setupDealArray.forEach(inc => {
+      nextState = reducer(nextState, incrementResource(inc.player, inc.resource, inc.num))
+    })
+
+    it('setupDeal returns array of 18', () => {
+      expect(setupDealArray).to.have.length(18)
+    })
+    it('increments Resources on a with a for Each for total cards of 18', ()=>{
+      //count totalCards
+      var totalCards = 0;
+      for(let j = 0; j < nextState.length; j ++){
+        totalCards += nextState[j].cardsTotal()
+      }
+      expect(totalCards).to.be.equal(18)
+    })
+  })
+  describe('Solar is incremented', () => {
+    var structures = [
+      {owner: 'green', corner_id: 12, type: 'settlement', player: 'Colleen Purcell' }, // on hex 2 { token: 3, resource: 0}=> 1 resource
+      {owner: 'brown', corner_id: 17, type: 'settlement', player: 'Deborah Kwon' }, // on hex 3 {token: 4, resource: 0}=> 1 resource
+      {owner: 'blue', corner_id: 8, type: 'settlement', player: 'Sharon Choe' }, // on hex 1 {token: 3, resource: 0}, 2 {token: 3, resource: 0} => 2 resources
+      {owner: 'brown', corner_id: 14, type: 'settlement', player: 'Sami Lugar' }, // on hex 3 {token: 4, resource: 0}, 7 {token: 6, resource: ??}=> 2 resource
+    ]
+    //set initial state to have empty hands
+    var startState
+    beforeEach(function(){
+      let initialState = reducer(undefined, addPlayer('Colleen Purcell'))
+      startState = initialState
+      for(let i = 1; i < 4; i ++){
+        startState = reducer(startState, addPlayer(structures[i].player))
+      }
+    })
+    it('adds 1 solar to each card on deal', ()=> {
+      let nextState = startState
+      var dealt = deal(structures, corners, hexData, 3)
+      dealt.map(inc => {
+        nextState = reducer(nextState, incrementResource(inc.player, inc.resource, inc.num))
+      })
+      expect(nextState[0].cardsTotal()).to.be.equal(1) // 1 crops from first test, 1 crop, 1 solar from current
+      expect(nextState[1].cardsTotal()).to.be.equal(0)
+      expect(nextState[2].cardsTotal()).to.be.equal(2)
+      expect(nextState[3].cardsTotal()).to.be.equal(0)
+    })
+    it('adds 1 solar to each card on setupDeal', ()=> {
+      // creates array of players to be incremented
+      var setupDealArray = setupDeal(structures, corners, hexData)
+      let nextState = startState
+      //increments using incrementResource
+      setupDealArray.forEach((inc, i) => {
+        nextState = reducer(nextState, incrementResource(inc.player, inc.resource, inc.num))
+
+      })
+      expect(nextState[0].cardsResource.solar).to.be.equal(1)
+      expect(nextState[1].cardsResource.solar).to.be.equal(1)
+      expect(nextState[2].cardsResource.solar).to.be.equal(2)
+      expect(nextState[3].cardsResource.solar).to.be.equal(1)
     })
   })
 
