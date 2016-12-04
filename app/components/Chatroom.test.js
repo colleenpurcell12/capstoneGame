@@ -61,7 +61,7 @@ describe('<Chatroom /> 💬', () => {
     // expect(chatroom.find("div[id='messages']")).to.have.text('Elon M: I told you so!');
   });
 
-   it('calls saveMessage when player submits message', () => {
+  xit('calls saveMessage when player submits message', () => {
     let chatroomInstance = chatroom.instance();
     let saveMessageStub = sinon.stub(chatroomInstance, 'saveMessage');
     chatroom.update();
