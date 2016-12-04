@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
-import * as firebase from 'firebase'
-import { Link } from 'react-router';
-import store from '../store'
-import { addAction } from '../reducers/action-creators'
+import { addAction } from '../reducers/action-creators';
+import { addBoardStructure, upgradeBoardStructure } from '../reducers/structure';
+import { addRoadToRoads } from '../reducers/road';
+import { addRoadToEveryStructure, addSettlementToEveryStructure, addCityToEveryStructure } from '../reducers/everyStructure';
+import { clearSelection } from '../reducers/selection'
+import { addPoint, hasBought, incrementResource, decrementResource } from '../reducers/players';
+import { initials } from '../reducers/helperFunctions'
 
 
 export class Structures extends Component {
 	constructor(props) {
     super(props);
-    this.state = {
-      //wool: 0
-    };
   }
-  componentDidMount() {
 
-  }
+
   isAvailable(type, cornerIDs){  
     let { everyStructure, selections, turnInfo, players } = this.props  
     let userIndex = --turnInfo 
@@ -198,16 +197,16 @@ export class Structures extends Component {
                         corners:  [cornerA.id, cornerB.id],
                         associatedHexs: associatedHexs, color: userColor, userID: userID } //XXX
         //so user can't select/register another road during this round of set up
-        if( this.props.isSettingUp ) {  addAction(this.props.hasBought(player.name, 'hasBoughtARoad')) } 
+        if( this.props.isSettingUp ) {  addAction(hasBought(player.name, 'hasBoughtARoad')) } 
         else{ this.takePayment('road') }
-        addAction(this.props.clearSelection())
+        addAction(clearSelection())
         //send off to the everyStructures array used for validation, with firebase
-        addAction(this.props.addRoadToEveryStructure(roadObj)) //formerly addRoad()
+        addAction(addRoadToEveryStructure(roadObj)) //formerly addRoad()
 
         //to the road state used for rending visuals
         var roadObj = { color: userColor, corners:  [cornerA.id, cornerB.id] , userID: userID,
                      coordinates: coord  }
-        addAction(this.props.addRoadToRoads(roadObj)) //formerly: this.props.addBoardRoad
+        addAction(addRoadToRoads(roadObj)) //formerly: this.props.addBoardRoad
       }
       //else{ console.log('Road was not registered.') }    
   }
@@ -254,20 +253,20 @@ export class Structures extends Component {
                           }
       
     if( this.props.isSettingUp ) {  
-      addAction(this.props.hasBought(player.name, 'hasBoughtASettlement'))// sets player.hasBoughtASettlement = true 
+      addAction(hasBought(player.name, 'hasBoughtASettlement'))// sets player.hasBoughtASettlement = true 
     }
     else { this.takePayment('settlement') }//decrement relevant cards from userArray user object's card resources
 
-    addAction(this.props.clearSelection())
+    addAction(clearSelection())
 
     //everyStructure used for movie validation dispatched with firebase
-    addAction(this.props.addSettlementToEveryStructure(settlementObj))   
-    addAction( this.props.addPoint(player.name))  //player score DOESN"T WORK
+    addAction(addSettlementToEveryStructure(settlementObj))   
+    addAction(addPoint(player.name))  //player score DOESN"T WORK
 
     //structure used for rending visual
     
     var settleObj = {owner: userColor, corner_id: corner.id, type: 'settlement', player: player.name } //userObj
-    addAction( this.props.addBoardStructure(settleObj) )
+    addAction(addBoardStructure(settleObj) )
   }
 
 takePayment(type){
@@ -275,16 +274,16 @@ takePayment(type){
     let userIndex = turnInfo-1
     let playerName = players[userIndex].name
       if(type==='road'){ 
-      this.props.decrementResource( playerName, 'ice', 1)
-      this.props.decrementResource( playerName, 'solar', 1)
+      addAction(decrementResource( playerName, 'ice', 1))
+      addAction(decrementResource( playerName, 'solar', 1))
     } else if (type==='settlement') { 
-      this.props.decrementResource( playerName, 'ice', 1)
-      this.props.decrementResource( playerName, 'solar', 1)
-      this.props.decrementResource( playerName, 'fuel', 1)
-      this.props.decrementResource( playerName, 'crops', 1)
+      addAction(decrementResource( playerName, 'ice', 1))
+      addAction(decrementResource( playerName, 'solar', 1))
+      addAction(decrementResource( playerName, 'fuel', 1))
+      addAction(decrementResource( playerName, 'crops', 1))
     } else{ 
-      this.props.decrementResource( playerName, 'fuel', 2)
-      this.props.decrementResource( playerName, 'iron', 3)
+      addAction(decrementResource( playerName, 'fuel', 2))
+      addAction(decrementResource( playerName, 'iron', 3))
     }
   }
   //UPGRADE TO A CITY LOGIC
@@ -314,12 +313,12 @@ takePayment(type){
       && !this.props.isSettingUp
        ) {
       this.takePayment('city') // take away the cards afforded
-      addAction(this.props.clearSelection())
-      addAction( this.props.upgradeBoardStructure(cornerID) )
-      addAction( this.props.addCityToEveryStructure(cornerID) )
+      addAction(clearSelection())
+      addAction(upgradeBoardStructure(cornerID) )
+      addAction(addCityToEveryStructure(cornerID) )
       //also increment player's points in userArray
       console.log("before addPoint for city, userIndex",userIndex)
-      addAction( this.props.addPoint(userIndex))
+      addAction(addPoint(userIndex))
     }
     else{
       // if(!this.isAfforable('city')){
@@ -336,11 +335,16 @@ takePayment(type){
 
   render() {
     //console.log("Passed from Board, selected corners are :",this.props.selected)
+    // style={{padding: '5px', fontFamily: "Verdana, Verdana, sans-serif", color: 'white', margin:'2px', borderRadius: '5px', border: 'none', textAlign: 'center', backgroundColor: '#a5424d'}}
     return (
       <div>
-    		<button type='submit' onClick={() => this.registerSettlement()}> Add Structure </button>
-    		<button type='submit' onClick={() => this.registerRoad()}> Add Road </button><br></br>
-        <button type='submit' onClick={() => this.upgradeSettlement()}> Upgrade Settlement to a City</button>
+    		<button className='playerButtons addStructure'
+         type='submit' onClick={() => this.registerSettlement()}> Add Structure </button>
+        <button className='playerButtons addRoad'
+            type='submit' onClick={() => this.registerRoad()}> Add Road </button><br></br>
+        <button className='playerButtons addCity'
+        type='submit' onClick={() => this.upgradeSettlement()}> Upgrade Settlement to a City</button>
+
       </div>
     	)
 	}
@@ -348,16 +352,10 @@ takePayment(type){
 /* -----------------    CONTAINER     ------------------ */
 
 import {connect} from 'react-redux';
-import { addBoardStructure, upgradeBoardStructure } from '../reducers/structure';
-import { addRoadToRoads } from '../reducers/road';
-import { addRoadToEveryStructure, addSettlementToEveryStructure, addCityToEveryStructure } from '../reducers/everyStructure';
-import { clearSelection } from '../reducers/selection'
-import { addPoint, hasBought, incrementResource, decrementResource } from '../reducers/players';
 import { addMessage } from '../reducers/chatroom'
-import { initials } from '../reducers/helperFunctions'
 
 const mapState = ({ isSettingUp, turnInfo, userArray, selections, everyStructure, players }) => ({isSettingUp, turnInfo, userArray, selections, everyStructure, players });
-const mapDispatch = { addBoardStructure, upgradeBoardStructure, addRoadToRoads, addRoadToEveryStructure, addSettlementToEveryStructure, addCityToEveryStructure, addPoint, clearSelection, incrementResource, decrementResource, addMessage, hasBought};
+const mapDispatch = { addMessage };
 
 export default connect(
   mapState,

@@ -1,5 +1,3 @@
-//import * as firebase from 'firebase'
-
 /* -----------------    ACTIONS     ------------------ */
 
 const ADD_ROAD = 'ADD_ROAD';
@@ -30,10 +28,3 @@ export default function roads (roads = [], action){
       return roads;
   }
 }
-
-/* ------------      DISPATCHERS     ------------------ */
-
-// export const addBoardRoad = () => dispatch => {
-//     dispatch(addRoadToRoads(road)); //changed from addRoad
-
-// }
