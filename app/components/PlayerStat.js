@@ -70,12 +70,12 @@ export class PlayerStat extends Component {
       }
     }
 
-    if(giveState.giveTo === "Bank") {
+    if(giveState.giveTo === "Bank" && giveState.giveResource !== 'Resource') {
       addAction(decrementResource(loggedInUser.displayName, giveState.giveResource, actualGiveNumber))
       return;
     }
 
-    else if (actualGiveNumber > 0) { //if the number of cards being distributed is greater than zero, fire these
+    else if (actualGiveNumber > 0 && giveState.giveResource !== 'Resource' && giveState.giveTo !== 'Player') { //if the number of cards being distributed is greater than zero and selected values are not default ones, fire these
       addAction(decrementResource(this.props.loggedInUser.displayName, giveState.giveResource, actualGiveNumber));
       addAction(incrementResource(giveState.giveTo, giveState.giveResource, actualGiveNumber));
       message = {
@@ -128,7 +128,7 @@ export class PlayerStat extends Component {
             {resource.fuel}
           &nbsp;
           <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('fuel',true) }></i>
-            &nbsp; 🚀Fuel Factory 
+            &nbsp; 🚀Fuel Factory
           </div>
 
           <div>
@@ -137,7 +137,7 @@ export class PlayerStat extends Component {
           {resource.iron}
           &nbsp;
           <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('iron',true) }></i>
-            &nbsp; 🌑Iron Ore Mine    
+            &nbsp; 🌑Iron Ore Mine
           </div>
 
           <div>
@@ -146,7 +146,7 @@ export class PlayerStat extends Component {
           {resource.ice}
           &nbsp;
           <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('ice',true) }></i>
-            &nbsp; ❄️Ice             
+            &nbsp; ❄️Ice
           </div>
 
           <div>
@@ -176,12 +176,12 @@ export class PlayerStat extends Component {
               <div style={{textAlign: 'center', paddingTop: '10px' , fontSize: '18px'}}>Give Resources</div>
               <DropDownMenu value={this.state.giveTo} onChange={(e,i,v) => this.setState({giveTo: v})}>
                 <MenuItem disabled={true} value='Player' primaryText="Player" />
-                  <MenuItem value="Bank" primaryText="Bank" /> 
+                  <MenuItem value="Bank" primaryText="Bank" />
                 { this.props.players.map((player,idx) => {
                   if(player.name !== this.props.loggedInUser.displayName) return (
-                  <MenuItem value={player.name} primaryText={player.name.split(" ")[0]} key={idx} /> 
+                  <MenuItem value={player.name} primaryText={player.name.split(" ")[0]} key={idx} />
                 )})}
-              </DropDownMenu> 
+              </DropDownMenu>
                <DropDownMenu value={this.state.giveResource} onChange={(e,i,v) => {this.setState({giveResource: v})}} autoWidth={false}>
                  <MenuItem disabled={true} value='Resource' primaryText="Resource" />
                   { Object.keys(resource).map((item, idx) => <MenuItem value={item} primaryText={item} key={idx} />) }
