@@ -107,42 +107,58 @@ export class PlayerStat extends Component {
         <div>
           <div><strong>Victory Points:</strong> {points}</div>
 
+          <br />
+
           <div><Structures /></div>
+
+          <br />
 
           <div>
           <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('crops',false) }></i>
+          &nbsp;
           {resource.crops}
+          &nbsp;
           <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('crops',true) }></i>
             &nbsp; 🌽Crop Greenhouse
           </div>
 
           <div>
           <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('fuel',false) }></i>
+          &nbsp;
             {resource.fuel}
+          &nbsp;
           <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('fuel',true) }></i>
             &nbsp; 🚀Fuel Factory 
           </div>
 
           <div>
           <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('iron',false) }></i>
+          &nbsp;
           {resource.iron}
+          &nbsp;
           <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('iron',true) }></i>
             &nbsp; 🌑Iron Ore Mine    
           </div>
 
           <div>
           <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('ice',false) }></i>
+          &nbsp;
           {resource.ice}
+          &nbsp;
           <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('ice',true) }></i>
             &nbsp; ❄️Ice             
           </div>
 
           <div>
           <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('solar',false) }></i>
+          &nbsp;
           {resource.solar}
+          &nbsp;
           <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('solar',true) }></i>
             &nbsp; 🔆Solar Panels
           </div>
+
+          <br />
 
           <table>
             <thead>
