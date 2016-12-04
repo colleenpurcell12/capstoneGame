@@ -132,9 +132,9 @@ export class Dice extends Component {
 
       { this.props.players.length > 0 && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.props.diceRoll.diceEnabled && !this.props.isSettingUp ?
 
-        <button className= 'playerButtons rollButton' onClick={() => addAction(newDiceRoll(this.rollDice()))}>Roll Dice</button>
+        <RaisedButton label="Roll Dice" onClick={() => addAction(newDiceRoll(this.rollDice()))} />
           :
-        <button className= 'playerButtons endTurnButton' type='submit' onClick={() => this.nextPlayer()}> End Turn </button>
+        <RaisedButton label="End Turn" onClick={() => this.nextPlayer()} />
       }
 
       { this.props.players.length > 0 && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.props.diceRoll.stealEnabled ?
@@ -151,7 +151,7 @@ export class Dice extends Component {
                 })
               }
             </DropDownMenu>
-          <button onClick={() => addAction(this.submitStealInfo(this.state.stealFrom))}>Steal!</button>
+          <RaisedButton label="Steal!" onClick={() => addAction(this.submitStealInfo(this.state.stealFrom))} />
          </div>
           :
         <div></div>
