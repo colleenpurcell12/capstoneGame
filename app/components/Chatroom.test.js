@@ -62,6 +62,7 @@ describe('<Chatroom /> 💬', () => {
   });
 
   xit('calls saveMessage when player submits message', () => {
+    let mountedChatroom = mount()
     let chatroomInstance = chatroom.instance();
     let saveMessageStub = sinon.stub(chatroomInstance, 'saveMessage');
     chatroom.update();
