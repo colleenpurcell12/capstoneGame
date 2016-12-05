@@ -71,9 +71,10 @@ body {
   background: white;
   opacity: .95;
   border-radius: 5px;
-  padding-left: 15%;
+  padding-left: 10%;
   padding-top: 4%;
   padding-bottom: 5%;
+  padding-right: 10%;
   color: #4c4747;
 }
 
@@ -101,7 +102,8 @@ table {
   overflow-y: auto;
   margin-bottom: 10px;
   height: 500px;
-  width: 100%;
+  /*width: 100%;*/
+  padding: 3%;
 }
 #message-filler {
   flex-grow: 1;
@@ -235,4 +237,9 @@ table {
 
 .fa:hover {
   color: grey;
+}
+
+.mdl-cell--6-col {
+  padding-left: 2%;
+  padding-right: 2%;
 }
