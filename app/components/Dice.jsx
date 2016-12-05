@@ -70,6 +70,7 @@ export class Dice extends Component {
   nextPlayer(){
     if(this.props.diceRoll.d1) addAction(newDiceRoll({d1: this.props.diceRoll.d1, d2:  this.props.diceRoll.d2, diceEnabled: true, stealEnabled: false}))
     addAction(clearSelection())
+
     let { isFirstRound, isSettingUp, turnArray, turnInfo, players } = this.props 
     console.log("Past player is",turnInfo, "isFirstRound",isFirstRound," and turn Array is",turnArray)
     if (isSettingUp === false){ //Normal cycle of turns during game play, increment user to x+1
@@ -101,8 +102,20 @@ export class Dice extends Component {
         setupDealt.forEach(incr => {
           addAction(incrementResource(incr.player, incr.resource, incr.num))
         })  
+
+        console.log(`Set up phase is complete. Normal game play begins.`)
+        let message = { name: "Space Station",
+        text: `Set up phase is complete. Now roll dice and trade to collect the right resources in order to purchase structures and roads.`}
+        this.props.addMessage(message);
+
       }
       else { //within either round
+        if(isSettingUp && isFirstRound && turnInfo===1){ //first turn of round one of set up
+          console.log(`Set up phase begins.`)
+          let message = { name: "Space Station",
+          text: `Welcome! The set up phase has begun. Choose a settlement by selecting a corner and pressing 'Build Settlement', then place a connected road by selecting two corners and hiting 'Build Road'. When you have one of each, hit 'End Turn'. After set up, players will receive one resource for each hexagon with a number token that matches the sum of the rolled dice that is near one of their settlements, and they'll recieve two of the hex's resource for every city they have. You will only be able to build structures that are connected to other buildings--choose your locations wisely!`}
+          this.props.addMessage(message);
+        }
         if (turnArray){
           let nextPlayerID = turnArray[0]
           console.log("about to call shiftTurns and setNextTurn with nextPlayerID:",nextPlayerID)
