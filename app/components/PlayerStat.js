@@ -94,7 +94,7 @@ export class PlayerStat extends Component {
       this.props.addMessage(message);
     }
      if (this.props.players.length === 3){ //if we're on the third player, and now we're calling addNew Player
-      addAction(startGame(true)); //set game progress to be true     
+      addAction(startGame(true)); //set game progress to be true
     }
       addAction(addPlayer(this.props.loggedInUser.displayName)); //, color));
   }
@@ -120,7 +120,7 @@ export class PlayerStat extends Component {
             :
             <div></div>
           }
-          
+
           <br />
 
           <div>
@@ -184,8 +184,8 @@ export class PlayerStat extends Component {
                 </table>
               </CardText>
           </Card>
-            <div style={{border: '1px solid gray', borderRadius: '5px', padding: '0px', marginRight: '15%', marginTop: '5%'}}>
-              <div style={{textAlign: 'center', paddingTop: '10px' , fontSize: '18px'}}>Give Resources</div>
+            <div style={{border: '1px solid gray', borderRadius: '5px', padding: '10px',  marginTop: '5%'}}>
+              <div style={{textAlign: 'center' , fontSize: '18px'}}>Give Resources</div>
               <DropDownMenu value={this.state.giveTo} onChange={(e,i,v) => this.setState({giveTo: v})}>
                 <MenuItem disabled={true} value='Player' primaryText="Player" />
                   <MenuItem value="Bank" primaryText="Bank" />
@@ -194,17 +194,17 @@ export class PlayerStat extends Component {
                   <MenuItem value={player.name} primaryText={player.name.split(" ")[0]} key={idx} />
                 )})}
               </DropDownMenu>
-               <DropDownMenu value={this.state.giveResource} onChange={(e,i,v) => {this.setState({giveResource: v})}} autoWidth={false}>
-                 <MenuItem disabled={true} value='Resource' primaryText="Resource" />
-                  { Object.keys(resource).map((item, idx) => <MenuItem value={item} primaryText={item} key={idx} />) }
+              <DropDownMenu value={this.state.giveResource} onChange={(e,i,v) => {this.setState({giveResource: v})}} autoWidth={false}>
+                <MenuItem disabled={true} value='Resource' primaryText="Resource" />
+                 { Object.keys(resource).map((item, idx) => <MenuItem value={item} primaryText={item} key={idx} />) }
               </DropDownMenu>
-                <div style={{paddingLeft:'10%' , fontSize: '16px' }}>
-                  <TextField hintText="Number" errorText={this.state.errorText} style={{ width: '70px'}} onChange={(e) => {
-                    e.preventDefault();
-                    this.setState({giveNumber: e.target.value, errorText: ""});
-                    }} />
-                  <RaisedButton label="Give" onClick={() => this.submitGiveForm(this.state)} />
-                </div>
+              <div style={{paddingLeft:'24px' , fontSize: '16px' }}>
+                <TextField hintText="Number" errorText={this.state.errorText} style={{ width: '70px'}} onChange={(e) => {
+                  e.preventDefault();
+                  this.setState({giveNumber: e.target.value, errorText: ""});
+                  }} />
+                <RaisedButton style={{marginLeft: '10%'}}label="Give" onClick={() => this.submitGiveForm(this.state)} />
+              </div>
             </div>
 
         </div>
