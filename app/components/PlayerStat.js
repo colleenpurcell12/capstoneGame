@@ -10,6 +10,7 @@ import SelectField from 'material-ui/SelectField'
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
+import {Card, CardHeader, CardText} from 'material-ui/Card';
 
 import store from '../store'
 import {addAction} from '../reducers/action-creators';
@@ -157,21 +158,23 @@ export class PlayerStat extends Component {
           <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('solar',true) }></i>
             &nbsp; 🔆Solar Panels
           </div>
-
           <br />
-
-          <table>
-            <thead>
-              <tr><th>Building</th><th>Costs</th><th>VP</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>Road</td><td>= ❄️  🔆</td><td>0</td></tr>
-              <tr><td>Settlement</td><td>= ❄️  🔆 🌽  🚀</td><td>1</td></tr>
-              <tr><td>City</td><td>= 🚀 🚀  🌑 🌑 🌑</td><td>2</td></tr>
-              <tr><td>Pioneer</td><td>= 🚀 🌽  🌑</td><td>?</td></tr>
-            </tbody>
-          </table>
-
+          <Card style={{maxWidth: '60%'}}>
+            <CardHeader title='Reference' actAsExpander={true} showExpandableButton={true} />
+              <CardText expandable={true}>
+                <table>
+                  <thead>
+                    <tr><th>Building</th><th>Costs</th><th>VP</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Road</td><td>= ❄️  🔆</td><td>0</td></tr>
+                    <tr><td>Settlement</td><td>= ❄️  🔆 🌽  🚀</td><td>1</td></tr>
+                    <tr><td>City</td><td>= 🚀 🚀  🌑 🌑 🌑</td><td>2</td></tr>
+                    <tr><td>Pioneer</td><td>= 🚀 🌽  🌑</td><td>?</td></tr>
+                  </tbody>
+                </table>
+              </CardText>
+          </Card>
             <div style={{border: '1px solid gray', borderRadius: '5px', padding: '0px', marginRight: '15%', marginTop: '5%'}}>
               <div style={{textAlign: 'center', paddingTop: '10px' , fontSize: '18px'}}>Give Resources</div>
               <DropDownMenu value={this.state.giveTo} onChange={(e,i,v) => this.setState({giveTo: v})}>
