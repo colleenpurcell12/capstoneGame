@@ -75,6 +75,12 @@ export class Dice extends Component {
   nextPlayer(){
     let { isFirstRound, isSettingUp, turnArray, turnInfo, players } = this.props
 
+    if (isSettingUp && !isFirstRound && turnInfo===2){
+      let currPlayer = players[0].name
+      addAction( hasNotBought(currPlayer, 'hasBoughtARoad') )
+      addAction( hasNotBought(currPlayer, 'hasBoughtASettlement') )
+    }
+
     if(!isSettingUp){
         addAction(newDiceRoll({d1: this.props.diceRoll.d1, d2:  this.props.diceRoll.d2, diceEnabled: true, stealEnabled: false}))
     }
