@@ -48,7 +48,7 @@ export class GoogleLogin extends Component {
   					{ this.props.loggedInUser && this.props.loggedInUser.displayName ?
                 <Toolbar style={{backgroundColor:'#E64A19'}}>
                   <ToolbarGroup>
-                    <FlatButton label="Rules" primary={true} style={{textAlign:'left', color:'#FFF3E0'}}
+                    <FlatButton label="About" primary={true} style={{textAlign:'left', color:'#FFF3E0'}}
                       onClick={() => this.toggleRules()}
                     />
                     <Drawer
@@ -57,8 +57,8 @@ export class GoogleLogin extends Component {
                       open={this.state.rulesOpened}
                       onRequestChange={() => this.closeRules()}
                     >
-                      <MenuItem>Overview</MenuItem>
-                      <MenuItem>Coming Soon!</MenuItem>
+                    <MenuItem><a href='http://www.wikihow.com/Play-Settlers-of-Catan' target='_blank' style={{textDecoration: 'none'}}>How to Play</a></MenuItem>
+                    <MenuItem><a href='https://github.com/colleenpurcell12/capstoneGame#readme' target='_blank' style={{textDecoration: 'none'}}>Code on GitHub</a></MenuItem>
                     </Drawer>
                   </ToolbarGroup>
       						<ToolbarGroup style={{textAlign:'center', display: 'inline-block', margin: '0 auto'}}>
