@@ -36,6 +36,9 @@ export class Dice extends Component {
       return {d1: d1, d2: d2, diceEnabled: true, stealEnabled: false};
     }  
     else if (total === 7){ //if you roll a 7
+      let message = { name: "Space Station",
+        text: `${initials(this.props.loggedInUser.displayName)} rolled a 7! They can steal a card from whomever! If any player has more than 7 resource, they have to give up half of them.`}
+      this.props.addMessage(message);
       return {d1: d1, d2: d2, diceEnabled: false, stealEnabled: true}; //allow stealing
     }    
     else {
@@ -72,12 +75,10 @@ export class Dice extends Component {
     addAction(clearSelection())
 
     let { isFirstRound, isSettingUp, turnArray, turnInfo, players } = this.props 
-    console.log("Past player is",turnInfo, "isFirstRound",isFirstRound," and turn Array is",turnArray)
     if (isSettingUp === false){ //Normal cycle of turns during game play, increment user to x+1
       var player = this.props.turnInfo
       player === 4 ? player = 1 : player++
-      console.log("and next player is",player)
-      addAction(setNextTurn(player)); //Formerly endTurn(userID) //dispatched setNextTurn(player));
+      addAction(setNextTurn(player)); 
     }
 
     else { //isSettingUp, ascending turns in 1st and descending in 2nd round
@@ -97,7 +98,7 @@ export class Dice extends Component {
       else if (isFirstRound === false && turnArray.length === 0) {  
         console.log("and next player is 1")
         addAction(setNextTurn(1))      // game starts with the 1st player
-        addAction(startNormGamePlay()) // !isSettingUp
+        addAction(startNormGamePlay()) // set !isSettingUp
         let setupDealt = setupDeal(this.props.structure, this.props.corners, this.props.hexData)
         setupDealt.forEach(incr => {
           addAction(incrementResource(incr.player, incr.resource, incr.num))
@@ -105,17 +106,15 @@ export class Dice extends Component {
 
         console.log(`Set up phase is complete. Normal game play begins.`)
         let message = { name: "Space Station",
-        text: `Set up phase is complete. Now roll dice and trade to collect the right resources in order to purchase structures and roads.`}
+        text: `Set up phase is complete. Now roll dice and trade to collect the right resources in order to purchase structures and roads. **Note when a player rolls the dice, every player will receive one resource for each hexagon adjacent to their buildings, where the hex's number matches the sum of the rolled dice. If you have a city, you will receive two resources instead of one. You can only purchase structures connected to your other buildings.`}
         this.props.addMessage(message);
 
       }
       else { //within either round
         if (turnArray){
           let nextPlayerID = turnArray[0]
-          console.log("about to call shiftTurns and setNextTurn with nextPlayerID:",nextPlayerID)
-          //if (isFirstRound === false){ player1--;} //endTurn increments the #
-          addAction(shiftTurns()) //Formerly this.props.nextTurn() dispatched shiftTurns()
-          addAction(setNextTurn(nextPlayerID)) // this.props.endTurn(player1) dispatched setNextTurn(player)
+          addAction(shiftTurns()) 
+          addAction(setNextTurn(nextPlayerID))
         } else { console.log("turnArray is undefined:", turnArray) }
        }
     }
