@@ -74,9 +74,9 @@ function generate(config){
     }
 
     //debugging
-    console.log('hexagons', hexagons);
-    console.log('corners', allCorners);
-    console.log(`found ${Object.keys(allCorners).length} corners`);
+    //console.log('hexagons', hexagons);
+    //console.log('corners', allCorners);
+    //console.log(`found ${Object.keys(allCorners).length} corners`);
 
     return { hexagons, layout, corners: allCorners };
   }
