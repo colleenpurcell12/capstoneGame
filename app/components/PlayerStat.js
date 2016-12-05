@@ -89,7 +89,6 @@ export class PlayerStat extends Component {
   }
   addNewPlayer(){
     if (this.props.players.length === 0){ //introduce the set up rules of the game
-    console.log(`Set up phase begins.`)
       let message = { name: "Space Station",
       text: `Welcome! The set-up phase has begun. Choose a settlement by selecting a grey circle and pressing 'Build Settlement', then place a connected road by selecting two corners and hitting 'Build Road'. When you have one of each, hit 'End Turn'. **Note the resource of each hexagon--besides the radioactive hex. After set up, players will receive a resource for each hexagon touching their settlements, up to 6--so choose wisely!`}
       this.props.addMessage(message);

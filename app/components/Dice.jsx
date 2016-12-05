@@ -101,15 +101,16 @@ export class Dice extends Component {
      }
       // At the end of 2nd round, normal game play is initiated
       else if (isFirstRound === false && turnArray.length === 0) {
-        console.log("and next player is 1")
+        //console.log("and next player is 1")
         addAction(setNextTurn(1))      // game starts with the 1st player
         addAction(startNormGamePlay()) // set !isSettingUp
+        addAction(newDiceRoll({d1: false, d2: false, diceEnabled: true, stealEnabled: false}))
         let setupDealt = setupDeal(this.props.structure, this.props.corners, this.props.hexData)
         setupDealt.forEach(incr => {
           addAction(incrementResource(incr.player, incr.resource, incr.num))
         })
 
-        console.log(`Set up phase is complete. Normal game play begins.`)
+        //console.log(`Set up phase is complete. Normal game play begins.`)
         let message = { name: "Space Station",
         text: `Set up phase is complete. Now roll dice and trade to collect the right resources in order to purchase structures and roads. **Note when a player rolls the dice, every player will receive one resource for each hexagon adjacent to their buildings, where the hex's number matches the sum of the rolled dice. If you have a city, you will receive two resources instead of one. You can only purchase structures connected to your other buildings.`}
         this.props.addMessage(message);
@@ -120,7 +121,7 @@ export class Dice extends Component {
           let nextPlayerID = turnArray[0]
           addAction(shiftTurns())
           addAction(setNextTurn(nextPlayerID))
-        } else { console.log("turnArray is undefined:", turnArray) }
+        } 
        }
     }
   }
@@ -131,30 +132,38 @@ export class Dice extends Component {
         <div className="mdl-cell mdl-cell--6-col">
 
 
-      { this.props.diceRoll.d1 && this.props.diceRoll.d2 ?
-        <div>
-           <div>Dice roll:{this.props.diceRoll.d1 + this.props.diceRoll.d2}</div>
-           <img className="dice" src={`/die/d${this.props.diceRoll.d1}.gif`}/>
-           <img className="dice" src={`/die/d${this.props.diceRoll.d2}.gif`}/>
-           <br />
-           <br />
-         </div>
-       :
-       <div></div>
-      }
+        { this.props.diceRoll.d1 && this.props.diceRoll.d2 ?
+          <div>
+             <div>Dice roll:{this.props.diceRoll.d1 + this.props.diceRoll.d2}</div>
+             <img className="dice" src={`/die/d${this.props.diceRoll.d1}.gif`}/>
+             <img className="dice" src={`/die/d${this.props.diceRoll.d2}.gif`}/>
+             <br />
+             <br />
+           </div>
+         :
+         <div></div>
+        }
 
-      {this.props.inProgress && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.props.diceRoll.diceEnabled && !this.props.isSettingUp ?
+        {this.props.inProgress && !this.props.isSettingUp && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.props.diceRoll.diceEnabled ?
 
-        <RaisedButton label="Roll Dice" onClick={() => addAction(newDiceRoll(this.rollDice()))} />
+          <RaisedButton label="Roll Dice" onClick={() => addAction(newDiceRoll(this.rollDice()))} />
+            :
+          <div></div>
+        }
+
+       {this.props.inProgress && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && !this.props.diceRoll.diceEnabled ?
+          <RaisedButton label="End Turn" onClick={() => this.nextPlayer()} />
           :
-        <div></div>
-      }
-
-     {this.props.inProgress && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && !this.props.diceRoll.diceEnabled ?
-        <RaisedButton label="End Turn" onClick={() => this.nextPlayer()} />
-        :
-        <div></div>
-      }
+          <div></div>
+        }
+      </div>
+      <div className="mdl-cell mdl-cell--6-col">
+        {this.props.inProgress ?
+          <Structures />
+          :
+          <div></div>
+        }
+      </div>
 
       { this.props.players.length > 0 && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name && this.props.diceRoll.stealEnabled ?
 
@@ -175,11 +184,7 @@ export class Dice extends Component {
           :
         <div></div>
       }
-      </div>
 
-      <div className="mdl-cell mdl-cell--6-col">
-        <Structures />
-      </div>
 		</div>
 
     );
