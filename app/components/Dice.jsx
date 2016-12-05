@@ -158,7 +158,7 @@ export class Dice extends Component {
         }
       </div>
       <div className="mdl-cell mdl-cell--6-col">
-        {this.props.inProgress ?
+        {this.props.inProgress && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name ?
           <Structures />
           :
           <div></div>
