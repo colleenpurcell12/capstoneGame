@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { addAction } from '../reducers/action-creators';
 import { addPoint, subtractPoint } from '../reducers/players';
 import { assignVictoryCards } from '../reducers/victory-cards';
+import { firstNameLastInitial } from '../reducers/helperFunctions';
+
 
 export class Players extends Component {
 	constructor() {
@@ -45,7 +47,8 @@ export class Players extends Component {
 				<tbody>
 					{this.props.players.map((player, idx) => (
 						<tr key={idx}>
-							<td><span className={`player${idx}`}>&#9632;</span>{idx+1}: {player.name}</td>
+							<td><span className={`player${idx}`}>&#9632;</span>{idx+1}: 
+							{ `${firstNameLastInitial(player.name)}`}</td>
 							<td style={{textAlign:"center"}}>{player.cardsTotal()}</td>
 							<td><input type="radio" name="road" value={player.name} checked={player.name === this.props.victoryCards.road} onChange={this.handleRoadChange}/></td>
 							<td><input type="radio" name="army" value={player.name} checked={player.name === this.props.victoryCards.army} onChange={this.handleArmyChange}/></td>
