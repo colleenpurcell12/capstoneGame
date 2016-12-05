@@ -22,6 +22,7 @@ describe('Players reducer (players)', () => {
   it('returns its initial state of an empty array', () => {
     expect(reducer(undefined, {})).to.be.empty;
     expect(reducer(undefined, {})).to.have.length(0);
+    expect(reducer(undefined, {})).to.eql([]);
   });
 
   it('has `addPlayer` action creator with player payload (string of their name)', () => {

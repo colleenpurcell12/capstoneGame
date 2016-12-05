@@ -10,6 +10,7 @@ import SelectField from 'material-ui/SelectField'
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
+import {Card, CardHeader, CardText} from 'material-ui/Card';
 
 import store from '../store'
 import {addAction} from '../reducers/action-creators';
@@ -20,6 +21,8 @@ import {initials} from '../reducers/helperFunctions';
 //needs to know which player's card is showing
 import Structures from './Structures';
 import { addPlayer, incrementResource, decrementResource } from '../reducers/players';
+import { declareWinner } from '../reducers/winner'
+import WinnerAlert from './WinnerAlert'
 
 
 const validate = values => {
@@ -85,13 +88,19 @@ export class PlayerStat extends Component {
       this.props.addMessage(message);
     }
   }
-
   addNewPlayer(){
-     if (this.props.players.length === 3){ //if we're on the third player, and now we're calling addNew Player
-      addAction(startGame(true)); //set game progress to be true
+    if (this.props.players.length === 0){ //introduce the set up rules of the game
+    console.log(`Set up phase begins.`)
+      let message = { name: "Space Station",
+      text: `Welcome! The set-up phase has begun. Choose a settlement by selecting a grey circle and pressing 'Build Settlement', then place a connected road by selecting two corners and hitting 'Build Road'. When you have one of each, hit 'End Turn'. **Note the resource of each hexagon--besides the radioactive hex. After set up, players will receive a resource for each hexagon touching their settlements, up to 6--so choose wisely!`}
+      this.props.addMessage(message);
     }
-       addAction(addPlayer(this.props.loggedInUser.displayName)); //, color));
+     if (this.props.players.length === 3){ //if we're on the third player, and now we're calling addNew Player
+      addAction(startGame(true)); //set game progress to be true     
+    }
+      addAction(addPlayer(this.props.loggedInUser.displayName)); //, color));
   }
+
 
   render() {
     var resource, points;
@@ -106,6 +115,13 @@ export class PlayerStat extends Component {
         {resource ?
         <div>
           <div><strong>Victory Points:</strong> {points}</div>
+          <WinnerAlert />
+
+          {points >= 10 ?
+            <div><RaisedButton label="Win the Game" primary={true} onClick={() => addAction(declareWinner(this.props.loggedInUser.displayName))} /></div>
+            :
+            <div></div>
+          }
 
           <br />
 
@@ -157,21 +173,23 @@ export class PlayerStat extends Component {
           <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('solar',true) }></i>
             &nbsp; 🔆Solar Panels
           </div>
-
           <br />
-
-          <table>
-            <thead>
-              <tr><th>Building</th><th>Costs</th><th>VP</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>Road</td><td>= ❄️  🔆</td><td>0</td></tr>
-              <tr><td>Settlement</td><td>= ❄️  🔆 🌽  🚀</td><td>1</td></tr>
-              <tr><td>City</td><td>= 🚀 🚀  🌑 🌑 🌑</td><td>2</td></tr>
-              <tr><td>Pioneer</td><td>= 🚀 🌽  🌑</td><td>?</td></tr>
-            </tbody>
-          </table>
-
+          <Card style={{maxWidth: '75%'}}>
+            <CardHeader title='Reference' actAsExpander={true} showExpandableButton={true} />
+              <CardText expandable={true}>
+                <table>
+                  <thead>
+                    <tr><th>Building</th><th>Costs</th><th>VP</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Road</td><td>= ❄️  🔆</td><td>0</td></tr>
+                    <tr><td>Settlement</td><td>= ❄️  🔆 🌽  🚀</td><td>1</td></tr>
+                    <tr><td>City</td><td>= 🚀 🚀  🌑 🌑 🌑</td><td>2</td></tr>
+                    <tr><td>Pioneer</td><td>= 🚀 🌽  🌑</td><td>?</td></tr>
+                  </tbody>
+                </table>
+              </CardText>
+          </Card>
             <div style={{border: '1px solid gray', borderRadius: '5px', padding: '0px', marginRight: '15%', marginTop: '5%'}}>
               <div style={{textAlign: 'center', paddingTop: '10px' , fontSize: '18px'}}>Give Resources</div>
               <DropDownMenu value={this.state.giveTo} onChange={(e,i,v) => this.setState({giveTo: v})}>

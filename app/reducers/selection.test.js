@@ -23,6 +23,7 @@ describe('Selection reducer (selections)', () => {
 
   it('returns its initial state of an empty array (no selections)', () => {
     expect(reducer(undefined, {})).to.be.empty;
+    expect(reducer(undefined, {})).to.eql([]);
   });
 
   it('has `addSelection` action creator with `selection` object payload', () => {
