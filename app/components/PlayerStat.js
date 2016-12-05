@@ -21,6 +21,8 @@ import {initials} from '../reducers/helperFunctions';
 //needs to know which player's card is showing
 import Structures from './Structures';
 import { addPlayer, incrementResource, decrementResource } from '../reducers/players';
+import { declareWinner } from '../reducers/winner'
+import WinnerAlert from './WinnerAlert'
 
 
 const validate = values => {
@@ -99,6 +101,7 @@ export class PlayerStat extends Component {
       addAction(addPlayer(this.props.loggedInUser.displayName)); //, color));
   }
 
+
   render() {
     var resource, points;
     this.props.players.forEach((player, idx) => {
@@ -112,6 +115,13 @@ export class PlayerStat extends Component {
         {resource ?
         <div>
           <div><strong>Victory Points:</strong> {points}</div>
+          <WinnerAlert />
+
+          {points >= 10 ?
+            <div><RaisedButton label="Win the Game" primary={true} onClick={() => addAction(declareWinner(this.props.loggedInUser.displayName))} /></div>
+            :
+            <div></div>
+          }
 
           <br />
 
