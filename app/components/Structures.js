@@ -214,7 +214,7 @@ export class Structures extends Component {
 
   registerSettlement(){
     if( !this.isFarEnough() ){ return; }
-    let { players, turnInfo, selections, userArray } = this.props //userArray,
+    let { players, turnInfo, selections, userArray, isSettingUp } = this.props //userArray,
     let corner = selections[0]
     if( !this.isAvailable('settlement',corner.id) ){ return; }
     let userIndex = turnInfo-1
@@ -253,12 +253,13 @@ export class Structures extends Component {
                             coordinates: coord, associatedHexs: associatedHexs
                           }
 
-    if( this.props.isSettingUp ) {
+    if( isSettingUp ) {
       addAction(hasBought(player.name, 'hasBoughtASettlement'))// sets player.hasBoughtASettlement = true
     }
     else { this.takePayment('settlement') }//decrement relevant cards from userArray user object's card resources
-
-    addAction(clearSelection())
+    if(!isSettingUp){
+      addAction(clearSelection())
+    }
 
     //everyStructure used for movie validation dispatched with firebase
     addAction(addSettlementToEveryStructure(settlementObj))
