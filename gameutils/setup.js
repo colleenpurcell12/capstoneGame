@@ -9,15 +9,15 @@ import Point from './react-hexgrid/src/Point';
 /* -----------------   STATIC GAME VARIABLES   ------------------ */
 
 var ports = [
-  {type: 'port', x: -45, y: -26, r: 3, ratio: '1:3', res: null},
-  {type: 'port', x: -45, y: 7,r: 3, ratio: '1:2', res: 'iron'},
-  {type: 'port', x: -29, y: 35, r: 3, ratio: '1:2', res: 'solar'},
-  {type: 'port', x: -16, y: -43, r: 3, ratio: '1:2', res: 'ice'},
-  {type: 'port', x: 0, y: 52, r: 3, ratio: '1:3', res: null},
-  {type: 'port', x: 16, y: -43, r: 3, ratio: '1:3', res: null},
-  {type: 'port', x: 29, y: 35, r: 3, ratio: '1:2', res: 'crops'},
-  {type: 'port', x: 45, y: -26, r: 3, ratio: '1:3', res: null},
-  {type: 'port', x: 45, y: 7, r: 3, ratio: '1:2', res: 'fuel'},
+  {type: 'port', x: -45, y: -26, r: 3, ratio: 3, res: null, xOffset: 0, yOffset: -9},
+  {type: 'port', x: -45, y: 7,r: 3, ratio: 2, res: 'iron', xOffset: 0, yOffset: 4},
+  {type: 'port', x: -29, y: 35, r: 3, ratio: 2, res: 'solar', xOffset: 0, yOffset: 4},
+  {type: 'port', x: -16, y: -43, r: 3, ratio: 2, res: 'ice',xOffset: -9, yOffset: -2.5},
+  {type: 'port', x: 0, y: 52, r: 3, ratio: 3, res: null, xOffset: 9, yOffset: -2.5},
+  {type: 'port', x: 16, y: -43, r: 3, ratio: 3, res: null,xOffset: 9, yOffset: -2.5},
+  {type: 'port', x: 29, y: 35, r: 3, ratio: 2, res: 'crops', xOffset: 0, yOffset: 4},
+  {type: 'port', x: 45, y: -26, r: 3, ratio: 3, res: null, xOffset: 0, yOffset: -9},
+  {type: 'port', x: 45, y: 7, r: 3, ratio: 2, res: 'fuel', xOffset: 0, yOffset: 4},
 ];
 
 const neighborDirections = [

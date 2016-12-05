@@ -10,7 +10,6 @@
 
 .grid {
   min-height: 900px;
-  height: 100%;
 }
 
 #Form{
@@ -40,6 +39,11 @@
   fill: white;
 }
 
+.port-hover-text {
+  font-family: sans-serif;
+  font-size: .1em;
+  fill: white;
+}
 .token-text {
   /*font-family: 'Press Start 2P', cursive;*/
   font-family: 'Bungee', cursive;
