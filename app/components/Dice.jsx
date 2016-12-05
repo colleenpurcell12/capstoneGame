@@ -1,18 +1,18 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 
-import {addAction} from '../reducers/action-creators';
+import { addAction } from '../reducers/action-creators';
 import { newDiceRoll } from '../reducers/dice';
-import {hasNotBought, incrementResource, decrementResource} from '../reducers/players';
-import {addMessage} from '../reducers/chatroom';
-import {initials} from '../reducers/helperFunctions';
+import { hasNotBought, incrementResource, decrementResource } from '../reducers/players';
+import { addMessage} from '../reducers/chatroom';
+import { initials  } from '../reducers/helperFunctions';
 import { setNextTurn } from '../reducers/playerStat';
 import { nextRound, nextRoundStep2, shiftTurns, startNormGamePlay } from '../reducers/turnBooleans';
 import { clearSelection } from '../reducers/selection'
-import { deal, setupDeal} from 'APP/gameutils/deal'
+import { deal, setupDeal } from 'APP/gameutils/deal'
 
 import Structures from './Structures';
 
@@ -91,6 +91,7 @@ export class Dice extends Component {
         //Players are allowed a purchase of each, per round.
         for (var i = 0; i<4 ; i++){ //4 players
           if(players[i]){
+            console.log("players[i].name",players[i].name,"about to set to false")
             let currPlayer = players[i].name
              addAction( hasNotBought(currPlayer, 'hasBoughtARoad') )
              addAction( hasNotBought(currPlayer, 'hasBoughtASettlement') )
