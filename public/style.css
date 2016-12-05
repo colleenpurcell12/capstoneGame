@@ -243,3 +243,7 @@ table {
   padding-left: 2%;
   padding-right: 2%;
 }
+
+#give-resources {
+  margin: none;
+}
