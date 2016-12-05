@@ -174,7 +174,7 @@ export class PlayerStat extends Component {
             &nbsp; 🔆Solar Panels
           </div>
           <br />
-          <Card style={{maxWidth: '60%'}}>
+          <Card style={{maxWidth: '75%'}}>
             <CardHeader title='Reference' actAsExpander={true} showExpandableButton={true} />
               <CardText expandable={true}>
                 <table>
