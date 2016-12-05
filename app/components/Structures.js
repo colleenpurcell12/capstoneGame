@@ -225,7 +225,7 @@ export class Structures extends Component {
       }
     let coord = [selections[0].x, selections[0].y]
     if(this.props.isSettingUp){
-        if(player.hasBoughtASettlement) {
+        if(player['hasBoughtASettlement'] === true) {
           console.log("You have already bought a settlement in this round")
           let message = { name: "Space Station",
           text: `${initials(player.name)} has already bought a settlement in this round.`}
