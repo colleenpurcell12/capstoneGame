@@ -110,12 +110,6 @@ export class Dice extends Component {
 
       }
       else { //within either round
-        if(isSettingUp && isFirstRound && turnInfo===1){ //first turn of round one of set up
-          console.log(`Set up phase begins.`)
-          let message = { name: "Space Station",
-          text: `Welcome! The set up phase has begun. Choose a settlement by selecting a corner and pressing 'Build Settlement', then place a connected road by selecting two corners and hiting 'Build Road'. When you have one of each, hit 'End Turn'. After set up, players will receive one resource for each hexagon with a number token that matches the sum of the rolled dice that is near one of their settlements, and they'll recieve two of the hex's resource for every city they have. You will only be able to build structures that are connected to other buildings--choose your locations wisely!`}
-          this.props.addMessage(message);
-        }
         if (turnArray){
           let nextPlayerID = turnArray[0]
           console.log("about to call shiftTurns and setNextTurn with nextPlayerID:",nextPlayerID)
