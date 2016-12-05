@@ -339,9 +339,9 @@ takePayment(type){
     // style={{padding: '5px', fontFamily: "Verdana, Verdana, sans-serif", color: 'white', margin:'2px', borderRadius: '5px', border: 'none', textAlign: 'center', backgroundColor: '#a5424d'}}
     return (
       <div>
-        <RaisedButton label="Build Settlement" onClick={() => this.registerSettlement()} />
-    		<RaisedButton label="Build Road" onClick={() => this.registerRoad()} /><br />
-        <RaisedButton label="Upgrade to City" onClick={() => this.upgradeSettlement()} />
+        <RaisedButton label="+ Settle" onClick={() => this.registerSettlement()} />
+    		<RaisedButton label="+ Road" onClick={() => this.registerRoad()} /><br />
+        <RaisedButton label="^ City" onClick={() => this.upgradeSettlement()} />
       </div>
     	)
 	}

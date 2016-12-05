@@ -19,7 +19,6 @@ import {newDiceRoll} from '../reducers/dice';
 import {addMessage} from '../reducers/chatroom';
 import {initials} from '../reducers/helperFunctions';
 //needs to know which player's card is showing
-import Structures from './Structures';
 import { addPlayer, incrementResource, decrementResource } from '../reducers/players';
 import { declareWinner } from '../reducers/winner'
 import WinnerAlert from './WinnerAlert'
@@ -122,11 +121,7 @@ export class PlayerStat extends Component {
             :
             <div></div>
           }
-
-          <br />
-
-          <div><Structures /></div>
-
+          
           <br />
 
           <div>
@@ -222,7 +217,7 @@ export class PlayerStat extends Component {
             </div>
             :
             <div>
-              <button type='submit' onClick={() => this.addNewPlayer()}> Join Expansion </button>
+              <RaisedButton label="Join Expansion" onClick={() => this.addNewPlayer()} />
             </div>
           }
         </div>
