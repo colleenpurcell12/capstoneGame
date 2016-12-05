@@ -127,10 +127,10 @@ export class Structures extends Component {
 
       let isTooClose=[]
       let additional
-      // check that neighbors corners dont have another player's structures
+      // check that neighbors corners dont have any structures
       let allBuidlings = everyStructure.filter((struc) => (struc.type==='settlement' || struc.type==='city'))
       for(var i = 0 ; i<cornerNeighbors.length ; i++){ //
-        additional = allBuidlings.filter((struc) => struc.cornerId===cornerNeighbors[i] && struc.userID!==turnInfo )
+        additional = allBuidlings.filter((struc) => struc.cornerId===cornerNeighbors[i] )
         isTooClose = isTooClose.concat(additional)
       }
       if( isTooClose.length>0 ){
@@ -257,7 +257,7 @@ export class Structures extends Component {
       addAction(hasBought(player.name, 'hasBoughtASettlement'))// sets player.hasBoughtASettlement = true
     }
     else { this.takePayment('settlement') }//decrement relevant cards from userArray user object's card resources
-    if(!isSettingUp){
+    if(!isSettingUp){ //shouldn't clear within a move, cause roads have to connect with the corner settlement anyways
       addAction(clearSelection())
     }
 
