@@ -6,7 +6,7 @@ import TextField from 'material-ui/TextField';
 
 import {addAction} from '../reducers/action-creators';
 import { newDiceRoll } from '../reducers/dice';
-import {incrementResource, decrementResource} from '../reducers/players';
+import {hasNotBought, incrementResource, decrementResource} from '../reducers/players';
 import {addMessage} from '../reducers/chatroom';
 import {initials} from '../reducers/helperFunctions';
 import { setNextTurn } from '../reducers/playerStat';
@@ -91,8 +91,8 @@ export class Dice extends Component {
         //Players are allowed a purchase of each, per round.
         for (var i = 0; i<4 ; i++){ //4 players
           if(players[i]){
-            players[i].hasBoughtARoad = false;
-            players[i].hasBoughtASettlement = false
+             addAction( hasNotBought(players[i].name, 'hasBoughtARoad') )
+             addAction( hasNotBought(players[i].name, 'hasBoughtASettlement') )
           }
         }
         addAction(nextRound())      // sets !isFirstRound
