@@ -7,7 +7,7 @@ const DECREMENT_RESOURCE = 'DECREMENT_RESOURCE'
 const ADD_POINT = 'ADD_POINT'
 const SUBTRACT_POINT = 'SUBTRACT_POINT'
 const HAS_BOUGHT= 'HAS_BOUGHT'
-
+const HAS_NOT_BOUGHT = 'HAS_NOT_BOUGHT'
 
 /* ------------   ACTION CREATORS     ------------------ */
 const load  = players => ({ type: LOAD_PLAYERS, players })
@@ -21,6 +21,7 @@ export const addPoint = (player) => ({ type: ADD_POINT, player })
 export const subtractPoint = (player, points) => ({ type: SUBTRACT_POINT, player, points })
 
 export const hasBought = (name, property) => ({ type: HAS_BOUGHT, name, property })
+export const hasNotBought = (name, property) => ({ type: HAS_NOT_BOUGHT, name, property })
 
 /* ------------       REDUCER     ------------------ */
 
@@ -74,6 +75,15 @@ export default function reducer (players = [], action) {
       if (player.name === action.name) {
         let { property } = action;
         player[property] = true;
+        return player
+        }
+        else return player
+     })
+     case HAS_NOT_BOUGHT:
+     return players.map(player => {
+      if (player.name === action.name) {
+        let { property } = action;
+        player[property] = false;
         return player
         }
         else return player

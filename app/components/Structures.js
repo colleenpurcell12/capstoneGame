@@ -4,7 +4,7 @@ import { addBoardStructure, upgradeBoardStructure } from '../reducers/structure'
 import { addRoadToRoads } from '../reducers/road';
 import { addRoadToEveryStructure, addSettlementToEveryStructure, addCityToEveryStructure } from '../reducers/everyStructure';
 import { clearSelection } from '../reducers/selection'
-import { addPoint, hasBought, incrementResource, decrementResource } from '../reducers/players';
+import { addPoint, hasBought incrementResource, decrementResource } from '../reducers/players';
 import { initials } from '../reducers/helperFunctions'
 
 import RaisedButton from 'material-ui/RaisedButton';
