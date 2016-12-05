@@ -73,12 +73,15 @@ export class Dice extends Component {
   }
 
   nextPlayer(){
-    if(this.props.diceRoll.d1) addAction(newDiceRoll({d1: this.props.diceRoll.d1, d2:  this.props.diceRoll.d2, diceEnabled: true, stealEnabled: false}))
+    let { isFirstRound, isSettingUp, turnArray, turnInfo, players } = this.props
+
+    if(!isSettingUp){
+        addAction(newDiceRoll({d1: this.props.diceRoll.d1, d2:  this.props.diceRoll.d2, diceEnabled: true, stealEnabled: false}))
+    }
     addAction(clearSelection())
 
-    let { isFirstRound, isSettingUp, turnArray, turnInfo, players } = this.props
     if (isSettingUp === false){ //Normal cycle of turns during game play, increment user to x+1
-      var player = this.props.turnInfo
+      var player = turnInfo
       player === 4 ? player = 1 : player++
       addAction(setNextTurn(player));
     }
