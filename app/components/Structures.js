@@ -127,10 +127,10 @@ export class Structures extends Component {
 
       let isTooClose=[]
       let additional
-      // check that neighbors corners dont have another player's structures
+      // check that neighbors corners dont have any structures
       let allBuidlings = everyStructure.filter((struc) => (struc.type==='settlement' || struc.type==='city'))
       for(var i = 0 ; i<cornerNeighbors.length ; i++){ //
-        additional = allBuidlings.filter((struc) => struc.cornerId===cornerNeighbors[i] && struc.userID!==turnInfo )
+        additional = allBuidlings.filter((struc) => struc.cornerId===cornerNeighbors[i] )
         isTooClose = isTooClose.concat(additional)
       }
       if( isTooClose.length>0 ){
@@ -214,7 +214,7 @@ export class Structures extends Component {
 
   registerSettlement(){
     if( !this.isFarEnough() ){ return; }
-    let { players, turnInfo, selections, userArray } = this.props //userArray,
+    let { players, turnInfo, selections, userArray, isSettingUp } = this.props //userArray,
     let corner = selections[0]
     if( !this.isAvailable('settlement',corner.id) ){ return; }
     let userIndex = turnInfo-1
@@ -253,12 +253,13 @@ export class Structures extends Component {
                             coordinates: coord, associatedHexs: associatedHexs
                           }
 
-    if( this.props.isSettingUp ) {
+    if( isSettingUp ) {
       addAction(hasBought(player.name, 'hasBoughtASettlement'))// sets player.hasBoughtASettlement = true
     }
     else { this.takePayment('settlement') }//decrement relevant cards from userArray user object's card resources
-
-    addAction(clearSelection())
+    if(!isSettingUp){ //shouldn't clear within a move, cause roads have to connect with the corner settlement anyways
+      addAction(clearSelection())
+    }
 
     //everyStructure used for movie validation dispatched with firebase
     addAction(addSettlementToEveryStructure(settlementObj))
