@@ -15,15 +15,15 @@ export class Structures extends Component {
   }
 
 
-  isAvailable(type, cornerIDs){  
-    let { everyStructure, selections, turnInfo, players } = this.props  
-    let userIndex = --turnInfo 
+  isAvailable(type, cornerIDs){
+    let { everyStructure, selections, turnInfo, players } = this.props
+    let userIndex = --turnInfo
     let matching
     if(type==='settlement'){
       let corner_id = cornerIDs
       let everySettlement = everyStructure.filter((struc) => struc.type==='settlement')
       //console.log("everySettlement",everySettlement)
-      matching = everySettlement.find(function(struc){ 
+      matching = everySettlement.find(function(struc){
         return struc.cornerId===corner_id
       })
     }
@@ -32,7 +32,7 @@ export class Structures extends Component {
       let endCornerID = cornerIDs[1]
       let everyRoad = everyStructure.filter((struc) => struc.type==='road')
       //console.log("everyRoad",everyRoad)
-      matching = everyRoad.find(function(struc){ 
+      matching = everyRoad.find(function(struc){
         //both end points have to match, start to end or end to start
           if( ( struc.corners[0]=== startCornerID && struc.corners[1]=== endCornerID)
             || (struc.corners[0]=== endCornerID && struc.corners[1]=== startCornerID) ) {
@@ -41,12 +41,12 @@ export class Structures extends Component {
       })
     }
     if (!matching){ return true }
-    else { 
+    else {
       console.log(`That ${type} is taken, it's ${matching}`)
         let message = { name: "Space Station",
         text: `${initials(players[userIndex].name)}, that ${type} is already taken.`}
         this.props.addMessage(message);
-        return false 
+        return false
      }
    }
 
@@ -89,7 +89,7 @@ export class Structures extends Component {
       })
       if (allMatchingRoadCorners.length>0 || allMatchingSettlementCorners.length>0){
         return true
-      } 
+      }
       else {
         console.log("That road is not connected.")
         let message = { name: "Space Station",
@@ -124,15 +124,15 @@ export class Structures extends Component {
     let userIndex=turnInfo-1
     let player = players[userIndex]
     var cornerNeighbors =  selections[0].neighbors
-    
+
       let isTooClose=[]
-      let additional 
+      let additional
       // check that neighbors corners dont have another player's structures
       let allBuidlings = everyStructure.filter((struc) => (struc.type==='settlement' || struc.type==='city'))
       for(var i = 0 ; i<cornerNeighbors.length ; i++){ //
-        additional = allBuidlings.filter((struc) => struc.cornerId===cornerNeighbors[i] && struc.userID!==turnInfo ) 
+        additional = allBuidlings.filter((struc) => struc.cornerId===cornerNeighbors[i] && struc.userID!==turnInfo )
         isTooClose = isTooClose.concat(additional)
-      } 
+      }
       if( isTooClose.length>0 ){
         console.log("Is not far enought from someone else's settlement:",isTooClose)
         let message = { name: "Space Station",
@@ -177,14 +177,14 @@ export class Structures extends Component {
         if(typeof cornerB.hexes[i] === 'object'){ associatedHexs.push(cornerB.hexes[i].id) }
       }
       if(this.props.isSettingUp){
-        if(!player.hasBoughtASettlement){
+        if(player['hasBoughtASettlement'] === false){
           console.log("Must place settlement first.")
           let message = { name: "Space Station",
            text: `${initials(player.name)} must place their settlement before choosing a road.`}
           this.props.addMessage(message);
-          return ;   
+          return ;
         }
-        else if(player.hasBoughtARoad) { 
+        else if(player['hasBoughtARoad'] === true) {
           console.log(player.name,"has already bought a road in this round.")
           let message = { name: "Space Station",
             text: `${initials(player.name)} has already bought a road in this round.`}
@@ -198,7 +198,7 @@ export class Structures extends Component {
                         corners:  [cornerA.id, cornerB.id],
                         associatedHexs: associatedHexs, color: userColor, userID: userID } //XXX
         //so user can't select/register another road during this round of set up
-        if( this.props.isSettingUp ) {  addAction(hasBought(player.name, 'hasBoughtARoad')) } 
+        if( this.props.isSettingUp ) {  addAction(hasBought(player.name, 'hasBoughtARoad')) }
         else{ this.takePayment('road') }
         addAction(clearSelection())
         //send off to the everyStructures array used for validation, with firebase
@@ -209,9 +209,9 @@ export class Structures extends Component {
                      coordinates: coord  }
         addAction(addRoadToRoads(roadObj)) //formerly: this.props.addBoardRoad
       }
-      //else{ console.log('Road was not registered.') }    
+      //else{ console.log('Road was not registered.') }
   }
- 
+
   registerSettlement(){
     if( !this.isFarEnough() ){ return; }
     let { players, turnInfo, selections, userArray } = this.props //userArray,
@@ -225,14 +225,14 @@ export class Structures extends Component {
       }
     let coord = [selections[0].x, selections[0].y]
     if(this.props.isSettingUp){
-        if(player.hasBoughtASettlement) { 
+        if(player.hasBoughtASettlement) {
           console.log("You have already bought a settlement in this round")
           let message = { name: "Space Station",
           text: `${initials(player.name)} has already bought a settlement in this round.`}
           this.props.addMessage(message);
-          return ; 
+          return ;
         }
-      }    
+      }
     if ( selections.length!==1 ){
       console.log('Please make sure you have selected a valid corner for your new structure and try again')
       let message = { name: "Space Station",
@@ -241,7 +241,7 @@ export class Structures extends Component {
       return;
     }
     let cornerID = selections[0].id
-    if(! this.props.isSettingUp ) {  //tests for only normal game play 
+    if(! this.props.isSettingUp ) {  //tests for only normal game play
       if(!this.isAfforable('settlement') || !this.isConnected('settlement',cornerID)){
         console.log("about to break out")
         return; //break out if either is false
@@ -252,37 +252,37 @@ export class Structures extends Component {
                             userID: turnInfo, cornerId: selections[0].id,
                             coordinates: coord, associatedHexs: associatedHexs
                           }
-      
-    if( this.props.isSettingUp ) {  
-      addAction(hasBought(player.name, 'hasBoughtASettlement'))// sets player.hasBoughtASettlement = true 
+
+    if( this.props.isSettingUp ) {
+      addAction(hasBought(player.name, 'hasBoughtASettlement'))// sets player.hasBoughtASettlement = true
     }
     else { this.takePayment('settlement') }//decrement relevant cards from userArray user object's card resources
 
     addAction(clearSelection())
 
     //everyStructure used for movie validation dispatched with firebase
-    addAction(addSettlementToEveryStructure(settlementObj))   
+    addAction(addSettlementToEveryStructure(settlementObj))
     addAction(addPoint(player.name))  //player score DOESN"T WORK
 
     //structure used for rending visual
-    
+
     var settleObj = {owner: userColor, corner_id: corner.id, type: 'settlement', player: player.name } //userObj
     addAction(addBoardStructure(settleObj) )
   }
 
 takePayment(type){
-    let {  turnInfo, players } = this.props 
+    let {  turnInfo, players } = this.props
     let userIndex = turnInfo-1
     let playerName = players[userIndex].name
-      if(type==='road'){ 
+      if(type==='road'){
       addAction(decrementResource( playerName, 'ice', 1))
       addAction(decrementResource( playerName, 'solar', 1))
-    } else if (type==='settlement') { 
+    } else if (type==='settlement') {
       addAction(decrementResource( playerName, 'ice', 1))
       addAction(decrementResource( playerName, 'solar', 1))
       addAction(decrementResource( playerName, 'fuel', 1))
       addAction(decrementResource( playerName, 'crops', 1))
-    } else{ 
+    } else{
       addAction(decrementResource( playerName, 'fuel', 2))
       addAction(decrementResource( playerName, 'iron', 3))
     }
