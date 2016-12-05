@@ -87,14 +87,16 @@ export class PlayerStat extends Component {
     }
   }
   addNewPlayer(){
-     if (this.props.players.length === 3){ //if we're on the third player, and now we're calling addNew Player
-      addAction(startGame(true)); //set game progress to be true
-      console.log(`Set up phase begins.`)
+    if (this.props.players.length === 0){ //introduce the set up rules of the game
+    console.log(`Set up phase begins.`)
       let message = { name: "Space Station",
-      text: `Welcome! The set up phase has begun. Choose a settlement by selecting a corner and pressing 'Build Settlement', then place a connected road by selecting two corners and hiting 'Build Road'. When you have one of each, hit 'End Turn'. After set up, players will receive one resource for each hexagon with a number token that matches the sum of the rolled dice that is near one of their settlements, and they'll recieve two of the hex's resource for every city they have. You will only be able to build structures that are connected to other buildings--choose your locations wisely!`}
+      text: `Welcome! The set-up phase has begun. Choose a settlement by selecting a grey circle and pressing 'Build Settlement', then place a connected road by selecting two corners and hitting 'Build Road'. When you have one of each, hit 'End Turn'. **Note the resource of each hexagon--besides the radioactive hex. After set up, players will receive a resource for each hexagon touching their settlements, up to 6--so choose wisely!`}
       this.props.addMessage(message);
     }
-       addAction(addPlayer(this.props.loggedInUser.displayName)); //, color));
+     if (this.props.players.length === 3){ //if we're on the third player, and now we're calling addNew Player
+      addAction(startGame(true)); //set game progress to be true     
+    }
+      addAction(addPlayer(this.props.loggedInUser.displayName)); //, color));
   }
 
   render() {
