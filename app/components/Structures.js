@@ -300,14 +300,21 @@ takePayment(type){
     if(theSettlementCurrPlayerOwnsOnThisCorner){
       return true
     }
-    else { return false }
+    else { 
+          let message = { name: "Space Station",
+          text: `${initials(player.name)} doesn't already have a settlement on that corner to upgrade .`}
+          this.props.addMessage(message);
+      return false 
+    }
   }
   //handles validation and updates the settlement structure to be type='city' if valid
 	upgradeSettlement(){
-    let { turnInfo, selections } = this.props
+    let { turnInfo, selections, players } = this.props
     let cornerID = selections[0].id
     let userID = turnInfo
     let userIndex = userID-1
+    let player = players[userIndex]
+    let playerName = player.name
     //cornerID = 20; userID = 2; //TESTING
     if( selections.length === 1
       && this.isSettlementPlayerAlreadyOwns(cornerID, userID)
@@ -320,19 +327,9 @@ takePayment(type){
       addAction(addCityToEveryStructure(cornerID) )
       //also increment player's points in userArray
       console.log("before addPoint for city, userIndex",userIndex)
-      addAction(addPoint(userIndex))
+      addAction(addPoint(playerName))
     }
-    else{
-      // if(!this.isAfforable('city')){
-      //   console.log("Can't afford a city.")
-      // } if(!this.isSettlementPlayerAlreadyOwns(cornerID) ){
-      //   console.log("You dont already own a settlement at cornerID:",cornerID)
-      // } if( this.props.isSettingUp ){
-      //   console.log("It's set up, so choose a settlement, cant purchase a city right now.")
-      // } if(selections.length !== 1){
-      //   console.log("Make sure you only have one corner selected")
-      // } console.log('Make sure you have selected a single corner on which you already own a settlment and try again')
-    }
+    
 	}
 
   render() {
