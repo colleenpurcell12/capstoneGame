@@ -14,6 +14,8 @@ import { nextRound, nextRoundStep2, shiftTurns, startNormGamePlay } from '../red
 import { clearSelection } from '../reducers/selection'
 import { deal, setupDeal} from 'APP/gameutils/deal'
 
+import Structures from './Structures';
+
 
 export class Dice extends Component {
   constructor(props) {
@@ -122,7 +124,9 @@ export class Dice extends Component {
 
   render() {
     return (
-    	<div className='playerInfo'>
+    	<div className='playerInfo mdl-grid'>
+        <div className="mdl-cell mdl-cell--6-col">
+
 
       { this.props.diceRoll.d1 && this.props.diceRoll.d2 ?
         <div>
@@ -162,7 +166,11 @@ export class Dice extends Component {
           :
         <div></div>
       }
+      </div>
 
+      <div className="mdl-cell mdl-cell--6-col">
+        <Structures />
+      </div>
 		</div>
 
     );
