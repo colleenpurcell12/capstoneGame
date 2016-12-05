@@ -91,8 +91,9 @@ export class Dice extends Component {
         //Players are allowed a purchase of each, per round.
         for (var i = 0; i<4 ; i++){ //4 players
           if(players[i]){
-             addAction( hasNotBought(players[i].name, 'hasBoughtARoad') )
-             addAction( hasNotBought(players[i].name, 'hasBoughtASettlement') )
+            let currPlayer = players[i].name
+             addAction( hasNotBought(currPlayer, 'hasBoughtARoad') )
+             addAction( hasNotBought(currPlayer, 'hasBoughtASettlement') )
           }
         }
         addAction(nextRound())      // sets !isFirstRound
