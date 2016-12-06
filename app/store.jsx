@@ -6,7 +6,7 @@ import multi from 'redux-multi' //redux-multi middleware will dispatch array of 
 
 const middlewares = [thunkMiddleware, multi];
 
-var environment = process.env.NODE_ENV || 'production'
+var environment = process.env.NODE_ENV || 'development'
 
 if(environment === 'development') {
 	middlewares.push(createLogger())
