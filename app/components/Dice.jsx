@@ -39,7 +39,7 @@ export class Dice extends Component {
     }
     else if (total === 7){ //if you roll a 7
       let message = { name: "Space Station",
-        text: `${initials(this.props.loggedInUser.displayName)} rolled a 7! They can steal a card from whomever! If any player has more than 7 resource, they have to give up half of them.`}
+        text: `${initials(this.props.loggedInUser.displayName)} rolled a 7! Move the martian by clicking on a destination hex. This will block distribution of resource cards when the die are rolled. Next steal a card from whomever! If any player has more than 7 resource, they have to give up half of them (rounding down).`}
       this.props.addMessage(message);
       return {d1: d1, d2: d2, diceEnabled: false, stealEnabled: true}; //allow stealing
     }
@@ -74,6 +74,12 @@ export class Dice extends Component {
 
   nextPlayer(){
     let { isFirstRound, isSettingUp, turnArray, turnInfo, players } = this.props
+
+    if (isSettingUp && !isFirstRound && turnInfo===2){
+      let currPlayer = players[0].name
+      addAction( hasNotBought(currPlayer, 'hasBoughtARoad') )
+      addAction( hasNotBought(currPlayer, 'hasBoughtASettlement') )
+    }
 
     if(!isSettingUp){
         addAction(newDiceRoll({d1: this.props.diceRoll.d1, d2:  this.props.diceRoll.d2, diceEnabled: true, stealEnabled: false}))
@@ -114,7 +120,7 @@ export class Dice extends Component {
 
         //console.log(`Set up phase is complete. Normal game play begins.`)
         let message = { name: "Space Station",
-        text: `Set up phase is complete. Now roll dice and trade to collect the right resources in order to purchase structures and roads. **Note when a player rolls the dice, every player will receive one resource for each hexagon adjacent to their buildings, where the hex's number matches the sum of the rolled dice. If you have a city, you will receive two resources instead of one. You can only purchase structures connected to your other buildings.`}
+        text: `Set up phase is complete! Now roll the dice and trade to collect the right resources in order to purchase structures and roads. Check the reference if you're not sure the cost. **Note when a player rolls the dice, every player will receive one resource for each hexagon adjacent to their buildings, where the hex's number matches the sum of the rolled dice. If you have a city, you will receive two resources instead of one. You can only purchase structures connected to your roads. Players can trade 4 of any resource for 1 from the bank. If a player has a settlement on an edge of the board, next to a colored circle, then they have special trading privileges. Hoover over one to find out which kind it offers! You can also trade with other players for any ratio, as negotiated in the chatroom.`}
         this.props.addMessage(message);
 
       }
