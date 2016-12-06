@@ -120,7 +120,7 @@ export class Dice extends Component {
 
         //console.log(`Set up phase is complete. Normal game play begins.`)
         let message = { name: "Space Station",
-        text: `Set up phase is complete. Now roll dice and trade to collect the right resources in order to purchase structures and roads. **Note when a player rolls the dice, every player will receive one resource for each hexagon adjacent to their buildings, where the hex's number matches the sum of the rolled dice. If you have a city, you will receive two resources instead of one. You can only purchase structures connected to your other buildings.`}
+        text: `Set up phase is complete! Now roll the dice and trade to collect the right resources in order to purchase structures and roads. Check the reference if you're not sure the cost. **Note when a player rolls the dice, every player will receive one resource for each hexagon adjacent to their buildings, where the hex's number matches the sum of the rolled dice. If you have a city, you will receive two resources instead of one. You can only purchase structures connected to your roads. Players can trade 4 of any resource for 1 from the bank. If a player has a settlement on an edge of the board, next to a colored circle, then they have special trading privileges. Hoover over one to find out which kind it offers! You can also trade with other players for any ratio, as negotiated in the chatroom.`}
         this.props.addMessage(message);
 
       }
