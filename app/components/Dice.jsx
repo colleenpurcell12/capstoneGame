@@ -39,7 +39,7 @@ export class Dice extends Component {
     }
     else if (total === 7){ //if you roll a 7
       let message = { name: "Space Station",
-        text: `${initials(this.props.loggedInUser.displayName)} rolled a 7! They can steal a card from whomever! If any player has more than 7 resource, they have to give up half of them.`}
+        text: `${initials(this.props.loggedInUser.displayName)} rolled a 7! Move the martian by clicking on a destination hex. This will block distribution of resource cards when the die are rolled. Next steal a card from whomever! If any player has more than 7 resource, they have to give up half of them (rounding down).`}
       this.props.addMessage(message);
       return {d1: d1, d2: d2, diceEnabled: false, stealEnabled: true}; //allow stealing
     }
