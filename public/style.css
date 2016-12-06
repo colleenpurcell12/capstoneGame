@@ -98,12 +98,18 @@ table {
   padding-top: 0;
   padding-bottom: 0;
 }
-#messages {
-  overflow-y: auto;
-  margin-bottom: 10px;
+
+#message-container {
+  overflow-y: hidden;
   height: 500px;
-  /*width: 100%;*/
+}
+
+.messages {
+  margin-bottom: 10px;
+  background-color: white;
   padding: 3%;
+  border-radius: 5px;
+  opacity: 0.9;
 }
 #message-filler {
   flex-grow: 1;
