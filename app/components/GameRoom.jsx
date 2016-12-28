@@ -6,8 +6,6 @@ import Chatroom from './Chatroom';
 import Board from './Board';
 import Players from './Players';
 
-import {Grid, Row, Col} from 'react-bootstrap';
-
 export class GameRoom extends React.Component {
 	render() {
 		return (
@@ -29,11 +27,7 @@ export class GameRoom extends React.Component {
 				    <div className="mdl-cell mdl-cell--3-col">
 				    	<div>
 				     		<Players /> <br/>
-				        	{this.props.isSettingUp?
-				          	<div></div>
-				        	:
 				          	<Dice />
-				        	}
 				        	<br/>
 				        	<PlayerStat />
 				        </div>

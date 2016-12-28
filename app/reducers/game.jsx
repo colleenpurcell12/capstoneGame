@@ -42,9 +42,12 @@ export const listenGames = () => dispatch => {
 	})
 }
 
-export const newGame = () => dispatch => {
-	var newGame = firebase.database().ref().child('games').push({actions: false, messages: false}).key
+export const newGame = (text) => dispatch => {
+	var newGame = firebase.database().ref().child('games').push({name: text, actions: false, messages: false}).key
 	browserHistory.push(`/game/${newGame}`)
+}
 
+export const turnOffGamesListener = () => dispatch => {
+  firebase.database().ref().child('games').off()
 }
 

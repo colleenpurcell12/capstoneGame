@@ -48,6 +48,8 @@ class HexGrid extends React.Component {
                 r={2}
                 type="corner"
                 corners={cornersArray}
+                xOffset = '0'
+                yOffset = '0'
               />
             );
           })
@@ -62,7 +64,10 @@ class HexGrid extends React.Component {
                 cy={port.y}
                 r={3}
                 text={port.ratio}
-                resource={port.res}/>
+                resource={port.res}
+                xOffset = {port.xOffset}
+                yOffset = {port.yOffset}
+                />
             );
           })
         }

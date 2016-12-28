@@ -1,5 +1,3 @@
- //import * as firebase from 'firebase'
-
 // payload of registerRoad
 //{type: 'Road', points: 1, coordinates: [[x,y],[x,y]], associatedHexs = [2 border hexes], color: blue, userID: 1}]
 
@@ -19,7 +17,6 @@ export const addSettlementToEveryStructure = (newSettlement) => ({ type: 'REGIST
 export const addCityToEveryStructure = (corner_id) => ({ type: 'REGISTER_CITY', corner_id }) 
 
 /* ------------       REDUCER     ------------------ */
-                                //diceRoll is defined one-level deep, but the default could also point to {}
 
 let initialState = [ { type: 'settlement', points: 1 , 
                             color: 'blue', userID: 2,
@@ -60,12 +57,3 @@ export default function reducer (everyStructure = [], action) {
     return everyStructure;
   }
 }
-
-/* ------------       DISPATCHERS     ------------------ */
-
-// export const addRoad = newRoad => dispatch => {
-//   dispatch(registerRoad(newRoad))
-// }
-// export const addSettlement = newSettlement => dispatch => {
-//   dispatch(registerSettlement(newSettlement))
-// }

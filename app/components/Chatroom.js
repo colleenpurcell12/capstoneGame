@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import  ReactDOM from 'react-dom'
 
 export class Chatroom extends Component {
   constructor(props) {
@@ -7,6 +8,16 @@ export class Chatroom extends Component {
   }
   componentDidMount() {
     this.props.listenForMessages();
+  }
+  componentDidUpdate() {
+    this.scrollToBottom()
+  }
+  scrollToBottom() {
+    const { messageList } = this.refs;
+    const scrollHeight = messageList.scrollHeight;
+    const height = messageList.clientHeight;
+    const maxScrollTop = scrollHeight - height;
+    ReactDOM.findDOMNode(messageList).scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
   }
 
   saveMessage(e) {
@@ -22,17 +33,16 @@ export class Chatroom extends Component {
 
   render() {
     const messages = this.props.messages;
-
     return (
-      <div className="mdl-shadow--2dp" style={{background:'white', opacity:'.95', borderRadius: '5px'}}>
-        <div className="mdl-color-text--grey-600">
-          <div id="messages">
+      <div className="mdl-shadow--2dp">
+        <div>
+          <div id="message-container" ref="messageList">
             {messages && Object.keys(messages).map(k => messages[k]).map( (message, idx) =>
-                <div key = {idx}>{message.name}: {message.text}</div>
+                <div className="messages" key = {idx}><strong>{message.name}</strong>: {message.text}</div>
               )}
           </div>
           <form id="message-form" action="#" onSubmit={this.saveMessage} >
-              <div id="message-input" className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style={{background:'white', opacity: '.95', borderRadius: '5px'}}>
+              <div id="message-input" className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style={{background:'white', opacity: '0.9', borderRadius: '5px'}}>
                 <input className="mdl-textfield__input" type="text" id="message" name="text" />
                 <label className="mdl-textfield__label" htmlFor="message">Type Message Here...</label>
               </div>
@@ -54,3 +64,5 @@ const mapState = ({ messages, loggedInUser }) => ({ messages, loggedInUser })
 const mapDispatch = { listenForMessages, addMessage }
 
 export default connect(mapState, mapDispatch)(Chatroom);
+
+export { Chatroom as PureChatroom }; //this is for testing, do not remove unless updating test suite

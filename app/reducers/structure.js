@@ -1,5 +1,3 @@
-// import * as firebase from 'firebase'
-
 /* -----------------    ACTIONS     ------------------ */
 
  const ADD_STRUCTURE = 'ADD_STRUCTURE';
@@ -12,10 +10,7 @@ export const addBoardStructure = (structure) => ({ type: 'ADD_STRUCTURE', struct
 export const upgradeBoardStructure = (corner_id)   => ({ type: 'UPGRADE_SETTLEMENT', corner_id })
 
 /* ------------       REDUCER     ------------------ */
-  
-//settlements
 
-let initialState = [ {owner: 'blue', corner_id: 20, type: 'settlement'} ] 
 
 export default function structures (structures = [], action){
 

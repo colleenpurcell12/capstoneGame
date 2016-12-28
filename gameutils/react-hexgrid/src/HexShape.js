@@ -33,8 +33,9 @@ class HexShape extends React.Component {
 
   toggleRobber(event) {
     event.preventDefault();
-    console.log('clicked the token')
+    if(this.props.diceRoll.stealEnabled) {
     addAction(moveRobber(this.props.index))
+    }
   }
 
   render() {
@@ -84,8 +85,8 @@ HexShape.propTypes = {
 
 import { connect } from 'react-redux';
 
-const mapStateToProps = ({ hexData, robberHex }) => ({
-  hexData, robberHex
+const mapStateToProps = ({ hexData, robberHex, diceRoll }) => ({
+  hexData, robberHex, diceRoll
 });
 
 const mapDispatchToProps = dispatch => ({
