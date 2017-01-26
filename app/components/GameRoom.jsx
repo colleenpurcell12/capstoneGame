@@ -9,7 +9,7 @@ import Players from './Players';
 export class GameRoom extends React.Component {
 	render() {
 		return (
-			<div>
+			<div id="gameroom">
 		        <GoogleLogin />
 		      	<div className="mdl-grid">
 				    <div className="mdl-cell mdl-cell--3-col">
