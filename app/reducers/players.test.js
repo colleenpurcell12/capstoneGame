@@ -10,11 +10,27 @@ describe('Players reducer (players)', () => {
       name: 'The Martian',
       cardsResource: {crops:0, fuel:0, ice:0, iron:0, solar:0},
       points: 0,
+      pioneerCards: {
+        knights: 0,
+        vp: 0,
+        rb: 0,
+        monopoly: 0,
+        yop: 0,
+      },
+      army: 0,
     }
     player2 = {
       name: 'Space Dog',
       cardsResource: {crops:0, fuel:0, ice:0, iron:0, solar:0},
-      points:0
+      points:0,
+      pioneerCards: {
+        knights: 0,
+        vp: 0,
+        rb: 0,
+        monopoly: 0,
+        yop: 0,
+      },
+      army: 0,
     }
     resource = "fuel";
   });
@@ -132,6 +148,34 @@ describe('Players reducer (players)', () => {
     expect(reducer([player], addPlayer('Ford'))[1].hasBoughtARoad).to.equal(false);
     expect(reducer([{name: 'Ford', hasBoughtARoad: false, hasBoughtASettlement: false}], hasBought('Ford', 'hasBoughtARoad'))[0].hasBoughtARoad).to.equal(true);
     expect(reducer([{name: 'Ford', hasBoughtARoad: true, hasBoughtASettlement: false}], hasBought('Ford', 'hasBoughtASettlement'))[0].hasBoughtASettlement).to.equal(true);
+  })
+  it('adds empty pioneerCards hand on start', () => {
+    expect(reducer(undefined, addPlayer('Ford'))[0].pioneerCards['knights']).to.equal(0);
+  })
+  it('handles ADD_PIONEER_CARD  to increment appropriate card', () => {
+    expect(reducer([player, player2], {type: 'ADD_PIONEER_CARD', player: 'Space Dog', card: 'knights'})[1].name).to.equal('Space Dog');
+    expect(reducer([player, player2], {})[1].pioneerCards['knights']).to.equal(1);
+    expect(reducer([player, player2], {type: 'ADD_PIONEER_CARD', player: 'Space Dog', card: 'vp'})[1].pioneerCards['vp']).to.equal(1);
+    expect(reducer([player,player2], {})[1].pioneerCards['yop']).to.equal(0);
+    expect(reducer([player,player2], {})[1].pioneerCards['monopoly']).to.equal(0);
+    expect(reducer([player,player2], {})[1].pioneerCards['rb']).to.equal(0);
+    expect(reducer([player, player2], {type: 'ADD_PIONEER_CARD', player: 'The Martian', card: 'yop'})[0].pioneerCards['yop']).to.equal(1);
+    expect(reducer([player, player2], {type: 'ADD_PIONEER_CARD', player: 'The Martian', card: 'yop'})[0].pioneerCards['yop']).to.equal(2);
+  })
+
+  it('handles USE_PIONEER_CARD to use player usePioneerCard and decrement cards', () => {
+    expect(reducer([player, player2], {})[0].pioneerCards['knights']).to.equal(0);
+    player.pioneerCards['knights'] = 2;
+    expect(reducer([player, player2], {type: 'USE_PIONEER_CARD', player: player.name, card: 'knights'})[0].name).to.equal('The Martian');
+    expect(reducer([player, player2], {})[0].pioneerCards['knights']).to.equal(1);
+    player.pioneerCards['vp'] = 5;
+    expect(reducer([player, player2], {type: 'USE_PIONEER_CARD', player: player.name, card: 'vp'})[0].pioneerCards['vp']).to.equal(4);
+  })
+
+  it('handles ADD_KNIGHT_TO_ARMY to increment army', () => {
+    expect(reducer([player, player2], {type: 'ADD_KNIGHT_TO_ARMY', player: 'Space Dog'})[1].name).to.equal('Space Dog');
+    expect(reducer([player, player2], {})[1].army).to.equal(1);
+    expect(reducer([player, player2], {})[0].army).to.equal(0);
   })
 
 });

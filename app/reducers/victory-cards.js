@@ -1,7 +1,7 @@
 
 /* -----------------    ACTIONS     ------------------ */
 
-const ASSIGN_VICTORY_CARDS = 'ASSIGN_VICTORY_CARDS';
+const ASSIGN_VICTORY_CARDS = 'ASSIGN_VICTORY_CARDS'
 
 /* ------------   ACTION CREATORS     ------------------ */
 
@@ -13,8 +13,6 @@ export default function reducer (victoryCards = {road: false, army: false}, acti
     case ASSIGN_VICTORY_CARDS:
       return action.assignedPlayers
     default:
-      return victoryCards;
+      return victoryCards
   }
 }
-
-

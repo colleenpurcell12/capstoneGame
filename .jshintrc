@@ -12,5 +12,6 @@
   "expect": true,
   "jasmine": true,
    "exports": true
-}
+},
+  "asi": true
 }

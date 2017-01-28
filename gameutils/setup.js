@@ -73,11 +73,6 @@ function generate(config){
       allCorners[c].y = coords.y;
     }
 
-    //debugging
-    //console.log('hexagons', hexagons);
-    //console.log('corners', allCorners);
-    //console.log(`found ${Object.keys(allCorners).length} corners`);
-
     return { hexagons, layout, corners: allCorners };
   }
 
@@ -181,7 +176,7 @@ const cornerCoord = (a, b, c) =>
 
 
 module.exports = {
-  // shuffle,
+  shuffle,
   ports,
   resources,
   resourcesArray,

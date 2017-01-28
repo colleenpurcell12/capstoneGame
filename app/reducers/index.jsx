@@ -18,12 +18,13 @@ import corners  from './corner';
 import victoryCards from './victory-cards'
 import gameID, {games} from './game';
 import winner from './winner';
+import pioneerCards from './pioneerCards';
 
 //import colors  from './colors';
 
 const appReducer = combineReducers({ loggedInUser, messages, players, diceRoll, turnInfo, inProgress,
   isFirstRound, isSettingUp, turnArray,  userArray, everyStructure, structure, selections, roads, robberHex,
-  doneLoading, hexData, corners, gameID, games, victoryCards, winner }); //colors
+  doneLoading, hexData, corners, gameID, games, victoryCards, winner, pioneerCards }); //colors
 
 const rootReducer = (state, action) => {
   if (action.type === 'RESET_GAME') {
@@ -36,5 +37,3 @@ const rootReducer = (state, action) => {
 
 
 export default rootReducer;
-
-
