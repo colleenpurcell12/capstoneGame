@@ -32,17 +32,17 @@ export class PioneerCards extends Component {
 
   render(){
     {players, loggedInUser, pioneerCards} = this.props
-    let playerName = loggedInUser.displayName
+    let hand = players[loggedInUser.displayName].pioneerCards
     return (
       <div>
         <strong>Pioneer Cards</strong>
         <button onPress={() => buyCard(playerName, pioneerCards)}>Buy Card</button>
-        <p>Your cards: {players[]}</p>
-        <tr>Knights: </tr>
-        <tr>Victory Points: </tr>
-        <tr>Year of Plenty: </tr>
-        <tr>Monopoly: </tr>
-        <tr>Road Building: </tr>
+        <p>Your cards: </p>
+        <div>Knights: {hand.knights}</div>
+        <div>Victory Points: {hand.knights}</div>
+        <div>Year of Plenty: {hand.knights}</div>
+        <div>Monopoly: {hand.knights}</div>
+        <div>Road Building: {hand.knights}</div>
       </div>
     )
   }
