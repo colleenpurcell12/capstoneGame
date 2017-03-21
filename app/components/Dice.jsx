@@ -129,7 +129,7 @@ export class Dice extends Component {
           let nextPlayerID = turnArray[0]
           addAction(shiftTurns())
           addAction(setNextTurn(nextPlayerID))
-        } 
+        }
        }
     }
   }
@@ -137,14 +137,16 @@ export class Dice extends Component {
   render() {
     return (
     	<div className='playerInfo mdl-grid'>
-        <div className="mdl-cell mdl-cell--6-col">
+        <div className="mdl-cell--6-col">
 
 
         { this.props.diceRoll.d1 && this.props.diceRoll.d2 ?
           <div>
              <div>Dice roll:{this.props.diceRoll.d1 + this.props.diceRoll.d2}</div>
-             <img className="dice" src={`/die/d${this.props.diceRoll.d1}.gif`}/>
-             <img className="dice" src={`/die/d${this.props.diceRoll.d2}.gif`}/>
+             <div className="dice-container">
+               <img className="dice" src={`/die/d${this.props.diceRoll.d1}.gif`}/>
+               <img className="dice" src={`/die/d${this.props.diceRoll.d2}.gif`}/>
+             </div>
              <br />
              <br />
            </div>
@@ -165,7 +167,7 @@ export class Dice extends Component {
           <div></div>
         }
       </div>
-      <div className="mdl-cell mdl-cell--6-col">
+      <div className="mdl-cell--6-col">
         {this.props.inProgress && this.props.loggedInUser.displayName === this.props.players[this.props.turnInfo-1].name ?
           <Structures />
           :
