@@ -9,7 +9,7 @@
 }
 
 .grid {
-  min-height: 900px;
+  min-height: 770px;
 }
 
 #Form{
@@ -60,26 +60,6 @@
   stroke-width: .3;
 }
 
-/*svg 'canvases'*/
-#HexGrid{
-  position: absolute ;
-  top:0 ;
-  left:0 ;
-}
-
-#CornerGrid{
-  position: absolute ;
-  top:0 ;
-  left:0 ;
-  /*z-index: 12;*/
-}
-
-#Roads {
-  position: absolute ;
-  top:0 ;
-  left:0 ;
-}
-
 svg polygon {
   fill: #06437f
 }
@@ -96,6 +76,26 @@ svg text {
 svg circle {
 
 }
+
+/*svg 'canvases'*/
+#HexGrid{
+  position: absolute ;
+  top:0 ;
+  left:0 ;
+}
+
+#CornerGrid{
+  position: absolute ;
+  top:0 ;
+  left:0 ;
+}
+
+#Roads {
+  position: absolute ;
+  top:0 ;
+  left:0 ;
+}
+
 /*Users*/
 
 .red-player {
