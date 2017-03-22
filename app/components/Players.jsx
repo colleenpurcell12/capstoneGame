@@ -25,7 +25,7 @@ export class Players extends Component {
 	handleArmyChange(event) {
 		if(this.props.victoryCards.army) { //if previous player had largest army, need to remove 2 VPs
 			addAction(subtractPoint(this.props.victoryCards.army, 2))
-		} 
+		}
 			addAction(addPoint(event.target.value)) //need to add 2 VPs
 			addAction(addPoint(event.target.value))
 		//reassign largest army to player
@@ -47,11 +47,11 @@ export class Players extends Component {
 				<tbody>
 					{this.props.players.map((player, idx) => (
 						<tr key={idx}>
-							<td><span className={`player${idx}`}>&#9632;</span>{idx+1}: 
+							<td><span className={`player${idx}`}>&#9632;</span>{idx+1}:
 							{ `${firstNameLastInitial(player.name)}`}</td>
 							<td style={{textAlign:"center"}}>{player.cardsTotal()}</td>
-							<td><input type="radio" name="road" value={player.name} checked={player.name === this.props.victoryCards.road} onChange={this.handleRoadChange}/></td>
-							<td><input type="radio" name="army" value={player.name} checked={player.name === this.props.victoryCards.army} onChange={this.handleArmyChange}/></td>
+							<td style={{textAlign:"center"}}><input type="radio" name="road" value={player.name} checked={player.name === this.props.victoryCards.road} onChange={this.handleRoadChange}/></td>
+							<td style={{textAlign:"center"}}><input type="radio" name="army" value={player.name} checked={player.name === this.props.victoryCards.army} onChange={this.handleArmyChange}/></td>
 						</tr>
 					))}
 				</tbody>
