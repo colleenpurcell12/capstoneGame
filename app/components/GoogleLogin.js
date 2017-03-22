@@ -111,7 +111,7 @@ export class GoogleLogin extends Component {
 
     			      	</ToolbarGroup>
 									<ToolbarGroup>
-										<FlatButton label="Home" primary={false} style={{textAlign:'left', color:'#FFF3E0'}}
+										<FlatButton label="Back to Gameroom" primary={false} style={{textAlign:'left', color:'#FFF3E0'}}
 											href='/' hoverColor='#E64A19'
 										/>
 									</ToolbarGroup>
