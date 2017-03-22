@@ -110,12 +110,13 @@ export class PlayerStat extends Component {
     });
     return (
       <div className='playerInfo'>
+
         {resource ?
         <div>
           <div><strong>Victory Points:</strong> {points}</div>
           <WinnerAlert />
 
-          {points >= 10 ?
+          { points >= 10 ?
             <div><RaisedButton label="Win the Game" primary={true} onClick={() => addAction(declareWinner(this.props.loggedInUser.displayName))} /></div>
             :
             <div></div>
@@ -124,68 +125,72 @@ export class PlayerStat extends Component {
           <br />
 
           <div>
-          <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('crops',false) }></i>
-          &nbsp;
-          {resource.crops}
-          &nbsp;
-          <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('crops',true) }></i>
-            &nbsp; 🌽Crop Greenhouse
+            <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('crops',false) }></i>
+            &nbsp;
+            {resource.crops}
+            &nbsp;
+            <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('crops',true) }></i>
+              &nbsp; 🌽 Crop Greenhouse
           </div>
 
           <div>
-          <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('fuel',false) }></i>
-          &nbsp;
-            {resource.fuel}
-          &nbsp;
-          <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('fuel',true) }></i>
-            &nbsp; 🚀Fuel Factory
+            <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('fuel',false) }></i>
+            &nbsp;
+              {resource.fuel}
+            &nbsp;
+            <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('fuel',true) }></i>
+              &nbsp; 🚀 Fuel Factory
           </div>
 
           <div>
-          <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('iron',false) }></i>
-          &nbsp;
-          {resource.iron}
-          &nbsp;
-          <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('iron',true) }></i>
-            &nbsp; 🌑Iron Ore Mine
+            <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('iron',false) }></i>
+            &nbsp;
+            {resource.iron}
+            &nbsp;
+            <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('iron',true) }></i>
+              &nbsp; 🌑 Iron Ore Mine
           </div>
 
           <div>
-          <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('ice',false) }></i>
-          &nbsp;
-          {resource.ice}
-          &nbsp;
-          <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('ice',true) }></i>
-            &nbsp; ❄️Ice
+            <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('ice',false) }></i>
+            &nbsp;
+            {resource.ice}
+            &nbsp;
+            <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('ice',true) }></i>
+              &nbsp; ❄️ Ice
           </div>
 
           <div>
-          <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('solar',false) }></i>
-          &nbsp;
-          {resource.solar}
-          &nbsp;
-          <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('solar',true) }></i>
-            &nbsp; 🔆Solar Panels
+            <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('solar',false) }></i>
+            &nbsp;
+            {resource.solar}
+            &nbsp;
+            <i className="fa fa-plus-square" aria-hidden="true" onClick={ () => this.changeCount('solar',true) }></i>
+              &nbsp; 🔆 Solar Panels
           </div>
+
           <br />
-          <Card style={{maxWidth: '75%'}}>
+
+          <Card style={{maxWidth: '100%'}}>
             <CardHeader title='Reference' actAsExpander={true} showExpandableButton={true} />
-              <CardText expandable={true}>
-                <table>
-                  <thead>
-                    <tr><th>Building</th><th>Costs</th><th>VP</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr><td>Road</td><td>= ❄️  🔆</td><td>0</td></tr>
-                    <tr><td>Settlement</td><td>= ❄️  🔆 🌽  🚀</td><td>1</td></tr>
-                    <tr><td>City</td><td>= 🚀 🚀  🌑 🌑 🌑</td><td>2</td></tr>
-                    <tr><td>Pioneer</td><td>= 🚀 🌽  🌑</td><td>?</td></tr>
-                  </tbody>
-                </table>
-              </CardText>
+            <CardText expandable={true}>
+              <table>
+                <thead>
+                  <tr><th>Building</th><th>Costs</th><th>VP</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Road</td><td>= ❄️  🔆</td><td>0</td></tr>
+                  <tr><td>Settlement</td><td>= ❄️  🔆 🌽  🚀</td><td>1</td></tr>
+                  <tr><td>City</td><td>= 🚀 🚀  🌑 🌑 🌑</td><td>2</td></tr>
+                  <tr><td>Pioneer</td><td>= 🚀 🌽  🌑</td><td>?</td></tr>
+                </tbody>
+              </table>
+            </CardText>
           </Card>
-            <div style={{border: '1px solid gray', borderRadius: '5px', padding: '10px',  marginTop: '5%'}}>
-              <div style={{textAlign: 'center' , fontSize: '18px'}}>Give Resources</div>
+
+          <div style={{border: '1px solid gray', borderRadius: '5px', padding: '10px 0px 10px 0px',  marginTop: '5%'}}>
+            <div style={{textAlign: 'center' , fontSize: '18px'}}>Give Resources</div>
+            <div style={{fontSize: '16px', display: "flex", flexDirection:"row", flexWrap: 'wrap', justifyContent: "space-around"}}>
               <DropDownMenu value={this.state.giveTo} onChange={(e,i,v) => this.setState({giveTo: v})}>
                 <MenuItem disabled={true} value='Player' primaryText="Player" />
                   <MenuItem value="Bank" primaryText="Bank" />
@@ -194,19 +199,17 @@ export class PlayerStat extends Component {
                   <MenuItem value={player.name} primaryText={player.name.split(" ")[0]} key={idx} />
                 )})}
               </DropDownMenu>
-              <DropDownMenu value={this.state.giveResource} onChange={(e,i,v) => {this.setState({giveResource: v})}} autoWidth={false}>
+              <DropDownMenu  value={this.state.giveResource} onChange={(e,i,v) => {this.setState({giveResource: v})}} autoWidth={true}>
                 <MenuItem disabled={true} value='Resource' primaryText="Resource" />
                  { Object.keys(resource).map((item, idx) => <MenuItem value={item} primaryText={item} key={idx} />) }
               </DropDownMenu>
-              <div style={{paddingLeft:'24px' , fontSize: '16px' }}>
-                <TextField hintText="Number" errorText={this.state.errorText} style={{ width: '70px'}} onChange={(e) => {
-                  e.preventDefault();
-                  this.setState({giveNumber: e.target.value, errorText: ""});
-                  }} />
-                <RaisedButton style={{marginLeft: '10%'}}label="Give" onClick={() => this.submitGiveForm(this.state)} />
-              </div>
+              <TextField hintText="Number" errorText={this.state.errorText} style={{ width: '70px', height: '56px', marginRight: '24px', marginLeft: '24px'}} onChange={(e) => {
+                e.preventDefault();
+                this.setState({giveNumber: e.target.value, errorText: ""});
+                }} />
+              <RaisedButton style={{marginTop: '5px', paddingTop: '4px', marginRight: '24px', marginLeft: '24px'}} label="Give" onClick={() => this.submitGiveForm(this.state)} />
             </div>
-
+          </div>
         </div>
         :
         <div>
@@ -221,6 +224,7 @@ export class PlayerStat extends Component {
           }
         </div>
         }
+
 			</div>
     )
   }
