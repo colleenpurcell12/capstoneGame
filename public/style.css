@@ -109,16 +109,17 @@ table {
   padding-top: 0;
   padding-bottom: 0;
 }
+
 #gameroom {
   height: 100%
 }
 
 .chatroom {
-  height: 100%;
 }
+
 #message-container {
-  overflow-y: hidden;
-    height: 80vh;
+  overflow-y: scroll;
+  height: 80vh;
   max-height: 900px;
 }
 
@@ -264,12 +265,10 @@ table {
 }
 
 .game-room{
-  position: fixed;
-  top: 0;
+  position: relative;
   left: 0;
-  z-index: -1;
-  padding-top: 60px;
-  height: 100vh;
+  z-index: 0;
+  height: calc(100% - 56px);
   overflow: hidden;
 }
 /* ---------   MEDIA QUERIES   --------- */
