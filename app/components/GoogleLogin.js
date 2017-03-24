@@ -24,7 +24,6 @@ export class GoogleLogin extends Component {
 	  this.signOut = this.signOut.bind(this);
     this.toggleRules = this.toggleRules.bind(this);
     this.closeRules = this.closeRules.bind(this);
-
   }
 
 	signIn(){
@@ -48,8 +47,10 @@ export class GoogleLogin extends Component {
             <div>
   					{ this.props.loggedInUser && this.props.loggedInUser.displayName ?
                 <Toolbar style={{backgroundColor:'#E64A19'}}>
+
                   <ToolbarGroup>
-                    <FlatButton label="About" primary={true} style={{textAlign:'left', color:'#FFF3E0'}}
+
+									<FlatButton label="About" primary={true} style={{textAlign:'left', color:'#FFF3E0'}}
                       onClick={() => this.toggleRules()}
                     />
                     <Drawer
@@ -102,12 +103,18 @@ export class GoogleLogin extends Component {
                     <IconMenu
                       iconButtonElement={<IconButton ><p>🚀</p></IconButton>}
                     >
-    				        		<MenuItem 
+    				        		<MenuItem
 													primaryText="Sign Out"
 													onClick={() => this.signOut()}
 												/>
     				      	</IconMenu>
+
     			      	</ToolbarGroup>
+									<ToolbarGroup>
+										<FlatButton label="Back to Gameroom" primary={false} style={{textAlign:'left', color:'#FFF3E0'}}
+											href='/' hoverColor='#E64A19'
+										/>
+									</ToolbarGroup>
                 </Toolbar>
   						:
                 <Toolbar>
