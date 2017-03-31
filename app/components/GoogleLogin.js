@@ -13,12 +13,19 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {Nav, Grid, Row, Col} from 'react-bootstrap';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
+import FontIcon from 'material-ui/FontIcon';
+
+//detect viewport to toggle between showing/hiding About button 
+var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+var hidden = w > 600 ? "inline-block" : "none"
+var headerFontSize = w > 600 ? "1.25em" : "1em"
 
 export class GoogleLogin extends Component {
-	constructor() {
-	  super()
+	constructor(props) {
+	  super(props)
     this.state = {
-        rulesOpened: false
+        rulesOpened: false,
+        height: props.height,
       }
 	  this.signIn = this.signIn.bind(this);
 	  this.signOut = this.signOut.bind(this);
@@ -42,6 +49,10 @@ export class GoogleLogin extends Component {
     this.setState({rulesOpened: false});
   }
 
+  componentDidMount(x,y,z){
+ 		this.setState({height:window.innerHeight+'px'});
+	}
+
 	render() {
     return (
             <div>
@@ -50,7 +61,7 @@ export class GoogleLogin extends Component {
 
                   <ToolbarGroup>
 
-									<FlatButton label="About" primary={true} style={{textAlign:'left', color:'#FFF3E0'}}
+									<FlatButton label="About" primary={true} style={{textAlign:'left', color:'#FFF3E0', display: hidden}}
                       onClick={() => this.toggleRules()}
                     />
                     <Drawer
@@ -98,10 +109,10 @@ export class GoogleLogin extends Component {
       						<ToolbarGroup style={{textAlign:'center', display: 'inline-block', margin: '0 auto'}}>
       							<ToolbarTitle
 											text={`Welcome to Pioneers of Mars, ${this.props.loggedInUser.displayName.split(" ")[0]}.`}
-											style={{textAlign:'center', color:'#FFF3E0'}} />
+											style={{textAlign:'center', color:'#FFF3E0', fontSize: headerFontSize}} />
                     <Avatar src={this.props.loggedInUser.photoURL}/>
                     <IconMenu
-                      iconButtonElement={<IconButton ><p>🚀</p></IconButton>}
+                      iconButtonElement={<IconButton ><FontIcon className="fa fa-rocket"/></IconButton>}
                     >
     				        		<MenuItem
 													primaryText="Sign Out"
@@ -111,7 +122,7 @@ export class GoogleLogin extends Component {
 
     			      	</ToolbarGroup>
 									<ToolbarGroup>
-										<FlatButton label="Back to Gameroom" primary={false} style={{textAlign:'left', color:'#FFF3E0'}}
+										<FlatButton label="Back to Gameroom" primary={false} style={{textAlign:'left', color:'#FFF3E0', display: hidden}}
 											href='/' hoverColor='#E64A19'
 										/>
 									</ToolbarGroup>

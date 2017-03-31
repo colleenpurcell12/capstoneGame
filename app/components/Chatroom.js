@@ -34,7 +34,7 @@ export class Chatroom extends Component {
   render() {
     const messages = this.props.messages;
     return (
-      <div className="mdl-shadow--2dp chatroom">
+      <div className="mdl-shadow--2dp">
         <div id="message-container" ref="messageList">
           {messages && Object.keys(messages).map(k => messages[k]).map( (message, idx) =>
               <div className="messages" key = {idx}><strong>{message.name}</strong>: {message.text}</div>

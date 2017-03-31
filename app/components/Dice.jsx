@@ -142,13 +142,11 @@ export class Dice extends Component {
 
         { this.props.diceRoll.d1 && this.props.diceRoll.d2 ?
           <div>
-             <div>Dice roll:{this.props.diceRoll.d1 + this.props.diceRoll.d2}</div>
-             <div className="dice-container">
-               <img className="dice" src={`/die/d${this.props.diceRoll.d1}.gif`}/>
-               <img className="dice" src={`/die/d${this.props.diceRoll.d2}.gif`}/>
+             <div style={{fontSize: '36px'}}>
+               <img className="die" src={`/die/d${this.props.diceRoll.d1}.gif`}/>
+               <img className="die" src={`/die/d${this.props.diceRoll.d2}.gif`}/>
+               {this.props.diceRoll.d1 + this.props.diceRoll.d2}
              </div>
-             <br />
-             <br />
            </div>
          :
          <div></div>

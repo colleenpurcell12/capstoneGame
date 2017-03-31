@@ -27,7 +27,7 @@ body {
 }
 
 #main {
-  height: 100%
+  height: 80%
 }
 
 .increDecre{
@@ -114,13 +114,9 @@ table {
   height: 100%
 }
 
-.chatroom {
-}
-
 #message-container {
   overflow-y: scroll;
   height: 80vh;
-  max-height: 900px;
 }
 
 .messages {
@@ -242,13 +238,13 @@ table {
   padding-left: 8px;
 }
 
-.dice {
-  width: 50px;
-  height: 50px;
+.die {
+  width: 48px;
+  height: 48px;
 }
 
 .fa {
-  cursor: default;
+  cursor: pointer;
 }
 
 .fa:hover {
