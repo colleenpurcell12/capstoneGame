@@ -51,7 +51,7 @@ export class JoinGame extends React.Component {
 				    <TableBody displayRowCheckbox={this.state.showCheckboxes}>
 			      	{games && Object.keys(games).map((key, idx) => (
 		      		<TableRow key={key}>
-				        <TableRowColumn className="game-name" style={{fontSize:'16px'}}>{games[key].name}</TableRowColumn>
+				        <TableRowColumn className="game-name">{games[key].name}</TableRowColumn>
 				        <TableRowColumn><Link to={`/game/${key}`}><RaisedButton label="Join" /></Link></TableRowColumn>
 			      	</TableRow>
 	      			))}
