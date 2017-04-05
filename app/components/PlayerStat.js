@@ -122,7 +122,7 @@ export class PlayerStat extends Component {
             <div></div>
           }
 
-          <br />
+          <hr />
 
           <div>
             <i className="fa fa-minus-square" aria-hidden="true" onClick={() => this.changeCount('crops',false) }></i>

@@ -6,6 +6,7 @@
 
 .board {
   position: relative;
+  height: 100vw;
 }
 
 .grid {
